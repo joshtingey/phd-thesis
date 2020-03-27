@@ -25,48 +25,52 @@
 
 
 %% Define the thesis title and author
-\title{A study of \BToKPi decays with\\ the \LHCb experiment}
-\author{Andrew Gordon Buckley}
+\title{Deep Convolution Neural Networks for the CHIPS Experiment}
+\author{Josh Chalcraft Tingey}
 
 %% Doc-specific PDF metadata
 \makeatletter
 \@ifpackageloaded{hyperref}{%
 \hypersetup{%
-  pdftitle = {Studying B to K pi decays with LHCb},
-  pdfsubject = {Andy Buckley's PhD thesis},
-  pdfkeywords = {LHCb, B, physics, LHC, heavy flavour},
-  pdfauthor = {\textcopyright\ Andy Buckley}
+  pdftitle = {Deep Convolution Neural Networks for the CHIPS Experiment},
+  pdfsubject = {Josh Tingey's PhD thesis},
+  pdfkeywords = {CHIPS, physics, CNN, Machine Learning},
+  pdfauthor = {\textcopyright\ Josh Tingey}
 }}{}
 \makeatother
-
 
 %% Start the document
 \begin{document}
 
 %% Define the un-numbered front matter (cover pages, rubrik and table of contents)
 \begin{frontmatter}
-  \input{frontmatter}
+  \input{0_frontmatter}
 \end{frontmatter}
 
 %% Start the content body of the thesis
 \begin{mainmatter}
   %% Actually, more semantic chapter filenames are better, like "chap-bgtheory.tex"
-  \input{chap1}
-  \input{chap2}
-  \input{chap3}
+  \input{1_introduction}
+  \input{2_theory}
+  \input{3_chips}
+  \input{4_daq}
+  \input{5_cvn}
+  \input{6_results}
+  \input{7_cosmics}
+  \input{8_conclusion}
   %% To ignore a specific chapter while working on another, making the build faster, comment it out:
   %\input{chap4}
 \end{mainmatter}
 
 %% Produce the appendices
 \begin{appendices}
-  \input{appendices}
+  \input{9_appendices}
 \end{appendices}
 
 %% Produce the un-numbered back matter (e.g. colophon,
 %% bibliography, tables of figures etc., index...)
 \begin{backmatter}
-  \input{backmatter}
+  \input{10_backmatter}
 \end{backmatter}
 
 %% Close
