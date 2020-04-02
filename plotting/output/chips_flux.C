@@ -1,7 +1,7 @@
 void chips_flux()
 {
 //=========Macro generated from canvas: chips_flux/chips_flux
-//=========  (Thu Apr  2 11:18:20 2020) by ROOT version 6.20/02
+//=========  (Thu Apr  2 11:59:27 2020) by ROOT version 6.20/02
    TCanvas *chips_flux = new TCanvas("chips_flux", "chips_flux",50,1160,1000,800);
    gStyle->SetOptStat(0);
    chips_flux->Range(-1.25,1.477989,11.25,6.698103);

@@ -1,4 +1,4 @@
-void genie_plots()
+void chips_flux()
 {
     // Open the file and get all the histograms we need
     TFile *flux_file = new TFile("data/chips_location_flux.root");
