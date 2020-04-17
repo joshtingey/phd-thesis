@@ -50,6 +50,10 @@ void events()
     int_type->Draw("HIST"); 
     int_canvas->Draw();
 
+    // Save canvas as png and root macro
+    int_canvas->SaveAs("../diagrams/cvn/events.png");
+    //int_canvas->SaveAs("output/events.C");
+
     nuel_file->Close();
     anuel_file->Close();
     numu_file->Close();

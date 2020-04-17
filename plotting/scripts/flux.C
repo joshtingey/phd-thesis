@@ -112,7 +112,7 @@ void flux()
 
     // Save canvas as png and root macro
     flux_canvas->SaveAs("../diagrams/cvn/flux.png");
-    flux_canvas->SaveAs("output/flux.C");
+    //flux_canvas->SaveAs("output/flux.C");
 
     flux_file->Close();
     event_numbers();

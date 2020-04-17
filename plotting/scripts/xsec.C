@@ -190,9 +190,9 @@ void make_plots(const char * in_file, const char * out_name)
 
     // Save canvas as png and root macro
     cs_canvas_cc->SaveAs(png_cc);
-    cs_canvas_cc->SaveAs(macro_cc);
+    //cs_canvas_cc->SaveAs(macro_cc);
     cs_canvas_nc->SaveAs(png_nc);
-    cs_canvas_nc->SaveAs(macro_nc);
+    //cs_canvas_nc->SaveAs(macro_nc);
 }
 
 void xsec()
