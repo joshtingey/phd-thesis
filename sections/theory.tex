@@ -1,20 +1,13 @@
 \chapter{Theory}
 \label{chap:theory}
 
-%% Note that the citations in this chapter use the journal and
-%% arXiv keys: I used the SLAC-SPIRES online BibTeX retriever
-%% to build my bibliography. There are also quite a few non-standard
-%% macros, which come from my personal collection. You can have them
-%% if you want, or I might get round to properly releasing them at
-%% some point myself.
-
 \chapterquote{Laws were made to be broken.}%
 {Christopher North, 1785--1854}%: Blackwood's Magazine May 1830
 
 \feynmandiagram [horizontal=a to b] {
-  i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
-  a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
-  f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
+i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
+a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
+f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
 };
 
 Symmetries, either intact or broken, have proved to be at the heart
@@ -32,20 +25,20 @@ a wavefunction from a combination of a generic neutral meson state
 $\ket{\Xzero}$ and its anti-state $\ket{\Xzerobar}$:
 %
 \begin{equation}
-  \ket{\psi(t)} = a(t)\ket{\Xzero} + b(t)\ket{\Xzerobar}
+    \ket{\psi(t)} = a(t)\ket{\Xzero} + b(t)\ket{\Xzerobar}
 \end{equation}
 %
 which is governed by a time-dependent matrix differential equation,
 %
 \begin{equation}
-  \I \pdByd{}{t} \colvector{a \\ b}
-  =
-  \underbrace{%
-  \twomatrix{ M_{11}-\frac{\I}{2}\Gamma_{11}
+    \I \pdByd{}{t} \colvector{a \\ b}
+    =
+    \underbrace{%
+        \twomatrix{ M_{11}-\frac{\I}{2}\Gamma_{11}
             & M_{12}-\frac{\I}{2}\Gamma_{12} }
-            { M_{12}^\ast-\frac{\I}{2}\Gamma_{12}^\ast
+        { M_{12}^\ast-\frac{\I}{2}\Gamma_{12}^\ast
             & M_{22}-\frac{\I}{2}\Gamma_{22} }
-  }_{\boldmatrix{H}}
-  \colvector{a \\ b}
-  .
+    }_{\boldmatrix{H}}
+    \colvector{a \\ b}
+    .
 \end{equation}
