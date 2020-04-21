@@ -10,6 +10,10 @@
 #include "TLatex.h"
 #include "TROOT.h"
 #include "TStyle.h"
+#include "TH2F.h"
+#include "TLegend.h"
+#include "TCanvas.h"
+#include "THStack.h"
 
 void style()
 {
@@ -176,6 +180,79 @@ void CenterTitles(TH1* histo)
     histo->GetXaxis()->CenterTitle();
     histo->GetYaxis()->CenterTitle();
     histo->GetZaxis()->CenterTitle();  
+}
+
+// Create a 3d plot
+void create_plot_2d(TString name, TH2F *hist, TString title_string,
+                    double x_low, double x_high, double y_low, double y_high, double z_low, double z_high,
+                    TString draw_opt, bool log_y, bool log_z)
+{
+    // Define an empty histogram to set global variables
+    TH2F *hempty = new TH2F("hempty", title_string, 1, x_low, x_high, 1, y_low, y_high);
+    CenterTitles(hempty);
+
+    hempty->GetZaxis()->SetRangeUser(z_low, z_high);
+    hempty->GetYaxis()->SetTitleOffset(0.65);
+
+    // Create the canvas and draw all histograms
+    TCanvas *canvas = new TCanvas("canvas", "canvas", 1000, 800);
+    if(log_y) canvas->SetLogy();
+    if(log_z) canvas->SetLogz();
+    canvas->cd();
+    hempty->Draw();
+    hist->Draw(draw_opt);
+    canvas->Draw();
+
+    // Save canvas as png and root macro
+    canvas->SaveAs(name);
+
+    delete hempty;
+    delete canvas;
+}
+
+// Create a 2d plot
+void create_plot(TString name, int num, TH1F **hists, TString title_string,
+                 double x_low, double x_high, double y_low, double y_high,
+                 TString leg_draw_opt, TString draw_opt, bool log_y, bool stacked,
+                 double with_z=false, double z_low=0, double z_high=0, double log_z=false, TString z_title="")
+{
+    // Define an empty histogram to set global variables
+    TH2F *hempty = new TH2F("hempty", title_string, 1, x_low, x_high, 1, y_low, y_high);
+    CenterTitles(hempty);
+
+    if(with_z)
+    {
+        hempty->GetZaxis()->SetTitle(z_title);
+        hempty->GetZaxis()->SetRangeUser(z_low, z_high);
+        hempty->GetYaxis()->SetTitleOffset(0.65);
+    }
+
+    // Create the legend
+    TLegend *legend = new TLegend(0.7, 0.65, 0.85, 0.85);
+    legend->SetFillStyle(0);
+    for(int i=0; i<num; i++) legend->AddEntry(hists[i], hists[i]->GetTitle(), leg_draw_opt);
+
+    // Create stacked histogram if need be
+    THStack *stack = new THStack("stack","");
+    for(int i=0; i<num; i++) stack->Add(hists[i]);
+
+    // Create the canvas and draw all histograms
+    TCanvas *canvas = new TCanvas("canvas", "canvas", 1000, 800);
+    if(log_y) canvas->SetLogy();
+    canvas->cd();
+    hempty->Draw();
+    if(stacked) stack->Draw(draw_opt);
+    else for(int i=0; i<num; i++) hists[i]->Draw(draw_opt);
+    legend->Draw("same");
+    canvas->Draw();
+
+    // Save canvas as png and root macro
+    canvas->SaveAs(name);
+
+    delete hempty;
+    delete legend;
+    delete stack;
+    delete canvas;
 }
 
 #endif

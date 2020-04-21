@@ -1,7 +1,10 @@
 #! /bin/bash
 
-root -l -x -q scripts/flux.C
-root -l -x -q scripts/xsec.C
-root -l -x -q scripts/events.C
-root -l -x -q scripts/profiles.C
-root -l -x -q scripts/digi.C
+export PLOTTING=$(pwd)
+export CPLUS_INCLUDE_PATH=$PLOTTING
+
+root -l -x -q macros/flux.C+
+root -l -x -q macros/xsec.C+
+root -l -x -q macros/events.C+
+root -l -x -q macros/profiles.C+
+root -l -x -q macros/digi.C+

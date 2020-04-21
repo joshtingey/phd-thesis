@@ -1,16 +1,27 @@
-void Partition(TCanvas *C, Int_t Nx, Int_t Ny,
-               Float_t lMargin, Float_t rMargin, Float_t bMargin, Float_t tMargin)
+#include "TFile.h"
+#include "TH1F.h"
+#include "TCanvas.h"
+#include "TPaletteAxis.h"
+#include "TLine.h"
+
+R__ADD_INCLUDE_PATH($PLOTTING)
+#include "style.C"
+
+using namespace std;
+
+void Partition(TCanvas *C, int Nx, int Ny,
+               float lMargin, float rMargin, float bMargin, float tMargin)
 {
     if (!C)
         return;
     // Setup Pad layout:
-    Float_t vSpacing = 0.01;
-    Float_t vStep = (1. - bMargin - tMargin - (Ny - 1) * vSpacing) / Ny;
-    Float_t hSpacing = 0.01;
-    Float_t hStep = ((1. - lMargin - rMargin - (Nx - 1) * hSpacing) / Nx)*0.88;
-    Float_t vposd, vposu, vmard, vmaru, vfactor;
-    Float_t hposl, hposr, hmarl, hmarr, hfactor;
-    for (Int_t i = 0; i < Nx; i++)
+    float vSpacing = 0.01;
+    float vStep = (1. - bMargin - tMargin - (Ny - 1) * vSpacing) / Ny;
+    float hSpacing = 0.01;
+    float hStep = ((1. - lMargin - rMargin - (Nx - 1) * hSpacing) / Nx) * 0.88;
+    float vposd, vposu, vmard, vmaru, vfactor;
+    float hposl, hposr, hmarl, hmarr, hfactor;
+    for (int i = 0; i < Nx; i++)
     {
         if (i == 0)
         {
@@ -36,7 +47,7 @@ void Partition(TCanvas *C, Int_t Nx, Int_t Ny,
             hmarl = 0.0;
             hmarr = 0.0;
         }
-        for (Int_t j = 0; j < Ny; j++)
+        for (int j = 0; j < Ny; j++)
         {
             if (j == 0)
             {
@@ -89,45 +100,24 @@ void profiles()
     TFile *pi_file = new TFile("data/profile_pions.root");
     TFile *pr_file = new TFile("data/profile_protons.root");
 
-    // Get the emission distance plots
     TH1F *el_d = (TH1F *)el_file->Get("fRho");
     TH1F *mu_d = (TH1F *)mu_file->Get("fRho");
     TH1F *pi_d = (TH1F *)pi_file->Get("fRho");
     TH1F *pr_d = (TH1F *)pr_file->Get("fRho");
 
-    // Define an empty histogram to set global variables
-    TH2F *hempty = new TH2F("hempty", ";Distance (cm); Fraction of emitted photons", 1, 0, 1400, 1, 0, 0.006);
-    hempty->GetYaxis()->SetLabelSize(0.03);
-    CenterTitles(hempty);
-
-    // Set the histogram colours
     el_d->SetLineColor(kGreen + 1);
+    el_d->SetTitle("e");
     mu_d->SetLineColor(kRed + 1);
+    mu_d->SetTitle("#mu");
     pi_d->SetLineColor(kBlue + 1);
+    pi_d->SetTitle("#pi^{#pm}");
     pr_d->SetLineColor(kBlack);
+    pr_d->SetTitle("P");
 
-    // Create the legend
-    TLegend *leg = new TLegend(0.75, 0.55, 0.85, 0.85);
-    leg->AddEntry(el_d, "e", "L");
-    leg->AddEntry(mu_d, "#mu", "L");
-    leg->AddEntry(pi_d, "#pi^{#pm}", "L");
-    leg->AddEntry(pr_d, "P", "L");
-    leg->SetFillStyle(0);
-
-    // Create the canvas and draw all histograms
-    TCanvas *distance_c = new TCanvas("distance_c", "distance_c", 1000, 800);
-    distance_c->cd();
-    hempty->Draw();
-    el_d->Draw("same");
-    mu_d->Draw("same");
-    pi_d->Draw("same");
-    pr_d->Draw("same");
-    leg->Draw("same");
-    distance_c->Draw();
-
-    // Save canvas as png and root macro
-    distance_c->SaveAs("../diagrams/cvn/emission_distance.png");
-    //distance_c->SaveAs("output/emission_distance.C");
+    const int num = 4;
+    TH1F *hists[num] = {el_d, mu_d, pi_d, pr_d};
+    create_plot("../diagrams/cvn/emission_distance.png", num, hists, ";Distance (cm); Fraction of emitted photons",
+                0, 1400, 0, 0.006, "L", "same", false, false);
 
     gStyle->SetOptLogz(1);
 
@@ -160,9 +150,9 @@ void profiles()
 
     TPaletteAxis *palette;
     TPad *pad[Nx][Ny];
-    for (Int_t i = 0; i < Nx; i++)
+    for (int i = 0; i < Nx; i++)
     {
-        for (Int_t j = 0; j < Ny; j++)
+        for (int j = 0; j < Ny; j++)
         {
             profile_c->cd(0);
             // Get the pads previously created.
@@ -179,7 +169,7 @@ void profiles()
             float yFactor = pad[0][0]->GetAbsHNDC() / pad[i][j]->GetAbsHNDC();
             char hname[16];
             sprintf(hname, "h_%i_%i", i, j);
-            TH2F *hFrame = (TH2F*)el_g->Clone(hname);
+            TH2F *hFrame = (TH2F *)el_g->Clone(hname);
             hFrame->Reset();
             // Format for y axis
             hFrame->GetYaxis()->SetRangeUser(10, 1400);
@@ -206,35 +196,34 @@ void profiles()
             // Format for the z axis
             hFrame->GetZaxis()->SetRangeUser(0, 0.01);
 
-
             // Draw the frame and the plot
             hFrame->Draw();
-            TLatex* text = new TLatex(.1, .93, "hello");
+            TLatex *text = new TLatex(.1, .93, "hello");
 
-            if(i==0 && j==0) 
+            if (i == 0 && j == 0)
             {
-                text->SetTextSize(2.6/30.);
+                text->SetTextSize(2.6 / 30.);
                 text->DrawText(0.375, 1200, "charged pion");
                 pi_g->Draw("sameCOL");
             }
-            if(i==0 && j==1)
+            if (i == 0 && j == 1)
             {
-                text->SetTextSize(3/30.);
+                text->SetTextSize(3 / 30.);
                 text->DrawText(0.375, 1200, "electron");
                 el_g->Draw("sameCOL");
             }
-            if(i==1 && j==0)
+            if (i == 1 && j == 0)
             {
-                text->SetTextSize(2.6/30.);
+                text->SetTextSize(2.6 / 30.);
                 text->DrawText(0.375, 1200, "proton");
                 pr_g->Draw("sameCOL");
             }
-            if(i==1 && j==1) 
+            if (i == 1 && j == 1)
             {
-                text->SetTextSize(3/30.);
+                text->SetTextSize(3 / 30.);
                 text->DrawText(0.375, 1200, "muon");
                 mu_g->Draw("sameCOL");
-                palette = new TPaletteAxis(0.90,0.1,0.93,0.95, mu_g);
+                palette = new TPaletteAxis(0.90, 0.1, 0.93, 0.95, mu_g);
             }
 
             gPad->Update();
@@ -245,8 +234,6 @@ void profiles()
             l.DrawLine(gPad->GetUxmin(), gPad->GetUymin(), gPad->GetUxmin(), gPad->GetUymax());
             l.DrawLine(gPad->GetUxmin(), gPad->GetUymax(), gPad->GetUxmax(), gPad->GetUymax());
             l.DrawLine(gPad->GetUxmax(), gPad->GetUymin(), gPad->GetUxmax(), gPad->GetUymax());
-
-            
         }
     }
     profile_c->cd();
@@ -256,5 +243,11 @@ void profiles()
 
     // Save canvas as png and root macro
     profile_c->SaveAs("../diagrams/cvn/emission_profile.png");
-    //profile_c->SaveAs("output/emission_profile.C");
+
+    delete palette;
+
+    el_file->Close();
+    mu_file->Close();
+    pi_file->Close();
+    pr_file->Close();
 }

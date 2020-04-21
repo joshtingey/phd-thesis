@@ -1,4 +1,8 @@
 .vscode
+*.d
+*.pcm
+*ACLiC*
+*.so
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

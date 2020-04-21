@@ -1,4 +1,16 @@
-void make_plots(const char * in_file, const char * out_name)
+#include <iostream>
+#include <fstream>
+#include "TFile.h"
+#include "TF2.h"
+#include "TGraph.h"
+#include "TLine.h"
+
+R__ADD_INCLUDE_PATH($PLOTTING)
+#include "style.C"
+
+using namespace std;
+
+void make_plots(TString in_file, TString out_name)
 {
     // Open the file and get all the graphs we need
     TFile *cs_file = new TFile(in_file);
@@ -45,7 +57,7 @@ void make_plots(const char * in_file, const char * out_name)
     TGraph *res_nc_p_g = (TGraph*)cs_file->Get(res_nc_p_s);
     TGraph *res_nc_n_g = (TGraph*)cs_file->Get(res_nc_n_s);
 
-    // Apply manipulation to the graphs
+    // Apply 1/E function to the plots
     TF2 *func = new TF2("func","y*(1/x)");
     tot_cc_g->Apply(func);
     coh_cc_g->Apply(func);
@@ -103,11 +115,11 @@ void make_plots(const char * in_file, const char * out_name)
     TGraph *res_nc_g = new TGraph(size, x, res_nc); res_nc_g->SetLineWidth(3);
 
     TString axis_titles;
-    if(strncmp(out_name, "nu_e_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
-    else if(strncmp(out_name, "nu_e_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
-    else if(strncmp(out_name, "nu_mu_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
-    else if(strncmp(out_name, "nu_mu_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
-    else std::cout << "WTF!!!" << std::endl;
+    if(out_name.Contains("nu_e_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(out_name.Contains("nu_e_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(out_name.Contains("nu_mu_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(out_name.Contains("nu_mu_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else ::cout << "WTF!!!" << ::endl;
 
     // Define an empty histogram to set global variables
     TH2F *hempty = new TH2F("hempty", axis_titles, 1, 0, 15, 1, 1e-2, 20);
@@ -214,9 +226,9 @@ void make_plots(const char * in_file, const char * out_name)
 
     // Save canvas as png and root macro
     cs_canvas_cc->SaveAs(png_cc);
-    //cs_canvas_cc->SaveAs(macro_cc);
     cs_canvas_nc->SaveAs(png_nc);
-    //cs_canvas_nc->SaveAs(macro_nc);
+
+    cs_file->Close();
 }
 
 void xsec()
