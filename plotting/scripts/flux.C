@@ -48,6 +48,7 @@ void event_numbers()
     std::cout << "anuel_nc: " << anuel_nc << ", frac: " << (anuel_nc/total) << std::endl;
     std::cout << "numu_nc: " << numu_nc << ", frac: " << (numu_nc/total) << std::endl;
     std::cout << "anumu_nc: " << anumu_nc << ", frac: " << (anumu_nc/total) << std::endl;
+    std::cout << "Total:" << total << std::endl;
 
     std::cout << "\nnuel_tot: " << nuel_tot << ", frac: " << (nuel_tot/total) << std::endl;
     std::cout << "anuel_tot: " << anuel_tot << ", frac: " << (anuel_tot/total) << std::endl;
@@ -61,6 +62,7 @@ void event_numbers()
     myfile << (anuel_tot/total) << "\n";
     myfile << (numu_tot/total) << "\n";
     myfile << (anumu_tot/total) << "\n";
+    myfile << total << "\n";
     myfile.close();
 }
 
@@ -81,7 +83,7 @@ void flux()
     anumu_flux_h->Scale(scale);
 
     // Define an empty histogram to set global variables
-    TH2F *hempty = new TH2F("hempty", ";Neutrino Energy (GeV); Neutrinos/6#times10^{20}POT/kt", 1, 0, 15, 1, 1e2, 1.5e6);
+    TH2F *hempty = new TH2F("hempty", ";Neutrino Energy (GeV); #nu/6#times10^{20}POT/kt", 1, 0, 15, 1, 1e2, 1.5e6);
     CenterTitles(hempty);
 
     // Set the histogram colours

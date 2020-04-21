@@ -5,6 +5,7 @@ void make_plots(const char * in_file, const char * out_name)
 
     TString tot_cc_s = out_name; tot_cc_s += "/tot_cc";
     TString coh_cc_s = out_name; coh_cc_s += "/coh_cc";
+    TString mec_cc_s = out_name; mec_cc_s += "/mec_cc";
     TString qel_cc_p_s = out_name; qel_cc_p_s += "/qel_cc_p";
     TString qel_cc_n_s = out_name; qel_cc_n_s += "/qel_cc_n";
     TString dis_cc_p_s = out_name; dis_cc_p_s += "/dis_cc_p";
@@ -14,6 +15,7 @@ void make_plots(const char * in_file, const char * out_name)
 
     TString tot_nc_s = out_name; tot_nc_s += "/tot_nc";
     TString coh_nc_s = out_name; coh_nc_s += "/coh_nc";
+    TString mec_nc_s = out_name; mec_nc_s += "/mec_nc";
     TString qel_nc_p_s = out_name; qel_nc_p_s += "/qel_nc_p";
     TString qel_nc_n_s = out_name; qel_nc_n_s += "/qel_nc_n";
     TString dis_nc_p_s = out_name; dis_nc_p_s += "/dis_nc_p";
@@ -23,6 +25,7 @@ void make_plots(const char * in_file, const char * out_name)
 
     TGraph *tot_cc_g = (TGraph*)cs_file->Get(tot_cc_s);
     TGraph *coh_cc_g = (TGraph*)cs_file->Get(coh_cc_s);
+    TGraph *mec_cc_g = (TGraph*)cs_file->Get(mec_cc_s);
     TGraph *qel_cc_g = (TGraph*)cs_file->Get(qel_cc_p_s);
     if(qel_cc_g == NULL) {
         qel_cc_g = (TGraph*)cs_file->Get(qel_cc_n_s);
@@ -34,6 +37,7 @@ void make_plots(const char * in_file, const char * out_name)
 
     TGraph *tot_nc_g = (TGraph*)cs_file->Get(tot_nc_s);
     TGraph *coh_nc_g = (TGraph*)cs_file->Get(coh_nc_s);
+    TGraph *mec_nc_g = (TGraph*)cs_file->Get(mec_nc_s);
     TGraph *qel_nc_p_g = (TGraph*)cs_file->Get(qel_nc_p_s);
     TGraph *qel_nc_n_g = (TGraph*)cs_file->Get(qel_nc_n_s);
     TGraph *dis_nc_p_g = (TGraph*)cs_file->Get(dis_nc_p_s);
@@ -45,6 +49,7 @@ void make_plots(const char * in_file, const char * out_name)
     TF2 *func = new TF2("func","y*(1/x)");
     tot_cc_g->Apply(func);
     coh_cc_g->Apply(func);
+    mec_cc_g->Apply(func);
     qel_cc_g->Apply(func);
     dis_cc_p_g->Apply(func);
     dis_cc_n_g->Apply(func);
@@ -52,6 +57,7 @@ void make_plots(const char * in_file, const char * out_name)
     res_cc_n_g->Apply(func);
     tot_nc_g->Apply(func);
     coh_nc_g->Apply(func);
+    mec_nc_g->Apply(func);
     qel_nc_p_g->Apply(func);
     qel_nc_n_g->Apply(func);
     dis_nc_p_g->Apply(func);
@@ -96,8 +102,15 @@ void make_plots(const char * in_file, const char * out_name)
     TGraph *qel_nc_g = new TGraph(size, x, qel_nc); qel_nc_g->SetLineWidth(3);
     TGraph *res_nc_g = new TGraph(size, x, res_nc); res_nc_g->SetLineWidth(3);
 
+    TString axis_titles;
+    if(strncmp(out_name, "nu_e_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(strncmp(out_name, "nu_e_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(strncmp(out_name, "nu_mu_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #nu_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else if(strncmp(out_name, "nu_mu_bar_O16")) axis_titles = ";Neutrino Energy (GeV); O^{16} #bar{#nu}_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)";
+    else std::cout << "WTF!!!" << std::endl;
+
     // Define an empty histogram to set global variables
-    TH2F *hempty = new TH2F("hempty", ";Neutrino Energy (GeV); O^{16} #nu cross section/E_{#nu} (10^{-38} cm^{2} / GeV)", 1, 0, 15, 1, 1e-2, 20);
+    TH2F *hempty = new TH2F("hempty", axis_titles, 1, 0, 15, 1, 1e-2, 20);
     CenterTitles(hempty);
     hempty->GetYaxis()->SetTitleOffset(0.8);
 
@@ -107,28 +120,32 @@ void make_plots(const char * in_file, const char * out_name)
     res_cc_g->SetLineColor(kRed+1);
     dis_cc_g->SetLineColor(kGreen+1);
     coh_cc_g->SetLineColor(kYellow+1);
+    mec_cc_g->SetLineColor(kCyan+1);
 
     tot_nc_g->SetLineColor(kBlack);
     qel_nc_g->SetLineColor(kBlue+1);
     res_nc_g->SetLineColor(kRed+1);
     dis_nc_g->SetLineColor(kGreen+1);
     coh_nc_g->SetLineColor(kYellow+1);
+    mec_nc_g->SetLineColor(kCyan+1);
 
     // Create the legends
     TLegend *leg_cc = new TLegend(0.7, 0.22, 0.85, 0.42);
     leg_cc->AddEntry(tot_cc_g, "Total CC", "L");
-    leg_cc->AddEntry(qel_cc_g, "CC QEL", "L");
-    leg_cc->AddEntry(res_cc_g, "CC RES", "L");
+    leg_cc->AddEntry(qel_cc_g, "CC QE", "L");
+    leg_cc->AddEntry(res_cc_g, "CC Res", "L");
     leg_cc->AddEntry(dis_cc_g, "CC DIS", "L");
-    leg_cc->AddEntry(coh_cc_g, "CC COH", "L");
+    leg_cc->AddEntry(coh_cc_g, "CC Coh", "L");
+    leg_cc->AddEntry(mec_cc_g, "CC mec", "L");
     leg_cc->SetFillStyle(0);
     
     TLegend *leg_nc = new TLegend(0.7, 0.22, 0.85, 0.42);
     leg_nc->AddEntry(tot_nc_g, "Total NC", "L");
-    leg_nc->AddEntry(qel_nc_g, "NC QEL", "L");
-    leg_nc->AddEntry(res_nc_g, "NC RES", "L");
+    leg_nc->AddEntry(qel_nc_g, "NC QE", "L");
+    leg_nc->AddEntry(res_nc_g, "NC Res", "L");
     leg_nc->AddEntry(dis_nc_g, "NC DIS", "L");
-    leg_nc->AddEntry(coh_nc_g, "NC COH", "L");
+    leg_nc->AddEntry(coh_nc_g, "NC Coh", "L");
+    leg_nc->AddEntry(mec_nc_g, "NC Mec", "L");
     leg_nc->SetFillStyle(0);
 
     // Create box showing CHIPS energy range [2,5] GeV
@@ -141,7 +158,10 @@ void make_plots(const char * in_file, const char * out_name)
     TLine *high_line = new TLine(5, 0, 5, 20);
     high_line->SetLineWidth(3);
     high_line->SetLineColor(14);
-
+    TLatex* text = new TLatex(.1, .93, "");
+    text->SetTextSize(1.5/30.);
+    text->SetTextColor(13);
+    
     // Create the canvases and draw all graphs
     TCanvas *cs_canvas_cc = new TCanvas("genie_cross_sections_cc", "genie_cross_sections_cc", 1000, 800);
     cs_canvas_cc->SetLogy();
@@ -149,6 +169,7 @@ void make_plots(const char * in_file, const char * out_name)
     hempty->Draw();
     tot_cc_g->Draw("same");
     coh_cc_g->Draw("same");
+    mec_cc_g->Draw("same");
     dis_cc_g->Draw("same");
     qel_cc_g->Draw("same");
     res_cc_g->Draw("same");
@@ -156,6 +177,7 @@ void make_plots(const char * in_file, const char * out_name)
     low_line->Draw("same");
     chips_box->Draw("same");
     high_line->Draw("same");
+    text->DrawText(2.45, 10, "CHIPS");
     cs_canvas_cc->Draw();
 
     TCanvas *cs_canvas_nc = new TCanvas("genie_cross_sections_nc", "genie_cross_sections_nc", 1000, 800);
@@ -164,6 +186,7 @@ void make_plots(const char * in_file, const char * out_name)
     hempty->Draw();
     tot_nc_g->Draw("same");
     coh_nc_g->Draw("same");
+    mec_nc_g->Draw("same");
     dis_nc_g->Draw("same");
     qel_nc_g->Draw("same");
     res_nc_g->Draw("same");
@@ -171,6 +194,7 @@ void make_plots(const char * in_file, const char * out_name)
     low_line->Draw("same");
     chips_box->Draw("same");
     high_line->Draw("same");
+    text->DrawText(2.5, 10, "CHIPS");
     cs_canvas_nc->Draw();
 
     TString png_cc = "../diagrams/cvn/xsec_cc_";
