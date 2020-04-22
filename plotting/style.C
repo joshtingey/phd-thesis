@@ -255,4 +255,25 @@ void create_plot(TString name, int num, TH1F **hists, TString title_string,
     delete canvas;
 }
 
+void tree_hist(TString name, TTree *tree, TString var, TString title_string,
+               int x_bins, double low_x, double high_x)
+{
+    TH1F *hist = new TH1F(var + "_h", title_string, x_bins, low_x, high_x);
+    CenterTitles(hist);
+
+    // Fill the histogram from the tree
+    TString varexp = var + ">>" + var + "_h";
+    TString selection = var + ">" + low_x + " && " + var + "<" + high_x;
+
+    // Draw the histogram to a canvas
+    TCanvas *canvas = new TCanvas("canvas", "canvas", 1000, 800);
+    tree->Draw(varexp, selection);
+    hist->Scale(1/hist->GetEntries());
+    hist->Draw("HIST");
+    canvas->Draw();
+
+    // Save canvas as png and root macro
+    canvas->SaveAs(name);
+}
+
 #endif
