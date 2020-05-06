@@ -4,6 +4,8 @@
 *ACLiC*
 *.so
 
+**conda/
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
