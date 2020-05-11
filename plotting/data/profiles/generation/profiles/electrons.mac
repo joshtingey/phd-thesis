@@ -1,0 +1,45 @@
+### Sample setup macro...
+### This file is run by default if you just type WCSim and nothing else.
+### The geometry and pmt simulation setup is now in config/geoSetup.mac
+
+## Verbose settings
+/run/verbose 0
+/tracking/verbose 0
+/hits/verbose 0
+
+# Use 'laser' to be particle source and not a gun
+/mygen/generator laser
+
+## Set the particle to use
+/gps/particle e-
+
+# Set the vertex to be a point at the centre of the detector
+/gps/pos/type Point
+/gps/pos/centre 0 0 0 cm
+
+# Set the energy of the primary particle
+/gps/energy 2500 MeV
+
+# use direction distribution or fixed values
+#/gps/ang/type iso
+/gps/direction 0 0 1
+
+# Set the time the particle gun fires
+/gps/time 0
+
+## Change the name of the output root file, default = wcsim.root
+/WCSimIO/SaveRootFile true
+/WCSimIO/RootFile data/electron_emission_output.root
+
+## Should we save the photon ntuple output
+/WCSimIO/SavePhotonNtuple false
+/WCSimIO/PhotonNtuple data/electron_emission_photons.root
+/WCSimTrack/PercentCherenkovPhotonsToDraw 100.0
+
+## Whether to make emission profiles and define the output file
+/WCSimIO/SaveEmissionProfile true
+/WCSimIO/EmissionProfile data/profile_electrons.root
+
+# Number of events to generate
+/run/beamOn 2000
+#exit
