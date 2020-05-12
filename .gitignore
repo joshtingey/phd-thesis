@@ -4,7 +4,9 @@
 *ACLiC*
 *.so
 
-**conda/
+plotting/env/
+plotting/data/*.root
+plotting/data/*.txt
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

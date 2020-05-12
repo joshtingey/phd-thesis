@@ -1,5 +1,0 @@
-Events: 2000000
-Passed: 1865589
-Type Cut: 0
-Particle Cut: 0
-Threshold Cut: 134411
