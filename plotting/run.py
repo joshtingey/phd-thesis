@@ -7,6 +7,7 @@ from events import events
 from profiles import profiles
 from digi import digi
 from cvn import cvn
+import utils
 
 
 def download():
@@ -36,18 +37,19 @@ def download():
     ]
 
     for file in files:
-        if not os.path.exists('./data/' + file):
-            urllib.request.urlretrieve(url+file, './data/' + file)
+        if not os.path.exists(os.path.join('./data/', file)):
+            urllib.request.urlretrieve(url+file, os.path.join('./data/', file))
 
 
 def main():
-    download()
-    #flux()
-    #xsec()
-    #events()
-    #profiles()
-    #digi()
-    #cvn()
+    with utils.CHIPSStyle():
+        download()
+        #flux()
+        #xsec()
+        #events()
+        #profiles()
+        #digi()
+        #cvn()
 
 
 if __name__ == "__main__":

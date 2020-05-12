@@ -1,4 +1,4 @@
-# ROOT plotting macros and data
+# phd-thesis
 
 All initial data files used to generate those found in ./data are located at /unix/chips/jtingey/data at UCL
 

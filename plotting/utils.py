@@ -137,6 +137,7 @@ class CHIPSStyle(ROOT.TStyle):
         """Set the gStyle to ChipsStyle while remembering the previous gStyle."""
         self.previous_gStyle = ROOT.gROOT.GetStyle(ROOT.gStyle.GetName())
         self.cd()
+        ROOT.gROOT.ForceStyle()
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
@@ -203,7 +204,8 @@ def format_hist(hist):
 
 def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
                z_low=None, z_high=None, log_x=False, log_y=False, log_z=False,
-               opt='LP', leg_opt=None, stack=False):
+               opt='LP', leg_opt=None, leg_x=0.75, leg_y=0.70, stack=False,
+               cuts=None, grid_x=False, grid_y=False):
     """Plots the list of histograms to file as a png.
     Args:
         hists (list[ROOT.Hist]): List of histograms to plot
@@ -220,6 +222,8 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
         log_z (bool): Log the z-axis?
         opt (str): Histogram plotting option
         leg_opt (str): Legend plotting option
+        leg_x (float): Legend x-position
+        leg_y (float)L Legend y-position
         stack (bool): Should we stack the histograms?
     """
     # Define an empty histogram to set global variables
@@ -232,7 +236,7 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
         global_h.GetYaxis().SetTitleOffset(0.65)
 
     # Create the canvas and draw the global options histogram
-    canvas = ROOT.TCanvas("canvas", "canvas", 1000, 800)
+    canvas = ROOT.TCanvas(path, "canvas", 1000, 800)
     canvas.cd()
     if log_x: 
         canvas.SetLogx()
@@ -240,16 +244,43 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
         canvas.SetLogy()
     if log_z: 
         canvas.SetLogz()
+    if grid_x:
+        canvas.SetGridx()
+    if grid_y:
+        canvas.SetGridy() 
     global_h.Draw()
 
-    # Create the legend
+    # Create and draw the legend
     legend = None
     if leg_opt is not None:
-        legend = ROOT.TLegend(0.7, 0.65, 0.85, 0.85)
+        legend = ROOT.TLegend(leg_x, leg_y, leg_x+0.15, leg_y+0.20)
         legend.SetFillStyle(0)
         for i in range(len(hists)):    
             legend.AddEntry(hists[i], hists[i].GetTitle(), leg_opt)
         legend.Draw("same")
+
+    # Create and draw the cuts lines/greyed out box
+    if cuts is not None:
+        for cut in cuts:
+            low = ROOT.TLine(cut[0], y_low, cut[0], y_high)
+            low.SetLineWidth(3)
+            low.SetLineColor(14)
+            box = ROOT.TBox(cut[0], y_low, cut[1], y_high)
+            box.SetFillColor(14)
+            box.SetFillStyle(3345)
+            high = ROOT.TLine(cut[1], y_low, cut[1], y_high)
+            high.SetLineWidth(3)
+            high.SetLineColor(14)
+            if cut[0] == x_low:
+                box.Draw()
+                high.Draw()
+            elif cut[1] == x_high:
+                low.Draw()
+                box.Draw()
+            else:
+                low.Draw()
+                box.Draw()
+                high.Draw()
 
     # Draw the histograms
     if stack:
