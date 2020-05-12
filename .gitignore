@@ -4,6 +4,7 @@
 *ACLiC*
 *.so
 
+*/__pycache__/
 plotting/env/
 plotting/data/*.root
 plotting/data/*.txt

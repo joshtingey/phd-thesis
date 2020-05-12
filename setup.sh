@@ -1,8 +1,8 @@
 #! /bin/bash
 
 CURRENTDIR=$(pwd)
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cd $DIR/plotting
+export THESIS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $THESIS/plotting
 
 if [[ -d "./env" ]]; then
     source ./env/bin/activate
@@ -12,15 +12,15 @@ else
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh --no-check-certificate
 
     # Install miniconda3 in the current directory
-    bash miniconda.sh -b -p $DIR/plotting/env
+    bash miniconda.sh -b -p $THESIS/plotting/env
     rm miniconda.sh
 
     # Activate miniconda and create the thesis environment
     source ./env/bin/activate
     conda update -n base -c defaults conda -y
-    conda config --add envs_dirs $DIR/plotting/env/envs
-    conda config --add envs_dirs $DIR/plotting/env/envs
-    conda env create -f $DIR/environment.yaml
+    conda config --add envs_dirs $THESIS/plotting/env/envs
+    conda config --add envs_dirs $THESIS/plotting/env/envs
+    conda env create -f $THESIS/environment.yaml
 
     # Clean the miniconda install
     conda clean --all -y
