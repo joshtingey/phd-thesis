@@ -89,21 +89,26 @@ def make_plots(in_file, out_name):
     res_nc_g.SetLineWidth(3)
 
     axis_titles = None
+    cc_heights = None
+    nc_heights = None
     if 'nu_e_O16' in out_name:
         axis_titles = ';Neutrino Energy (GeV); O^{16} #nu_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)'
+        cc_heights = [14, 0.35, 1, 6, 0.035, 0.1]
+        nc_heights = [4.5, 0.13, 0.65, 2.0, 0.018, 0.035]
     elif 'nu_e_bar_O16' in out_name: 
         axis_titles = ';Neutrino Energy (GeV); O^{16} #bar{#nu}_{e} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)'
+        cc_heights = [7, 0.3, 0.8, 2.1, 0.035, 0.09]
+        nc_heights = [2.5, 0.11, 0.3, 0.9, 0.018, 0.032]
     elif 'nu_mu_O16' in out_name:
         axis_titles = ';Neutrino Energy (GeV); O^{16} #nu_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)'
+        cc_heights = [14, 0.35, 1, 6, 0.032, 0.1]
+        nc_heights = [4.5, 0.12, 0.35, 2.0, 0.018, 0.035]
     elif 'nu_mu_bar_O16' in out_name:
         axis_titles = ';Neutrino Energy (GeV); O^{16} #bar{#nu}_{#mu} cross section/E_{#nu} (10^{-38} cm^{2} / GeV)'
+        cc_heights = [6.5, 0.3, 0.75, 2.2, 0.035, 0.09]
+        nc_heights = [2.5, 0.12, 0.3, 0.9, 0.017, 0.032]
     else:
         print('WTF!')
-
-    # Define an empty histogram to set global variables
-    hempty = ROOT.TH2F('hempty', axis_titles, 1, 0, 15, 1, 1e-2, 20)
-    utils.format_hist(hempty)
-    hempty.GetYaxis().SetTitleOffset(0.8)
 
     # Set the graph colours
     tot_cc_g.SetLineColor(ROOT.kBlack)
@@ -120,94 +125,36 @@ def make_plots(in_file, out_name):
     coh_nc_g.SetLineColor(ROOT.kYellow+1)
     mec_nc_g.SetLineColor(ROOT.kCyan+1)
 
-    # Create the legends
-    leg_cc = ROOT.TLegend(0.7, 0.22, 0.85, 0.42)
-    leg_cc.AddEntry(tot_cc_g, 'Total CC', 'L')
-    leg_cc.AddEntry(qel_cc_g, 'CC QE', 'L')
-    leg_cc.AddEntry(res_cc_g, 'CC Res', 'L')
-    leg_cc.AddEntry(dis_cc_g, 'CC DIS', 'L')
-    leg_cc.AddEntry(coh_cc_g, 'CC Coh', 'L')
-    leg_cc.AddEntry(mec_cc_g, 'CC mec', 'L')
-    leg_cc.SetFillStyle(0)
-    
-    leg_nc = ROOT.TLegend(0.7, 0.22, 0.85, 0.42)
-    leg_nc.AddEntry(tot_nc_g, 'Total NC', 'L')
-    leg_nc.AddEntry(qel_nc_g, 'NC QE', 'L')
-    leg_nc.AddEntry(res_nc_g, 'NC Res', 'L')
-    leg_nc.AddEntry(dis_nc_g, 'NC DIS', 'L')
-    leg_nc.AddEntry(coh_nc_g, 'NC Coh', 'L')
-    leg_nc.AddEntry(mec_nc_g, 'NC Mec', 'L')
-    leg_nc.SetFillStyle(0)
-
-    # Create box showing CHIPS energy range [2,5] GeV
-    low_line = ROOT.TLine(2, 0, 2, 20)
-    low_line.SetLineWidth(3)
-    low_line.SetLineColor(14)
-    chips_box = ROOT.TBox(2, 0, 5, 20)
-    chips_box.SetFillColor(14)
-    chips_box.SetFillStyle(3345)
-    high_line = ROOT.TLine(5, 0, 5, 20)
-    high_line.SetLineWidth(3)
-    high_line.SetLineColor(14)
-    text = ROOT.TLatex(.1, .93, '')
-    text.SetTextSize(1.5/30.)
-    text.SetTextColor(13)
-    
-    # Create the canvases and draw all graphs
-    cs_canvas_cc = ROOT.TCanvas('genie_cross_sections_cc', 'genie_cross_sections_cc', 1000, 800)
-    cs_canvas_cc.SetLogy()
-    cs_canvas_cc.cd()
-    hempty.Draw()
-    tot_cc_g.Draw('same')
-    coh_cc_g.Draw('same')
-    mec_cc_g.Draw('same')
-    dis_cc_g.Draw('same')
-    qel_cc_g.Draw('same')
-    res_cc_g.Draw('same')
-    leg_cc.Draw('same')
-    low_line.Draw('same')
-    chips_box.Draw('same')
-    high_line.Draw('same')
-    text.DrawText(2.45, 10, 'CHIPS')
-    cs_canvas_cc.Draw()
-
-    cs_canvas_nc = ROOT.TCanvas('genie_cross_sections_nc', 'genie_cross_sections_nc', 1000, 800)
-    cs_canvas_nc.SetLogy()
-    cs_canvas_nc.cd()
-    hempty.Draw()
-    tot_nc_g.Draw('same')
-    coh_nc_g.Draw('same')
-    mec_nc_g.Draw('same')
-    dis_nc_g.Draw('same')
-    qel_nc_g.Draw('same')
-    res_nc_g.Draw('same')
-    leg_nc.Draw('same')
-    low_line.Draw('same')
-    chips_box.Draw('same')
-    high_line.Draw('same')
-    text.DrawText(2.5, 10, 'CHIPS')
-    cs_canvas_nc.Draw()
-
-    png_cc = '../diagrams/cvn/xsec_cc_'
-    png_cc += out_name
-    png_cc += '.png'
-    macro_cc = './output/xsec_cc_'
-    macro_cc += out_name
-    macro_cc += '.C'
-
-    png_nc = '../diagrams/cvn/xsec_nc_'
-    png_nc += out_name
-    png_nc += '.png'
-    macro_nc = './output/xsec_nc_'
-    macro_nc += out_name
-    macro_nc += '.C'
+    cc_plots = [tot_cc_g, qel_cc_g, res_cc_g, dis_cc_g, coh_cc_g, mec_cc_g]
+    utils.plot(cc_plots, axis_titles, './output/xsec_cc_' + out_name + '.png',
+               0, 15, 1e-2, 30, opt='L', cuts=[[2, 5]], log_y=True,
+               texts=[
+                   ['CHIPS', 2.45, 1.5e-2, 1.5/30.0, 13],
+                   ['CC Total', 11, cc_heights[0], 1.2/30.0, ROOT.kBlack],
+                   ['CC QE', 11, cc_heights[1], 1.2/30.0, ROOT.kBlue+1],
+                   ['CC Res', 11, cc_heights[2], 1.2/30.0, ROOT.kRed+1],
+                   ['CC DIS', 11, cc_heights[3], 1.2/30.0, ROOT.kGreen+1],
+                   ['CC Coh', 11, cc_heights[4], 1.2/30.0, ROOT.kYellow+1],
+                   ['CC Mec', 11, cc_heights[5], 1.2/30.0, ROOT.kCyan+1]
+               ])
 
 
-    # Save canvas as png and root macro
-    cs_canvas_cc.SaveAs(png_cc)
-    cs_canvas_nc.SaveAs(png_nc)
+    nc_plots = [tot_nc_g, qel_nc_g, res_nc_g, dis_nc_g, coh_nc_g, mec_nc_g]
+    utils.plot(nc_plots, axis_titles, './output/xsec_nc_' + out_name + '.png',
+               0, 15, 1e-2, 30, opt='L', cuts=[[2, 5]], log_y=True,
+               texts=[
+                   ['CHIPS', 2.45, 1.5e-2, 1.5/30.0, 13],
+                   ['NC Total', 11, nc_heights[0], 1.2/30.0, ROOT.kBlack],
+                   ['NC QE', 11, nc_heights[1], 1.2/30.0, ROOT.kBlue+1],
+                   ['NC Res', 11, nc_heights[2], 1.2/30.0, ROOT.kRed+1],
+                   ['NC DIS', 11, nc_heights[3], 1.2/30.0, ROOT.kGreen+1],
+                   ['NC Coh', 11, nc_heights[4], 1.2/30.0, ROOT.kYellow+1],
+                   ['NC Mec', 11, nc_heights[5], 1.2/30.0, ROOT.kCyan+1]
+               ])
+
 
     cs_file.Close()
+
 
 def xsec():
     make_plots('./data/xsec_nuel.root', 'nu_e_O16')
@@ -217,4 +164,5 @@ def xsec():
 
 
 if __name__ == '__main__':
-    xsec()
+    with utils.CHIPSStyle():
+        xsec()

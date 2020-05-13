@@ -17,6 +17,10 @@
 % \let\@OldCite\cite
 % \renewcommand{\cite}[1]{\mbox{\!\!\!\@OldCite{#1}}}
 
+\makeatletter
+\g@addto@macro\bfseries\boldmath
+\makeatother
+
 %% Maths
 % TODO: rework or eliminate maybemath
 \usepackage{resources/abmath}
@@ -44,9 +48,15 @@
 
 %% High-energy physics stuff
 \usepackage{resources/abhep}
+% \usepackage{resources/SIunits}
 \usepackage{hepnames}
 \usepackage{hepunits}
-\DeclareRobustCommand{\CHIPS}{CHIPS\xspace}
+
+%% Personal macros
+\DeclareRobustCommand{\nova}{NOvA\xspace}
+\DeclareRobustCommand{\chips}{\textsc{Chips}\xspace}
+\DeclareRobustCommand{\minos}{\textsc{Minos}\xspace}
+
 \DeclareRobustCommand{\arXivCode}[1]{arXiv:#1}
 \DeclareRobustCommand{\CP}{\ensuremath{\mathcal{CP}}\xspace}
 \DeclareRobustCommand{\CPviolation}{\CP-violation\xspace}

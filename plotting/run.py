@@ -44,9 +44,9 @@ def download():
 def main():
     with utils.CHIPSStyle():
         download()
-        #flux()
-        #xsec()
-        #events()
+        flux()
+        xsec()
+        events()
         #profiles()
         #digi()
         #cvn()

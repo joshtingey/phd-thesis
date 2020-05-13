@@ -10,8 +10,6 @@
 %% For Cambridge hard-bound version (must be one-sided)
 %\documentclass[hyperpdf,oneside]{hepthesis}
 
-% TODO: test todo
-
 %% Load special font packages here if you wish
 %\usepackage{lmodern}
 \usepackage{mathpazo}
@@ -25,16 +23,15 @@
 %% or a section at a time like this
 %\setfrontmatterspacing{double}
 
-
 %% Define the thesis title and author
-\title{Deep Convolution Neural Networks for the CHIPS Experiment}
+\title{Multi-task Convolution Neural Networks for the \chips Experiment}
 \author{Josh Chalcraft Tingey}
 
 %% Doc-specific PDF metadata
 \makeatletter
 \@ifpackageloaded{hyperref}{%
 \hypersetup{%
-  pdftitle = {Deep Convolution Neural Networks for the CHIPS Experiment},
+  pdftitle = {Multi-task Convolution Neural Networks for the \chips Experiment},
   pdfsubject = {Josh Tingey's PhD thesis},
   pdfkeywords = {CHIPS, physics, CNN, Machine Learning},
   pdfauthor = {\textcopyright\ Josh Tingey}
@@ -46,33 +43,32 @@
 
 %% Define the un-numbered front matter (cover pages, rubrik and table of contents)
 \begin{frontmatter}
-  \input{sections/frontmatter}
+  \input{sections/1-frontmatter}
 \end{frontmatter}
 
 %% Start the content body of the thesis
 \begin{mainmatter}
   %% Actually, more semantic chapter filenames are better, like "chap-bgtheory.tex"
-  \input{sections/introduction}
-  \input{sections/theory}
-  \input{sections/chips}
-  \input{sections/daq}
-  \input{sections/cvn}
-  \input{sections/results}
-  \input{sections/cosmics}
-  \input{sections/conclusion}
+  \input{sections/2-introduction}
+  \input{sections/3-theory}
+  \input{sections/4-chips}
+  \input{sections/5-daq}
+  \input{sections/6-cvn}
+  \input{sections/7-optimisation}
+  \input{sections/8-conclusion}
   %% To ignore a specific chapter while working on another, making the build faster, comment it out:
   %\input{chap4}
 \end{mainmatter}
 
 %% Produce the appendices
 \begin{appendices}
-  \input{sections/appendices}
+  \input{sections/9-appendices}
 \end{appendices}
 
 %% Produce the un-numbered back matter (e.g. colophon,
 %% bibliography, tables of figures etc., index...)
 \begin{backmatter}
-  \input{sections/backmatter}
+  \input{sections/10-backmatter}
 \end{backmatter}
 
 %% Close

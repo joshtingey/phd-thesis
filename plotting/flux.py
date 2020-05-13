@@ -67,7 +67,7 @@ def flux():
     print('anumu_tot: {}, frac: {}'.format(anumu_tot, (anumu_tot/total)))
     print('###########################################################')
 
-    weight_file = open('./data/weights.txt', 'w')
+    weight_file = open('./output/weights.txt', 'w')
     weight_file.write(str(nuel_tot/total) + '\n')
     weight_file.write(str(anuel_tot/total) + '\n')
     weight_file.write(str(numu_tot/total) + '\n')
@@ -90,8 +90,8 @@ def flux():
     anumu_flux_h.SetLineColor(ROOT.kBlue+2)
  
     hists = [nuel_flux_h, anuel_flux_h, numu_flux_h, anumu_flux_h]
-    utils.plot_hists(hists, '; Neutrino Energy (GeV); #nu/6#times10^{20}POT/kt', '../diagrams/cvn/flux.png',
-                     0, 15, 1e2, 1.5e6, opt='samehist', leg_opt='L', log_y=True)
+    utils.plot(hists, '; Neutrino Energy (GeV); #nu/6#times10^{20}POT/kt', './output/flux.png',
+               0, 15, 1e2, 1.5e6, opt='samehist', leg_opt='L', log_y=True)
 
     numu_flux_h.SetTitle('CHIPS #nu_{#mu} Flux') 
     numu_flux_h.SetLineColor(ROOT.kBlue+1)
@@ -103,12 +103,13 @@ def flux():
     numu_flux_minos_h.SetLineColor(ROOT.kGreen+1)
 
     hists = [numu_flux_h, numu_flux_nova_h, numu_flux_minos_h]
-    utils.plot_hists(hists, '; Neutrino Energy (GeV); #nu/6#times10^{20}POT/kt', '../diagrams/cvn/flux_comparison.png',
-                     0, 15, 0, 1.4e6, opt='samehist', leg_opt='L')
+    utils.plot(hists, '; Neutrino Energy (GeV); #nu/6#times10^{20}POT/kt', './output/flux_comparison.png',
+               0, 15, 0, 1.4e6, opt='samehist', leg_opt='L')
 
 
     root_file.Close()
 
 
 if __name__ == '__main__':
-    flux()
+    with utils.CHIPSStyle():
+        flux()

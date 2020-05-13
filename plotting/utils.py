@@ -51,7 +51,7 @@ class CHIPSStyle(ROOT.TStyle):
         self.SetFrameFillStyle(0)
         self.SetFrameLineColor(1)
         self.SetFrameLineStyle(1)
-        self.SetFrameLineWidth(2)
+        self.SetFrameLineWidth(3)
         # Histogram
         self.SetHistLineColor(1)
         self.SetHistLineStyle(0)
@@ -93,7 +93,7 @@ class CHIPSStyle(ROOT.TStyle):
         # Axis Titles
         self.SetTitleColor(1, 'XYZ')
         self.SetTitleFont(font, 'XYZ')
-        self.SetTitleSize(0.06, 'XYZ')
+        self.SetTitleSize(0.05, 'XYZ')
         self.SetTitleXOffset(0.9)
         self.SetTitleYOffset(1.25)
         # Axis Labels
@@ -202,13 +202,13 @@ def format_hist(hist):
     hist.GetZaxis().CenterTitle()
 
 
-def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
-               z_low=None, z_high=None, log_x=False, log_y=False, log_z=False,
-               opt='LP', leg_opt=None, leg_x=0.75, leg_y=0.70, stack=False,
-               cuts=None, grid_x=False, grid_y=False):
+def plot(plots, title, path, x_low, x_high, y_low, y_high,
+         z_low=None, z_high=None, log_x=False, log_y=False, log_z=False,
+         opt='LP', leg_opt=None, leg_x=0.75, leg_y=0.70, stack=False,
+         cuts=None, texts=None, grid_x=False, grid_y=False):
     """Plots the list of histograms to file as a png.
     Args:
-        hists (list[ROOT.Hist]): List of histograms to plot
+        plots (list[ROOT.Hist]): List of histograms to plot
         title (str): Title for the plot (contains axis titles)
         path (str): Path to save plot
         x_low (float): Low x-axis value
@@ -225,6 +225,10 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
         leg_x (float): Legend x-position
         leg_y (float)L Legend y-position
         stack (bool): Should we stack the histograms?
+        cuts (list[[low,high]]): List of cuts to show on plot
+        texts (list[[text, x, y]]): List of text to show on plot
+        grid_x (bool): Should we show the x-grid lines?
+        grid_y (bool): Should we show the y-grid lines?
     """
     # Define an empty histogram to set global variables
     global_h = ROOT.TH2F('global_h', title, 1, x_low, x_high, 1, y_low, y_high)
@@ -255,8 +259,8 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
     if leg_opt is not None:
         legend = ROOT.TLegend(leg_x, leg_y, leg_x+0.15, leg_y+0.20)
         legend.SetFillStyle(0)
-        for i in range(len(hists)):    
-            legend.AddEntry(hists[i], hists[i].GetTitle(), leg_opt)
+        for i in range(len(plots)):    
+            legend.AddEntry(plots[i], plots[i].GetTitle(), leg_opt)
         legend.Draw("same")
 
     # Create and draw the cuts lines/greyed out box
@@ -264,10 +268,10 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
         for cut in cuts:
             low = ROOT.TLine(cut[0], y_low, cut[0], y_high)
             low.SetLineWidth(3)
-            low.SetLineColor(14)
+            low.SetLineColor(1)
             box = ROOT.TBox(cut[0], y_low, cut[1], y_high)
-            box.SetFillColor(14)
-            box.SetFillStyle(3345)
+            box.SetFillColor(17)
+            # box.SetFillStyle(3144)
             high = ROOT.TLine(cut[1], y_low, cut[1], y_high)
             high.SetLineWidth(3)
             high.SetLineColor(14)
@@ -278,19 +282,34 @@ def plot_hists(hists, title, path, x_low, x_high, y_low, y_high,
                 low.Draw()
                 box.Draw()
             else:
-                low.Draw()
+                #low.Draw()
                 box.Draw()
-                high.Draw()
+                #high.Draw()
+
+    # Create any text needed
+    if texts is not None:
+        for text in texts:
+            plot_text = ROOT.TLatex(text[1], text[2], '')
+            plot_text.SetTextSize(text[3])
+            plot_text.SetTextColor(text[4])
+            plot_text.DrawText(text[1], text[2], text[0])
 
     # Draw the histograms
     if stack:
         stack = ROOT.THStack("stack","")
-        for i in range(len(hists)):
-            stack.Add(hists[i])
+        for i in range(len(plots)):
+            stack.Add(plots[i])
         stack.Draw(opt)
     else:
-        for i in range(len(hists)):
-            hists[i].Draw(opt)
+        for i in range(len(plots)):
+            plots[i].Draw(opt)
+
+    l = ROOT.TLine()
+    l.SetLineWidth(3)
+    l.DrawLine(x_low, y_low, x_high, y_low)
+    l.DrawLine(x_low, y_low, x_low, y_high)
+    l.DrawLine(x_high, y_low, x_high, y_high)
+    l.DrawLine(x_low, y_high, x_high, y_high)
 
     canvas.Draw()
     canvas.SaveAs(path)
