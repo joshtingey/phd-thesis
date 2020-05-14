@@ -1,68 +1,15 @@
 ---
-tags: [Notebooks/Main]
-title: Plan
-created: '2020-05-13T12:53:05.863Z'
-modified: '2020-05-13T15:11:53.352Z'
+tags: [plan]
+title: 7-optimisation-plan
+created: '2020-05-14T13:06:30.982Z'
+modified: '2020-05-14T13:16:20.197Z'
 ---
 
-# Plan
+# 7-optimisation-plan
 
-```mermaid
-gantt
-section Writing
-Completed                   :done,    total, 2020-05-13, 2020-08-17
-Neutrino oscillations       :active,  theory, 2020-05-13, 2020-05-24
-The CHIPS R&D project       :         chips, after theory, 2w
-Data acquisition            :         daq, after chips, 2w
-CNN Finalise                :         cvnwork, after daq, 1w
-CNNs for CHIPS              :         cvn, after cvnwork, 2w
-Detector Studies            :         studies, after cvn, 2w
-Intro and Conclusion        :         intconc, after cosmics, 2w
-Tidy and Improve            :         tidy, after intconc, 1w
+## Detector optimisation for CHIPS
 
-section Work
-Getting data ready          :         data, 2020-05-13, 39d
-
-section Deadlines
-Theory, CHIPS, DAQ Comments :crit,    com1, 2020-06-21, 1d
-CVN Comments                :crit,    com2, 2020-07-12, 1d
-Final Comments              :crit,    com2, 2020-08-16, 1d
-
-section Other
-ml-course                   :active,  course, 2020-05-13, 2020-06-08
-write-cv                    :active,  cv, 2020-05-13, 2020-08-17
-the-trains                  :active,  trains, 2020-05-13, 2020-08-17
-```
-
-- Keep the gantt chart updated as progress is made
-- Under each chapter heading have the following
-  - Rough length chapter will be
-  - Goal statement for the chapter
-  - Sub-sections (if any) and a brief description for each
-  - Diagrams in their sub-sections
-  - References in their sub-sections
-
-## Frontmatter (~?)
-
-## Introduction and Authors Contribution (~5)
-
-## Neutrino oscillations: theoretical background and current status (~30)
-
-## The CHIPS R&D project (~20)
-
-## Data acquisition for CHIPS (~20)
-
-## A Convolutional neural network for CHIPS (~50)
-
-- [ ] Comparing nuel, anuel, numu and anumu CHIPS flux energy distributions (flux_type_comparison.png) (flux.py)
-- [ ] Comparing CHIPS, MINOS and NOvA flux energy distributions (flux_detector_comparison.png) (flux.py)
-- [ ] Numu left(CC), right(NC) cross-sections as implemented by GENIE vs energy (xsec_numu.png) (xsec.py)
-- [ ] Numu vs anumu, CC vs NC cross-sections as implemented by GENIE vs energy (xsec_numu_vs_anumu.png) (xsec.py)
-
-- [Visualizing and Understanding Convolutional Networks](https://arxiv.org/pdf/1311.2901.pdf) [1311.2901](@note/1311.2901.md)
-- [Visualizing Data using t-SNE](http://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf) [vandermaaten08a](@note/vandermaaten08a.md)
-
-## Detector optimisation for CHIPS (~20)
+### Detailed Sections
 
 You have all of these possible parameters that can affect the performance (event categorisation and kinematic reconstruction) of your WC detector
 - Positioning of the detector (L, angle off-axis, overburden) *
@@ -110,6 +57,8 @@ Simulation Parameters
 - PMT digitisation simulation (Decide with Paul, just use hits for now!!!)
 - PMT angular collection efficiency (Keep it as the one Paul suggested, mainly 100%)
 
-## Conclusion (~5)
+### General References
 
-## Appendices (~?)
+### General Plots
+
+

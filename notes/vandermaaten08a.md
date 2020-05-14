@@ -1,11 +1,23 @@
 ---
-tags: [paper]
+tags: [ref]
 title: vandermaaten08a
 created: '2020-05-13T06:41:25.499Z'
-modified: '2020-05-13T07:23:10.178Z'
+modified: '2020-05-14T14:04:00.588Z'
 ---
 
 # vandermaaten08a
+
+## [Visualizing Data using t-SNE](http://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)
+
+@article{maaten2008visualizing,
+  title={Visualizing data using t-SNE},
+  author={Maaten, Laurens van der and Hinton, Geoffrey},
+  journal={Journal of machine learning research},
+  volume={9},
+  number={Nov},
+  pages={2579--2605},
+  year={2008}
+}
 
 - There have been plently of attempts at visualising high-dimensional data on a 2/3 dimensional map, including Sammon mapping, Isomap, Locally Linear Embedding, Stochastic Neighbour Embedding.
 - Older implementations tended to cluster all data points towards the centre of the map and proved difficult to optimise.
