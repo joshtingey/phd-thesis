@@ -1,8 +1,9 @@
 ---
+attachments: [chipsReco.pdf, thesis-writing-gotchas.pdf]
 tags: [plan]
 title: reading
 created: '2020-05-12T16:49:05.935Z'
-modified: '2020-05-14T15:15:30.927Z'
+modified: '2020-05-18T12:25:04.206Z'
 ---
 
 # reading
@@ -16,6 +17,7 @@ Once it has been written up it should go be put into the plan for the main chapt
 ## other-thesis
 
 - [ ] [Three-flavour neutrino oscillations with MINOS and CHIPS](@note/perch-thesis.md)
+- [ ] [CHIPS Event Reconstruction and Design Optimisation](@note/1612.04604.md)
 - [ ] [Sensitivity study and first prototype tests for the CHIPS neutrino detector R&D program](@note/maciej-thesis.md)
 - [ ] [Muon Neutrino Disappearance in NOvA with a Deep Convolutional Neural Network Classifier](@note/rocco-thesis.md)
 - [ ] [Sensitivity Determination in the CHIPS Neutrino Detector](@note/1948.md)
@@ -25,4 +27,5 @@ Once it has been written up it should go be put into the plan for the main chapt
 - [ ] [ALBERT: A Lite BERT for Self-supervised Learning of Language Representations](@note/1909.11942.md)
 - [ ] [The Golden Path to become A Full-Stack Data Scientist](@note/article-04.md)
 - [ ] [Being a Data Scientist does not make you a Software Engineer!](@note/article-05.md)
+
 

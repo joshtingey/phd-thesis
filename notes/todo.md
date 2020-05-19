@@ -2,16 +2,17 @@
 tags: [plan]
 title: todo
 created: '2020-05-12T15:34:18.497Z'
-modified: '2020-05-14T13:18:35.139Z'
+modified: '2020-05-15T15:52:08.323Z'
 ---
 
 # todo
 
-+ [ ] finish python implementation
-+ [x] add readings from evernote
-+ [x] add other references
-+ [x] do some reading
-+ [ ] make a detailed plan of theory chapter
++ [ ] Add plots and diagrams with checkboxes to chapter plans
++ [ ] Finish current plot python implementation
++ [ ] Make a detailed plan of the theory chapter
++ [ ] Do lecture 3 of ml-course
++ [ ] Read 2019 PDG Review for neutrinos
++ [x] Finish singularity implementation to get it out the way
 
 # Backlog
 
