@@ -2,7 +2,7 @@
 tags: [plan]
 title: 3-theory-plan
 created: '2020-05-14T12:14:17.068Z'
-modified: '2020-05-19T09:58:08.870Z'
+modified: '2020-05-21T17:37:38.467Z'
 ---
 
 # 3-theory-plan
@@ -12,11 +12,11 @@ modified: '2020-05-19T09:58:08.870Z'
 ## General References
 
 - [x] [From eV to EeV: Neutrino Cross-Sections Across Energy Scales](@note/1305.7513.md)
-- [ ] [Meson Exchange Current (MEC) Models in Neutrino Interaction Generators](@note/1304.6014.md)
-- [ ] [Review of Particle Physics 2019](@note/pdg.2019)
-- [ ] [Three-flavour neutrino oscillations with MINOS and CHIPS](@note/perch-thesis.md)
-- [ ] [Sensitivity study and first prototype tests for the CHIPS neutrino detector R&D program](@note/maciej-thesis.md)
-- [ ] [Muon Neutrino Disappearance in NOvA with a Deep Convolutional Neural Network Classifier](@note/rocco-thesis.md)
+- [x] [Meson Exchange Current (MEC) Models in Neutrino Interaction Generators](@note/1304.6014.md)
+- [x] [Review of Particle Physics 2019](@note/pdg.2019)
+- [x] [Three-flavour neutrino oscillations with MINOS and CHIPS](@note/perch-thesis.md)
+- [x] [Sensitivity study and first prototype tests for the CHIPS neutrino detector R&D program](@note/maciej-thesis.md)
+- [x] [Muon Neutrino Disappearance in NOvA with a Deep Convolutional Neural Network Classifier](@note/rocco-thesis.md)
 - [ ] [Simulations and Data analysis for the35 ton Liquid Argon detector as aprototype for the DUNE experiment](@note/thomas-thesis.md)
 - [ ] [Comparison of oscillation parameters measured from νμ and ̄νμ disappearance in the NOvA experiment](@note/diana-thesis.md)
 - [ ] [Reconstruction and Analysis for theDUNE 35-ton Liquid Argon Prototype](@note/michael-thesis.md)
@@ -24,14 +24,14 @@ modified: '2020-05-19T09:58:08.870Z'
 
 blah blah blah
 
-- [ ] [First neutrino detection cowan](@note/cowan1956.md)
+- [x] [First neutrino detection cowan](@note/cowan1956.md)
 - [ ] [Helicity of neutrinos](@note/109.1015.md)
-- [ ] [Two kinds of neutrinos](@note/danby1962.md)
-- [ ] [Observation of Tau Neutrino](@note/0012035.md)
-- [ ] [Z resonance for 3 neutrinos](@note/0509008v3.md)
-- [ ] [Homestake deficit](@note/4811423.md)
-- [ ] [First SSU prediction compared to homestake](@note/33199.md)
-- [ ] [Kamiokande-II detector deficit](@note/10.1103.md)
+- [x] [Two kinds of neutrinos](@note/danby1962.md)
+- [x] [Observation of Tau Neutrino](@note/0012035.md)
+- [x] [Z resonance for 3 neutrinos](@note/0509008v3.md)
+- [x] [Homestake deficit](@note/4811423.md)
+- [x] [First SSU prediction compared to homestake](@note/33199.md)
+- [x] [Kamiokande-II detector deficit](@note/10.1103.md)
 
 ## General Plots
 
