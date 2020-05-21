@@ -3,26 +3,24 @@
 \usepackage{morefloats,subfig,afterpage}
 \usepackage{mathrsfs} % script font
 \usepackage{verbatim}
+\usepackage{cite}
+
+%% Load special font packages here if you wish
+\usepackage{lmodern}  % lmodern, mathpazo, euler
 
 %% Using Babel allows other languages to be used and mixed-in easily
-%\usepackage[ngerman,english]{babel}
 \usepackage[english]{babel}
 \selectlanguage{english}
 
-%% Use the tikz-feynman package for feynman diagram
+%% Use the tikz-feynman package for Feynman diagram.
 \usepackage[compat=1.1.0]{tikz-feynman}
 
-%% Citation system tweaks
-\usepackage{cite}
-% \let\@OldCite\cite
-% \renewcommand{\cite}[1]{\mbox{\!\!\!\@OldCite{#1}}}
-
+%% Tweak so maths adapts its boldness to match the context.
 \makeatletter
 \g@addto@macro\bfseries\boldmath
 \makeatother
 
 %% Maths
-% TODO: rework or eliminate maybemath
 \usepackage{resources/abmath}
 \DeclareRobustCommand{\mymath}[1]{\ensuremath{\maybebmsf{#1}}}
 % \DeclareRobustCommand{\parenths}[1]{\mymath{\left({#1}\right)}\xspace}
@@ -48,14 +46,37 @@
 
 %% High-energy physics stuff
 \usepackage{resources/abhep}
-% \usepackage{resources/SIunits}
-\usepackage{hepnames}
-\usepackage{hepunits}
+%\usepackage{resources/SIunits}
+%\usepackage{hepnames}
+%\usepackage{hepunits}
+
+\begin{comment}
+    TODO: cross-section, nu and nu bar combos, proton, neutron, electron, muon, tau etc
+\end{comment}
+
+% Use \xspace at the end of the macros
+% Use \text for text of units in macro
+% write 5--10 for 5 to 10
+% \mathrm{...} macro, i.e. $\mathrm{d}f/\mathrm{d}x$ → df /dx, not $df/dx$ → df /dx
+% So put the whole of each mathematical expression in math mode (and drop out of it via \mathrm or \text if needed).
+% Negative numbers should be written in math mode
+% always wrap text in your equations in the \mathrm macro, which does it right
 
 %% Personal macros
 \DeclareRobustCommand{\chips}{\textsc{Chips}\xspace}
 \DeclareRobustCommand{\nova}{NOvA\xspace}
 \DeclareRobustCommand{\minos}{\textsc{Minos}\xspace}
+% GENIE
+% ROOT
+% Tensorflow
+% Python
+% Google
+% 
+%\newcommand{\eV}{\text{e\kern-0.15ex V}\xspace}
+%\newcommand{\MeV}{\text{M\eV}\xspace}
+%\newcommand{\GeV}{\text{G\eV}\xspace}
+%\newcommand{\TeV}{\text{T\kern-0.1ex \eV}\xspace}
+
 
 \DeclareRobustCommand{\arXivCode}[1]{arXiv:#1}
 \DeclareRobustCommand{\CP}{\ensuremath{\mathcal{CP}}\xspace}

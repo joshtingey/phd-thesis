@@ -2,7 +2,7 @@
 tags: [plan]
 title: daily-tracker
 created: '2020-05-13T07:28:12.726Z'
-modified: '2020-05-19T16:45:28.836Z'
+modified: '2020-05-21T10:56:09.834Z'
 ---
 
 # daily-tracker
@@ -13,9 +13,9 @@ modified: '2020-05-19T16:45:28.836Z'
 | Thu 14th May   | lecture-02: :+1:  | [](@note/1305.7513.md)   | References and macros   | 23    | 297     |
 | Fri 15th May   | lecture-03: :+1:  | [](@note/pdg.2019)       | Finalise singularity    | 23    | 297     |
 | Mon 18th May   | lecture-04: :+1:  | https://bit.ly/2TnzXoS   | Dune CVN and theory     | 24    | 297     |
-| Tue 19th May   | lecture-05:       | go.nature.com/2TBxAiH    | Theory writing          | 24    | 517     |
-| Wed 20th May   | lecture-06:       |                          |                         |       |         |
-| Thu 21th May   | lecture-07:       |                          |                         |       |         |
+| Tue 19th May   | lecture-05: :+1:  | go.nature.com/2TBxAiH    | Theory writing          | 24    | 517     |
+| Wed 20th May   | lecture-06: :+1:  |                          | Theory and chips plan   | 24    | 636     |
+| Thu 21th May   | lecture-07: :+1:  |                          | chips-net and diagrams  |       |         |
 | Fri 22th May   | lecture-08:       |                          |                         |       |         |  
 | Mon 25st May   | lecture-09:       |                          |                         |       |         |
 | Tue 26nd May   | lecture-10:       |                          |                         |       |         |

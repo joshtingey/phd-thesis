@@ -4,9 +4,69 @@
 %% Restart the numbering to make sure that this is definitely page #1!
 \pagenumbering{arabic}
 
+hello ello llo
+
+This .tex file aims to outline how various things should be implemented within the thesis
+from references to diagrams the symbols etc\dots
+
+- We use english spelling of everything throughout the thesis
+
+- Write the way that is natural in your head, so you are not contorting your thoughts to fit an unnatural style
+
+- We capitalise just the first word in section, chapter and whole-document titling.
+
+- Don't have unnecessary hyphens for weird phrases, just write it as you would in clear plain english
+
+- Use short sentences most of the time to make work clearer and punchier. More than two lines is probably bad.
+
+- Use the 'english comma' to show how to read the text
+
+- Use non-breaking spaces all over the place ~
+
+- spell out small numbers
+
+- Prefer the default float-spec, [tbp],
+
+- Also read booktabs’ excellent manual on how table formatting should look: in short, never use vertical rules.
+
+- Standard Model is capitalised
+
+- Put all particle in italics (hepnames and hepparticles does this all for you)
+
+\begin{itemize}
+    \item \eV
+    \item \text{e\kern-0.15ex V}\xspace
+    \item \minos
+\end{itemize}
+
+\eV
+
+\CC
+
+\text{e\kern-0.15ex V}\xspace
+
+$\int \mathrm{d}x \sin^n{x} \cos^m{x} \quad .$
+
+%% We define many common macros to be used throughout the thesis for various things...
+\begin{itemize}
+    \item \chips
+    \item \nova
+    \item \minos
+\end{itemize}
+
 %% Quotes if we want to put them in 
 \chapterquote{Laws were made to be broken.}%
 {Christopher North, 1785--1854}%: Blackwood's Magazine May 1830
+
+Section~\ref{sec:nittygritty} %% refer to sections like this
+Table~\ref{tab:a} %% refer to a table like this
+Ref.~\cite{xyz} %% if you every refer directly to the reference
+
+
+${\nu} + p^{+} \rightarrow n + e^{+}$
+
+~\cite{chadwick1914}.
+
 
 %% The defined macros should always be used
 Once upon a time there was \chips which was very nice for \nova which like to use \unit{10}{\GeV} because
@@ -35,7 +95,7 @@ a wavefunction from a combination of a generic neutral meson state
 $\ket{\Xzero}$ and its anti-state $\ket{\Xzerobar}$:
 
 \begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/chips_render_1}
+    \includegraphics[width=\largefigwidth]{diagrams/4-chips/chips_render_1}
     \caption[CKM Fitter constraints on \alphaCKM.]%
     {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
         \BToRhoPi and \BToRhoRho decay analyses.}
@@ -44,7 +104,7 @@ $\ket{\Xzero}$ and its anti-state $\ket{\Xzerobar}$:
 
 \begin{sidewaysfigure}
     \begin{center}
-        \includegraphics[width=0.8\textheight]{diagrams/chips_event}
+        \includegraphics[width=0.8\textheight]{diagrams/4-chips/chips_event}
         \caption[Cross-section view of \LHCb, cut in the non-bending $y$--$z$ plane]%
         {Cross-section view of \LHCb, cut in the non-bending $y$--$z$ plane.}
         \label{fig:chips_event}
@@ -179,7 +239,7 @@ float, such as the pretty circles in the following figure
 \label{sec:events}
 
 \begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/numi_axis}
+    \includegraphics[width=\largefigwidth]{diagrams/4-chips/numi_axis}
     \caption[CKM Fitter constraints on \alphaCKM.]%
     {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
         \BToRhoPi and \BToRhoRho decay analyses.}
@@ -187,7 +247,7 @@ float, such as the pretty circles in the following figure
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/numi_map}
+    \includegraphics[width=\largefigwidth]{diagrams/4-chips/numi_map}
     \caption[CKM Fitter constraints on \alphaCKM.]%
     {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
         \BToRhoPi and \BToRhoRho decay analyses.}
