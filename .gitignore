@@ -3,11 +3,15 @@
 *.pcm
 *ACLiC*
 *.so
+*ipynb_checkpoints/
 
 */__pycache__/
-plotting/env/
-plotting/data/*.root
-plotting/data/*.txt
+data/*.root
+data/*.txt
+data/*.ods
+diagrams/*.jpg
+diagrams/*.png
+diagrams/*.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

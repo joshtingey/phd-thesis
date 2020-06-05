@@ -1,16 +1,9 @@
 import os
 import urllib.request
-
-from flux import flux
-from xsec import xsec
-from events import events
-from profiles import profiles
-from digi import digi
-from cvn import cvn
 import utils
 
 
-def download():
+def main():
     print('Downloading data if required...')
     url = 'http://www.hep.ucl.ac.uk/~jtingey/data/'
     files = [
@@ -39,18 +32,6 @@ def download():
     for file in files:
         if not os.path.exists(os.path.join('./data/', file)):
             urllib.request.urlretrieve(url+file, os.path.join('./data/', file))
-
-
-def main():
-    with utils.CHIPSStyle():
-        download()
-        flux()
-        xsec()
-        events()
-        #profiles()
-        #digi()
-        #cvn()
-
 
 if __name__ == "__main__":
     main()

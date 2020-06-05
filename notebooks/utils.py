@@ -11,7 +11,6 @@ plt.rcParams.update({
     'text.usetex': True,
     'pgf.rcfonts': False,
 })
-# Now save plots with plt.savefig('histogram.pgf')
 
 import mplhep as hep
 plt.style.use(hep.style.ROOT)
