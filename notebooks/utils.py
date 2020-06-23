@@ -310,7 +310,7 @@ def plot(plots, title, path, x_low, x_high, y_low, y_high,
     l.DrawLine(x_high, y_low, x_high, y_high)
     l.DrawLine(x_low, y_high, x_high, y_high)
 
-    canvas.Draw()
+    #canvas.Draw()
     canvas.SaveAs(path)
 
 
