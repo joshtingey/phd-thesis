@@ -1,31 +1,7 @@
 # phd-thesis
 
-All initial data files used to generate those found in ./data are located at /unix/chips/jtingey/data at UCL
+[![Pipeline](https://gitlab.com/JoshTingey/phd-thesis/badges/master/pipeline.svg)](https://gitlab.com/JoshTingey/phd-thesis/pipelines) [![Pipeline](https://img.shields.io/badge/thesis%20link-pdf-blue)](https://joshtingey.gitlab.io/phd-thesis/thesis.pdf)
 
-## flux
+"Multi-task Convolution Neural Networks for the CHIPS Experiment"
 
-## xsec
-
-```
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p 12 -t 1000010010 -o xsec_nuel.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p 12 -t 1000080160 -o xsec_nuel.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p -12 -t 1000010010 -o xsec_anuel.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p -12 -t 1000080160 -o xsec_anuel.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p 14 -t 1000010010 -o xsec_numu.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p 14 -t 1000080160 -o xsec_numu.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p -14 -t 1000010010 -o xsec_anumu.root
-$ gspl2root -f ./data/genie/xsecs_G1802a00000.xml -p -14 -t 1000080160 -o xsec_anumu.root
-```
-
-These files can then be downloaded for use in plotting
-
-## events
-
-
-
-## profiles
-
-- They are all at 2500MeV
-
-## digi
-
+This repository contains everything for my phd thesis. A pdf of the complete document is automatically built and can be found at the link above.
