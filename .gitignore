@@ -4,6 +4,7 @@
 *ACLiC*
 *.so
 *ipynb_checkpoints/
+notes/*.md
 
 */__pycache__/
 data/*.root
