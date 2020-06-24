@@ -5,6 +5,7 @@
 *.so
 *ipynb_checkpoints/
 notes/*.md
+build/main.pdf
 
 */__pycache__/
 data/*.root

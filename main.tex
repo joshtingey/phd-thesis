@@ -1,16 +1,10 @@
-%% For normal draft builds (figs undisplayed hence fast compile)
-%\documentclass[hyperpdf,nobind,draft,oneside]{hepthesis}
-%\documentclass[hyperpdf,nobind,draft,twoside]{hepthesis}
+%\documentclass[hyperpdf,nobind,draft,oneside]{hepthesis}  %% For normal draft builds, no figs
+%\documentclass[hyperpdf,nobind,draft,twoside]{hepthesis}  %% For normal draft builds, no figs
+%\documentclass[hyperpdf,nobind,draft,hidefrontback]{hepthesis}  %% For short draft builds
+\documentclass[hyperpdf,bindnopdf]{hepthesis}  %%For Cambridge soft-bound version
+%\documentclass[hyperpdf,oneside]{hepthesis}  %% For Cambridge hard-bound version
 
-%% For short draft builds (breaks citations by necessity)
-%\documentclass[hyperpdf,nobind,draft,hidefrontback]{hepthesis}
-
-%%For Cambridge soft-bound version
-\documentclass[hyperpdf,bindnopdf]{hepthesis}
-%% For Cambridge hard-bound version (must be one-sided)
-%\documentclass[hyperpdf,oneside]{hepthesis}
-
-%% Put package includes etc. into preamble.tex for convenience
+%% Put package includes etc... into a seperate preamble.tex to keep things tidy
 \input{preamble}
 
 %% You can set the line spacing this way
@@ -36,36 +30,32 @@
 %% Start the document
 \begin{document}
 
-%% Define the un-numbered front matter (cover pages, rubrik and table of contents)
+%% Define the un-numbered front matter
 \begin{frontmatter}
   \input{sections/1-frontmatter}
 \end{frontmatter}
 
-%% Start the content body of the thesis
+%% Define the main body of the thesis
 \begin{mainmatter}
-  %% Actually, more semantic chapter filenames are better, like "chap-bgtheory.tex"
   %\input{sections/0-common}
-  %\input{sections/2-introduction}
+  \input{sections/2-introduction}
   \input{sections/3-theory}
-  %\input{sections/4-chips}
-  %\input{sections/5-daq}
+  \input{sections/4-chips}
+  \input{sections/5-daq}
   \input{sections/6-cvn}
-  %\input{sections/7-optimisation}
-  %\input{sections/8-conclusion}
-  %% To ignore a specific chapter while working on another, making the build faster, comment it out:
-  %\input{chap4}
+  \input{sections/7-optimisation}
+  \input{sections/8-conclusion}
 \end{mainmatter}
 
-%% Produce the appendices
+%% Define the appendices
 \begin{appendices}
   \input{sections/9-appendices}
 \end{appendices}
 
-%% Produce the un-numbered back matter (e.g. colophon,
-%% bibliography, tables of figures etc., index...)
+%% Define the un-numbered back matter
 \begin{backmatter}
   \input{sections/10-backmatter}
 \end{backmatter}
 
-%% Close
+%% End document
 \end{document}
