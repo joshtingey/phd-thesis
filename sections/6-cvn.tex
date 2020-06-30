@@ -14,29 +14,36 @@ With activation function applied
 \end{equation}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_input.pdf}
+    \caption[activations short]%
+    {activations long}
     \label{fig:activations}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/6-cvn/network.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {Classic neural network architecture with neurons arrange in layers.
-        The output of one layer acts as the input to the next layer until the output is reached.}
-    \label{fig:network}
+    \centering
+    \begin{subfigure}[b]{5cm}
+        \frame{\includegraphics[width=5cm]{diagrams/6-cvn/conv_input.pdf}}
+        \label{fig:conv_input}
+    \end{subfigure}
+    %
+    \hspace{1cm}
+    %
+    \begin{subfigure}[b]{5cm}
+        \centering
+        \frame{\includegraphics[width=5cm]{diagrams/6-cvn/conv_kernel.pdf}}
+        \label{fig:conv_kernel}
+    \end{subfigure}
+
+    %\caption{conv_input and conv_kernel long}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/6-cvn/dropout.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:dropout}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
+    \caption[activations short]%
+    {activations long}
+    \label{fig:activations}
 \end{figure}
-
 
 MSE
 \begin{equation}
@@ -53,67 +60,8 @@ categorical cross-entropy
     E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
 \end{equation}
 
-\begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_diagram.jpeg}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:conv_diagram}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_operation.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:conv_operation}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/6-cvn/pooling.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:pooling}
-\end{figure}
-
-
 
 \section{Applications to HEP problems}
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/inception.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:inception}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/6-cvn/se.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:se}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\largefigwidth]{diagrams/6-cvn/pooling.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:pooling}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet.pdf}
-    \caption[CKM Fitter constraints on \alphaCKM.]%
-    {CKM Fitter constraints on \alphaCKM from combined \BToPiPi,
-        \BToRhoPi and \BToRhoRho decay analyses.}
-    \label{fig:chipsnet}
-\end{figure}
-
-
 
 \section{Story of the chapter}
 
