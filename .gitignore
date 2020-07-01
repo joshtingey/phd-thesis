@@ -4,7 +4,6 @@
 *ACLiC*
 *.so
 *ipynb_checkpoints/
-notes/*.md
 build/main.pdf
 
 */__pycache__/
