@@ -3,94 +3,6 @@
 
 \section{Deep neural network history and theory}
 
-Neuron equation
-\begin{equation}
-    z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
-\end{equation}
-
-With activation function applied
-\begin{equation}
-    a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
-\end{equation}
-
-\begin{figure}
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/network.pdf}
-    \caption[network short]{network long}
-    \label{fig:network}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/dropout.pdf}
-    \caption[dropout short]{dropout long}
-    \label{fig:dropout}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_input.pdf}
-        \caption{conv input long}
-        \label{fig:conv_input}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_kernel.pdf}
-        \caption{conv kernel long}
-        \label{fig:conv_kernel}
-    \end{subfigure}
-    \caption{conv input and kernel}
-    \label{fig:conv_input_kernel}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.65\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_valid.pdf}
-        \caption{conv valid long}
-        \label{fig:conv_valid}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.9\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_same.pdf}
-        \caption{conv same long}
-        \label{fig:conv_same}
-    \end{subfigure}
-    \caption{conv operations}
-    \label{fig:conv_operations}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
-    \caption[activations short]{activations long}
-    \label{fig:activations}
-\end{figure}
-
-\begin{figure}
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/activations.pdf}
-    \caption[activations short]{activations long}
-    \label{fig:activations}
-\end{figure}
-
-MSE
-\begin{equation}
-    E(\boldsymbol{w})=\frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-\hat{y}_{i}(\boldsymbol{w}))^{2}
-\end{equation}
-
-Binary cross-entropy
-\begin{equation}
-    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+(1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
-\end{equation}
-
-categorical cross-entropy
-\begin{equation}
-    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
-\end{equation}
-
-
 \section{Applications to HEP problems}
 
 \section{Story of the chapter}
@@ -133,8 +45,6 @@ include the x+ x- approach. But as hited at by tomothy report, for a primarilly 
 removing any distritions due to the detector shape is the most important things. Therefore, the approach of
 veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as best possible.
 
-
-
 \section{Intro, General theory and previous work}
 - Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
 This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
@@ -156,22 +66,178 @@ REF: Cern summer report in Ref.~\cite{theodore2016}
 - CHIPS implementation tellig the story
 - Explainability (ablation, clustering, layer weights etc...)
 
+\section{Equations}
+
+Neuron equation
+\begin{equation}
+    z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
+\end{equation}
+
+With activation function applied
+\begin{equation}
+    a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
+\end{equation}
+
+MSE
+\begin{equation}
+    E(\boldsymbol{w})=\frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-\hat{y}_{i}(\boldsymbol{w}))^{2}
+\end{equation}
+
+Binary cross-entropy
+\begin{equation}
+    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+(1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
+\end{equation}
+
+categorical cross-entropy
+\begin{equation}
+    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
+\end{equation}
+
 \section{Diagrams}
 
+- Basic neural network diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/network.pdf}
+    \caption[network short]{network long}
+    \label{fig:network}
+\end{figure}
+- Neural network with dropout diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/dropout.pdf}
+    \caption[dropout short]{dropout long}
+    \label{fig:dropout}
+\end{figure}
+- Activation functions
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
+    \caption[activations short]{activations long}
+    \label{fig:activations}
+\end{figure}
+- Gradient descent diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/gradient_descent.pdf}
+    \caption[gradient descent short]{gradient descent long}
+    \label{fig:gradient_descent}
+\end{figure}
+- Convolutional kernal and input
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_input.pdf}
+        \caption{conv input long}
+        \label{fig:conv_input}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_kernel.pdf}
+        \caption{conv kernel long}
+        \label{fig:conv_kernel}
+    \end{subfigure}
+    \caption{conv input and kernel}
+    \label{fig:conv_input_kernel}
+\end{figure}
+- Convolutional valid and same process
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.65\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_valid.pdf}
+        \caption{conv valid long}
+        \label{fig:conv_valid}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_same.pdf}
+        \caption{conv same long}
+        \label{fig:conv_same}
+    \end{subfigure}
+    \caption{conv operations}
+    \label{fig:conv_operations}
+\end{figure}
+- Pooling diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/pooling.pdf}
+    \caption[pooling short]{pooling long}
+    \label{fig:pooling}
+\end{figure}
+- Early stopping diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/early_stopping.pdf}
+    \caption[early stopping short]{early stopping long}
+    \label{fig:early_stopping}
+\end{figure}
+- Chipsnet architecture diagrams
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet.pdf}
+    \caption[chipsnet short]{chipsnet long}
+    \label{fig:chipsnet}
+\end{figure}
+- Squeeze-exitation block diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/se.pdf}
+    \caption[se short]{se long}
+    \label{fig:se}
+\end{figure}
+- Resnet diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/resnet_unit.png}
+    \caption[resnet unit short]{resnet unit long}
+    \label{fig:resnet_unit}
+\end{figure}
+- Inception block diagram
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/inception.pdf}
+    \caption[inception short]{inception long}
+    \label{fig:se}
+\end{figure}
 - Example event hit maps, showing the different possible channels for different types of event.
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/example_image_1.pdf}
+    \caption[example image 1 short]{example image 1 long}
+    \label{fig:example_image_1}
+\end{figure}
+- Example hough hit map
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/example_hough_1.pdf}
+    \caption[example hough 1 short]{example hough 1 long}
+    \label{fig:example_hough_1}
+\end{figure}
+- Arbitrary vs 8-bit precision for all the channels
+\begin{figure}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/8_bit_range.pdf}
+    \caption[8 bit range short]{8 bit range long}
+    \label{fig:8_bit_range}
+\end{figure}
+- Example activation maps for a few events (explain)
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/activations.pdf}
+    \caption[activations short]{activations long}
+    \label{fig:activations}
+\end{figure}
+- PCA plots, nicely coloured
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/pca.pdf}
+    \caption[pca short]{pca long}
+    \label{fig:pca}
+\end{figure}
+- t-SNE plots, nicely coloured
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/tsne.pdf}
+    \caption[tsne short]{tsne long}
+    \label{fig:tsne}
+\end{figure}
+
 - True neutrino energy distributions for different categories for energy estimation.
-- Network architecture plots.
 - Neutrino energy and estimated neutrino energy distributions on same plots.
 - reco-true/true neutrino energy distributions for the different event types, QEL, DIS, RES etc...
 - Plot comparing lepton energy reconstruction between old reco and new estimation, just for nice CC events.
-- Individual block diagrams for the different models I try + a squeeze-exitation diagram
-- Arbitrary vs 8-bit precision for all the channels
-- Example activation maps for a few events (explain)
 - Number of events in each category within the training sample
 - Training loss and accuracy vs epoch/iteration
 - Classifier output plots
 - Table of the final number of expected events and efficiency and purity of the signal at the chosen cut value (nuel and numu)
-- t-SNE and PCA plots, nicely coloured
 - Example events from the t-SNE plot, showing the different types
 - Confusion matrices
 - Parrallel coordinates plots for tuning the hyperparameters
@@ -200,9 +266,11 @@ Daya bay paper in Ref.~\cite{racah2016}
 SHiP GAN simulation paper in Ref.~\cite{ahdida2019}
 New ideas with x+ x- mapping in Ref.~\cite{berns2020}
 DUNE TDR in Ref.~\cite{abi2020}
+DUNE CVN paper in Ref.~\cite{collaboration2020}
 Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
 Original t-SNE paper in Ref.~\cite{maaten2008}
 Original 'dropout' paper in Ref.~\cite{hinton2012}
+Original Batch normalisation paper in Ref.~\cite{ioffe2015}
 VGG paper in Ref.~\cite{simonyan2014}
 Improved resnet paper in Ref.~\cite{he2016}
 Inception-resnet paper in Ref.~\cite{szegedy2016}
