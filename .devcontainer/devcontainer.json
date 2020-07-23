@@ -2,25 +2,22 @@
 	"name": "phd-thesis",
 	"context": "..",
 	"dockerFile": "Dockerfile",
-
 	// Use the sudo user 'josh'
 	"remoteUser": "josh",
-
 	// Run a simple python version command as a check after start
 	"postCreateCommand": "python --version",
-
 	// Forward default jupyterlab port
-	"forwardPorts": [8000],
-
+	"forwardPorts": [
+		8000
+	],
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
+	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"python.pythonPath": "/opt/conda/bin/python",
 		"python.linting.enabled": true,
 		"python.linting.pylintEnabled": true,
 		"python.linting.pylintPath": "/opt/conda/bin/flake8"
 	},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"james-yu.latex-workshop",
@@ -28,10 +25,12 @@
 		"ms-python.python",
 		"gruntfuggly.todo-tree"
 	],
-
 	"runArgs": [
-        "--net", "host", 
-        "-e", "DISPLAY=${env:DISPLAY}",
-        "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
+		"--net",
+		"host",
+		"-e",
+		"DISPLAY=${env:DISPLAY}",
+		"-v",
+		"/tmp/.X11-unix:/tmp/.X11-unix"
 	]
 }

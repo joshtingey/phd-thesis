@@ -1,43 +1,54 @@
 \chapter{Data acquisition for CHIPS}
 \label{chap:daq}
 
+\begin{comment}
+TODO: Write the story of the DAQ chapter
 
-\section{Things to talk about}
+TODO: Write the DAQ chapter section outline
 
+TODO: Add all the sections below
 
-\section{Diagrams}
+TODO: Read through all DAQ related papers and make general notes in appropriate subsections
+\end{comment}
 
-\begin{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                 INTRODUCTION                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:daq_intro}
+
+TODO: Add labels to picture diagrams in a tasteful way
+\begin{figure} % MONITORING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.png}
     \caption[monitoring short]{monitoring long}
     \label{fig:monitoring}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % WHITE-RABBIT SWITCH DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/5-daq/wr_switch.jpg}
     \caption[wr switch short]{wr switch long}
     \label{fig:wr_switch}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/wr_gm.jpg}
     \caption[wr gm short]{wr gm long}
     \label{fig:wr_gm}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % WR-LEN DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/wr_len.jpg}
     \caption[wr len short]{wr len long}
     \label{fig:wr_len}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % WHITE-RABBIT SYNC DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/sync.jpg}
     \caption[sync short]{sync long}
     \label{fig:sync}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[htp]
+\begin{figure} % NIKHEF PMT AND CLB DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \subcaptionbox{nikhef pmt\label{fig:nikhef_pmt}}{%
         \includegraphics[height=10cm]{diagrams/5-daq/nikhef_pmt.jpg}%
@@ -47,9 +58,9 @@
         \includegraphics[height=10cm]{diagrams/5-daq/clb.jpg}%
     }
     \caption{The caption}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[htp]
+\begin{figure} % PMT ASSEMBLY DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \subcaptionbox{pmt disassembled\label{fig:pmt_disassembled}}{%
         \includegraphics[height=5cm]{diagrams/5-daq/pmt_disassembled.jpg}%
@@ -59,27 +70,27 @@
         \includegraphics[height=5cm]{diagrams/5-daq/pmt_assembled.jpg}%
     }
     \caption{The caption}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CLB ROCKETS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/rockets.jpg}
     \caption[rockets short]{rockets long}
     \label{fig:rockets}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % NIKHEF PLANE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/single_plane.jpg}
     \caption[single plane short]{single plane long}
     \label{fig:single_plane}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % TOT DIAGRAM DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/tot.pdf}
     \caption[tot short]{tot long}
     \label{fig:tot}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[htp]
+\begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \subcaptionbox{beaglebone\label{fig:beaglebone}}{%
         \includegraphics[height=7cm]{diagrams/5-daq/beaglebone.jpg}%
@@ -89,29 +100,24 @@
         \includegraphics[angle=90, height=7cm]{diagrams/5-daq/danout.jpg}%
     }
     \caption{The caption}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % BADGER BOARD DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[angle=90,origin=c,width=\textwidth]{diagrams/5-daq/badger.jpg}
     \caption[badger short]{badger long}
     \label{fig:badger}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Madison Diagrams
-- Nikhef Diagrams
-- Hut Diagrams
-- Jelly box Diagrams
-- Electronics box Diagrams
-- Manifold diagram, with electronics box layout
-- DAQ software diagram
-- Finite state machine diagram
-- Monitoring diagram elastic stack
-- Spill server diagram, probably combined with another diagram
+DIAGRAM: Madison hardware diagram
+DIAGRAM: Nikhef hardware diagram
+DIAGRAM: Hut Diagram + Jelly box diagram + EC diagrams
+DIAGRAM: Manifold layout, box layout in detector
+DIAGRAM: Software diagram
+DIAGRAM: Finite state machine diagram
+DIAGRAM: Monitoring diagram
+DIAGRAM: Spill server/Fermilab diagram
 
-\section{References}
-
-- WR Papers
-- km3net daq Papers
-- PMT time resolution Papers
-
-\section{Reference notes}
+REF: White-rabbit papers
+REF: km3net DAQ papers
+REF: PMT time resolution papers
+REF: Elasticsearch paper

@@ -1,1 +1,0 @@
-# DAQ chapter plan

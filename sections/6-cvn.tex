@@ -1,11 +1,8 @@
 \chapter{A convolutional neural network for CHIPS}
 \label{chap:cvn}
 
-\section{Deep neural network history and theory}
-
-\section{Applications to HEP problems}
-
-\section{Story of the chapter}
+\begin{comment}
+STORY OF THE CHAPTER
 
 There are many standard ways that event classification and paramter (mainly energy) estimation are
 usually done in HEP. These mainly include the reconstruction of objects and their associated parameters
@@ -45,85 +42,103 @@ include the x+ x- approach. But as hited at by tomothy report, for a primarilly 
 removing any distritions due to the detector shape is the most important things. Therefore, the approach of
 veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as best possible.
 
-\section{Intro, General theory and previous work}
+Introduction (tell them what you are going to tell them)
+- Previous applications in HEP
+
+Theory (tell them what they need to know to understand)
+- How basic neural networks work
+- How convolutional neural networks build ontop of this
+- The problem of overfitting
+
+
+- Previous applications in HEP
+- A baseline implementation for CHIPS
+- Conclusion (tell them what you told them)
+
+TODO: Read through all CVN related papers and make general notes in appropriate subsections
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                 INTRODUCTION                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:cvn_intro}
 - Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
-This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
+- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
 - Previous work in HEP has applied deep learning to a variety of problems...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                    Theory                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory}
+\label{sec:cvn_theory}
+- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even neutrino event classification if
+you know what to look for. But we will have way too much data, so need to train a computer to do this task for us.
 - A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately. Give REF for this.
 - Conv is a set of 'filters' that when applied via scanning across an input image result in a feature map
 - Pooling used as each layer requires less complexity and it is less important about the location and that the feature exists.
+- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis space that tries fewer hypotheses from it is less likely to overfit than one that tries more hypotheses from a smaller space.
+- All that "deep" really means is just many many hidden layers, which can encode complex structures more efficienctly.
+- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
 
-\section{A CVN for \chips}
-
-- Approaches in the past for event classification using CNNs for water cherenkov detectors have taken a few Approaches
-to generating the input image representation.
-- Projecting onto a 2d surface "outside" the detector
-REF: Cern summer report in Ref.~\cite{theodore2016}
-
-\section{Things to talk about}
-- Convolutional neural network theory and history
-- Recent uses in experiments
-- CHIPS implementation tellig the story
-- Explainability (ablation, clustering, layer weights etc...)
-
-\section{Equations}
-
-Neuron equation
-\begin{equation}
+\begin{equation} % NETWORK BASIC EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
-\end{equation}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-With activation function applied
-\begin{equation}
+\begin{equation} % NETWORK ACTIVATION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
-\end{equation}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-MSE
-\begin{equation}
-    E(\boldsymbol{w})=\frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-\hat{y}_{i}(\boldsymbol{w}))^{2}
-\end{equation}
+\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%
+    E(\boldsymbol{w})=
+    \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
+    \hat{y}_{i}(\boldsymbol{w}))^{2}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Binary cross-entropy
-\begin{equation}
-    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+(1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
-\end{equation}
+\begin{equation} % BINARY CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    E(\boldsymbol{w})=
+    -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+
+    (1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-categorical cross-entropy
-\begin{equation}
-    E(\boldsymbol{w})=-\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
-\end{equation}
+\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%
+    E(\boldsymbol{w})=
+    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+
+    (1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Diagrams}
+EQUATION: Batch-normalisation equations
+EQUATION: Back propogation equations derivation and explanation
 
-\begin{figure}
+\begin{figure} % BASIC NETWORK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/network.pdf}
     \caption[network short]
     {network long}
     \label{fig:network}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % DROPOUT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/dropout.pdf}
     \caption[dropout short]
     {dropout long}
     \label{fig:dropout}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % ACTIVATIONS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
     \caption[activations short]
     {activations long}
     \label{fig:activations}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % GRADIENT DESCENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/gradient_descent.pdf}
     \caption[gradient descent short]
     {gradient descent long}
     \label{fig:gradient_descent}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CONV INPUTS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
@@ -140,9 +155,10 @@ categorical cross-entropy
     \end{subfigure}
     \caption{conv input and kernel}
     \label{fig:conv_input_kernel}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+TODO: combine the same and valid conv operations into the same diagram
+\begin{figure} % CONV OPERATION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \begin{subfigure}[b]{0.71\textwidth}
         \centering
@@ -159,21 +175,36 @@ categorical cross-entropy
     \end{subfigure}
     \caption{conv operations}
     \label{fig:conv_operations}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+
+\begin{figure} % POOLING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/pooling.pdf}
     \caption[pooling short]
     {pooling long}
     \label{fig:pooling}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+
+\begin{figure} % EARLY STOPPING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/early_stopping.pdf}
     \caption[early stopping short]
     {early stopping long}
     \label{fig:early_stopping}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                A CNN FOR CHIPS                                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{A CNN for CHIPS}
+\label{sec:cvn_cnn_for_chips}
+- We do not predefine the filters, they are also trained to extact the important features from the event images
+- Approaches in the past for event classification using CNNs for water cherenkov detectors have taken a few Approaches to generating the input image representation.
+- Projecting onto a 2d surface "outside" the detector
+- Cern summer report in Ref.~\cite{theodore2016}
+- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
+- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these will have different energy resolutions and systematic uncertainties, so seperation can provide increased sensitivity.
 
 \begin{figure}
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet.pdf}
@@ -203,61 +234,81 @@ categorical cross-entropy
     \label{fig:se}
 \end{figure}
 
+TODO: Get the detailed descriptions for the example events to put in the captions
 \begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/example_image_1.pdf}
-    \caption[example image 1 short]
-    {example image 1 long}
-    \label{fig:example_image_1}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ccqel_event.pdf}
+    \caption[explore nuel ccqel event short]
+    {explore nuel ccqel event long}
+    \label{fig:explore_nuel_ccqel_event}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/example_hough_1.pdf}
-    \caption[example hough 1 short]
-    {example hough 1 long}
-    \label{fig:example_hough_1}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ccdis_event.pdf}
+    \caption[explore numu ccdis event short]
+    {explore numu ccdis event long}
+    \label{fig:explore_numu_ccdis_event}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/8_bit_range.pdf}
-    \caption[8 bit range short]
-    {8 bit range long}
-    \label{fig:8_bit_range}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ncdis_event.pdf}
+    \caption[explore numu ncdis event short]
+    {explore numu ncdis event long}
+    \label{fig:explore_numu_ncdis_event}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/activations.pdf}
-    \caption[activations short]
-    {activations long}
-    \label{fig:activations}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_event.pdf}
+    \caption[explore cosmic event short]
+    {explore cosmic event long}
+    \label{fig:explore_cosmic_event}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/pca.pdf}
-    \caption[pca short]
-    {pca long}
-    \label{fig:pca}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_hough_events.pdf}
+    \caption[example hough events short]
+    {example hough events long}
+    \label{fig:example_hough_events}
 \end{figure}
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/tsne.pdf}
-    \caption[tsne short]
-    {tsne long}
-    \label{fig:tsne}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/expore_8_bit_range.pdf}
+    \caption[explore 8 bit range short]
+    {explore 8 bit range long}
+    \label{fig:explore_8_bit_range}
 \end{figure}
 
-- True neutrino energy distributions for different categories for energy estimation.
-- Neutrino energy and estimated neutrino energy distributions on same plots.
-- reco-true/true neutrino energy distributions for the different event types, QEL, DIS, RES etc...
-- Plot comparing lepton energy reconstruction between old reco and new estimation, just for nice CC events.
-- Number of events in each category within the training sample
-- Training loss and accuracy vs epoch/iteration
-- Classifier output plots
-- Table of the final number of expected events and efficiency and purity of the signal at the chosen cut value (nuel and numu)
-- Example events from the t-SNE plot, showing the different types
-- Confusion matrices
-- Parrallel coordinates plots for tuning the hyperparameters
-- Time taken comparison with old reconstruction (just inference time for all stages)
-- Final energy distribution of selected events given a number of years running
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_tsne.pdf}
+    \caption[final cosmic tsne short]
+    {final cosmic tsne long}
+    \label{fig:final_cosmic_tsne}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne.pdf}
+    \caption[final beam tsne short]
+    {final beam tsne long}
+    \label{fig:final_beam_tsne}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne_events.pdf}
+    \caption[final beam tsne events short]
+    {final beam tsne events long}
+    \label{fig:final_beam_tsne_events}
+\end{figure}
+
+DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
+DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
+INFO: Table of the final number of expected events and efficiency and purity of the signal at the chosen cut value (nuel and numu)
+DIAGRAM: Parrallel coordinates plots for tuning the hyperparameters
+INFO: Time taken comparison with old reconstruction (just inference time for all stages)
+DIAGRAM: Final stacked reconstructed energy distribution of selected events given a number of years running
+INFO: Super-k/Dune/Nova comparison numbers for effeciencies and energy resolutions etc...
+DIAGRAM: Table of how succesive cuts affect the selection of different event types
+DIAGRAM: CP-Violation sensitivity from GLoBES with the new fluxes, efficiencies, smearing matrices etc... get from Tom/John
+
+- In the future we could do semantic segmentation or use GANS
 
 \section{References}
 
@@ -302,7 +353,3 @@ AlexNet, lowering the error rate on the image classification task ImageNet by 12
 - Such was the rapid pace of advance afterwards that the ResNet model acheived a 3.57\percent error just three years later.
 - Many high level libraries have now been formed, predominently led by Tensorflow (from google) and pyTorch (from facebook) making it easier to quickly code and implemenetd DNNs.
 - Neural networks are neural-inspired nonlinear models for supervised learning. Constructed from the basic building blocks of a "neuron".
--
-
-
-\section{Reference notes}

@@ -1,16 +1,33 @@
 \chapter{The \chips R\&D Project}
 \label{chap:chips}
 
-\section{Things to talk about}
+\begin{comment}
+TODO: Write the story of the chips chapter
 
+TODO: Write the chips chapter section outline
+
+TODO: Add all the sections below
+
+TODO: Read through all CHIPS related papers and make general notes in appropriate subsections
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                 INTRODUCTION                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:chips_intro}
 - General overview of why a large, cheap detector like CHIPS is needed
-PLOT:
 - Brief overview of what CHIPS could add to physics, what it can detect etc...
 - general non-detailed description of the general principles behind CHIPS
 
 REF: Hyper-k letter of intent~\cite{abe2011}
 REF: Dune CDR~\cite{acciarri2016}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                           NEUTRINO EVENTS AT CHIPS                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Events for the CHIPS detector}
+\label{sec:chips_events}
 - First how beam water Cherenkov detect events
 - Describe the Numi beam
 - An aside on the off-axis effect
@@ -23,139 +40,138 @@ REF: Dune CDR~\cite{acciarri2016}
 - Brief description of how PMTs detect the cherenkov light
 - CHIPS detector simulation
 - Example plots of events for different signature types of events...
+- We always need to consider the two main signal channels muon dissapearance and electon appearance, and their main backgrounds
+NC 1pi+- and 1pi0 respectively.
+
+EQUATION: Off-axis effect equations
+EQUATION: Cherenkov effect equation
 
 - The CHIPS-M detector and conclusions
-
 - The CHIPS-10 detector
 - General structure, how it all holds together
 - How it is deployed/extended
 - How it detects the Cherenkov light with PMTs arranged in planes
 - How the construction went
 - Current status and future plans
-
 - The tau neutrino component is negligible and not predicted by the simulation
 
-\section{Diagrams}
-
-\begin{figure}
+\begin{figure} % CHIPS SUNRISE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/sunrise.jpeg}
     \caption[Sunrise over the \chips detector.]
     {Sunrise over the \chips detector structure. The perfectly calm pit water
         produces the mirror effect.}
     \label{fig:sunrise}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS FROM THE SKY DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/from_the_sky.jpg}
     \caption[Picture of the \chips detector from the air.]
     {Picture of the \chips detector taken from an airplane. The Wentworth 2W pit is in the lower
         half of the image, with the half built detector, huts and construction containers visable.}
     \label{fig:from_the_sky}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % PIT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/location.png}
     \caption[Satellite view of the Wentworth 2W mine pit.]
     {Satellite view of the Wentworth 2W mine pit in northern Minnesota.
         The size markers are shown for scale. Image taken from Ref.\cite{adamson2013}.}
     \label{fig:location}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % PIT CONTOUR DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/contour_map.pdf}
     \caption[Topographic map of the Wentworth 2W mine pit.]
     {Topographic map of the Wentworth 2W mine pit. The contours are given in intervals of 5 feet,
         with the central areas of the pit having a depth of 50m. Image taken from Ref.\cite{adamson2013}.}
     \label{fig:contour_map}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS-M DIAGRAM %%%%%$$$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/chips_m.png}
     \caption[Picture of the \chipsm detector.]
     {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to the
         bottom endcap of the detector.}
     \label{fig:chips_m}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS RENDER 1 DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/chips_render_1.png}
     \caption[Graphical rendering of the \chipsfive detector with liner cutaway.]
     {Graphical rendering of the \chipsfive detector with a section of the liner cutaway.
         The bottom endcap and wall planes are visable,
         as well as the top endcap structure and floatation.}
     \label{fig:chips_render_1}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS RENDER 2 DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/chips_render_2.png}
     \caption[Graphical rendering of the \chipsfive detector structure.]
     {Graphical rendering of the \chipsfive detector structure.}
     \label{fig:chips_render_2}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/numi_map.png}
     \caption[Map of detector locations in the \numi beam.]
     {Map of the \chips, \nova and \minos locations in the \numi beam showing the expected
         neutrino event rates, assuming no oscillations. Lines of constant L/E are shown by the contours.
         Image taken from Ref.\cite{adamson2013}.}
     \label{fig:numi_map}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % NUMI BEAM DIAGRAM %%$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
     \caption[Schematic of the \numi beam.]
     {Schematic of the main components of the \numi beam (not to scale) shown with their dimensions.
         The horns control if the beam is in neutrino or anti-neutrino mode. Image taken from Ref.\cite{adamson2016}.}
     \label{fig:numi_beam}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % OFF-AXIS FLUX DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/numi_axis.png}
     \caption[Neutrino flux for different detectors in the \numi beam.]
     {Neutrino flux for different detectors in the \numi beam.
         The difference is caused by the different off-axis angles.
         Image taken from Ref.\cite{adamson2013}.}
     \label{fig:numi_axis}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CHIPS FLUX DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/flux.png}
     \caption[flux short]
     {}
     \label{fig:flux}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % CROSS-SECTION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/xsec_cc_nu_e_O16.png}
     \caption[xsec cc nu e O16 short]
     {xsec cc nu e O16 long}
     \label{fig:xsec_cc_nu_e_O16}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/4-chips/sim_event.png}
     \caption[sim event short]
-    {sim event long}
+    {$\nu_{\mu}$ CC quasi-elastic event with a single muon final state particle of energy 1770.24 MeV}
     \label{fig:sim_event}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % COSMICS AROUND DETECTOR DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/cosmics.png}
     \caption[cosmics short]
     {cosmics long}
     \label{fig:cosmics}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- POM diagram
-- Cosmic rate given the water overburden diagram
-- CHIPS fiducial volume diagram with dimensions around the sides
-- CHIPS expected event rate plot with and without oscillations
-- Cherenkov effect diagram
-- Floating dock diagram
-- Deployment diagram
-
-\section{References}
+DIAGRAM: POM diagram
+DIAGRAM: Cosmic rate given the water overburden diagram
+DIAGRAM: CHIPS fiducial volume diagram with dimensions around the sides
+DIAGRAM: CHIPS expected event rate plot with and without oscillations
+DIAGRAM: Cherenkov effect diagram
+DIAGRAM: Floating dock diagram
+DIAGRAM: Deployment diagram
 
 - CHIPS letter of intent~\cite{adamson2013}
 - CHIPS attenuation length paper~\cite{amat2017}
@@ -165,10 +181,7 @@ REF: Dune CDR~\cite{acciarri2016}
 - Maciej prototype detection unit~\cite{pfutznerProto2017}
 - Sensitivity Determination in the CHIPS Neutrino Detector~\cite{adde2016}
 - The Numi beam big paper~\cite{adamson2016}
-- Icecube DOM paper
-- km3net General paper
-- Km3net optical module paper
-- Nemo-3 PMT paper
-
-\section{Reference notes}
-
+REF: Icecube DOM paper
+REF: km3net General paper
+REF: Km3net optical module paper
+REF: Nemo-3 PMT paper
