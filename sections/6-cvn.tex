@@ -66,6 +66,14 @@ TODO: Read through all CVN related papers and make general notes in appropriate 
 - Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
 - This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
 - Previous work in HEP has applied deep learning to a variety of problems...
+- DUNE classifies neutrino ineractions in the DUNE FD using a CVN.
+- DUNE uses 500*500 pixel images for each of the three readout views of the LArTPC.
+- They just uses events with vertex within the detector iducial volume.
+- Events that contain < 10 non-zero pixels are removed, similar to my removal of low hit events.
+- They use a SE-ResNet architecture, with three branches for each inut view that are then concatenated for the deeper layers of the network.
+- They do multi-task learning, with 7 tasks.
+- Trained on MC sample of events for the DUNE unosicllated FD neutrino event rate distribution.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                    Theory                                                      %
@@ -205,6 +213,14 @@ TODO: combine the same and valid conv operations into the same diagram
 - Cern summer report in Ref.~\cite{theodore2016}
 - Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
 - Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these will have different energy resolutions and systematic uncertainties, so seperation can provide increased sensitivity.
+- See signal interactions peaked closely near score values of unity and the backgrounds lie close to the zero score as expected.
+- DUNE chose their selection cut to maximise the oscillation analysis sensitivity, determining sin(delta-cp) != 0
+- Can choose many different output configurations/categorisations for the events.
+- Should you combined into a big list of categories, should you combine the NC.
+- Should you learn as seperate tasks, turns out the choice here has a decent sized impact on the final performance.
+- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
+- As the different final states will have different energy resolutions and sytematic uncertainties, it may be possible for a future analysis to improve the oscillation paramter sensitivity by indentifying subsamples with specific topologies.
+- Primary partile scores can be combined to give compounded scores for the exclusive final state selections.
 
 \begin{figure}
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet.pdf}
@@ -307,8 +323,27 @@ DIAGRAM: Final stacked reconstructed energy distribution of selected events give
 INFO: Super-k/Dune/Nova comparison numbers for effeciencies and energy resolutions etc...
 DIAGRAM: Table of how succesive cuts affect the selection of different event types
 DIAGRAM: CP-Violation sensitivity from GLoBES with the new fluxes, efficiencies, smearing matrices etc... get from Tom/John
+DIAGRAM: Plots of exclusive state predictions by multiplying different score outputs.
 
+
+\section{Explain}
+- For all the t-SNE stuff
+- There have been plently of attempts at visualising high-dimensional data on a 2/3 dimensional map, including Sammon mapping, Isomap, Locally Linear Embedding, Stochastic Neighbour Embedding.
+- Older implementations tended to cluster all data points towards the centre of the map and proved difficult to optimise.
+- You basically set a summed probability between all points in the low-dimensional space to a summed probability between all points in the high-dimensional space.
+- t-SNE uses the student-t distribution (with a heavy tail) in the low-dimensional space to calculate the probability. This alleviates both the crowding problem and is easier to optimise.
+- Optimisation uses a simple momentum term, plus two new ideas. "Early compression" which forces map points to stay close to each other at the start of optimisation, it is then easier for clusters to move through each other and explore all possible global organisations of the data, this is implemented as an L2-penalty term proportional to the sum of squared distances from the origin, this is then removed at an iteration given as input. Secondly, "Early exaggeration" which creates tight widely seperated clusters.
+
+
+- Nova gets about ~7percent energy resolution for signal events
+in Ref.~\cite{jiang2019}
+- Fitqun gets ~20cm vertex position resolution for nuel CCQE events
+- Fitqun gets ~16cm vertex position resolution for numu CCQE events
+- Fitqun gets 5.39percent to 2.58percent lepton energy resolution for nuel CCQE events
+- Fitqun gets ~2.5percent lepton energy resolution for numu CCQE events
+- Note all the stuff in super-k happens at lower energies ~<1.4GeV
 - In the future we could do semantic segmentation or use GANS
+
 
 \section{References}
 
