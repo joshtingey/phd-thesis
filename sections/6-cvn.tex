@@ -1,46 +1,52 @@
 \chapter{A convolutional neural network for CHIPS}
 \label{chap:cvn}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                              PLAN                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{comment}
-STORY OF THE CHAPTER
+STORY OF THE CHAPTER There are many standard ways that event classification and paramter (mainly
+energy) estimation are usually done in HEP. These mainly include the reconstruction of objects and
+their associated parameters wether these are clusters, tracks, jets or cherenkov rings. Typically
+these along with other constructed features are then passed through a simple machine learning
+model for event or particle classification, or combined in some other way for energy estimation.
 
-There are many standard ways that event classification and paramter (mainly energy) estimation are
-usually done in HEP. These mainly include the reconstruction of objects and their associated parameters
-wether these are clusters, tracks, jets or cherenkov rings. Typically these along with other constructed
-features are then passed through a simple machine learning model for event or particle classification, or
-combined in some other way for energy estimation.
+While this has worked leveraging the enormous amount of work in machine learning especially deep
+learning surely would prove valuable. The key thing that has been done is to move away from human
+engineered features to machine learning models that discover the underlying features that work
+best in clasifiying of regressing a particualar task.
 
-While this has worked leveraging the enormous amount of work in machine learning especially deep learning
-surely would prove valuable. The key thing that has been done is to move away from human engineered features
-to machine learning models that discover the underlying features that work best in clasifiying of regressing
-a particualar task.
+Water chernkov detectors are especially paired to this task as the output from our detectors is
+essentially an 'image' of the event and so classification models that work well on images shoud
+work well on seperating our types of events.
 
-Water chernkov detectors are especially paired to this task as the output from our detectors is essentially
-an 'image' of the event and so classification models that work well on images shoud work well on
-seperating our types of events.
+Firstly, the principle issue with matching water cherenkov detectors and deep learning is
+representing the cylindrical detector output of either a 2d flat map that a typically conv network
+can use as input of use a more complicated graph network approach as some other people have tried.
+Typically people have just ignored the endcaps, but this is not optimal as these contain nearing
+half the detected light in a standard CHIPS detector. Other appraoches include the x+ x- approach.
+But as hited at by tomothy report, for a primarilly event classification task, removing any
+distritions due to the detector shape is the most important things. Therefore, the approach of
+veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as
+best possible.
 
-Firstly, the principle issue with matching water cherenkov detectors and deep learning is representing the cylindrical
-detector output of either a 2d flat map that a typically conv network can use as input of use a more complicated
-graph network approach as some other people have tried. Typically people have just ignored the endcaps, but
-this is not optimal as these contain nearing half the detected light in a standard CHIPS detector. Other appraoches
-include the x+ x- approach. But as hited at by tomothy report, for a primarilly event classification task,
-removing any distritions due to the detector shape is the most important things. Therefore, the approach of
-veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as best possible.
-
-The hough space is used to find this vertex and direction from which the images are produces, so it also made sense
-to include this along with time as a seperate channel in the output. You can see fro the vertext position is best. Using
-a more unformly distributes sample of events leads to a greater abiity to distinguish the types which is important
-for subsequant energy reconstruction.
+The hough space is used to find this vertex and direction from which the images are produces, so
+it also made sense to include this along with time as a seperate channel in the output. You can
+see
+fro the vertext position is best. Using a more unformly distributes sample of events leads to a
+greater abiity to distinguish the types which is important for subsequant energy reconstruction.
 
 Many possible models have been developed for convolutional neural networks over th years.
 
-Firstly, the principle issue with matching water cherenkov detectors and deep learning is representing the cylindrical
-detector output of either a 2d flat map that a typically conv network can use as input of use a more complicated
-graph network approach as some other people have tried. Typically people have just ignored the endcaps, but
-this is not optimal as these contain nearing half the detected light in a standard CHIPS detector. Other appraoches
-include the x+ x- approach. But as hited at by tomothy report, for a primarilly event classification task,
-removing any distritions due to the detector shape is the most important things. Therefore, the approach of
-veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as best possible.
+Firstly, the principle issue with matching water cherenkov detectors and deep learning is
+representing the cylindrical detector output of either a 2d flat map that a typically conv network
+can use as input of use a more complicated graph network approach as some other people have tried.
+Typically people have just ignored the endcaps, but this is not optimal as these contain nearing
+half the detected light in a standard CHIPS detector. Other appraoches include the x+ x- approach.
+But as hited at by tomothy report, for a primarilly event classification task, removing any
+distritions due to the detector shape is the most important things. Therefore, the approach of
+veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as
+best possible.
 
 Introduction (tell them what you are going to tell them)
 - Previous applications in HEP
@@ -58,9 +64,9 @@ Theory (tell them what they need to know to understand)
 TODO: Read through all CVN related papers and make general notes in appropriate subsections
 \end{comment}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                 INTRODUCTION                                                   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                          INTRODUCTION                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:cvn_intro}
 - Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
@@ -75,9 +81,9 @@ TODO: Read through all CVN related papers and make general notes in appropriate 
 - Trained on MC sample of events for the DUNE unosicllated FD neutrino event rate distribution.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                    Theory                                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                            Theory                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
 \label{sec:cvn_theory}
 - Take insights from neuroscience. The human eye can do remarkably well at image recognition, even neutrino event classification if
@@ -89,64 +95,64 @@ you know what to look for. But we will have way too much data, so need to train 
 - All that "deep" really means is just many many hidden layers, which can encode complex structures more efficienctly.
 - They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
 
-\begin{equation} % NETWORK BASIC EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation} % NETWORK BASIC EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
-\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{equation} % NETWORK ACTIVATION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation} % NETWORK ACTIVATION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
-\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     E(\boldsymbol{w})=
     \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
     \hat{y}_{i}(\boldsymbol{w}))^{2}
-\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{equation} % BINARY CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation} % BINARY CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     E(\boldsymbol{w})=
     -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+
     (1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
-\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     E(\boldsymbol{w})=
-    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}(\boldsymbol{w})+
-    (1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
-\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
+    (\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 EQUATION: Batch-normalisation equations
 EQUATION: Back propogation equations derivation and explanation
 
-\begin{figure} % BASIC NETWORK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % BASIC NETWORK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/network.pdf}
     \caption[network short]
     {network long}
     \label{fig:network}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % DROPOUT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % DROPOUT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/dropout.pdf}
     \caption[dropout short]
     {dropout long}
     \label{fig:dropout}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % ACTIVATIONS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % ACTIVATIONS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
     \caption[activations short]
     {activations long}
     \label{fig:activations}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % GRADIENT DESCENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % GRADIENT DESCENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/gradient_descent.pdf}
     \caption[gradient descent short]
     {gradient descent long}
     \label{fig:gradient_descent}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % CONV INPUTS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % CONV INPUTS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
@@ -163,10 +169,10 @@ EQUATION: Back propogation equations derivation and explanation
     \end{subfigure}
     \caption{conv input and kernel}
     \label{fig:conv_input_kernel}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TODO: combine the same and valid conv operations into the same diagram
-\begin{figure} % CONV OPERATION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % CONV OPERATION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \centering
     \begin{subfigure}[b]{0.71\textwidth}
         \centering
@@ -183,28 +189,28 @@ TODO: combine the same and valid conv operations into the same diagram
     \end{subfigure}
     \caption{conv operations}
     \label{fig:conv_operations}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{figure} % POOLING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % POOLING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/pooling.pdf}
     \caption[pooling short]
     {pooling long}
     \label{fig:pooling}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{figure} % EARLY STOPPING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % EARLY STOPPING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/early_stopping.pdf}
     \caption[early stopping short]
     {early stopping long}
     \label{fig:early_stopping}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                A CNN FOR CHIPS                                                 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                          A CNN FOR CHIPS                                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A CNN for CHIPS}
 \label{sec:cvn_cnn_for_chips}
 - We do not predefine the filters, they are also trained to extact the important features from the event images
@@ -222,97 +228,97 @@ TODO: combine the same and valid conv operations into the same diagram
 - As the different final states will have different energy resolutions and sytematic uncertainties, it may be possible for a future analysis to improve the oscillation paramter sensitivity by indentifying subsamples with specific topologies.
 - Primary partile scores can be combined to give compounded scores for the exclusive final state selections.
 
-\begin{figure}
+\begin{figure} % CHIPSNET DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet.pdf}
     \caption[chipsnet short]
     {chipsnet long}
     \label{fig:chipsnet}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/se.pdf}
     \caption[se short]
     {se long}
     \label{fig:se}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % RESNET BLOCK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/resnet_unit.png}
     \caption[resnet unit short]
     {resnet unit long}
     \label{fig:resnet_unit}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % INCEPTION BLOCK DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/inception.pdf}
     \caption[inception short]
     {inception long}
     \label{fig:se}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TODO: Get the detailed descriptions for the example events to put in the captions
-\begin{figure}
+\begin{figure} % NUEL CCQEL EVENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ccqel_event.pdf}
     \caption[explore nuel ccqel event short]
     {explore nuel ccqel event long}
     \label{fig:explore_nuel_ccqel_event}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % NUMU CCDIS EVENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ccdis_event.pdf}
     \caption[explore numu ccdis event short]
     {explore numu ccdis event long}
     \label{fig:explore_numu_ccdis_event}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % NUMU NCDIS EVENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ncdis_event.pdf}
     \caption[explore numu ncdis event short]
     {explore numu ncdis event long}
     \label{fig:explore_numu_ncdis_event}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % COSMIC MUON EVENT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_event.pdf}
     \caption[explore cosmic event short]
     {explore cosmic event long}
     \label{fig:explore_cosmic_event}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % HOUGH REPRESENTATIONS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_hough_events.pdf}
     \caption[example hough events short]
     {example hough events long}
     \label{fig:example_hough_events}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % 8-BIT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/expore_8_bit_range.pdf}
     \caption[explore 8 bit range short]
     {explore 8 bit range long}
     \label{fig:explore_8_bit_range}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % COSMIC T-SNE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_tsne.pdf}
     \caption[final cosmic tsne short]
     {final cosmic tsne long}
     \label{fig:final_cosmic_tsne}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % BEAM T-SNE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne.pdf}
     \caption[final beam tsne short]
     {final beam tsne long}
     \label{fig:final_beam_tsne}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
+\begin{figure} % T-SNE EXAMPLE EVENTS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne_events.pdf}
     \caption[final beam tsne events short]
     {final beam tsne events long}
     \label{fig:final_beam_tsne_events}
-\end{figure}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
 DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
