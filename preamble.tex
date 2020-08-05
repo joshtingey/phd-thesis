@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{url}
 
 %% Load special font packages here if you wish
 \usepackage{lmodern}  % lmodern, mathpazo, euler
@@ -46,6 +47,10 @@
 % \DeclareRobustCommand{\colvector}[1]{\mymath{\begin{pmatrix}#1\end{pmatrix}}\xspace}
 \DeclareRobustCommand{\Rate}{\mymath{\Gamma}\xspace}
 \DeclareRobustCommand{\RateOf}[1]{\mymath{\Gamma}\parenths{#1}\xspace}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
 %% High-energy physics stuff
 \usepackage{resources/abhep}

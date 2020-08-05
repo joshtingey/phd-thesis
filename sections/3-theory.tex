@@ -1,4 +1,4 @@
-\chapter{Neutrino oscillations: theoretical background and current status}
+\chapter{Neutrino physics}
 \label{chap:theory}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,11 +60,6 @@ THE THEORY OF NEUTRINO OSCILLATION
 - derivation of probability in vacuum
 - derivation of probability in matter
 
-NEUTRINO INTERACTIONS
-- Feynman diagrams of all the main interaction types
-- Famous diagrams of cross-section regions for them all
-- Descriptions of which types are easy to detect, what are the main NC backgrounds usually etc...
-
 CURRENT EXPERIMENTAL STATUS AND THE FUTURE
 - What is the status of each of the three neutrino regimes?
 - What are the open questions
@@ -86,34 +81,37 @@ neutrinos iscilate from one flavour to another.
 -The field of neutrino physics is ever expanding with a new generation of experiments planned for
 the coming years.
 This chapter aims to provide an introduction to neutrino...
+- The neutrino has no electric charge, virtually no mass, and can travel undetectably for vast
+distances.
 \end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                            HISTORY                                             %
+%                                           A HISTORY                                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A history of neutrino oscillations}
+\section{A history}
 \label{sec:theory_history}
 
 \subsection{Discovery of the neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_history_neutrinos}
 
-In the early 20th century, beta decays were assumed to follow the simple two-body process,
-$A \rightarrow B + e$, where nuclei spontaneously emit a single electron. The ejected electron
-must have discrete kinetic energy to conserve both energy and angular momentum, defined by the
-difference in binding energies between the initial and final nuclei states. However, in 1914,
-J. Chadwick instead measured a continuous electron energy spectrum~\cite{chadwick1914}, placing
-this theory in doubt.
+In the early 20th century, beta decays were assumed to follow the simple two-body process, $A
+    \rightarrow B + e$, where nuclei spontaneously emit a single electron. To conserve both energy
+and angular momentum, the ejected electron was thought to have discrete kinetic energy,
+defined by the difference in binding energies between the initial and final nuclei states.
+However, in 1914, J. Chadwick instead measured a continuous electron energy
+spectrum~\cite{chadwick1914}, placing this theory in doubt.
 
-W. Pauli finally proposed a 'desperate solution' to this paradox in 1930~\cite{pauli1930}. If a
-light, neutrally charged, spin $1/2$ particle was also produced in the interaction, the continuous
-energy distribution could be explained. Initially, this mysterious new particle was named the
-'neutron'. However, to avoid confusion with the heavy baryon of the same name discovered in 1932,
-E. Fermi renamed it the 'neutrino' when he formalised beta decay in 1934~\cite{fermi1934}.
+W. Pauli proposed a 'desperate solution' to this paradox in 1930~\cite{pauli1930}. If a light,
+neutrally charged, spin $1/2$ particle was also produced in the interaction, the continuous energy
+distribution could be explained. Initially, this mysterious new particle was named the 'neutron'.
+However, to avoid confusion with the heavy baryon of the same name discovered in 1932, E. Fermi
+renamed it the 'neutrino' when he formalised beta decay in 1934~\cite{fermi1934}.
 
 The following month, H. Bethe and R. Peierls~\cite{bethe1934} used Fermi's work to estimate the
 cross-section of the inverse beta decay process:
 \begin{equation} % INVERSE BETA DECAY EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \bar{\nu} + p^{+} \rightarrow n + e^{+}.
+    \label{eq:inverse_beta_decay}
 \end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 An upper limit of $10^{-44} cm^2$ was calculated, an incredibly small value, leading them to
 declare 'there is no practically possible way of observing the neutrino.' This statement hinted at
@@ -122,18 +120,18 @@ years to come.
 
 After an initial tentative identification if 1953, F. Reines and C. Cowan made the first confirmed
 observation of the neutrino in 1956~\cite{cowan1956}. Electron antineutrinos produced within the
-Savannah River Plan nuclear reactor were detected via the inverse beta decay process outlined
-previously. In an underground room of the reactor building, A 'club-sandwich' detector of three
-1500 litre liquid scintillator tanks and two 200 litre cadmium doped water target tanks, was
-constructed. A total of 330 photomultiplier tubes then measured the two successive characteristic
-signals for the interaction allowing for the rejection of the sizeable cosmic ray background.
-Firstly, a prompt positron annihilation, followed shortly afterwards by a gamma-ray burst from the
-neutron capture by the cadmium.
+Savannah River Plan nuclear reactor were detected via the inverse beta decay process outlined in
+Eq. ~\ref{eq:inverse_beta_decay}. In an underground room of the reactor building, A
+'club-sandwich' detector of three 1500 litre liquid scintillator tanks and two 200 litre cadmium
+doped water target tanks, was constructed. A total of 330 photomultiplier tubes then measured the
+two successive characteristic signals for the interaction allowing for the rejection of the
+sizeable cosmic ray background. Firstly, a prompt positron annihilation, followed shortly
+afterwards by a gamma-ray burst from the neutron capture by the cadmium.
 
 A second distinct neutrino, the muon neutrino was discovered in 1962 at the Alternating Gradient
 Synchrotron (AGS) at Brookhaven~\cite{danby1962}. Protons from the AGS beam incident upon a fixed
 target produced charged pions. These would then decay into a beam of muons and neutrinos. After
-passing through steel and lead absorbers to remove the muons, neutrino interactions could then be
+passing through steel and lead absorbers to remove the muons, neutrino interactions could be
 detected in a series of spark chambers. If only a single neutrino existed, both interactions
 \begin{equation} % BROOKHAVEN DECAY EQUATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \nu+p^{+}\rightarrow\mu^{+}+n \\
@@ -141,19 +139,19 @@ detected in a series of spark chambers. If only a single neutrino existed, both 
 \end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 would be expected to occur at the same rate. However, only muons, identified by a single long
 track were detected, confirming the existence of the muon neutrino. Not only was this experiment
-the first to construct and use an artificial neutrino beam, but it also later went onto win the
-1988 Nobel prize for its discovery.
+the first to construct and use an artificial neutrino beam, but it also won the 1988 Nobel prize
+for its discovery.
 
-The $Z^{0}$ and $W^{+}$ bosons, the force carriers for the weak force, through which neutrinos
+The $Z^{0}$ and $W^{+}$ bosons, the force carriers of the weak force, through which neutrinos
 interact, were discovered at the Super Proton Synchrotron at CERN in 1983
 ~\cite{arnison1983_z,arnison1983_w}. Crucially, as $Z^{0}$ bosons are expected to decay to
 neutrinos, measurements made to the decay width can strongly constrain the number of neutrino
-flavours. The ALEPH experiment and others at the LEP $e^{+}e^{-}$ collider in the 1990s made
+flavours. The ALEPH experiment among others at the LEP $e^{+}e^{-}$ collider in the 1990s made
 such precise measurements, indicating that the number of light active neutrino flavours to be
 $2.984\pm0.008$~\cite{electroweak2006}, see Fig.~\ref{fig:z_resonance}.
 
 \begin{figure} % Z-RESONANCE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/z_resonance.png}
+    \includegraphics[origin=c,width=0.5\textwidth]{diagrams/3-theory/z_resonance.png}
     \caption[z resonance short]
     {Combined hadron production cross-section measurements around the $Z^{0}$ resonance made by
         experiments at LEP. The curves show the predicted cross-section for two, three, and four
@@ -171,7 +169,7 @@ force) or have a mass greater than $0.5m_{Z}$.
 \subsection{Discovery of neutrino oscillations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_history_neutrinos}
 
-At the Homestake mine\footnote{The Homestake mine will also be used for the future DUNE experiment
+At the Homestake mine\footnote{The Homestake mine will be used for the future DUNE experiment
     discussed later} in the 1960s, a large tank, placed 1.5 km underground, was filled with
 400000 litres of the dry cleaning fluid, perchloroethylene ($C_{4}Cl_{8}$). Its goal was to
 measure the solar electron neutrino flux incident upon the earth via the interaction:
@@ -185,7 +183,7 @@ amount of argon generated, and indirectly the neutrino flux measured.
 After analysis, the number of electron neutrino interactions per ${}^{37}Cl$, per second was found
 to be no higher than 3~\cite{davis1968}. Compared to the predictions made by the Standard Solar
 Model ranging between 4.4 and 22~\cite{bahcall1968}, this indicated a deficit. Dubbed the
-'solar neutrino problem' it was initially believed to be due to an unexplained experimental flaw.
+'solar neutrino problem', it was initially believed to be due to an unexplained experimental flaw.
 However, other experiments, such as the water Cherenkov Kamiokande II~\cite{hirata1989} and both
 the SAGE and GALLEX galium based capture tanks also observed this discrepancy.
 
@@ -197,59 +195,136 @@ successor to the Kamiokande experiment Super-Kamiokande also measured the same d
 ~\cite{kajita1999}.
 
 The phenomenon of neutrino oscillations was put forward as a solution to this problem. If
-neutrinos could change flavour as they propagated, it would be expected to find deficits of a
-particular flavour as they oscillated to another flavour. The SNO experiment finally confirmed
-this in 2001~\cite{ahmad2002}.
+neutrinos could change flavour as they propagated, the measured deficits could be explained. The
+SNO experiment finally confirmed this in 2001~\cite{ahmad2002}.
 
-Consisting of a 1kton tank of deuterium (heavy water), equiped with 9500 photomultiplier tubes the
-SNO experiment was able to measure the light from three seperate solar neutrino interaction
-channels:
+The SNO experiment consisted of a 1 kton tank of deuterium (heavy water), equiped with 9500
+photomultiplier tubes. Light from three seperate neutrino interactions channels:
 \begin{align} % SNO INTERACTIONS EQUATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \nu_{i}+e^{-} & \rightarrow \nu_{i}+e^{-} \\
     \nu_{i}+d     & \rightarrow p+n+\nu_{i}   \\
     \nu_{e}+d     & \rightarrow p+p+e^{-}
 \end{align} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-where $d$ is the deuterium nucleus. The first and second channels were sensitive to all three
-neutrino flavours, but importantly only electron neutrinos could interact via the third channel.
-By comparing the rates between the channels, SNO was able to prove to 5.3 sigma that electron
-neutrinos had oscillated to other flavours, while the total solar neutrino flux remained constant.
+was measured, where $d$ is the deuterium nucleus. The first and second channels were sensitive to
+all three neutrino flavours, but importantly only electron neutrinos could interact via the third
+channel. By comparing the rates between the channels, SNO was able to prove to 5.3 sigma that
+electron neutrinos had oscillated to other flavours, while the total solar neutrino flux remained
+constant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                       OSCILLATION THEORY                                       %
+%                               NEUTRINOS IN THE STANDARD MODEL                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino oscillation theory}
-\label{sec:theory_theory}
+\section{Neutrinos in the Standard Model}
+\label{sec:theory_sm}
 
-\begin{comment}
-- B. Pontecorvo first described neutrino oscillation, by nautrino and anti nuetrinos in 1957,
-later Maki, Nakagawa and Sakata in 1962 included electon and muon neutrino mixing
+- The standard model describes all 17 know fundamental particle, six quarks, three charged leptons
+three neutrinos, four exchange boson and the higgs boson.
+- It unifies the stong force (quantum chromodynamics) with the weak and the electromagnetic forces
+(electroweak interactions).
+- Neutrinos only interact exclusively via the weak force via W and Z. The weak interaction
+maximally violates parity coupling only to left-had-chiral particles, therefore, the SM only
+contains left-handed neutrinos (and right-handed antineutrinos).
+- Althought not thought of as being in the original standard model, neutrino masses can be
+generated, by either including right-handed neutrino fields or including an alternative mass term,
+e.g. Majorana mass, or both.
+- Regardless of how neutrino masses are generated, it is known that they exist, via infering
+from neutrino oscillations which requires them.
+- I should then talk about how constraints on the neutrino mass come about.. KATRIN and cosmology
+etc...
+-
+- The standard model is a gauge theory describing the behavoir of all the subatomic particles and
+three of the four known forces.
+- Lagrangian obeys local gauge symetries described by $U(1) \times SU(2) \times SU(3)$.
+- Matter is made of spin 1/2 fermions. This is six quarks and siz leptons, with three generations
+of particles, three flavours.
+- All particles have an anti-particle with the same quantum numbers, but with an opposite charge
+sign.
+- Each generation of leptons has a charged lepton and neutral neutrino, e.g. electron and
+electron neutrino.
+- The charged leptons have the same electric charge and well defined mass, the neutrinos are
+neutral and assumed to be massless.
+- The quarks carry fractional electric charges, huge range of masses and each carry a "colour"
+charge, existing in one of three colours. They never exist in a free state, maybe for a very short
+time. And quickly bind to create colourless hadrons.
+- Two quarks together is a meson (quark and anti-quark) e.g. pions
+- Three quarks together (three quarks of three antiwaurks) is a baryon, e.g. protons, neutrons
+- Three forces EM, weak and strong, again hugely different in their relative strengths spanning
+many orders of magnitude.
+- The forces are carried by spin 1 bosons, EM by photon and affects all charged particles. W and
+Z carry the weak force. Strong force whihc binds quarks together over very short-ranges, affects
+only colour charged particles and is mediated by the massless gluons (8 of them).
+- The higgs is the final elelemtn with gives mass to the particles, via spontaneous symmetry
+breaking to W and Z bosons and to fermions via Yukawa couplings.
+- Gravity is not incorporated, this is the big problem, but for HEP its not really important as
+it significanlty weaker that the ohter forces.
+- Neutrinos only interact weakly via W and Z and they are assumed to be massless in the original
+SM.
 - The original standard model had the neutrinos as massless. But given that neutrinos oscillations
 have been observed this is now not valid.
 - It is possible to modify the standard model to allow for this fact without new physics, but it
 is generally considered to be a significant break in the SM.
-- Can be explained by the quantum pheneomentum of interferance.
-- With the flavour and mass eigenstates not being evuivalent, this mixing is described by the
-rotation PMNS matrix, analogous to the CKM mixing describing mixing in the quark sector.
-- The energy state propogation is well defined, causing the neutrino flavour to change with time
-in an oscillatory fashion. Such that a muon neutrino after travelling a distance can be detected
-as a electon of tau neutrino but after another distance be detector as a muon neutrino again.
-
-- The neutrino has no electric charge, virtually no mass, and can travel undetectably for vast
-distances.
+- Brief overview of their place in the standard model
+- B. Pontecorvo first described neutrino oscillation, by nautrino and anti nuetrinos in 1957,
+later Maki, Nakagawa and Sakata in 1962 included electon and muon neutrino mixing
 - How does the standard model allow for neutrino masses?
 - Fermi vs majorana mass terms, which one is more likely etc
-DIAGRAM: For a given fixed baseline, show the oscillation probability as a function of energy, do
-this for the chips location.
-- Talk about the full neutrino oscillation equations, but also the simplified ones and then how
-they affect the shape of the probability curves.
-EQUATION: Basic neutrino oscillation equations
-EQUATION: Neutrino oscillations in matter equations
-EQUATION: Matter effect equations
-- We look at the oscillation structure across a range of energies in our detectors to measure the
-oscilaltion parameters.
-INFO: How the shape of the neutrino flux at the far detector affects the parameters, reduction
-fraction, position of the dip etc... maybe a little diagram
+- Free particles travelling in a vacuum can be trated as plane waves $E=\sqrt{p^2+m^2}$ therefore,
+the energy eigenstates have a well-defined mass,
+this then implies than there must be three mass states for the neutrinos with different quantum
+numbers, atleast two must be non-zero.
 
+\begin{figure} % STANDARD MODEL DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/sm.png}
+    \caption[sm short]
+    {Figure taken from Ref.\cite{wiki2020}.}
+    \label{fig:sm}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Neutrino masses can be Dirac or Majorana. As neutrinos are neutral, they can be their own
+anti-particles.
+- Best restraints come from cosmological observations of the cosmic microwave background, combined
+with other astrophysical data.
+-Cosmological mass constraint Ref.~\cite{planck2018} gives $\sum m_{\nu} < 0.12 \eV$ (95\%
+confidence level)
+- However, these are strongly model-dependent.
+- Direct measurements can be made by precise measurements of the beta decay spectrum, as the
+maximum energy of  beta decay electron is changed by a non-zero neutrino mass.
+-KATRIN Ref.~\cite{aker2019} has measured a model-independent limit just using
+kinematics of $m_{\nu} < 1.1 \eV$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                NEUTRINO OSCILLATION THEORY                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Neutrino oscillation theory}
+\label{sec:theory_oscillations}
+
+\subsection{Neutrino mixing}
+
+The theory of neutrino oscillations was developed in the 1960s by primarily B. Pontecorvo, Z. Maki,
+M. Nakagawa, and S. Sakata~\cite{maki1962, pontecorvo1967, pontecorvo1969}.
+
+\begin{equation} % FLAVOUR AS MASS EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \ket{\nu_{\alpha}}=\sum_{k}^{3}U_{\alpha k}^{*}\ket{\nu_{k}}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+and vice-versa,
+
+\begin{equation} % MASS AS FLAVOUR EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \ket{\nu_{k}}=\sum_{\alpha}^{3}U_{\alpha k}\ket{\nu_{\alpha}}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+where $\alpha = e, \mu, \tau$
+
+- The theory of neutrino oscillation was developed by Pontecorvo, Maki, Nakagawa, and Sakata.
+- Neutrino mixing desribes the superposition of neutrino mass eigenstates within neutrino flavour
+eigenstates.
+- U in the Pontecorvo-Maki-Nakagawa-Sakara (PMNS) matrix.
+- The basic forms assumes neutrinos are Dirac in nature and not their own anti-particle. if
+neutrinos are Majorana particles, two additional CPV phases need to be added to the matrix to
+fully describe the mixing.
+- Oscillations arise because the three weak interactin eigenstates are not that same as the three
+mass eigenstates, but are formed from a linear combination as defined by the PMNS matrix.
 - The changing state of the neutrino flavour as it propogates can be explained by having the
 flavour eigenstates through which the neutrinos
 couple to the weak force be different from their energy eigenstates for the matter through which
@@ -257,21 +332,12 @@ the neutrinos are travelling.
 - With the flavour eigenstates being expresses as a superposition of the energy states, neutrino
 oscillations arise through interference due tof
 the energy states evolving differently with time.
-- Free particles travelling in a vacuum can be trated as plane waves $E=\sqrt{p^2+m^2}$ therefore,
-the energy eigenstates have a well-defined mass,
-this then implies than there must be three mass states for the neutrinos with different quantum
-numbers, atleast two must be non-zero.
+- Can be explained by the quantum pheneomentum of interferance.
+- With the flavour and mass eigenstates not being evuivalent, this mixing is described by the
+rotation PMNS matrix, analogous to the CKM mixing describing mixing in the quark sector.
 - To understand neutrinos you need, a flavour basis, an orthonormal energy basis with three energy
 esigenstates for the medium, eigenvalues of those energy states,
 and a unitary matrix to convert between the basis.
-- Using the simplified approximation of treating the neutrino states as plane waves, we can simply
-derive the oscilaltion probabilities.
-- Main flaw with this assumption is that plane waves are not localised and can not describe the
-localised interactions of neutrinos.
-- Additionally neutrinos have differing energy and momentum not a common one approximation as c.
-- These can be solved when the neutrino states are described as wave packets, but this derivation
-is much simpler and gets to the same equally correct result.
-
 - In a vacuum, a unitary mixing matrix describes the mixing of mass states to produce the flavour
 states. and vice-versa
 - In the case of three neutrino flavours the unitary mixing matrix is called the Pontecorvo, Maki,
@@ -287,12 +353,6 @@ physical processes are affected.
 - If Dirac particles then just one pahse is left $\delta_{CP}$ if Majorana you get an additional
 two phases $\alpha_{12}$ and $\alpha_{31}$ which lie on the diagonal and hence have no effect on
 neutrino oscillations.
-\end{comment}
-
-\begin{align} % NEUTRINO MIXING EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \ket{\nu_{\alpha}} & = \sum_{k}U_{\alpha k} \ket{\nu_{k}}          \\
-    \ket{\nu_{k}}      & = \sum_{k}U_{\alpha k}^{*} \ket{\nu_{\alpha}}
-\end{align} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{gather} % PMNS MATRIX SIMPLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{pmatrix}
@@ -345,101 +405,97 @@ neutrino oscillations.
     \end{pmatrix}
 \end{align} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 with $s_{ij}=\sin \theta_{ij}$ and $c_{ij}=\cos \theta_{ij}$
 
-\begin{equation} % PLANE WAVE EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \psi(x,t=0)=\sum_{i=1}^{3}U_{\alpha k}e^{ip_{\alpha}x}
+\begin{align} % MAJORANA DIAGONAL PMNS EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    M = \mathrm{diag}(1, e^{i\phi_{1}}, e^{i\phi_{2}})
+\end{align} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Oscillations in vacuum}
+
+To calculate the oscillation probabilities for neutrinos produced in a given flavourstate, we must
+use the mixing matrix to convert into the basis of energy eigenstates,evolve these in time, and
+project the evolved states back into the flavour basis usingthe mixing matrix once more.  This
+yields an amplitude which can then be squaredto produce the oscillation probability.
+
+The neutrino mass states are eigenstates of the hamiltonian with energy eigenvalues $E_{k}$:
+\begin{equation} % HAMILTONIAN EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    H \ket{\nu_{k}} = E_{k} \ket{\nu_{k}}.
+    \label{eq:hamiltonian}
 \end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This allows the time evolution of the flavour eigenstates to be written using the
+Schr$\mathrm{\ddot{o}}$dinger equation, such that,
+\begin{equation} % TIME EVOLUTION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \ket{\nu_{\alpha}(t)}=\sum_{k}^{3}U_{\alpha k}^{*}e^{-iE_{k}t}\ket{\nu_{k}}.
+    \label{eq:time_evolution_1}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The oscillation probability is thus equal to,
+\begin{equation} % TIME EVOLUTION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    P(\nu_{\alpha} \rightarrow \nu_{\beta}, t) = |\braket{\nu_{\beta}|\nu_{\alpha}(t)}|^{2}=
+    \abs*{\sum_{k}^{3}U_{\alpha k}^{*}U_{\beta k}e^{-iE_{k}t}}^{2} \\
+    =\sum_{k}^{3}\sum_{j}^{3}U_{\alpha k}^{*}U_{\beta k}U_{\alpha j}U_{\beta j}^{*}
+    e^{i(E_{k}-E_{j})t}.
+    \label{eq:osc_prob}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+As neutrinos are ultrarelativistic ($p\simeq E$) the approximation,
+\begin{equation} % ENERGY, MASS, MOMENTUM EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    E_{k}=\sqrt{\vec{p}_{k}^{\,2}+m_{k}^{2}}\simeq E+\frac{m_{k}^{2}}{2E},
+    \label{eq:energy_mass_momentum}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where E is the neutrino energy without the mass, can be used to give,
+\begin{equation} % ENERGY, MASS, MOMENTUM EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    E_{k}-E_{j}\approx\frac{\Delta m_{kj}^{2}}{2E}
+    \label{eq:energy_mass_momentum}
+\end{equation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $\Delta m_{kj}^{2}$ is the squared mass difference (mass splitting) between the $i$th and
+$j$th mass states. Combined with taking $t = L$ again due to the ultrarelativistic limit, and some
+trigonometric identities,
+\begin{align} % TIME EVOLUTION EQUATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    P(\nu_{\alpha} \rightarrow \nu_{\beta}, t) = \delta_{\alpha\beta} & - 4\sum_{k>j}re(
+    U_{\alpha k}^{*}U_{\beta k}U_{\alpha j}U_{\beta j}^{*})\sin^{2}\left(\frac{\Delta
+        m_{kj}^{2}L}{4E}\right)
+    \\  & \pm 2\sum_{k>j}im(
+    U_{\alpha k}^{*}U_{\beta k}U_{\alpha j}U_{\beta j}^{*})\sin\left(\frac{\Delta
+        m_{kj}^{2}L}{4E}\right).
+    \label{eq:osc_prob}
+\end{align} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                     NEUTRINO INTERACTIONS                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino interactions}
-\label{sec:theory_interactions}
+- Oscillations are driven by the mass-squared differences between the mass eignestates.
+- Talk about the full neutrino oscillation equations, but also the simplified ones and then how
+they affect the shape of the probability curves.
+INFO: How the shape of the neutrino flux at the far detector affects the parameters, reduction
+fraction, position of the dip etc... maybe a little diagram
+- Using the simplified approximation of treating the neutrino states as plane waves, we can simply
+derive the oscilaltion probabilities.
+- Main flaw with this assumption is that plane waves are not localised and can not describe the
+localised interactions of neutrinos.
+- Additionally neutrinos have differing energy and momentum not a common one approximation as c.
+- These can be solved when the neutrino states are described as wave packets, but this derivation
+is much simpler and gets to the same equally correct result.
+- The energy state propogation is well defined, causing the neutrino flavour to change with time
+in an oscillatory fashion. Such that a muon neutrino after travelling a distance can be detected
+as a electon of tau neutrino but after another distance be detector as a muon neutrino again.
 
-\begin{figure} % CROSS-SECTION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/cross_sections.png}
-    \caption[cross sections short]
-    {Figure taken from Ref.\cite{formaggio2012}.}
-    \label{fig:cross_sections}
+\subsection{Oscillations in matter}
+
+Wolfenstein oscillations in matter paper Ref.~\cite{wolfenstein1978}
+Mikheyev oscillations in matter paper Ref.~\cite{mikheev1986}
+Numu to nuel oscilaltion probability equation Ref.~\cite{cervera2000}
+
+\begin{figure} % OSCILLATION MATTER PROBS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \includegraphics[origin=c,width=0.8\textwidth]
+    {diagrams/3-theory/explore_osc_vac_vs_matter_probs.pdf}
+    \caption[osc matter probs short]
+    {osc matter probs long}
+    \label{fig:osc_matter_probs}
 \end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % TAU CROSS-SECTION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/tau_comparison.png}
-    \caption[tau comparison short]
-    {Figure taken from Ref.\cite{formaggio2012}.}
-    \label{fig:tau_comparison}
+\begin{figure} % OSCILLATION CP PROBS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \includegraphics[origin=c,width=0.8\textwidth]{diagrams/3-theory/explore_osc_cp_probs.pdf}
+    \caption[osc cp probs short]
+    {osc cp probs long}
+    \label{fig:osc_cp_probs}
 \end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % FEYNMAN INTERACTION TYPE DIAGRAMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \feynmandiagram[horizontal=a to b] {
-    i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
-    a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
-    f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
-    };
-    \feynmandiagram[horizontal=a to b] {
-    i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
-    a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
-    f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
-    };
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{comment}
-- From eV to EeV: Neutrino Cross-Sections Across Energy Scales
-- Neutrino originally postulated by Wolfgang Pauli in 1930, and has played a prominent role in
-understanding of nuclear and particle physics.
-- The revalation that neutrinos can no longer be massless is perhaps the first significant
-alteration to the standard model.
-- A nice plot of neutrino energy regimes from Big Bang through accelerator to Extra-galactic vs
-their cross-sections. I could definitely use this and cite it to the paper
-- Contains a good description of fundamental electroweak scattering if we need a reference for
-that (page 4->)
-- First anumu + e- => anumu + e- scattering made by CERN bubble cchamber experiment Gargamelle
-- This and DIS NC observations confirmed the weak neutral currents and helped solidify the
-standard model.
-- Maybe include a bubble chamber image of the first candidate neutrino interaction.
-- At intermediate energy scales (CHIPS range) interactions fall into three main catageories.
-Elastic and quasi-elastic scattering, resonance production and DIS.
-- Include an actual data cross-section plot for both CC and NC showing contributions from
-different experiments
-- Show the tau-neutrino cross section compared to the muon/electron in our energy range to show it
-doesn't matter. All the interactions and arguments that go along with them are the same for
-nuel/numu as with nutau, except for one key difference; the energy threshold. The nutau
-interaction CC cross section is severely altered because of the large tau lepton mass. Then
-show the plot.
-- Bellow 2Gev it's mainly quasi-elastic with the neutrino scattering of the entire nucelon, rather
-than its consituent partons.
-- Modern experiments MiniBooNE and NOMAD see higher absolute cross-sections than expected. It is
-currently believed that nucelear effects beyond the impulse approximation are desponsible for the
-discrepancy. Such as nucleon-nucleon correlations and two-body exchange currents must be included
-to get it righ. THIS IS MEC!
-- NC QEL lots of people call NC Elastic Scattering, the ratio of NC Elastic/CC QE is ~0.11 from
-measurements by a few experiments.
-- Single pion production is when the neutrino excites the struck nucleon producing a baryon
-resonance, which then quickly decays most often into a nucleon and a single pion final state.
-There are seven possible single pion channels, 3CC and 4NC, which we see from the GENIE events.
-- Show all the interaction equations for these %νμp→μ−pπ+ etc...
-- NC pi-zero production is often the largest numu-induced backgrond in experiments searching for
-numu->nuel oscillations. And CC pi production can present a non-negligable complication in the
-determination of neutrino energy in experiments. Therefore measuring and modelling nuclear effects
-in pion production has become paramount.
-- These resonances can also decay into photons with a small branchng fraction, yes, but, like NC
-pi-zero production they still pose a non-negliable source of background to the CHIPS main search.
-- Neutrinos can also coherently produce single pion final state. In this case the neutrino
-coherently scatters from the entire nucleus transferring negligable energy to the target. Hence,
-you produce a ditinctly forward-scattered pion with no nuclear recoil. This process is relatively
-small however.
-- The resonances can also decay to multi-pion final state, along with DIS this contributes a
-copious source of multi-pion final states. However, due to the inherant complexity of
-reconstructing multiple pion final states, not many experiments look at these cross-sections.
-- You can also get kaon production but they have small cross-sections due to the kain mass and
-because kaon channels are not enhanced by any dominant resonance.
-- You then get DIS where the neutrino scatters of a quark in the nucleon via the exchange of a
-virtual W or Z boson producing a lepton and a hadronic system in the final state.
-- To isolate DOS events experiments typically apply kinematic cuts to remove QE scattering and
-resonance-mediated contributions from their data.
-\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                 CURRENT STATUS AND THE FUTURE                                  %
@@ -447,7 +503,30 @@ resonance-mediated contributions from their data.
 \section{Current status and the future}
 \label{sec:theory_status}
 
+\subsection{Current experimental status}
+
+Daya bay theta13 Ref.~\cite{an2012}
+RENO theta13 Ref.~\cite{ahn2012}
+Double Chooz theta13 Ref.~\cite{abe2012}
+
+\subsection{Open question}
+
+\begin{figure} % MASS HIERARCHY DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/hierarchy.png}
+    \caption[hierarchy short]
+    {Figure taken from Ref.\cite{gouvea2013}.}
+    \label{fig:hierarchy}
+\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Future experiments}
+
 \begin{comment}
+- With the measurements of a non-zero theta13 by reactor neutrino experiments, the main focus now
+has shifted to resolving the mass hierarchy ambiguity and measuring delta-cp. These can be probed
+by long-baseline neutrino experiments by looking to numu to nuel transitions.
+- BIG EQUATION FOR PROBABILITY: shows sensitivity to the mass hiearchy through the matter effect
+parameters A and to the cp-violtating phase trhough the second term.
 - Over that last 20 years neutrino oscillations have become well-established and we are now moving
 into the precision measurement era.
 - DUNE is a next-generation neutrino oscillation experiment with a primary scientific goal of
