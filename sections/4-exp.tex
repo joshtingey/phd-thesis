@@ -1,13 +1,10 @@
-\chapter{Long baseline water Cherenkov detectors}
-\label{chap:wc}
+\chapter{Long baseline water Cherenkov detectors} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{chap:exp} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                              PLAN                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{comment}
-TODO: Write the story of the wc chapter
+\begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+TODO: Write the story of the exp chapter
 
-TODO: Write the wc chapter section outline
+TODO: Write the exp chapter section outline
 
 NEUTRINO INTERACTIONS
 - Feynman diagrams of all the main interaction types
@@ -27,27 +24,24 @@ NEUTRINO INTERACTIONS
 - What they are good at, what they are bad At
 - Historical WC detectors
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                     NEUTRINO INTERACTIONS                                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Neutrino interactions}
-\label{sec:theory_interactions}
+\section{Neutrino interactions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_interactions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % CROSS-SECTION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-wc/cross_sections.png}
+\begin{figure} % CROSS-SECTION DIAGRAM %
+    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-exp/cross_sections.png}
     \caption[cross sections short]
     {Figure taken from Ref.\cite{formaggio2012}.}
     \label{fig:cross_sections}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % TAU CROSS-SECTION DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-wc/tau_comparison.png}
+\begin{figure} % TAU CROSS-SECTION DIAGRAM %
+    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-exp/tau_comparison.png}
     \caption[tau comparison short]
     {Figure taken from Ref.\cite{formaggio2012}.}
     \label{fig:tau_comparison}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % FEYNMAN INTERACTION TYPE DIAGRAMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % FEYNMAN INTERACTION TYPE DIAGRAMS %
     \feynmandiagram[horizontal=a to b] {
     i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
     a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
@@ -58,9 +52,8 @@ NEUTRINO INTERACTIONS
     a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
     f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
     };
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{comment}
 - From eV to EeV: Neutrino Cross-Sections Across Energy Scales
 - Neutrino originally postulated by Wolfgang Pauli in 1930, and has played a prominent role in
 understanding of nuclear and particle physics.
@@ -114,15 +107,14 @@ because kaon channels are not enhanced by any dominant resonance.
 virtual W or Z boson producing a lepton and a hadronic system in the final state.
 - To isolate DOS events experiments typically apply kinematic cuts to remove QE scattering and
 resonance-mediated contributions from their data.
-\end{comment}
 
-\subsection{Future experiments}
+\subsection{Future experiments} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Daya bay theta13 Ref.~\cite{an2012}
 RENO theta13 Ref.~\cite{ahn2012}
 Double Chooz theta13 Ref.~\cite{abe2012}
 
-\begin{comment}
 - With the measurements of a non-zero theta13 by reactor neutrino experiments, the main focus now
 has shifted to resolving the mass hierarchy ambiguity and measuring delta-cp. These can be probed
 by long-baseline neutrino experiments by looking to numu to nuel transitions.
@@ -167,4 +159,3 @@ shower, due to its near certain decay into two photons.
 indistinguishabe from the nuel appreaence neutrinos.
 - Once you have collected samples in all four cases, a fit is performed to the reconstructed
 neutrino energy distributions to extract the four neutrino oscillation parameters.
-\end{comment}
