@@ -1,141 +1,150 @@
-\chapter{Data acquisition for CHIPS}
-\label{chap:daq}
+\chapter{Data acquisition for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{chap:daq} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                              PLAN                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{comment}
-TODO: Write the story of the DAQ chapter
+\begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Write the DAQ chapter section outline
+- What makes this implementation special
+- Limited resource, but brilliant capabilities
+- Use existing software when possible
 
-TODO: Add all the sections below
+HARDWARE
+- The White Rabbit timing system
+- Km3NET hardware
+- Madison hardware (novel)
+- Combined systems
 
-TODO: Read through all DAQ related papers and make general notes in appropriate subsections
+SOFTWARE
+- The beam spill
+- Hit acquisition and handling
+- Detector and data quality monitoring
 \end{comment}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                         INTRODUCTION                                           %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
-\label{sec:daq_intro}
+TODO: Add labels to picture diagrams in a tasteful way
 
-\begin{figure} % MONITORING DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=\textwidth]{diagrams/6-daq/monitoring.png}
-    \caption[monitoring short]
-    {monitoring long}
-    \label{fig:monitoring}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % WHITE-RABBIT SWITCH DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The White Rabbit timing system} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+REF: White-rabbit papers
+
+\begin{figure} % WHITE-RABBIT SWITCH DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-daq/wr_switch.jpg}
     \caption[wr switch short]
     {wr switch long}
     \label{fig:wr_switch}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/wr_gm.jpg}
-    \caption[wr gm short]
-    {wr gm long}
-    \label{fig:wr_gm}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % WR-LEN DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/wr_len.jpg}
-    \caption[wr len short]
-    {wr len long}
-    \label{fig:wr_len}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % WHITE-RABBIT SYNC DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-daq/sync.jpg}
     \caption[sync short]
     {sync long}
     \label{fig:sync}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % NIKHEF PMT AND CLB DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Km3NET hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard_km3net} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+DIAGRAM: Nikhef hardware diagram
+REF: PMT time resolution papers
+REF: km3net DAQ papers
+
+\begin{figure} % NIKHEF PMT AND CLB DIAGRAM %
     \centering
     \subcaptionbox{nikhef pmt\label{fig:nikhef_pmt}}{%
-        \includegraphics[height=10cm]{diagrams/6-daq/nikhef_pmt.jpg}%
+        \includegraphics[height=8cm]{diagrams/6-daq/nikhef_pmt.jpg}%
     }
     \quad
     \subcaptionbox{clb\label{fig:clb}}{%
-        \includegraphics[height=10cm]{diagrams/6-daq/clb.jpg}%
+        \includegraphics[height=8cm]{diagrams/6-daq/clb.jpg}%
     }
     \caption[The caption]
     {The caption}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % PMT ASSEMBLY DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \centering
-    \subcaptionbox{pmt disassembled\label{fig:pmt_disassembled}}{%
-        \includegraphics[height=5cm]{diagrams/6-daq/pmt_disassembled.jpg}%
-    }
-    \quad
-    \subcaptionbox{pmt assembled\label{fig:pmt_assembled}}{%
-        \includegraphics[height=5cm]{diagrams/6-daq/pmt_assembled.jpg}%
-    }
-    \caption[The caption]
-    {The caption}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % CLB ROCKETS DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/rockets.jpg}
+\begin{figure} % CLB ROCKETS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/6-daq/rockets.jpg}
     \caption[rockets short]
     {rockets long}
     \label{fig:rockets}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % NIKHEF PLANE DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/single_plane.jpg}
-    \caption[single plane short]
-    {single plane long}
-    \label{fig:single_plane}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Madison hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % TOT DIAGRAM DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/tot.pdf}
+DIAGRAM: Madison hardware diagram
+
+\begin{figure} % WR-LEN DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/wr_len.jpg}
+    \caption[wr len short]
+    {wr len long}
+    \label{fig:wr_len}
+\end{figure}
+
+\begin{figure} % TOT DIAGRAM DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/6-daq/tot.pdf}
     \caption[tot short]
     {tot long}
     \label{fig:tot}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %
     \centering
     \subcaptionbox{beaglebone\label{fig:beaglebone}}{%
-        \includegraphics[height=7cm]{diagrams/6-daq/beaglebone.jpg}%
+        \includegraphics[height=6cm]{diagrams/6-daq/beaglebone.jpg}%
     }
     \quad
     \subcaptionbox{danout\label{fig:danout}}{%
-        \includegraphics[angle=90, height=7cm]{diagrams/6-daq/danout.jpg}%
+        \includegraphics[angle=90, height=6cm]{diagrams/6-daq/danout.jpg}%
     }
     \caption[The caption]
     {The caption}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{figure} % BADGER BOARD DIAGRAM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \includegraphics[angle=90,origin=c,width=\textwidth]{diagrams/6-daq/badger.jpg}
+\begin{figure} % BADGER BOARD DIAGRAM %
+    \includegraphics[angle=90,origin=c,width=0.8\textwidth]{diagrams/6-daq/badger.jpg}
     \caption[badger short]
     {badger long}
     \label{fig:badger}
-\end{figure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{figure}
 
-\begin{comment}
-TODO: Add labels to picture diagrams in a tasteful way
+\subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DIAGRAM: Madison hardware diagram
-DIAGRAM: Nikhef hardware diagram
 DIAGRAM: Hut Diagram + Jelly box diagram + EC diagrams
 DIAGRAM: Manifold layout, box layout in detector
+
+\begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-daq/wr_gm.jpg}
+    \caption[wr gm short]
+    {wr gm long}
+    \label{fig:wr_gm}
+\end{figure}
+
+\section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 DIAGRAM: Software diagram
 DIAGRAM: Finite state machine diagram
-DIAGRAM: Monitoring diagram
+
+\subsection{The beam spill} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft_spill} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 DIAGRAM: Spill server/Fermilab diagram
 
-REF: White-rabbit papers
-REF: km3net DAQ papers
-REF: PMT time resolution papers
+\subsection{Hit acquisition and handling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Detector and data quality monitoring} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft_monitor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+DIAGRAM: Monitoring diagram
 REF: Elasticsearch paper
-\end{comment}
+
+\begin{figure} % MONITORING DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/6-daq/monitoring.png}
+    \caption[monitoring short]
+    {monitoring long}
+    \label{fig:monitoring}
+\end{figure}

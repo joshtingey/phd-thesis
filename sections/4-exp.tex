@@ -1,58 +1,36 @@
-\chapter{Long baseline water Cherenkov detectors} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Measuring neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:exp} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-TODO: Write the story of the exp chapter
-
-TODO: Write the exp chapter section outline
+I will outline the broad range of neutrino detection experiments, but then focus in on those
+parts that are of particular imporance for CHIPS.
 
 NEUTRINO INTERACTIONS
 - Feynman diagrams of all the main interaction types
 - Famous diagrams of cross-section regions for them all
 - Descriptions of which types are easy to detect, what are the main NC backgrounds usually etc...
 
-\end{comment}
+NEUTRINO EXPERIMENTS
+- Solar sector (aims, examples)
+- Reactor sector (aims, examples)
+- Atmospheric and accelerator sector (aims, examples)
 
-- Say how they are usually very expensive due to volume required
-- Large overburden/excavation costs etc...
-- Beam
-- cherenkov light
-- PMTs
-- water clarity
-- overburden
-- interaction types (which ones are the problem)
-- What they are good at, what they are bad At
-- Historical WC detectors
+LONG BASELINE ACCELERATOR WATER CHERENKOV DETECTORS
+- Neutrino beams (NuMI)
+- Off-axis effect
+- What are they good/bad at
+- Historical examples
+- Cherenkov radiation
+- Photomultiplier tubes
+- Water clarity
+
+FUTURE EXPERIMENTS
+- How expensive they are
+- big up CHIPS
+\end{comment}
 
 \section{Neutrino interactions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:exp_interactions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % CROSS-SECTION DIAGRAM %
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-exp/cross_sections.png}
-    \caption[cross sections short]
-    {Figure taken from Ref.\cite{formaggio2012}.}
-    \label{fig:cross_sections}
-\end{figure}
-
-\begin{figure} % TAU CROSS-SECTION DIAGRAM %
-    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/4-exp/tau_comparison.png}
-    \caption[tau comparison short]
-    {Figure taken from Ref.\cite{formaggio2012}.}
-    \label{fig:tau_comparison}
-\end{figure}
-
-\begin{figure} % FEYNMAN INTERACTION TYPE DIAGRAMS %
-    \feynmandiagram[horizontal=a to b] {
-    i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
-    a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
-    f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
-    };
-    \feynmandiagram[horizontal=a to b] {
-    i1 [particle=\(e^{-}\)] -- [fermion] a -- [fermion] i2 [particle=\(e^{+}\)],
-    a -- [photon, edge label=\(\gamma\), momentum'=\(k\)] b,
-    f1 [particle=\(\mu^{+}\)] -- [fermion] b -- [fermion] f2 [particle=\(\mu^{-}\)],
-    };
-\end{figure}
 
 - From eV to EeV: Neutrino Cross-Sections Across Energy Scales
 - Neutrino originally postulated by Wolfgang Pauli in 1930, and has played a prominent role in
@@ -108,12 +86,92 @@ virtual W or Z boson producing a lepton and a hadronic system in the final state
 - To isolate DOS events experiments typically apply kinematic cuts to remove QE scattering and
 resonance-mediated contributions from their data.
 
-\subsection{Future experiments} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} % PMT ASSEMBLY DIAGRAM %
+    \centering
+    \subcaptionbox{neutrinos\label{fig:cs_plus}}{%
+        \includegraphics[height=5cm]{diagrams/4-exp/cross_sections_pos.png}%
+    }
+    \quad
+    \subcaptionbox{anti-neutrinos\label{fig:cs_minus}}{%
+        \includegraphics[height=5cm]{diagrams/4-exp/cross_sections_anti.png}%
+    }
+    \caption[The caption]
+    {Figure taken from Ref.\cite{formaggio2012}.}
+    \label{fig:cross_sections}
+\end{figure}
+
+\begin{figure} % TAU CROSS-SECTION DIAGRAM %
+    \includegraphics[origin=c,width=0.5\textwidth]{diagrams/4-exp/tau_comparison.png}
+    \caption[tau comparison short]
+    {Figure taken from Ref.\cite{formaggio2012}.}
+    \label{fig:tau_comparison}
+\end{figure}
+
+\section{Neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_exp} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The solar sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_exp_solar} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The reactor sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_exp_reactor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The atmospheric and accelerator sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_exp_atmospheric} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Long baseline accelerator water Cherenkov detectors} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_long} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Neutrino beams} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_long_beams} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- The Numi beam big paper~\cite{adamson2016}
+
+\begin{figure} % NUMI BEAM DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-exp/numi_beam.png}
+    \caption[Schematic of the \numi beam.]
+    {Schematic of the main components of the \numi beam (not to scale) shown with their
+        dimensions. The horns control if the beam is in neutrino or anti-neutrino mode. Image
+        taken from Ref.\cite{adamson2016}.}
+    \label{fig:numi_beam}
+\end{figure}
+
+\begin{figure} % OFF-AXIS FLUX DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-exp/numi_axis.png}
+    \caption[Neutrino flux for different detectors in the \numi beam.]
+    {Neutrino flux for different detectors in the \numi beam.
+        The difference is caused by the different off-axis angles.
+        Image taken from Ref.\cite{adamson2013}.}
+    \label{fig:numi_axis}
+\end{figure}
+
+\begin{figure} % CHIPS FLUX DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-exp/flux.png}
+    \caption[flux short]
+    {}
+    \label{fig:flux}
+\end{figure}
+
+EQUATION: Off-axis effect equations
+
+\subsection{Cherenkov radiation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_long_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+EQUATION: Cherenkov effect equation
+DIAGRAM: Cherenkov effect diagram
+DIAGRAM: Cherenkov profile diagrams
+
+\subsection{Photomultiplier tubes} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:exp_long_pmts} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Future experiments} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:exp_future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Daya bay theta13 Ref.~\cite{an2012}
 RENO theta13 Ref.~\cite{ahn2012}
 Double Chooz theta13 Ref.~\cite{abe2012}
+Hyper-k letter of intent~\cite{abe2011}
+Dune CDR~\cite{acciarri2016}
 
 - With the measurements of a non-zero theta13 by reactor neutrino experiments, the main focus now
 has shifted to resolving the mass hierarchy ambiguity and measuring delta-cp. These can be probed
