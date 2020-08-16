@@ -64,6 +64,7 @@ THE THEORY OF DEEP CONVOLUTIONAL NEURAL NETWORKS
 A BASELINE IMPLEMENTATION FOR CHIPS
 - Tensorflow/python
 - How the data flows
+- Which architecture to use
 - Which sample to use
 - Which representation to use
 - Multitask methodology
@@ -84,19 +85,21 @@ ENERGY ESTIMATION
 - What is the scale of the task, the aim, expectations.
 - How can we modify the baseline for energy estimation.
 - Should we learn an energy estimator for each event type?
--
 
 FINAL PERFORMANCE
 - Comparison with old reco/pid
 
 EXPLAINABILITY
-
-TODO: Read through all CVN related papers and make general notes in appropriate subsections
+- t-SNE
+- Lepton fraction energy performance
 \end{comment}
 
+\section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_intro} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
-- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
+\subsection{Previous deep learning for neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_intro_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 - Previous work in HEP has applied deep learning to a variety of problems...
 - DUNE classifies neutrino ineractions in the DUNE FD using a CVN.
 - DUNE uses 500*500 pixel images for each of the three readout views of the LArTPC.
@@ -106,16 +109,30 @@ TODO: Read through all CVN related papers and make general notes in appropriate 
 - They do multi-task learning, with 7 tasks.
 - Trained on MC sample of events for the DUNE unosicllated FD neutrino event rate distribution.
 
-\section{Theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Cern summer report in Ref.~\cite{theodore2016}
+Nova first CVN paper in Ref.~\cite{aurisano2016}
+Nova context enriched CVN paper in Ref.~\cite{psihas2019}
+Nova energy recontruction CVN in Ref.~\cite{baldi2019}
+MicroBooNE CNN paper in Ref.~\cite{acciarri2017}
+Watchmal/Triumf Cherenkov variational autoencoders in Ref.~\cite{abhishek2019}
+Daya bay paper in Ref.~\cite{racah2016}
+SHiP GAN simulation paper in Ref.~\cite{ahdida2019}
+DUNE CVN paper in Ref.~\cite{collaboration2020}
+DUNE TDR in Ref.~\cite{abi2020}
+
+\section{Standard reconstruction methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
+- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
+
+\section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even neutrino event classification if
-you know what to look for. But we will have way too much data, so need to train a computer to do this task for us.
-- A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately. Give REF for this.
-- Conv is a set of 'filters' that when applied via scanning across an input image result in a feature map
-- Pooling used as each layer requires less complexity and it is less important about the location and that the feature exists.
-- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis space that tries fewer hypotheses from it is less likely to overfit than one that tries more hypotheses from a smaller space.
-- All that "deep" really means is just many many hidden layers, which can encode complex structures more efficienctly.
-- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
+
+\subsection{Neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
 
 \begin{equation} % NETWORK BASIC EQUATION %
     z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
@@ -124,6 +141,13 @@ you know what to look for. But we will have way too much data, so need to train 
 \begin{equation} % NETWORK ACTIVATION EQUATION %
     a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
 \end{equation}
+
+\begin{figure} % BASIC NETWORK DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/network.pdf}
+    \caption[network short]
+    {network long}
+    \label{fig:network}
+\end{figure}
 
 \begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
     E(\boldsymbol{w})=
@@ -143,22 +167,10 @@ you know what to look for. But we will have way too much data, so need to train 
     (\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
 \end{equation}
 
-EQUATION: Batch-normalisation equations
+\subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 EQUATION: Back propogation equations derivation and explanation
-
-\begin{figure} % BASIC NETWORK DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/network.pdf}
-    \caption[network short]
-    {network long}
-    \label{fig:network}
-\end{figure}
-
-\begin{figure} % DROPOUT DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/dropout.pdf}
-    \caption[dropout short]
-    {dropout long}
-    \label{fig:dropout}
-\end{figure}
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-cvn/activations.pdf}
@@ -194,6 +206,7 @@ EQUATION: Back propogation equations derivation and explanation
 \end{figure}
 
 TODO: combine the same and valid conv operations into the same diagram
+
 \begin{figure} % CONV OPERATION DIAGRAM %
     \centering
     \begin{subfigure}[b]{0.71\textwidth}
@@ -213,7 +226,6 @@ TODO: combine the same and valid conv operations into the same diagram
     \label{fig:conv_operations}
 \end{figure}
 
-
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/pooling.pdf}
     \caption[pooling short]
@@ -221,43 +233,33 @@ TODO: combine the same and valid conv operations into the same diagram
     \label{fig:pooling}
 \end{figure}
 
+\subsection{The evolution of convolutional networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Original 'dropout' paper in Ref.~\cite{hinton2012}
+Original Batch normalisation paper in Ref.~\cite{ioffe2015}
+Bag of tricks in Ref.~\cite{he2018}
+VGG paper in Ref.~\cite{simonyan2014}
+Improved resnet paper in Ref.~\cite{he2016}
+Inception-resnet paper in Ref.~\cite{szegedy2016}
+Squeeze-and-excitation networks paper in Ref.~\cite{hu2017}
+MobileNetV2 paper in Ref.~\cite{sandler2018}
+EfficientNet paper in Ref.~\cite{tan2019}
+
+EQUATION: Batch-normalisation equations
+
+\begin{figure} % DROPOUT DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/dropout.pdf}
+    \caption[dropout short]
+    {dropout long}
+    \label{fig:dropout}
+\end{figure}
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/early_stopping.pdf}
     \caption[early stopping short]
     {early stopping long}
     \label{fig:early_stopping}
-\end{figure}
-
-- We do not predefine the filters, they are also trained to extact the important features from the event images
-- Approaches in the past for event classification using CNNs for water cherenkov detectors have taken a few Approaches to generating the input image representation.
-- Projecting onto a 2d surface "outside" the detector
-- Cern summer report in Ref.~\cite{theodore2016}
-- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
-- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these will have different energy resolutions and systematic uncertainties, so seperation can provide increased sensitivity.
-- See signal interactions peaked closely near score values of unity and the backgrounds lie close to the zero score as expected.
-- DUNE chose their selection cut to maximise the oscillation analysis sensitivity, determining sin(delta-cp) != 0
-- Can choose many different output configurations/categorisations for the events.
-- Should you combined into a big list of categories, should you combine the NC.
-- Should you learn as seperate tasks, turns out the choice here has a decent sized impact on the final performance.
-- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
-- As the different final states will have different energy resolutions and sytematic uncertainties, it may be possible for a future analysis to improve the oscillation paramter sensitivity by indentifying subsamples with specific topologies.
-- Primary partile scores can be combined to give compounded scores for the exclusive final state selections.
-INFO: Need to understand the error on the number of cosmic passing the cut, is it reasonable without a huge amount of testing data?
-INFO: What are the errors on all my number values? with the stats I have?
-- Having a veto in the upstream towards the beam direction would be best
-- Talk about how beam muons upstream of the detector are just like cosmics and say how they could be rejected aswell
-INFO: proof that there is no topological difference between QEL and MEC if we are combining them for the energy stuff
-- BIG UP the difference in time it takes, as this can have a huge impact on reprocessing your full dataset
-- This allows a massive increase in the iteration rate of analysis, which can lead to an improved rate of improvement, with less time wasted.
-- Position of PMTs does not seem to be that important
--
-
-\begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet.pdf}
-    \caption[chipsnet short]
-    {chipsnet long}
-    \label{fig:chipsnet}
 \end{figure}
 
 \begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
@@ -281,7 +283,41 @@ INFO: proof that there is no topological difference between QEL and MEC if we ar
     \label{fig:se}
 \end{figure}
 
-TODO: Get the detailed descriptions for the example events to put in the captions
+\section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % CHIPSNET DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet.pdf}
+    \caption[chipsnet short]
+    {chipsnet long}
+    \label{fig:chipsnet}
+\end{figure}
+
+\subsection{Software implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Early stopping
+- Model (dropout, batch norm, se, vgg etc...)
+
+\begin{figure} % 8-BIT DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/expore_8_bit_range.pdf}
+    \caption[explore 8 bit range short]
+    {explore 8 bit range long}
+    \label{fig:explore_8_bit_range}
+\end{figure}
+
+\subsection{Network architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Which training sample to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Which event representation to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_repr} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Cern summer report in Ref.~\cite{theodore2016}
+- New ideas with x+ x- mapping in Ref.~\cite{berns2020}
+
 \begin{figure} % NUEL CCQEL EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ccqel_event.pdf}
     \caption[explore nuel ccqel event short]
@@ -317,12 +353,47 @@ TODO: Get the detailed descriptions for the example events to put in the caption
     \label{fig:example_hough_events}
 \end{figure}
 
-\begin{figure} % 8-BIT DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/expore_8_bit_range.pdf}
-    \caption[explore 8 bit range short]
-    {explore 8 bit range long}
-    \label{fig:explore_8_bit_range}
-\end{figure}
+\subsection{Multitask methodology} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_multi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
+
+\section{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_final} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+DIAGRAM: Activation plots
+
+Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
+Original t-SNE paper in Ref.~\cite{maaten2008}
+Grad-CAM paper in Ref.~\cite{elvaraju2019}
+
+- For all the t-SNE stuff
+- There have been plently of attempts at visualising high-dimensional data on a 2/3 dimensional
+map, including Sammon mapping, Isomap, Locally Linear Embedding, Stochastic Neighbour Embedding.
+- Older implementations tended to cluster all data points towards the centre of the map and proved
+difficult to optimise.
+- You basically set a summed probability between all points in the low-dimensional space to a
+summed probability between all points in the high-dimensional space.
+- t-SNE uses the student-t distribution (with a heavy tail) in the low-dimensional space to
+calculate the probability. This alleviates both the crowding problem and is easier to optimise.
+- Optimisation uses a simple momentum term, plus two new ideas. "Early compression" which forces
+map points to stay close to each other at the start of optimisation, it is then easier for
+clusters to move through each other and explore all possible global organisations of the data,
+this is implemented as an L2-penalty term proportional to the sum of squared distances from the
+origin, this is then removed at an iteration given as input. Secondly, "Early exaggeration" which
+creates tight widely seperated clusters.
 
 \begin{figure} % COSMIC T-SNE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_tsne.pdf}
@@ -345,6 +416,40 @@ TODO: Get the detailed descriptions for the example events to put in the caption
     \label{fig:final_beam_tsne_events}
 \end{figure}
 
+TODO: Sort everything below!!!!
+
+- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even neutrino event classification if
+you know what to look for. But we will have way too much data, so need to train a computer to do this task for us.
+- A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately. Give REF for this.
+- Conv is a set of 'filters' that when applied via scanning across an input image result in a feature map
+- Pooling used as each layer requires less complexity and it is less important about the location and that the feature exists.
+- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis space that tries fewer hypotheses from it is less likely to overfit than one that tries more hypotheses from a smaller space.
+- All that "deep" really means is just many many hidden layers, which can encode complex structures more efficienctly.
+- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
+
+- We do not predefine the filters, they are also trained to extact the important features from the event images
+- Approaches in the past for event classification using CNNs for water cherenkov detectors have taken a few Approaches to generating the input image representation.
+- Projecting onto a 2d surface "outside" the detector
+
+- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
+- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these will have different energy resolutions and systematic uncertainties, so seperation can provide increased sensitivity.
+- See signal interactions peaked closely near score values of unity and the backgrounds lie close to the zero score as expected.
+- DUNE chose their selection cut to maximise the oscillation analysis sensitivity, determining sin(delta-cp) != 0
+- Can choose many different output configurations/categorisations for the events.
+- Should you combined into a big list of categories, should you combine the NC.
+- Should you learn as seperate tasks, turns out the choice here has a decent sized impact on the final performance.
+- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
+- As the different final states will have different energy resolutions and sytematic uncertainties, it may be possible for a future analysis to improve the oscillation paramter sensitivity by indentifying subsamples with specific topologies.
+- Primary partile scores can be combined to give compounded scores for the exclusive final state selections.
+INFO: Need to understand the error on the number of cosmic passing the cut, is it reasonable without a huge amount of testing data?
+INFO: What are the errors on all my number values? with the stats I have?
+- Having a veto in the upstream towards the beam direction would be best
+- Talk about how beam muons upstream of the detector are just like cosmics and say how they could be rejected aswell
+INFO: proof that there is no topological difference between QEL and MEC if we are combining them for the energy stuff
+- BIG UP the difference in time it takes, as this can have a huge impact on reprocessing your full dataset
+- This allows a massive increase in the iteration rate of analysis, which can lead to an improved rate of improvement, with less time wasted.
+- Position of PMTs does not seem to be that important
+
 DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
 DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
 INFO: Table of the final number of expected events and efficiency and purity of the signal at the chosen cut value (nuel and numu)
@@ -356,13 +461,6 @@ DIAGRAM: Table of how succesive cuts affect the selection of different event typ
 DIAGRAM: CP-Violation sensitivity from GLoBES with the new fluxes, efficiencies, smearing matrices etc... get from Tom/John
 DIAGRAM: Plots of exclusive state predictions by multiplying different score outputs.
 
-- For all the t-SNE stuff
-- There have been plently of attempts at visualising high-dimensional data on a 2/3 dimensional map, including Sammon mapping, Isomap, Locally Linear Embedding, Stochastic Neighbour Embedding.
-- Older implementations tended to cluster all data points towards the centre of the map and proved difficult to optimise.
-- You basically set a summed probability between all points in the low-dimensional space to a summed probability between all points in the high-dimensional space.
-- t-SNE uses the student-t distribution (with a heavy tail) in the low-dimensional space to calculate the probability. This alleviates both the crowding problem and is easier to optimise.
-- Optimisation uses a simple momentum term, plus two new ideas. "Early compression" which forces map points to stay close to each other at the start of optimisation, it is then easier for clusters to move through each other and explore all possible global organisations of the data, this is implemented as an L2-penalty term proportional to the sum of squared distances from the origin, this is then removed at an iteration given as input. Secondly, "Early exaggeration" which creates tight widely seperated clusters.
-
 - Nova gets about ~7percent energy resolution for signal events
 in Ref.~\cite{jiang2019}
 - Fitqun gets ~20cm vertex position resolution for nuel CCQE events
@@ -372,9 +470,6 @@ in Ref.~\cite{jiang2019}
 - Note all the stuff in super-k happens at lower energies ~<1.4GeV
 - In the future we could do semantic segmentation or use GANS
 
-Cern summer report in Ref.~\cite{theodore2016}
-CHIPS cosmic rate in Ref.~\cite{son2013}
-Nova first CVN paper in Ref.~\cite{aurisano2016}
 - CNN's have been widely applied in various computer vision tasks to solve image recongnition and analysis problems.
 - The core problem in HEP is the correct categorisation of particle interactions
 - This is usually done by reconstructing high-level componenets suh as clusters, tracks, showers, jets and rings. and
@@ -384,29 +479,7 @@ BDTs or MLPs to seperate sign from bkg.
 - computer vision moved away from specifically constructed features to sing ML CNNs to discover the features.
 - Manu HEP problems including water cherenkov detectors essentially result in an 'image' of an event, which are well suited to these tools.
 - MLP are widely used in HEP,
-Nova context enriched CVN paper in Ref.~\cite{psihas2019}
-Nova energy recontruction CVN in Ref.~\cite{baldi2019}
-MicroBooNE CNN paper in Ref.~\cite{acciarri2017}
-Watchmal/Triumf Cherenkov variational autoencoders in Ref.~\cite{abhishek2019}
-Daya bay paper in Ref.~\cite{racah2016}
-SHiP GAN simulation paper in Ref.~\cite{ahdida2019}
-New ideas with x+ x- mapping in Ref.~\cite{berns2020}
-DUNE TDR in Ref.~\cite{abi2020}
-DUNE CVN paper in Ref.~\cite{collaboration2020}
-Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
-Original t-SNE paper in Ref.~\cite{maaten2008}
-Original 'dropout' paper in Ref.~\cite{hinton2012}
-Original Batch normalisation paper in Ref.~\cite{ioffe2015}
-VGG paper in Ref.~\cite{simonyan2014}
-Improved resnet paper in Ref.~\cite{he2016}
-Inception-resnet paper in Ref.~\cite{szegedy2016}
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2017}
-MobileNetV2 paper in Ref.~\cite{sandler2018}
-EfficientNet paper in Ref.~\cite{tan2019}
-Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
-Bag of tricks in Ref.~\cite{he2018}
-Grad-CAM paper in Ref.~\cite{elvaraju2019}
-Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
+
 - Deep neural networks have emerged as one of the most powerful supervised learning techniques.
 - They truly caught the attention of the wider ML communityr in 2012 when A. Krizhevsky, I, Sutskever and G. Hinton used a GPU to train
 AlexNet, lowering the error rate on the image classification task ImageNet by 12%. 
