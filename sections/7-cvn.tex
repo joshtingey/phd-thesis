@@ -50,7 +50,6 @@ INTRODUCTION
 - Previous applications in HEP
 
 STANDARD RECONSTRUCTION METHODS
-- CHIPS reco paper~\cite{blake2016}
 - Describe old likelihood based reconstruction (similar to fitqun)
 - Describe standard MLP PID methods, hand engineered features etc...
 - What are the main disadvantages of all of this?
@@ -97,6 +96,10 @@ EXPLAINABILITY
 \section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_intro} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Explain the goals of both event reconstruction and event classification/ particle identification
+- Main purpose for now is to allow for the exploration of different detector designs, for future
+CHIPS detectors.
+
 \subsection{Previous deep learning for neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_intro_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -105,7 +108,8 @@ EXPLAINABILITY
 - DUNE uses 500*500 pixel images for each of the three readout views of the LArTPC.
 - They just uses events with vertex within the detector iducial volume.
 - Events that contain < 10 non-zero pixels are removed, similar to my removal of low hit events.
-- They use a SE-ResNet architecture, with three branches for each inut view that are then concatenated for the deeper layers of the network.
+- They use a SE-ResNet architecture, with three branches for each inut view that are then
+concatenated for the deeper layers of the network.
 - They do multi-task learning, with 7 tasks.
 - Trained on MC sample of events for the DUNE unosicllated FD neutrino event rate distribution.
 
@@ -120,11 +124,132 @@ SHiP GAN simulation paper in Ref.~\cite{ahdida2019}
 DUNE CVN paper in Ref.~\cite{collaboration2020}
 DUNE TDR in Ref.~\cite{abi2020}
 
-\section{Standard reconstruction methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Standard reconstruction and particle identification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event topology hypothesis.
-- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the WCSimAnalysis package.
+It is important to outline the standard event reconstruction and particle identification methods
+thats have been used by the \chips project up till now. This is key for two reasons. Firstly, to
+add context for the performance comparison with the new convolutional neural network approach
+later in the chapter. Secondly, the highlight the main weaknesses of these methods, motivating the
+need for the new technique and making its advantages clear.
+
+A maximum likelihood method based on that implemented by MiniBooNE~\cite{patterson2009} is used
+for event reconstruction. Additionally, an artificial neural network built using the TMVA
+package~\cite{hocker2007} and using outputs from the reconstruction is used for particle
+identification. Both methods are very typical of the `mainstream' approach used by the majority of
+water Cherenkov neutrino experiments. A prime example is the fiTQun algorithm developed for the
+Super-Kamiokande detector, which is now used for both atmospheric~\cite{jiang2019} and
+T2K~\cite{missert2017} analyses.
+
+Due to the small size and limited resources of the \chips project collaboration it is highly
+likely that both the event recontruction and particle identification do not represent the
+`optimal' implementation of these methods. However, through tracking the development process of
+both methods it is clear that any performance improvements would now be small relative to those
+introduced by the new convolutional neural network approach. Thus, it can be assumed that
+the implementation approximates the maximum performance these approaches can provide reasonably
+well.
+
+\section{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The first stage of event reconstruction is seeding, which attempts to make a reasonable `guess' at
+the event track parameters before the full likelihood based method is used. After seperating hits
+in space and time and applying basic filtering to remove outlying hits, a series of vertexing
+algorithms estimate the interaction vertex position, time and initial track direction.
+
+- First stage is track seeding, which attempts to make a reasonable "guess" at the track
+parameters before the likelihood based minimisation methods begins.
+- Hits are firstly seperated in space and time and basic filtering is applied to remove outliying
+hits not clearly associated with a region of interest.
+- A series of vertexing algorithsm are applied to produce an estimate of the interaction vertex
+position, time and track direction.
+- These are then used in a hough transform algorithm to refine to track direction values and to
+look for sub-dominant directions that could indicate multiple particles causing the energy
+deposits.
+- The output from the seeding process is a list of seeds where each seed is an initial guess
+at the track parameters exluding the energy which is not estimated by the seeding algorithms.
+- The seeds are oredered by their peak height in the hough transform space, with a greater height
+indicating a more likely seed.
+- Multiple track hypothesis to use in the likelihood method can then be seeded from the list in
+decending order.
+
+- Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event
+topology hypothesis.
+- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the
+WCSimAnalysis package.
+- BAsed on calculating the likelihood to observe energy deposits of a given charge and time for
+a particular particle track hypothesis.
+- very relient on the hypothesis, in reality the majority of interactions are not simple single
+track events, so this quickly becomes difficult.
+- Based n the likelihood methods developed for MiniBooNE experiment.
+- Given a hypothesised set of tracks, the number of photoelectrons and the time at which the
+first electron is detected for each PMT within the detector is predicted.
+- By comparison with the measured hit charges and times for the event, the likelihood that the
+given track hypothesis produced the measured signals is calculated.
+- The track paramaters are then varied until the negative logarithm of the likelihood is minimised
+This then indicates the best-fit track hypothesis to the measurements.
+- Note: this is heavily dependent on what track hypothesis is made. Is it a single particle, two
+overlapping particles?
+- Goes through multiple stages of fitting, freeing and fixing certain parameters to reach the
+optimised track paramter solution.
+
+- Note: each likelihood minimisation takes approx 2mins to run on a standard computing node.
+
+- CHIPS reco paper~\cite{blake2016}
+- MiniBooNE track reconstruction~\cite{patterson2009}
+- Super-k fitqun usage~\cite{jiang2019}
+- T2K fitqun usage~\cite{missert2017}
+
+\begin{equation} % LIKELIHOOD EQUATION %
+    \mathcal{L}(x)=\mathcal{L}_{unhit}(x)\mathcal{L}_{hit}(x)=\prod_{unhit}P_{unhit}(x)
+    \prod_{hit}P_{charge}(x)P_{time}(x)
+\end{equation}
+
+\begin{itemize}
+    \item Track vertex position ($x_{0}$,$y_{0}$,$z_{0}$) and interaction time $t_{0}$
+    \item Initial track direction ($d_{x}$,$d_{y}$,$d_{z}$)
+    \item Initial kinetic energy of the particle
+    \item Particle type (muon, electron or photon)
+\end{itemize}
+
+
+\section{Particle identification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- TMVA paper~\cite{hocker2007}
+- ROOT paper~\cite{brun1997}
+
+\begin{itemize}
+    \item $\Delta\ln\mathcal{L}$ between electron and muon hypothesis for both time and charge
+          components
+    \item The number of hit PMTs ($N_{hits}$)
+    \item $\frac{\Delta\ln\mathcal{L}_{charge}}{N_{hits}}$
+    \item Fraction of hits inside, within and outside the central hole of the ring for
+          both electron and muon hypotheses
+    \item Fraction of predicted charge outside the ring for both electron and muon hypotheses
+    \item Ratio of the total predicted charged to the total measured charge for both electron
+          and muon hypothesis
+    \item The ratio of the reconstructed energy to the total measured charge
+    \item Reconstructed track direction under the electron hypothesis
+    \item Fraction of hits in the downstream half of the detector
+
+    \item Number of seeds generated by the hough transform seeding algorithm
+    \item Peak height of the first and last seeds found by the hough transform seeding algorithm.
+\end{itemize}
+
+- Primarily driven by the difference in the log likelihood between the different likelihood
+hypotheses for an event.
+- Two artifical neural networks (ANNs) were developed, The first is used to seperate electon-like
+from muon-like interactions and the second to seperate between electron-like and NC interactions.
+- Trained on a sample of beam events
+
+- These are all hand engineered features, found by trial and error by a human. They are ofcourse
+physically motivate to some degree, and would be expected to be different for different categories
+of event to discriminate between them.
+- It's very unlikely this is firstly and exhaustive list of all features that could be used, or
+that these are the best features to use.
+- Very hard when the parameter space of possible discriminating engineered features is so large.
+
 
 \section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
