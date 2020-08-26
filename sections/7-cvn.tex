@@ -362,11 +362,12 @@ TODO: combine the same and valid conv operations into the same diagram
 
 Original 'dropout' paper in Ref.~\cite{hinton2012}
 Original Batch normalisation paper in Ref.~\cite{ioffe2015}
-Bag of tricks in Ref.~\cite{he2018}
+Bag of tricks in Ref.~\cite{he2019}
 VGG paper in Ref.~\cite{simonyan2014}
-Improved resnet paper in Ref.~\cite{he2016}
+Original resnet paper in Ref.~\cite{he2016_original}
+Improved resnet paper in Ref.~\cite{he2016_improved}
 Inception-resnet paper in Ref.~\cite{szegedy2016}
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2017}
+Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
 MobileNetV2 paper in Ref.~\cite{sandler2018}
 EfficientNet paper in Ref.~\cite{tan2019}
 
@@ -410,8 +411,6 @@ EQUATION: Batch-normalisation equations
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
 \begin{figure} % NU ENERGIES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_nu_energies.pdf}
     \caption[explore nu energies short]
@@ -439,6 +438,10 @@ EQUATION: Batch-normalisation equations
 - Early stopping
 - Model (dropout, batch norm, se, vgg etc...)
 
+[0,25], outside range: 0.0010
+    [0,120], outside range: 0.0015
+    [0,3500], outside range: 0.0023
+
 \begin{figure} % 8-BIT DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_8_bit_range.pdf}
     \caption[explore 8 bit range short]
@@ -450,37 +453,58 @@ EQUATION: Batch-normalisation equations
 \label{sec:cvn_baseline_architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet.pdf}
     \caption[chipsnet short]
     {chipsnet long}
     \label{fig:chipsnet}
 \end{figure}
 
+vgg: 17,225,296 (88ms)
+inception: 16,893,216 (192ms)
+resnet: 16,526,288 (112ms)
+inception-resnet: 17,145,238 (209ms)
+
 \begin{figure} % ARCHITECTURE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_eff_curves.pdf}
     \caption[arch nuel eff curves short]
-    {arch nuel eff curves long}
+    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % ARCHITECTURE NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_comp_curves.pdf}
     \caption[arch nuel comp curves short]
-    {arch nuel comp curves long}
+    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_nuel_comp_curves}
 \end{figure}
+
+- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
+- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
+- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+
+- Nuel-> ROC-AUC: 0.82519, PRC-AUC: 0.70632, S-Eff: 0.86992, S-Pur: 0.37332
+- FOM1-> 0.45910, 0.91500, 53.20954, 9.73154, 14.92970, 0.67188, 0.68331
+- FOM2-> 13.47965, 0.98500, 28.04995, 1.43802, 2.89217, 0.35419, 0.86627
+
+- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.68789, S-Eff: 0.86926, S-Pur: 0.37417
+- FOM1-> 0.44511, 0.91000, 54.46409, 11.50537, 18.18029, 0.68772, 0.64723
+- FOM2-> 12.22026, 0.98000, 32.56108, 2.77151, 4.32813, 0.41115, 0.82099
+
+- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.69946, S-Eff: 0.87369, S-Pur: 0.34882
+- FOM1-> 0.44448, 0.90500, 52.61119, 10.90981, 15.11323, 0.66433, 0.66906
+- FOM2-> 13.48962, 0.98500, 23.98040, 0.96809, 2.19211, 0.30280, 0.88356
 
 \begin{figure} % ARCHITECTURE NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_eff_curves.pdf}
     \caption[arch numu eff curves short]
-    {arch numu eff curves long}
+    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % ARCHITECTURE NUMU COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_comp_curves.pdf}
     \caption[arch numu comp curves short]
-    {arch numu comp curves long}
+    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_numu_comp_curves}
 \end{figure}
 
@@ -532,48 +556,93 @@ EQUATION: Batch-normalisation equations
 \begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/sample_nuel_eff_curves.pdf}
     \caption[sample nuel eff curves short]
-    {sample nuel eff curves long}
+    {both=solid, flux=dashed, uniform=dotted}
     \label{fig:sample_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % SAMPLE NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/sample_nuel_comp_curves.pdf}
     \caption[sample nuel comp curves short]
-    {sample nuel comp curves long}
+    {both=solid, flux=dashed, uniform=dotted}
     \label{fig:sample_nuel_comp_curves}
 \end{figure}
+
+- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
+- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
+- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+
+- Nuel-> ROC-AUC: 0.81488, PRC-AUC: 0.56769, S-Eff: 0.79933, S-Pur: 0.34677
+- FOM1-> 0.33905, 0.82500, 49.50120, 26.12079, 15.63656, 0.62506, 0.54243
+- FOM2-> 8.44226, 0.92500, 36.01710, 11.59853, 6.60268, 0.45479, 0.66430
+
+- Nuel-> ROC-AUC: 0.82063, PRC-AUC: 0.63426, S-Eff: 0.83421, S-Pur: 0.36814
+- FOM1-> 0.38628, 0.84000, 52.60971, 19.59654, 18.26900, 0.66431, 0.58148
+- FOM2-> 10.10769, 0.96000, 30.52599, 4.49055, 4.63030, 0.38545, 0.76995
 
 \subsection{Which event representation to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_repr} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - Cern summer report in Ref.~\cite{theodore2016}
 - New ideas with x+ x- mapping in Ref.~\cite{berns2020}
+- Fraction of deposited charge in endcaps = 0.4769380479133997
 
 \begin{figure} % NUEL EVENT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ccres_event.pdf}
     \caption[explore nuel ccres event short]
-    {explore nuel ccres event long}
+    {3
+        3307.41
+        2777.48
+            [  11 2212 2212  111 -999 -999 -999 -999 -999 -999 -999 -999 -999 -999
+                -999 -999 -999 -999 -999 -999]
+            [2777.48  1085.32   991.703  318.527 -999.    -999.    -999.    -999.
+                -999.    -999.    -999.    -999.    -999.    -999.    -999.    -999.
+                -999.    -999.    -999.    -999.   ]
+        0}
     \label{fig:explore_nuel_ccres_event}
 \end{figure}
 
 \begin{figure} % NUMU EVENT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_numu_ccdis_event.pdf}
     \caption[explore numu ccdis event short]
-    {explore numu ccdis event long}
+    {91
+        3520.17
+        1862.55
+            [2212   13 2112  211  211   22 -999 -999 -999 -999 -999 -999 -999 -999
+                -999 -999 -999 -999 -999 -999]
+            [2022.37  1862.55  1038.34   226.973  223.71     6.32  -999.    -999.
+                -999.    -999.    -999.    -999.    -999.    -999.    -999.    -999.
+                -999.    -999.    -999.    -999.   ]
+        0}
     \label{fig:explore_numu_ccdis_event}
 \end{figure}
 
 \begin{figure} % NC EVENT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ncdis_event.pdf}
     \caption[explore nuel ncdis event short]
-    {explore nuel ncdis event long}
+    {92
+    9301.59
+    -1.0
+    [  12 2212  211 2212 2212 2112 -999 -999 -999 -999 -999 -999 -999 -999
+    -999 -999 -999 -999 -999 -999]
+    [4731.25  2635.15  2511.54  1046.97   998.676  993.868 -999.    -999.
+    -999.    -999.    -999.    -999.    -999.    -999.    -999.    -999.
+    -999.    -999.    -999.    -999.   ]
+    -1
+    }
     \label{fig:explore_nuel_ncdis_event}
 \end{figure}
 
 \begin{figure} % COSMIC MUON EVENT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_cosmic_event.pdf}
     \caption[explore cosmic event short]
-    {explore cosmic event long}
+    {100
+        2928.5
+        2928.5
+            [  13 -999 -999 -999 -999 -999 -999 -999 -999 -999 -999 -999 -999 -999
+                -999 -999 -999 -999 -999 -999]
+            [2928.5 -999.  -999.  -999.  -999.  -999.  -999.  -999.  -999.  -999.
+                -999.  -999.  -999.  -999.  -999.  -999.  -999.  -999.  -999.  -999. ]
+        0}
     \label{fig:explore_cosmic_event}
 \end{figure}
 
@@ -598,31 +667,43 @@ EQUATION: Batch-normalisation equations
     \label{fig:explore_true_reco_vtx}
 \end{figure}
 
+- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
+- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
+- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
+
+- Nuel-> ROC-AUC: 0.82178, PRC-AUC: 0.67486, S-Eff: 0.87439, S-Pur: 0.29114
+- FOM1-> 0.42202, 0.95500, 50.65626, 10.27209, 15.82963, 0.63948, 0.65995
+- FOM2-> 12.53864, 0.99000, 29.40728, 1.75353, 3.74706, 0.37123, 0.84243
+
+- Nuel-> ROC-AUC: 0.82116, PRC-AUC: 0.66987, S-Eff: 0.86660, S-Pur: 0.29764
+- FOM1-> 0.41895, 0.94500, 50.97483, 10.86474, 16.45768, 0.64350, 0.65104
+- FOM2-> 12.22739, 0.99000, 28.43808, 1.74364, 3.66555, 0.35900, 0.84019
+
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/repr_nuel_eff_curves.pdf}
     \caption[repr nuel eff curves short]
-    {repr nuel eff curves long}
+    {v=solid, o=dashed, i=dotted}
     \label{fig:repr_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/repr_nuel_comp_curves.pdf}
     \caption[repr nuel comp curves short]
-    {repr nuel comp curves long}
+    {v=solid, o=dashed, i=dotted}
     \label{fig:repr_nuel_comp_curves}
 \end{figure}
 
 \begin{figure} % REPR NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/repr_numu_eff_curves.pdf}
     \caption[repr numu eff curves short]
-    {repr numu eff curves long}
+    {v=solid, o=dashed, i=dotted}
     \label{fig:repr_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % REPR NUMU COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/repr_numu_comp_curves.pdf}
     \caption[repr numu comp curves short]
-    {repr numu comp curves long}
+    {v=solid, o=dashed, i=dotted}
     \label{fig:repr_numu_comp_curves}
 \end{figure}
 
@@ -632,35 +713,51 @@ EQUATION: Batch-normalisation equations
 \begin{figure} % CHANNEL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/channel_nuel_eff_curves.pdf}
     \caption[channel nuel eff curves short]
-    {channel nuel eff curves long}
+    {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % CHANNEL NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/channel_nuel_comp_curves.pdf}
     \caption[channel nuel comp curves short]
-    {channel nuel comp curves long}
+    {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_nuel_comp_curves}
 \end{figure}
+
+- Nuel-> ROC-AUC: 0.82377, PRC-AUC: 0.68935, S-Eff: 0.86860, S-Pur: 0.35681
+- FOM1-> 0.43601, 0.91000, 53.71070, 12.22704, 17.60798, 0.67821, 0.64289
+- FOM2-> 12.70378, 0.99000, 20.73912, 0.76294, 1.90217, 0.26187, 0.88613
+
+- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
+- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
+- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
+
+- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
+- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
+- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+
+- Nuel-> ROC-AUC: 0.82521, PRC-AUC: 0.70198, S-Eff: 0.87180, S-Pur: 0.38254
+- FOM1-> 0.45819, 0.91500, 55.18628, 11.56662, 17.17741, 0.69684, 0.65753
+- FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
 
 \begin{figure} % CHANNEL NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_eff_curves.pdf}
     \caption[channel numu eff curves short]
-    {channel numu eff curves long}
+    {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % CHANNEL NUMU COMP CURVES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_comp_curves.pdf}
     \caption[channel numu comp curves short]
-    {channel numu comp curves long}
+    {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_numu_comp_curves}
 \end{figure}
 
 \subsection{Multitask methodology} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_multi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
+Multi-task learning how to weight paper in Ref.~\cite{kendall2018}
 
 \section{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1005,7 +1102,7 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
 
 Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
 Original t-SNE paper in Ref.~\cite{maaten2008}
-Grad-CAM paper in Ref.~\cite{elvaraju2019}
+Grad-CAM paper in Ref.~\cite{selvaraju2017}
 
 - For all the t-SNE stuff
 - There have been plently of attempts at visualising high-dimensional data on a 2/3 dimensional
