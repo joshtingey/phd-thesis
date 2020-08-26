@@ -410,12 +410,7 @@ EQUATION: Batch-normalisation equations
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet.pdf}
-    \caption[chipsnet short]
-    {chipsnet long}
-    \label{fig:chipsnet}
-\end{figure}
+
 
 \begin{figure} % NU ENERGIES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_nu_energies.pdf}
@@ -453,6 +448,41 @@ EQUATION: Batch-normalisation equations
 
 \subsection{Network architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % CHIPSNET DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet.pdf}
+    \caption[chipsnet short]
+    {chipsnet long}
+    \label{fig:chipsnet}
+\end{figure}
+
+\begin{figure} % ARCHITECTURE NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_eff_curves.pdf}
+    \caption[arch nuel eff curves short]
+    {arch nuel eff curves long}
+    \label{fig:arch_nuel_eff_curves}
+\end{figure}
+
+\begin{figure} % ARCHITECTURE NUEL COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_comp_curves.pdf}
+    \caption[arch nuel comp curves short]
+    {arch nuel comp curves long}
+    \label{fig:arch_nuel_comp_curves}
+\end{figure}
+
+\begin{figure} % ARCHITECTURE NUMU EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_eff_curves.pdf}
+    \caption[arch numu eff curves short]
+    {arch numu eff curves long}
+    \label{fig:arch_numu_eff_curves}
+\end{figure}
+
+\begin{figure} % ARCHITECTURE NUMU COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_comp_curves.pdf}
+    \caption[arch numu comp curves short]
+    {arch numu comp curves long}
+    \label{fig:arch_numu_comp_curves}
+\end{figure}
 
 \subsection{Which training sample to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -613,6 +643,20 @@ EQUATION: Batch-normalisation equations
     \label{fig:channel_nuel_comp_curves}
 \end{figure}
 
+\begin{figure} % CHANNEL NUMU EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_eff_curves.pdf}
+    \caption[channel numu eff curves short]
+    {channel numu eff curves long}
+    \label{fig:channel_numu_eff_curves}
+\end{figure}
+
+\begin{figure} % CHANNEL NUMU COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_comp_curves.pdf}
+    \caption[channel numu comp curves short]
+    {channel numu comp curves long}
+    \label{fig:channel_numu_comp_curves}
+\end{figure}
+
 \subsection{Multitask methodology} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_multi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -662,8 +706,104 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
     \label{fig:cat_nuel_comp_curves}
 \end{figure}
 
+\begin{figure} % CAT NUMU EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/cat_numu_eff_curves.pdf}
+    \caption[cat numu eff curves short]
+    {cat numu eff curves long}
+    \label{fig:cat_numu_eff_curves}
+\end{figure}
+
+\begin{figure} % CAT NUMU COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/cat_numu_comp_curves.pdf}
+    \caption[cat numu comp curves short]
+    {cat numu comp curves long}
+    \label{fig:cat_numu_comp_curves}
+\end{figure}
+
+\subsection{Does counting primary particles help?} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_beam_prim} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % BEAM NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/beam_nuel_eff_curves.pdf}
+    \caption[beam nuel eff curves short]
+    {beam nuel eff curves long}
+    \label{fig:beam_nuel_eff_curves}
+\end{figure}
+
+\begin{figure} % BEAM NUEL COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/beam_nuel_comp_curves.pdf}
+    \caption[beam nuel comp curves short]
+    {beam nuel comp curves long}
+    \label{fig:beam_nuel_comp_curves}
+\end{figure}
+
+\begin{figure} % BEAM NUMU EFF CURVES DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/beam_numu_eff_curves.pdf}
+    \caption[beam numu eff curves short]
+    {beam numu eff curves long}
+    \label{fig:beam_numu_eff_curves}
+\end{figure}
+
+\begin{figure} % BEAM NUMU COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/beam_numu_comp_curves.pdf}
+    \caption[beam numu comp curves short]
+    {beam numu comp curves long}
+    \label{fig:beam_numu_comp_curves}
+\end{figure}
+
 \section{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Neutrino and lepton multitask} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_energy_chan} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % ENERGY CHAN DISTS DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_chan_frac_dist.pdf}
+    \caption[energy chan frac dist short]
+    {energy chan frac dist long}
+    \label{fig:energy_chan_frac_dist}
+\end{figure}
+
+\begin{figure} % ENERGY CHAN FRAC VS E DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_chan_frac_vs_e.pdf}
+    \caption[energy chan frac vs e short]
+    {energy chan frac vs e long}
+    \label{fig:energy_chan_frac_vs_e}
+\end{figure}
+
+\subsection{Extra parameters} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_energy_par} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % ENERGY PAR DISTS DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_par_frac_dist.pdf}
+    \caption[energy par frac dist short]
+    {energy par frac dist long}
+    \label{fig:energy_par_frac_dist}
+\end{figure}
+
+\begin{figure} % ENERGY PAR FRAC VS E DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_par_frac_vs_e.pdf}
+    \caption[energy par frac vs e short]
+    {energy par frac vs e long}
+    \label{fig:energy_par_frac_vs_e}
+\end{figure}
+
+\subsection{Combined or split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_energy_split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % ENERGY SPLIT NUEL DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_energy_split_nuel_frac_vs_e.pdf}
+    \caption[final energy split nuel frac vs e short]
+    {final energy split nuel frac vs e long}
+    \label{fig:final_energy_split_nuel_frac_vs_e}
+\end{figure}
+
+\begin{figure} % ENERGY SPLIT NUMU DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_energy_split_numu_frac_vs_e.pdf}
+    \caption[final energy split numu frac vs e short]
+    {final energy split numu frac vs e long}
+    \label{fig:final_energy_split_numu_frac_vs_e}
+\end{figure}
 
 \section{Combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_final} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -689,18 +829,32 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
     \label{fig:final_energy_history}
 \end{figure}
 
+\begin{figure} % COSMIC OUTPUTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_outputs.pdf}
+    \caption[final cosmic outputs short]
+    {final cosmic outputs long}
+    \label{fig:final_cosmic_outputs}
+\end{figure}
+
+\begin{figure} % COSMIC OUTPUTS ZOOMED DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_zoomed_outputs.pdf}
+    \caption[final cosmic zoomed outputs short]
+    {final cosmic zoomed outputs long}
+    \label{fig:final_cosmic_zoomed_outputs}
+\end{figure}
+
+\begin{figure} % ESCAPES OUTPUTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_escapes_outputs.pdf}
+    \caption[final escapes outputs short]
+    {final escapes outputs long}
+    \label{fig:final_escapes_outputs}
+\end{figure}
+
 \begin{figure} % BEAM OUTPUTS NUEL DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_beam_nuel_outputs.pdf}
     \caption[final beam nuel outputs short]
     {final beam nuel outputs long}
     \label{fig:final_beam_nuel_outputs}
-\end{figure}
-
-\begin{figure} % BEAM OUTPUTS NUMU DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_beam_numu_outputs.pdf}
-    \caption[final beam numu outputs short]
-    {final beam numu outputs long}
-    \label{fig:final_beam_numu_outputs}
 \end{figure}
 
 \begin{figure} % BEAM OUTPUTS NUMU DIAGRAM %
@@ -724,19 +878,19 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
     \label{fig:final_numu_eff_curves}
 \end{figure}
 
-%\begin{figure} % FINAL NUEL HISTS DIAGRAM %
-%    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nuel}
-%    \caption[final nuel hists short]
-%    {final nuel hists long}
-%    \label{fig:final_nuel_hists}
-%\end{figure}
+\begin{figure} % FINAL NUEL HISTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nuel_hists.pdf}
+    \caption[final nuel hists short]
+    {final nuel hists long}
+    \label{fig:final_nuel_hists}
+\end{figure}
 
-%\begin{figure} % FINAL NUMU HISTS DIAGRAM %
-%    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_numu_hists.pdf}
-%    \caption[final numu hists short]
-%    {final numu hists long}
-%    \label{fig:final_numu_hists}
-%\end{figure}
+\begin{figure} % FINAL NUMU HISTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_numu_hists.pdf}
+    \caption[final numu hists short]
+    {final numu hists long}
+    \label{fig:final_numu_hists}
+\end{figure}
 
 \begin{figure} % FINAL COMB CAT CONFUSION DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_comb_cat_confusion.pdf}
@@ -771,6 +925,13 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
     \caption[final numu passed energy dist short]
     {final numu passed energy dist long}
     \label{fig:final_numu_passed_energy_dist}
+\end{figure}
+
+\begin{figure} % FINAL 2D ENERGY DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/final_energy_2d.pdf}
+    \caption[final energy 2d short]
+    {final energy 2d long}
+    \label{fig:final_energy_2d}
 \end{figure}
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
@@ -816,6 +977,30 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2017}
     \caption[final frac energy eff short]
     {final frac energy eff long}
     \label{fig:final_frac_energy_eff}
+\end{figure}
+
+\begin{figure} % EXPLAIN EXAMPLE EVENT DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explain_example_event.pdf}
+    \caption[explain example event short]
+    {explain example event long}
+    \label{fig:explain_example_event}
+\end{figure}
+
+\begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %
+    \centering
+    \subcaptionbox{explain cosmic activations\label{fig:explain_cosmic_activations}}{%
+        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_cosmic_activations.pdf}%
+    }
+    \quad
+    \subcaptionbox{explain beam activations\label{fig:explain_beam_activations}}{%
+        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_beam_activations.pdf}%
+    }
+    \quad
+    \subcaptionbox{explain energy activations\label{fig:explain_energy_activations}}{%
+        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_energy_activations.pdf}%
+    }
+    \caption[The caption]
+    {The caption}
 \end{figure}
 
 Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
