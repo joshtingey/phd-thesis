@@ -7,12 +7,6 @@
 build/main.pdf
 
 */__pycache__/
-data/*.root
-data/*.txt
-data/*.ods
-diagrams/*.jpg
-diagrams/*.png
-diagrams/*.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

@@ -86,6 +86,9 @@ virtual W or Z boson producing a lepton and a hadronic system in the final state
 - To isolate DOS events experiments typically apply kinematic cuts to remove QE scattering and
 resonance-mediated contributions from their data.
 
+Big interaction paper \cite{formaggio2012}
+MEC genie ref in \cite{katori2013}
+
 \begin{figure} % PMT ASSEMBLY DIAGRAM %
     \centering
     \subcaptionbox{neutrinos\label{fig:cs_plus}}{%
@@ -131,8 +134,8 @@ resonance-mediated contributions from their data.
     \includegraphics[width=\textwidth]{diagrams/4-exp/numi_beam.png}
     \caption[Schematic of the \numi beam.]
     {Schematic of the main components of the \numi beam (not to scale) shown with their
-        dimensions. The horns control if the beam is in neutrino or anti-neutrino mode. Image
-        taken from Ref.\cite{adamson2016}.}
+        dimensions. The horns control if the beam is in neutrino or anti-neutrino mode. Figure
+        taken from Ref.~\cite{adamson2016}.}
     \label{fig:numi_beam}
 \end{figure}
 
@@ -141,24 +144,44 @@ resonance-mediated contributions from their data.
     \caption[Neutrino flux for different detectors in the \numi beam.]
     {Neutrino flux for different detectors in the \numi beam.
         The difference is caused by the different off-axis angles.
-        Image taken from Ref.\cite{adamson2013}.}
+        Figure taken from Ref.~\cite{adamson2013}.}
     \label{fig:numi_axis}
 \end{figure}
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-exp/flux.png}
     \caption[flux short]
-    {}
+    {flux long}
     \label{fig:flux}
 \end{figure}
-
-EQUATION: Off-axis effect equations
 
 \subsection{Cherenkov radiation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:exp_long_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-EQUATION: Cherenkov effect equation
-DIAGRAM: Cherenkov effect diagram
+\begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-exp/cherenkov.png}
+    \caption[cherenkov short]
+    {Figure taken from Ref.~\cite{particle2020}}
+    \label{fig:cherenkov}
+\end{figure}
+
+- Charged particle emit Cherenkov radiation if their velocity is greater than the local phase
+velocity of light in the medium through which they are travelling.
+- The angle at which the Cherenkov radiation is emmited relative to the particles direction of
+travel is given by Ref.~\cite{particle2020}
+\begin{equation}
+    cos\theta_{c} = \frac{1}{n\beta}
+\end{equation}
+- Where n is the refractive index of the medium and $\beta=v/c$
+- n is actually a function of the light wavelength $\lambda$
+
+- The refractive index of water is very close to 1.33 in the relevant wavelength range, which for
+ultrarelativistic particles with $\beta\approx 1$ gives a value of $\theta_{c}\approx 41^{\circ}$
+
+- The threshold velocity for Cherenkov emmision is $\beta_{t}=1/n$
+
+
+
 DIAGRAM: Cherenkov profile diagrams
 
 \subsection{Photomultiplier tubes} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
