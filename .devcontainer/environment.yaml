@@ -1,0 +1,17 @@
+name: phd-thesis
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - jupyterlab
+  - papermill
+  - tqdm
+  - mplhep
+  - uproot
+  - flake8
+  - black

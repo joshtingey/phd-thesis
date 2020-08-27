@@ -1,13 +1,11 @@
 FROM continuumio/miniconda3
 
-# We add a non-root user with sudo access. Use "remoteUser": "josh" in the
-# devcontainer.json file to use it.
-ARG USER_NAME=josh
+ARG USER_NAME=thesis
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # Copy environment.yaml to a temp locaition so we can update the environment.
-COPY environment.yaml /tmp/conda-tmp/
+COPY .devcontainer/environment.yaml /tmp/conda-tmp/
 
 # Configure apt and install packages
 RUN apt-get update \

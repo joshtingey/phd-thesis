@@ -2,8 +2,8 @@
 	"name": "phd-thesis",
 	"context": "..",
 	"dockerFile": "Dockerfile",
-	// Use the sudo user 'josh'
-	"remoteUser": "josh",
+	// Use the sudo user 'thesis'
+	"remoteUser": "thesis",
 	// Run a simple python version command as a check after start
 	"postCreateCommand": "python --version",
 	// Forward default jupyterlab port
