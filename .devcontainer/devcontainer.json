@@ -23,7 +23,8 @@
 		"james-yu.latex-workshop",
 		"tecosaur.latex-utilities",
 		"ms-python.python",
-		"gruntfuggly.todo-tree"
+		"gruntfuggly.todo-tree",
+		"stkb.rewrap"
 	],
 	"runArgs": [
 		"--net",

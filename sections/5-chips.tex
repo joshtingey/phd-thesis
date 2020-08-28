@@ -175,9 +175,7 @@ INFO: detector module
 km3net 2.0 ref in \cite{adrian2016}
 Icecube DOM paper \cite{hanson2006}
 
-
 DIAGRAM: POM diagram
-REF: Icecube DOM paper
 REF: Km3net optical module paper
 REF: Nemo-3 PMT paper
 - CHIPS uses high quantum efficiency PMTs from Hamamatsu
@@ -201,8 +199,9 @@ generation to calibrate final PMT positions and time resolutuions.
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-chips/single_plane.jpg}
-    \caption[single plane short]
-    {single plane long}
+    \caption[Picture of a single `Nikhef' plane.]
+    {Picture of a single `Nikhef' high density top endcap plane. Both the inward facing and veto
+        PMTs can be seen as well as the planes umbilical with the green tape attached.}
     \label{fig:single_plane}
 \end{figure}
 
@@ -231,15 +230,19 @@ DIAGRAM: Deployment diagram
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/5-chips/flux.pdf}
-    \caption[flux short]
-    {flux long}
+    \caption[NuMI neutrino flux at CHIPS.]
+    {The NuMI beam neutrino flux with cross-sections applied at the CHIPS detector location. Shown
+        are the seperate contributions from the different neutrino types and sign. No oscillations
+        have been applied.}
     \label{fig:flux}
 \end{figure}
 
 \begin{figure} % XSEC NUEL DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-chips/xsec_nu_e_O16.pdf}
-    \caption[xsec nu e short]
-    {xsec nu e long}
+    \caption[$\nu_{e}$ GENIE cross-sections.]
+    {Example GENIE cross-sections used in the Monte Carlo generation of beam events. Shown are the
+        $\nu_{e}$ CC (left) and NC (right) cross-sections for each of the interaction channels as
+        well as the combined total.}
     \label{fig:xsec_nu_e_O16}
 \end{figure}
 
@@ -249,7 +252,6 @@ Cosmic event rate in \cite{son2013}
 CHIPS.
 - The tau neutrino component is negligible and not predicted by the simulation
 INFO: expected number of events per year etc...
-DIAGRAM: CHIPS expected event rate plot with and without oscillations
 
 \subsection{Cosmic event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -259,8 +261,9 @@ DIAGRAM: Cosmic rate given the water overburden diagram
 
 \begin{figure} % COSMICS AROUND DETECTOR DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-chips/cosmics.png}
-    \caption[cosmics short]
-    {cosmics long}
+    \caption[Cosmic muon rays around the CHIPS detector]
+    {Simulated cosmic muon rays around the CHIPS detector. Note how they are generated within a
+        box.}
     \label{fig:cosmics}
 \end{figure}
 
@@ -277,13 +280,15 @@ DIAGRAM: Cosmic rate given the water overburden diagram
 
 \begin{figure} % DIGI DIAGRAM %
     \centering
-    \subcaptionbox{digi method\label{fig:digi_method}}{%
+    \subcaptionbox{\label{fig:digi_method}}{%
         \includegraphics[height=6cm]{diagrams/5-chips/digi_method.pdf}%
     }
     \quad
-    \subcaptionbox{digi likelihood\label{fig:digi_likelihood}}{%
+    \subcaptionbox{\label{fig:digi_likelihood}}{%
         \includegraphics[height=6cm]{diagrams/5-chips/digi_likelihood.pdf}%
     }
-    \caption[The caption]
-    {The caption}
+    \caption[Simulation PMT digitisaion function.]
+    {(a) Digitisation function used within the simulation to convert incident photons to measured
+        digitised charge. (b) Likelihood of a measured digitised charge being caused by a number
+        of photons incident on a PMT.}
 \end{figure}

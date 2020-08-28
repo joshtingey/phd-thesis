@@ -9,9 +9,6 @@ dependencies:
   - matplotlib
   - seaborn
   - jupyterlab
-  - papermill
   - tqdm
   - mplhep
   - uproot
-  - flake8
-  - black

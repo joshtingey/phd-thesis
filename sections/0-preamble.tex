@@ -1,7 +1,6 @@
 \usepackage{xspace}
 \usepackage{tikz}
-%\usepackage{morefloats,subfig,afterpage}
-\usepackage{mathrsfs} % script font
+\usepackage{mathrsfs}
 \usepackage{verbatim}
 \usepackage{cite}
 \usepackage{graphicx}
@@ -9,45 +8,17 @@
 \usepackage{subcaption}
 \usepackage{url}
 
-%% Load special font packages here if you wish
-\usepackage{lmodern}  % lmodern, mathpazo, euler
-
-%% Using Babel allows other languages to be used and mixed-in easily
-\usepackage[english]{babel}
+\usepackage{lmodern}  %% lmodern, mathpazo, euler
+\usepackage[english]{babel}  %% Using Babel allows other languages to be used and mixed-in easily
 \selectlanguage{english}
 
-%% Use the tikz-feynman package for Feynman diagram.
-\usepackage[compat=1.1.0]{tikz-feynman}
+\usepackage[compat=1.1.0]{tikz-feynman}  %% Use the tikz-feynman package for Feynman diagram.
 
-%% Tweak so maths adapts its boldness to match the context.
-\makeatletter
+\makeatletter  %% Tweak so maths adapts its boldness to match the context.
 \g@addto@macro\bfseries\boldmath
 \makeatother
 
-%% Maths
 \usepackage{resources/abmath}
-\DeclareRobustCommand{\mymath}[1]{\ensuremath{\maybebmsf{#1}}}
-% \DeclareRobustCommand{\parenths}[1]{\mymath{\left({#1}\right)}\xspace}
-% \DeclareRobustCommand{\braces}[1]{\mymath{\left\{{#1}\right\}}\xspace}
-% \DeclareRobustCommand{\angles}[1]{\mymath{\left\langle{#1}\right\rangle}\xspace}
-% \DeclareRobustCommand{\sqbracs}[1]{\mymath{\left[{#1}\right]}\xspace}
-% \DeclareRobustCommand{\mods}[1]{\mymath{\left\lvert{#1}\right\rvert}\xspace}
-% \DeclareRobustCommand{\modsq}[1]{\mymath{\mods{#1}^2}\xspace}
-% \DeclareRobustCommand{\dblmods}[1]{\mymath{\left\lVert{#1}\right\rVert}\xspace}
-% \DeclareRobustCommand{\expOf}[1]{\mymath{\exp{\!\parenths{#1}}}\xspace}
-% \DeclareRobustCommand{\eexp}[1]{\mymath{e^{#1}}\xspace}
-% \DeclareRobustCommand{\plusquad}{\mymath{\oplus}\xspace}
-% \DeclareRobustCommand{\logOf}[1]{\mymath{\log\!\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\lnOf}[1]{\mymath{\ln\!\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\ofOrder}[1]{\mymath{\mathcal{O}\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\SOgroup}[1]{\mymath{\mathup{SO}\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\SUgroup}[1]{\mymath{\mathup{SU}\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\Ugroup}[1]{\mymath{\mathup{U}\parenths{#1}}\xspace}
-% \DeclareRobustCommand{\I}[1]{\mymath{\mathrm{i}}\xspace}
-% \DeclareRobustCommand{\colvector}[1]{\mymath{\begin{pmatrix}#1\end{pmatrix}}\xspace}
-\DeclareRobustCommand{\Rate}{\mymath{\Gamma}\xspace}
-\DeclareRobustCommand{\RateOf}[1]{\mymath{\Gamma}\parenths{#1}\xspace}
-
 \usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
@@ -64,7 +35,6 @@
 % \mathrm{...} macro, i.e. $\mathrm{d}f/\mathrm{d}x$ → df /dx, not $df/dx$ → df /dx
 % So put the whole of each mathematical expression in math mode (and drop out of it via \mathrm or \text if needed).
 % Negative numbers should be written in math mode
-% always wrap text in your equations in the \mathrm macro, which does it right
 
 %% Personal macros
 \DeclareRobustCommand{\chips}{\textsc{Chips}\xspace}
