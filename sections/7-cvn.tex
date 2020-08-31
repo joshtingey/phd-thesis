@@ -96,9 +96,32 @@ EXPLAINABILITY
 \section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_intro} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- The principle goal of event reconstruction in CHIPS is to identigy electron neutrino
+interactions against a large background of muon neutrinos and NC interactions.
 - Explain the goals of both event reconstruction and event classification/ particle identification
 - Main purpose for now is to allow for the exploration of different detector designs, for future
 CHIPS detectors.
+- CNN's have been widely applied in various computer vision tasks to solve image recongnition and
+analysis problems.
+- The core problem in HEP is the correct categorisation of particle interactions
+- This is usually done by reconstructing high-level componenets suh as clusters, tracks, showers,
+jets and rings. and then summarising these objects energies, directions and shapes, these
+wuantities are then fed into k-nearest neighbours, BDTs or MLPs to seperate sign from bkg.
+- Prone to failure, mistakes in the reconstruction, and limitation to what has been implemented by
+humans.
+- computer vision moved away from specifically constructed features to sing ML CNNs to discover
+the features.
+- Manu HEP problems including water cherenkov detectors essentially result in an 'image' of an
+event, which are well suited to these tools.
+- MLP are widely used in HEP,
+- Deep neural networks have emerged as one of the most powerful supervised learning techniques.
+- They truly caught the attention of the wider ML communityr in 2012 when A. Krizhevsky, I,
+Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
+classification task ImageNet by 12%. 
+- Such was the rapid pace of advance afterwards that the ResNet model acheived a 3.57\percent
+error just three years later.
+- Many high level libraries have now been formed, predominently led by Tensorflow (from google)
+and pyTorch (from facebook) making it easier to quickly code and implemenetd DNNs.
 
 \subsection{Previous deep learning for neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_intro_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,8 +151,8 @@ DUNE TDR in Ref.~\cite{abi2020}
 \label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is essential to outline the standard event reconstruction, and particle identification methods
-that have been used by the \chips project up till now. This is key for two reasons. Firstly, to
-add context for the performance comparison with the new convolutional neural network approach
+that have been used by the \chips project up till now. This is key for two main reasons. Firstly,
+to add context to the performance comparison with the new convolutional neural network approach
 later in the chapter. Secondly, to highlight the main weaknesses of these methods, motivating the
 need for the new technique and making its advantages clear.
 
@@ -148,93 +171,147 @@ both methods, it is clear that any performance improvements would now be small r
 introduced by the new convolutional neural network approach. Thus, it can be assumed that the
 implementation approximates the maximum performance these approaches can provide reasonably well.
 
-\section{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first stage of event reconstruction is seeding, which attempts to make a reasonable `guess' at
-the event track parameters before the full likelihood based method is used. After seperating hits
-in space and time and applying basic filtering to remove outlying hits, a series of vertexing
-algorithms estimate the interaction vertex position, time and initial track direction.
+The event reconstruction methodology is simple in theory: for a given set of hypothesised tracks,
+the number of photoelectrons and the time at which the first of these is recorded for each PMT in
+the detector is predicted. By comparing this prediction with the measured hit charges and times
+the likelihood that the given track hypothesis produced the measured signals can be calculated.
+The parameters that describe the hypothesised tracks are then varied until the negative logarithm
+of the likelihood is minimised. Identifying the best-fit parameters for the hypothesis. A brief
+description of the full procedure is given below, however, for a full description see
+Ref.~\cite{blake2016} and Ref.~\cite{perch2017}.
 
-- First stage is track seeding, which attempts to make a reasonable "guess" at the track
-parameters before the likelihood based minimisation methods begins.
-- Hits are firstly seperated in space and time and basic filtering is applied to remove outliying
-hits not clearly associated with a region of interest.
-- A series of vertexing algorithsm are applied to produce an estimate of the interaction vertex
-position, time and track direction.
-- These are then used in a hough transform algorithm to refine to track direction values and to
-look for sub-dominant directions that could indicate multiple particles causing the energy
-deposits.
-- The output from the seeding process is a list of seeds where each seed is an initial guess
-at the track parameters exluding the energy which is not estimated by the seeding algorithms.
-- The seeds are oredered by their peak height in the hough transform space, with a greater height
-indicating a more likely seed.
-- Multiple track hypothesis to use in the likelihood method can then be seeded from the list in
-decending order.
+The first stage of event reconstruction is the effective seeding of tracks that are then used in
+the full likelihood fit. The seeding methods aim to provide a good starting point for the
+minimisation, both to increase the efficiency of finding the optimal track parameters and also to
+avoid a false local minimum from being returned.
 
-- Standard water cherenkov analysis is via a likelihood hood fit to the ring assuming some event
-topology hypothesis.
-- This is used in super-k with fitqun and what has been previously implemented for CHIPS in the
-WCSimAnalysis package.
-- BAsed on calculating the likelihood to observe energy deposits of a given charge and time for
-a particular particle track hypothesis.
-- very relient on the hypothesis, in reality the majority of interactions are not simple single
-track events, so this quickly becomes difficult.
-- Based n the likelihood methods developed for MiniBooNE experiment.
-- Given a hypothesised set of tracks, the number of photoelectrons and the time at which the
-first electron is detected for each PMT within the detector is predicted.
-- By comparison with the measured hit charges and times for the event, the likelihood that the
-given track hypothesis produced the measured signals is calculated.
-- The track paramaters are then varied until the negative logarithm of the likelihood is minimised
-This then indicates the best-fit track hypothesis to the measurements.
-- Note: this is heavily dependent on what track hypothesis is made. Is it a single particle, two
-overlapping particles?
-- Goes through multiple stages of fitting, freeing and fixing certain parameters to reach the
-optimised track paramter solution.
+Firstly, the PMT hits are sliced in both space and time. Gaps in the time ordering of hits are
+used to separate the event into time slices. Each of these then undergoes basic filtering and
+clustering to remove outlying hits and ensure only the dominant collections of hits are
+considered. Each cleaned slice is then run through simple vertex finding algorithms to estimate
+the interaction position and time, as well and the initial track direction.
 
-- Note: each likelihood minimisation takes approx 2mins to run on a standard computing node.
+A circular Hough transform algorithm, traditionally used for water Cherenkov ring finding is then
+applied. The voting-based transformation produces as output a space within which rings of PMT hits
+exist as single peaks. The track direction values are then further refined using this space, and a
+search for smaller peaks is carried out to indicate if multiple particles are likely to be
+involved. This process results in a list of seeds with a corresponding score related directly to
+the height of the associated peak in Hough transform space.
 
-- Detail in ~\cite{perch2017}
-- CHIPS reco paper~\cite{blake2016}
-- MiniBooNE track reconstruction~\cite{patterson2009}
-- Super-k fitqun usage~\cite{jiang2019}
-- T2K fitqun usage~\cite{missert2017}
-
-\begin{equation} % LIKELIHOOD EQUATION %
-    \mathcal{L}(x)=\mathcal{L}_{unhit}(x)\mathcal{L}_{hit}(x)=\prod_{unhit}P_{unhit}(x)
-    \prod_{hit}P_{charge}(x)P_{time}(x)
-\end{equation}
-
+Each track in a fit hypothesis is made up of a vector of parameters $\vec{x}$, containing the
+following:
 \begin{itemize}
-    \item Track vertex position ($x_{0}$,$y_{0}$,$z_{0}$) and interaction time $t_{0}$
-    \item Initial track direction ($d_{x}$,$d_{y}$,$d_{z}$)
-    \item Initial kinetic energy of the particle
-    \item Particle type (muon, electron or photon)
+    \item The track vertex position ($x_{0}$, $y_{0}$, $z_{0}$) and interaction time $t_{0}$.
+    \item The initial track direction ($d_{\theta}$, $d_{\phi}$).
+    \item The initial kinetic energy of the particle.
+    \item The particle type (muon, electron or photon).
 \end{itemize}
+Additionally, for a photon hypothesis (identical to an electron hypothesis in reality) the
+distance between the interaction vertex and the beginning of the electromagnetic shower initiated
+by the $\gamma$ is included as a parameter.
 
+These parameters are then initialised using the parameters found in the seeding procedure in
+descending order of Hough peak height score. As the particle energy is not estimated by the
+seeding algorithms a default value equal to the average particle energy observed in the Monte
+Carlo simulation is assigned. Additionally, constraints can be placed on multi-track fits before
+the minimisation process begins to reduce the number of free parameters.
 
-\section{Particle identification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For example, in the NC $\pi^{0}$ case, a multi-track two-photon hypothesis is used. Firstly, the
+initial parameters for the two photons are assigned from the two highest-scoring seeds. Secondly,
+the vertex position for both tracks is constrained to remain the same, and the directions and
+energies are set to be constrained by the invariant mass of the $\pi^{0}$.
+
+In it's simplest form the likelihood is a simple product of two terms:
+\begin{equation} % LIKELIHOOD EQUATION %
+    \mathcal{L}(\vec{x})=\mathcal{L}_{unhit}(\vec{x})\mathcal{L}_{hit}(\vec{x})=
+    \prod_{unhit}P_{unhit}(\vec{x})\prod_{hit}P_{charge}(\vec{x})P_{time}(\vec{x}),
+    \label{eq:likelihood}
+\end{equation}
+where the first gives the likelihood that the hypothesis $\vec{x}$ will not predict a hit on the
+PMTs that do not have a measured hit, and the second gives the likelihood that $\vec{x}$ produces
+the observed photoelectrons and hit times on the hit PMTs. By considering the negative logarithm
+of the likelihood instead, the computation can be simplified into a sum of logarithms over the
+PMTs, such that
+\begin{equation} % LIKELIHOOD SUM PMTS EQUATION %
+    -\log\mathcal{L}(\vec{x})=
+    -\sum_{unhit}\log(P_{unhit}(\vec{x}))
+    -\sum_{hit}\log(P_{charge}(\vec{x}))
+    -\sum_{hit}\log(P_{time}(\vec{x})).
+    \label{eq:likelihood_sum}
+\end{equation}
+This also has the effect of separating the charge and time components which can then be dealt with
+separately in the prediction process. In the actual likelihood calculation the
+$P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the probability of
+an unhit PMT is treated as a PMT with observed charge equal to zero.
+
+For the actual minimisation process, the Minuit2 algorithm contained within ROOT~\cite{brun1997}
+is used. At each iteration, the charge and hit time predictions are made, and the negative
+logarithm of the likelihood is calculated. The track parameters are then varied before the next
+iteration to help minimise the value. Through a series of stages, fixing and then freeing specific
+parameters, the minimisation process converges to the best-fit parameters for the given
+hypothesis. This process typically takes approximately two minutes on a standard batch farm node.
+
+The charge and hit time predictions and their associated likelihood contributions rely on many
+low-level inputs to the reconstruction. These generally describe how Cherenkov light is emitted
+from specific particles and then propagates through the detector medium to be detected by the
+PMTs. Example of these inputs include the following:
+\begin{itemize}
+    \item The number of Cherenkov photons emitted by a particle of specific type and energy.
+    \item The fraction of Cherenkov light emitted at each step along a specific particles track
+          length.
+    \item The angular distribution of Cherenkov photon emission for each type of particle.
+    \item The survival probability of photons within the detector medium as a function of
+          distance.
+    \item A detailed description of the PMT positions and directions within the detector.
+    \item The angular efficiency of each PMT relative to the incident photon angle.
+    \item The probability of a measured charge given the predicted number of photoelectrons,
+          derived from a reversal of the simulation digitisation methodology.
+\end{itemize}
+The first three of these are combined into `emission profiles' generated from large samples of
+the Monte Carlo simulation. REFER TO THE EMISSION PROFILE PLOTS!!!
+
+The non-exhaustive list above demonstrates a fundamental problem with the likelihood-based
+approach. It is heavily reliant on the accuracy of low-level inputs and their associated use in
+human implemented software. If a physical process is not dealt with appropriately or overlooked,
+then the prediction of charges and hit times for the PMTs is challenging to do accurately,
+affecting the performance of finding the correct best-fit parameters. A large amount of tuning and
+calibration is, therefore, required to match the simulated data, let alone real data from a live
+detector.
+
+Real events within \chips are rarely simple single electron or muons events or even a two-particle
+event, such as the two-photon example given previously. In reality, the majority of events contain
+multiple final state particles of various types and in various topologies, highlighting the other
+main problem with the likelihood-based approach. Requiring a predefined track hypothesis. This
+makes it impossible to implement a generalised approach to event reconstruction where no input
+hypothesis, susceptible to bias or lacking in required complexity is required to analyse the
+events.
+
+\subsection{Particle identification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- TMVA paper~\cite{hocker2007}
-- ROOT paper~\cite{brun1997}
+Two artificial neural networks have been implemented to provide particle identification using
+outputs from the likelihood based event reconstruction.
+
+Particle identification is primarily driven by the difference between the log likelihood for
 
 \begin{itemize}
-    \item $\Delta\ln\mathcal{L}$ between electron and muon hypothesis for both time and charge
-          components
-    \item The number of hit PMTs ($N_{hits}$)
-    \item $\frac{\Delta\ln\mathcal{L}_{charge}}{N_{hits}}$
-    \item Fraction of hits inside, within and outside the central hole of the ring for
-          both electron and muon hypotheses
-    \item Fraction of predicted charge outside the ring for both electron and muon hypotheses
-    \item Ratio of the total predicted charged to the total measured charge for both electron
-          and muon hypothesis
-    \item The ratio of the reconstructed energy to the total measured charge
-    \item Reconstructed track direction under the electron hypothesis
-    \item Fraction of hits in the downstream half of the detector
-
-    \item Number of seeds generated by the hough transform seeding algorithm
-    \item Peak height of the first and last seeds found by the hough transform seeding algorithm.
+    \item The $\Delta\ln\mathcal{L}$ between electron and muon hypothesis for both time and charge
+          components.
+    \item The number of hit PMTs ($N_{hits}$).
+    \item $\frac{\Delta\ln\mathcal{L}_{charge}}{N_{hits}}$.
+    \item The fraction of hits inside, within and outside the central hole of the ring for
+          both electron and muon hypotheses.
+    \item The fraction of predicted charge outside the ring for both electron and muon hypotheses.
+    \item The ratio of the total predicted charged to the total measured charge for both electron
+          and muon hypothesis.
+    \item The ratio of the reconstructed energy to the total measured charge.
+    \item The reconstructed track direction under the electron hypothesis.
+    \item The fraction of hits in the downstream half of the detector.
+    \item The number of seeds generated by the Hough transform seeding algorithm.
+    \item The peak height score of the first and last seeds found by the Hough transform seeding algorithm.
 \end{itemize}
 
 - Primarily driven by the difference in the log likelihood between the different likelihood
@@ -243,16 +320,46 @@ hypotheses for an event.
 from muon-like interactions and the second to seperate between electron-like and NC interactions.
 - Trained on a sample of beam events
 
-- These are all hand engineered features, found by trial and error by a human. They are ofcourse
+- These are all hand engineered features, found by trial and error by a human. They are of course
 physically motivate to some degree, and would be expected to be different for different categories
 of event to discriminate between them.
 - It's very unlikely this is firstly and exhaustive list of all features that could be used, or
 that these are the best features to use.
 - Very hard when the parameter space of possible discriminating engineered features is so large.
 
+- Highlights another problem in that you have to run multiple hypothesis, yet more computation
+time in order to run an effective PID.
+
+- If one photon has a much lower energy than the other, or they are very closely overlapped,
+they are commonly misidentified as a single electron.
+- The shape of the ring can then be used for particle identification
+- Muon rings tend to be sharper and exibit a `plateau' shape as they emmit a constant amount of
+Cherenkov radiatioon from a single particle over a period of time.
+- Electron rings are more diffuse due to their production being from a electromagnetic shower.
 
 \section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Neural networks are neural-inspired nonlinear models for supervised learning. Constructed from
+the basic building blocks of a "neuron".
+- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even
+neutrino event classification if you know what to look for. But we will have way too much data, so
+need to train a computer to do this task for us.
+- A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately.
+Give REF for this.
+- Conv is a set of 'filters' that when applied via scanning across an input image result in a
+feature map
+- Pooling used as each layer requires less complexity and it is less important about the location
+and that the feature exists.
+- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis
+space that tries fewer hypotheses from it is less likely to overfit than one that tries more
+hypotheses from a smaller space.
+- All that "deep" really means is just many many hidden layers, which can encode complex
+structures more efficienctly.
+- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better
+non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
+- We do not predefine the filters, they are also trained to extact the important features from the
+event images
 
 \subsection{Neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -413,6 +520,11 @@ EQUATION: Batch-normalisation equations
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
+- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
+will have different energy resolutions and systematic uncertainties, so seperation can provide
+increased sensitivity.
+
 \begin{figure} % NU ENERGIES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_nu_energies.pdf}
     \caption[explore nu energies short]
@@ -513,6 +625,9 @@ inception-resnet: 17,145,238 (209ms)
 \subsection{Which training sample to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- See signal interactions peaked closely near score values of unity and the backgrounds lie close
+to the zero score as expected.
+
 \begin{figure} % FLUX TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_flux_sample.pdf}
     \caption[explore flux sample short]
@@ -587,6 +702,10 @@ inception-resnet: 17,145,238 (209ms)
 - Cern summer report in Ref.~\cite{theodore2016}
 - New ideas with x+ x- mapping in Ref.~\cite{berns2020}
 - Fraction of deposited charge in endcaps = 0.4769380479133997
+
+- Approaches in the past for event classification using CNNs for water cherenkov detectors have
+taken a few Approaches to generating the input image representation.
+- Projecting onto a 2d surface "outside" the detector
 
 \begin{figure} % NUEL EVENT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ccres_event.pdf}
@@ -822,6 +941,13 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2018}
 \subsection{Does counting primary particles help?} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_beam_prim} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
+- As the different final states will have different energy resolutions and sytematic
+uncertainties, it may be possible for a future analysis to improve the oscillation paramter
+sensitivity by indentifying subsamples with specific topologies.
+- Primary partile scores can be combined to give compounded scores for the exclusive final state
+selections.
+
 \begin{figure} % BEAM NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/beam_nuel_eff_curves.pdf}
     \caption[beam nuel eff curves short]
@@ -1047,6 +1173,39 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2018}
     \label{fig:final_energy_numu}
 \end{figure}
 
+DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
+DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
+INFO: Table of the final number of expected events and efficiency and purity of the signal at the
+chosen cut value (nuel and numu)
+DIAGRAM: Parrallel coordinates plots for tuning the hyperparameters
+INFO: Time taken comparison with old reconstruction (just inference time for all stages)
+INFO: Super-k/Dune/Nova comparison numbers for effeciencies and energy resolutions etc...
+DIAGRAM: Table of how succesive cuts affect the selection of different event types
+DIAGRAM: Plots of exclusive state predictions by multiplying different score outputs.
+
+- BIG UP the difference in time it takes, as this can have a huge impact on reprocessing your full
+dataset
+- This allows a massive increase in the iteration rate of analysis, which can lead to an improved
+rate of improvement, with less time wasted.
+
+INFO: Need to understand the error on the number of cosmic passing the cut, is it reasonable
+without a huge amount of testing data?
+INFO: What are the errors on all my number values? with the stats I have?
+- Having a veto in the upstream towards the beam direction would be best
+- Talk about how beam muons upstream of the detector are just like cosmics and say how they could
+be rejected aswell
+INFO: proof that there is no topological difference between QEL and MEC if we are combining them
+for the energy stuff
+- Position of PMTs does not seem to be that important
+
+- Nova gets about ~7percent energy resolution for signal events
+in Ref.~\cite{jiang2019}
+- Fitqun gets ~20cm vertex position resolution for nuel CCQE events
+- Fitqun gets ~16cm vertex position resolution for numu CCQE events
+- Fitqun gets 5.39percent to 2.58percent lepton energy resolution for nuel CCQE events
+- Fitqun gets ~2.5percent lepton energy resolution for numu CCQE events
+- Note all the stuff in super-k happens at lower energies ~<1.4GeV
+
 \section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1121,74 +1280,3 @@ clusters to move through each other and explore all possible global organisation
 this is implemented as an L2-penalty term proportional to the sum of squared distances from the
 origin, this is then removed at an iteration given as input. Secondly, "Early exaggeration" which
 creates tight widely seperated clusters.
-
-TODO: Sort everything below!!!!
-
-- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even neutrino event classification if
-you know what to look for. But we will have way too much data, so need to train a computer to do this task for us.
-- A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately. Give REF for this.
-- Conv is a set of 'filters' that when applied via scanning across an input image result in a feature map
-- Pooling used as each layer requires less complexity and it is less important about the location and that the feature exists.
-- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis space that tries fewer hypotheses from it is less likely to overfit than one that tries more hypotheses from a smaller space.
-- All that "deep" really means is just many many hidden layers, which can encode complex structures more efficienctly.
-- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
-
-- We do not predefine the filters, they are also trained to extact the important features from the event images
-- Approaches in the past for event classification using CNNs for water cherenkov detectors have taken a few Approaches to generating the input image representation.
-- Projecting onto a 2d surface "outside" the detector
-
-- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
-- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these will have different energy resolutions and systematic uncertainties, so seperation can provide increased sensitivity.
-- See signal interactions peaked closely near score values of unity and the backgrounds lie close to the zero score as expected.
-- DUNE chose their selection cut to maximise the oscillation analysis sensitivity, determining sin(delta-cp) != 0
-- Can choose many different output configurations/categorisations for the events.
-- Should you combined into a big list of categories, should you combine the NC.
-- Should you learn as seperate tasks, turns out the choice here has a decent sized impact on the final performance.
-- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
-- As the different final states will have different energy resolutions and sytematic uncertainties, it may be possible for a future analysis to improve the oscillation paramter sensitivity by indentifying subsamples with specific topologies.
-- Primary partile scores can be combined to give compounded scores for the exclusive final state selections.
-INFO: Need to understand the error on the number of cosmic passing the cut, is it reasonable without a huge amount of testing data?
-INFO: What are the errors on all my number values? with the stats I have?
-- Having a veto in the upstream towards the beam direction would be best
-- Talk about how beam muons upstream of the detector are just like cosmics and say how they could be rejected aswell
-INFO: proof that there is no topological difference between QEL and MEC if we are combining them for the energy stuff
-- BIG UP the difference in time it takes, as this can have a huge impact on reprocessing your full dataset
-- This allows a massive increase in the iteration rate of analysis, which can lead to an improved rate of improvement, with less time wasted.
-- Position of PMTs does not seem to be that important
-
-DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
-DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
-INFO: Table of the final number of expected events and efficiency and purity of the signal at the chosen cut value (nuel and numu)
-DIAGRAM: Parrallel coordinates plots for tuning the hyperparameters
-INFO: Time taken comparison with old reconstruction (just inference time for all stages)
-DIAGRAM: Final stacked reconstructed energy distribution of selected events given a number of years running
-INFO: Super-k/Dune/Nova comparison numbers for effeciencies and energy resolutions etc...
-DIAGRAM: Table of how succesive cuts affect the selection of different event types
-DIAGRAM: CP-Violation sensitivity from GLoBES with the new fluxes, efficiencies, smearing matrices etc... get from Tom/John
-DIAGRAM: Plots of exclusive state predictions by multiplying different score outputs.
-
-- Nova gets about ~7percent energy resolution for signal events
-in Ref.~\cite{jiang2019}
-- Fitqun gets ~20cm vertex position resolution for nuel CCQE events
-- Fitqun gets ~16cm vertex position resolution for numu CCQE events
-- Fitqun gets 5.39percent to 2.58percent lepton energy resolution for nuel CCQE events
-- Fitqun gets ~2.5percent lepton energy resolution for numu CCQE events
-- Note all the stuff in super-k happens at lower energies ~<1.4GeV
-- In the future we could do semantic segmentation or use GANS
-
-- CNN's have been widely applied in various computer vision tasks to solve image recongnition and analysis problems.
-- The core problem in HEP is the correct categorisation of particle interactions
-- This is usually done by reconstructing high-level componenets suh as clusters, tracks, showers, jets and rings. and
-then summarising these objects energies, directions and shapes, these wuantities are then fed into k-nearest neighbours,
-BDTs or MLPs to seperate sign from bkg.
-- Prone to failure, mistakes in the reconstruction, and limitation to what has been implemented by humans.
-- computer vision moved away from specifically constructed features to sing ML CNNs to discover the features.
-- Manu HEP problems including water cherenkov detectors essentially result in an 'image' of an event, which are well suited to these tools.
-- MLP are widely used in HEP,
-
-- Deep neural networks have emerged as one of the most powerful supervised learning techniques.
-- They truly caught the attention of the wider ML communityr in 2012 when A. Krizhevsky, I, Sutskever and G. Hinton used a GPU to train
-AlexNet, lowering the error rate on the image classification task ImageNet by 12%. 
-- Such was the rapid pace of advance afterwards that the ResNet model acheived a 3.57\percent error just three years later.
-- Many high level libraries have now been formed, predominently led by Tensorflow (from google) and pyTorch (from facebook) making it easier to quickly code and implemenetd DNNs.
-- Neural networks are neural-inspired nonlinear models for supervised learning. Constructed from the basic building blocks of a "neuron".
