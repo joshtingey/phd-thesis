@@ -1,173 +1,126 @@
-\chapter{A convolutional neural network for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Application of convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:cvn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-STORY OF THE CHAPTER There are many standard ways that event classification and paramter (mainly
-energy) estimation are usually done in HEP. These mainly include the reconstruction of objects and
-their associated parameters wether these are clusters, tracks, jets or cherenkov rings. Typically
-these along with other constructed features are then passed through a simple machine learning
-model for event or particle classification, or combined in some other way for energy estimation.
+TELL THEM WHAT YOU ARE GOING TO TELL THEM WITH A TOUCH OF MOTIVATION
 
-While this has worked leveraging the enormous amount of work in machine learning especially deep
-learning surely would prove valuable. The key thing that has been done is to move away from human
-engineered features to machine learning models that discover the underlying features that work
-best in clasifiying of regressing a particualar task.
+The principal goal of any physics analysis and no different for \chips, is the correct
+classification of signal events and the rejection of background events. Also of great importance
+is the accurate estimation of the energies of the particles involves in the interaction.
 
-Water chernkov detectors are especially paired to this task as the output from our detectors is
-essentially an 'image' of the event and so classification models that work well on images shoud
-work well on seperating our types of events.
+Traditionally hand-engineered features and simple machine learning models have been used for
+classification of events and kinematic methods have been used for energy reconstruction.
 
-Firstly, the principle issue with matching water cherenkov detectors and deep learning is
-representing the cylindrical detector output of either a 2d flat map that a typically conv network
-can use as input of use a more complicated graph network approach as some other people have tried.
-Typically people have just ignored the endcaps, but this is not optimal as these contain nearing
-half the detected light in a standard CHIPS detector. Other appraoches include the x+ x- approach.
-But as hited at by tomothy report, for a primarilly event classification task, removing any
-distritions due to the detector shape is the most important things. Therefore, the approach of
-veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as
-best possible.
+Water Cherenkov detectors generate essentially an `image' of the neutrino interaction and
+therefore they are well suited to use things from computer vision.
 
-The hough space is used to find this vertex and direction from which the images are produces, so
-it also made sense to include this along with time as a seperate channel in the output. You can
-see
-fro the vertext position is best. Using a more unformly distributes sample of events leads to a
-greater abiity to distinguish the types which is important for subsequant energy reconstruction.
+- Core of any particle physics analysis is the selection of signal events.
+- Traditionally hand-engineered features extracted from event reconstruction are passed to a
+machine learning algorithm for classification.
+- Want an approach that relies less on event reconstruction, preferable using the raw detector
+outputs as input.
 
-Many possible models have been developed for convolutional neural networks over th years.
+- Core problem in experiment HEP is the correct categorisation of the particle interactions
+recorded in out detectors as either signal or background.
+- Commonly/typically this is done by reconstructing high level components such as clusters,
+tracks, showers, jets, and rings associated with the particle interactions. And then summarising
+the energies, directions etc.... of these objects.
+- Prone to failings, mistakes in the reco of high level features from the raw data can lead to
+incorrect categorisation.
+- Features then used to categorise events are limited to those which have been imagined and then
+implemented for the specific experiment.
+- This problem shares many similarities with the problems of computer vision. With great advances
+being made to move away from specially constructed features to the extraction of features using
+convolutional neural networks.
 
-Firstly, the principle issue with matching water cherenkov detectors and deep learning is
-representing the cylindrical detector output of either a 2d flat map that a typically conv network
-can use as input of use a more complicated graph network approach as some other people have tried.
-Typically people have just ignored the endcaps, but this is not optimal as these contain nearing
-half the detected light in a standard CHIPS detector. Other appraoches include the x+ x- approach.
-But as hited at by tomothy report, for a primarilly event classification task, removing any
-distritions due to the detector shape is the most important things. Therefore, the approach of
-veiwing the "image" from the interaction vertex point preserves the cherenkov ring strucutre as
-best possible.
-
-INTRODUCTION
-- Previous work etc...
-- Previous applications in HEP
-
-STANDARD RECONSTRUCTION METHODS
-- Describe old likelihood based reconstruction (similar to fitqun)
-- Describe standard MLP PID methods, hand engineered features etc...
-- What are the main disadvantages of all of this?
-
-THE THEORY OF DEEP CONVOLUTIONAL NEURAL NETWORKS
-- How basic neural networks works
-- How convolutional neural networks build onto of this
-- How overfitting is prevented
-- The evolutional of network structures
-
-A BASELINE IMPLEMENTATION FOR CHIPS
-- Tensorflow/python
-- How the data flows
-- Which architecture to use
-- Which sample to use
-- Which representation to use
-- Multitask methodology
-
-COSMIC REJECTION
-- What is the scale of the task, the aim, expectations.
-- How can we modify the baseline for cosmic rejection
-- Does vertex help?
-- Does escapes help?
-
-BEAM CLASSIFICATION
-- What is the scale of the task, the aim, expectations.
-- How can we modify the baseline for beam classification
-- What categorisation should we use?
-- Does primary particle counting help?
-
-ENERGY ESTIMATION
-- What is the scale of the task, the aim, expectations.
-- How can we modify the baseline for energy estimation.
-- Should we learn an energy estimator for each event type?
-
-FINAL PERFORMANCE
-- Comparison with old reco/pid
-
-EXPLAINABILITY
-- t-SNE
-- Lepton fraction energy performance
-\end{comment}
-
-\section{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_intro} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- The principle goal of event reconstruction in CHIPS is to identigy electron neutrino
+- The principle goal of event reconstruction in CHIPS is to identify electron neutrino
 interactions against a large background of muon neutrinos and NC interactions.
 - Explain the goals of both event reconstruction and event classification/ particle identification
 - Main purpose for now is to allow for the exploration of different detector designs, for future
 CHIPS detectors.
-- CNN's have been widely applied in various computer vision tasks to solve image recongnition and
+
+- CNNs have been widely applied in various computer vision tasks to solve image recognition and
 analysis problems.
-- The core problem in HEP is the correct categorisation of particle interactions
-- This is usually done by reconstructing high-level componenets suh as clusters, tracks, showers,
-jets and rings. and then summarising these objects energies, directions and shapes, these
-wuantities are then fed into k-nearest neighbours, BDTs or MLPs to seperate sign from bkg.
-- Prone to failure, mistakes in the reconstruction, and limitation to what has been implemented by
-humans.
-- computer vision moved away from specifically constructed features to sing ML CNNs to discover
-the features.
-- Manu HEP problems including water cherenkov detectors essentially result in an 'image' of an
+- Many HEP problems including water cherenkov detectors essentially result in an 'image' of an
 event, which are well suited to these tools.
 - MLP are widely used in HEP,
 - Deep neural networks have emerged as one of the most powerful supervised learning techniques.
-- They truly caught the attention of the wider ML communityr in 2012 when A. Krizhevsky, I,
-Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
-classification task ImageNet by 12%. 
-- Such was the rapid pace of advance afterwards that the ResNet model acheived a 3.57\percent
-error just three years later.
-- Many high level libraries have now been formed, predominently led by Tensorflow (from google)
-and pyTorch (from facebook) making it easier to quickly code and implemenetd DNNs.
 
-\subsection{Previous deep learning for neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_intro_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+- If one photon has a much lower energy than the other, or they are very closely overlapped,
+they are commonly misidentified as a single electron.
+- The shape of the ring can then be used for particle identification
+- Muon rings tend to be sharper and exhibit a `plateau' shape as they emmit a constant amount of
+Cherenkov radiation from a single particle over a period of time.
+- Electron rings are more diffuse due to their production being from a electromagnetic shower.
 
-- Previous work in HEP has applied deep learning to a variety of problems...
-- DUNE classifies neutrino ineractions in the DUNE FD using a CVN.
-- DUNE uses 500*500 pixel images for each of the three readout views of the LArTPC.
-- They just uses events with vertex within the detector iducial volume.
-- Events that contain < 10 non-zero pixels are removed, similar to my removal of low hit events.
-- They use a SE-ResNet architecture, with three branches for each inut view that are then
-concatenated for the deeper layers of the network.
-- They do multi-task learning, with 7 tasks.
-- Trained on MC sample of events for the DUNE unosicllated FD neutrino event rate distribution.
+- In this chapter I will outline the current implementations used by \chips
+- Then I will give theoretical context to the deep learning methods
+- Then I will discuss the implementation to \chips and the process through which the optimal
+was found.
+- Then I will discuss the conslusions.
+- Can be split into regression and classification tasks
+- Present a convolutional neural network for cosmic muon rejection, beam event classification and
+neutrino energy estimation.
 
-Cern summer report in Ref.~\cite{theodore2016}
-Nova first CVN paper in Ref.~\cite{aurisano2016}
-Nova context enriched CVN paper in Ref.~\cite{psihas2019}
-Nova energy recontruction CVN in Ref.~\cite{baldi2019}
-MicroBooNE CNN paper in Ref.~\cite{acciarri2017}
-Watchmal/Triumf Cherenkov variational autoencoders in Ref.~\cite{abhishek2019}
-Daya bay paper in Ref.~\cite{racah2016}
-SHiP GAN simulation paper in Ref.~\cite{ahdida2019}
-DUNE CVN paper in Ref.~\cite{collaboration2020}
-DUNE TDR in Ref.~\cite{abi2020}
+\section{Previous applications of deep learning to neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Standard reconstruction and particle identification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Over the last few years, neutrino experiments have started to adopt various deep learning
+techniques for a range of tasks. This trend has generally followed the explosion of interest in
+the field amongst the global research community, especially in computer vision, as can be seen in
+Fig.~\ref{fig:papers}.
+
+\begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/papers.png}
+    \caption[papers short]
+    {The number of artificial intelligence papers submitted to arXiv, broken down by sub-category.
+        Note the particularly large increase in Computer Vision (CV) and pattern recognition
+        papers. Figure taken from Ref.\cite{perrault2019}.}
+    \label{fig:papers}
+\end{figure}
+
+In 2016 the \nova experiment initially applied a convolutional neural network to the task of
+classifying the interaction type of events within their sampling calorimeter
+detector~\cite{aurisano2016}. Two views of raw detector events were used as input to train a
+network based on the popular GoogLeNet architecture~\cite{szegedy2015}, discussed in section
+\ref{sec:cvn_theory_architectures}. An improved iteration of the network has since been applied to
+both the classification of individual clusters of energy deposits~\cite{aurisano2016} and the
+regression task of electron neutrino and electron energy reconstruction.
+
+Convolutional neural networks have also been applied to liquid argon time-projection chambers. The
+MicroBooNE experiment has shown that in addition to classification tasks, the localisation of
+single particles within events is possible~\cite{acciarri2017}. Furthermore, the DUNE
+collaboration has designed a network to output both the interaction type and counts of the
+different types of particle in an event~\cite{collaboration2020, abi2020}. This approach is called
+multi-task learning, which will be discussed in greater detail in \ref{sec:cvn_baseline_multi}.
+
+Applications to water Cherenkov detectors have also been made, by both the Daya Bay reactor
+experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
+type of generative network known as a `variational autoencoder' has been shown to approximate the
+distribution of simulated water Cherenkov data~\cite{abhishek2019}. If further studies prove
+successful, this could allow for training on real data to reduce experimental uncertainties and
+increase the speed of data generation by many orders of magnitude.
+
+\section{Standard event reconstruction and classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-It is essential to outline the standard event reconstruction, and particle identification methods
-that have been used by the \chips project up till now. This is key for two main reasons. Firstly,
-to add context to the performance comparison with the new convolutional neural network approach
-later in the chapter. Secondly, to highlight the main weaknesses of these methods, motivating the
-need for the new technique and making its advantages clear.
+It is essential to outline the standard event reconstruction, and classification methods that have
+been used by the \chips project for detector optimisation studies up till now. This is key for two
+main reasons. Firstly, to add context when comparing the new convolutional neural network approach
+as is done later in the chapter. Secondly, to highlight the main weaknesses of these methods,
+motivating the new technique and making its advantages clear.
 
 A maximum likelihood method based on that implemented by MiniBooNE~\cite{patterson2009} is used
 for event reconstruction. Additionally, an artificial neural network built using the TMVA
-package~\cite{hocker2007} and using outputs from the reconstruction is used for particle
-identification. Both methods are very typical of the `mainstream' approach used by the majority of
+package~\cite{hocker2007} and using outputs from the reconstruction, is used for event
+classification. Both methods are very typical of the `mainstream' approach used by the majority of
 water Cherenkov neutrino experiments. A prime example is the fiTQun algorithm developed for the
 Super-Kamiokande detector, which is now used for both atmospheric~\cite{jiang2019} and
 T2K~\cite{missert2017} analyses.
 
 Due to the small size and limited resources of the \chips project collaboration, it is highly
-likely that both the event reconstruction and particle identification do not represent the
-`optimal' implementation of these methods. However, through tracking the development process of
-both methods, it is clear that any performance improvements would now be small relative to those
+likely that both the event reconstruction and classification do not represent the `optimal'
+implementation of these methods. However, through tracking the development process of both
+methods, it is clear that any performance improvements would now be small relative to those
 introduced by the new convolutional neural network approach. Thus, it can be assumed that the
 implementation approximates the maximum performance these approaches can provide reasonably well.
 
@@ -181,7 +134,7 @@ the likelihood that the given track hypothesis produced the measured signals can
 The parameters that describe the hypothesised tracks are then varied until the negative logarithm
 of the likelihood is minimised. Identifying the best-fit parameters for the hypothesis. A brief
 description of the full procedure is given below, however, for a full description see
-Ref.~\cite{blake2016} and Ref.~\cite{perch2017}.
+Ref.~\cite{blake2016} and in great detail Ref.~\cite{perch2017}.
 
 The first stage of event reconstruction is the effective seeding of tracks that are then used in
 the full likelihood fit. The seeding methods aim to provide a good starting point for the
@@ -215,7 +168,7 @@ by the $\gamma$ is included as a parameter.
 
 These parameters are then initialised using the parameters found in the seeding procedure in
 descending order of Hough peak height score. As the particle energy is not estimated by the
-seeding algorithms a default value equal to the average particle energy observed in the Monte
+seeding algorithms, a default value equal to the average particle energy observed in the Monte
 Carlo simulation is assigned. Additionally, constraints can be placed on multi-track fits before
 the minimisation process begins to reduce the number of free parameters.
 
@@ -247,17 +200,17 @@ separately in the prediction process. In the actual likelihood calculation the
 $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the probability of
 an unhit PMT is treated as a PMT with observed charge equal to zero.
 
-For the actual minimisation process, the Minuit2 algorithm contained within ROOT~\cite{brun1997}
-is used. At each iteration, the charge and hit time predictions are made, and the negative
-logarithm of the likelihood is calculated. The track parameters are then varied before the next
-iteration to help minimise the value. Through a series of stages, fixing and then freeing specific
-parameters, the minimisation process converges to the best-fit parameters for the given
-hypothesis. This process typically takes approximately two minutes on a standard batch farm node.
+The Minuit2 algorithm contained within ROOT~\cite{brun1997} is used for the minimisation process.
+At each iteration, the charge and hit time predictions are made, and the negative logarithm of the
+likelihood is calculated. The track parameters are then varied before the next iteration to
+minimise the value. Through a series of stages, fixing and then freeing specific parameters, the
+minimisation process converges to the best-fit parameters for the given hypothesis. This process
+typically takes approximately two minutes on a standard batch farm computing node.
 
 The charge and hit time predictions and their associated likelihood contributions rely on many
 low-level inputs to the reconstruction. These generally describe how Cherenkov light is emitted
 from specific particles and then propagates through the detector medium to be detected by the
-PMTs. Example of these inputs include the following:
+PMTs. Examples of these inputs include the following:
 \begin{itemize}
     \item The number of Cherenkov photons emitted by a particle of specific type and energy.
     \item The fraction of Cherenkov light emitted at each step along a specific particles track
@@ -267,43 +220,48 @@ PMTs. Example of these inputs include the following:
           distance.
     \item A detailed description of the PMT positions and directions within the detector.
     \item The angular efficiency of each PMT relative to the incident photon angle.
-    \item The probability of a measured charge given the predicted number of photoelectrons,
-          derived from a reversal of the simulation digitisation methodology.
+    \item The probability of a measured charge given the predicted number of photoelectrons
+          (derived from a reversal of the simulation digitisation methodology).
 \end{itemize}
-The first three of these are combined into `emission profiles' generated from large samples of
-the Monte Carlo simulation. REFER TO THE EMISSION PROFILE PLOTS!!!
+The first three are combined into `emission profiles' generated from large samples of the Monte
+Carlo simulation, one representation of which is very similar to those shown in
+Fig.~\ref{fig:emission_profile}. Additionally, the last listed input is equal to that shown in
+Fig.~\ref{fig:digitisation}.
 
 The non-exhaustive list above demonstrates a fundamental problem with the likelihood-based
 approach. It is heavily reliant on the accuracy of low-level inputs and their associated use in
 human implemented software. If a physical process is not dealt with appropriately or overlooked,
 then the prediction of charges and hit times for the PMTs is challenging to do accurately,
 affecting the performance of finding the correct best-fit parameters. A large amount of tuning and
-calibration is, therefore, required to match the simulated data, let alone real data from a live
-detector.
+calibration is, therefore, required to match even simulated data.
 
-Real events within \chips are rarely simple single electron or muons events or even a two-particle
-event, such as the two-photon example given previously. In reality, the majority of events contain
-multiple final state particles of various types and in various topologies, highlighting the other
-main problem with the likelihood-based approach. Requiring a predefined track hypothesis. This
-makes it impossible to implement a generalised approach to event reconstruction where no input
-hypothesis, susceptible to bias or lacking in required complexity is required to analyse the
-events.
+Real events expected within \chips are rarely simple single particle or even two-particle events.
+In reality, the majority of events contain multiple final state particles of various types and in
+various topologies. Highlighting the other main problem with the likelihood-based approach. The
+requirement of a predefined track hypothesis. This makes it impossible to implement a generalised
+approach to event reconstruction where no input hypothesis, susceptible to bias or lacking in
+necessary complexity is required to analyse the event.
 
-\subsection{Particle identification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Two artificial neural networks have been implemented to provide particle identification using
-outputs from the likelihood based event reconstruction.
+As the reconstruction is based on the calculation of a likelihood (analogous to a
+`goodness-of-fit'), the likelihood ratio between different hypotheses can be used for event
+classification tasks. It has also been found that additional hand-engineered features derived from
+the reconstruction outputs have power in classifying the event type.
 
-Particle identification is primarily driven by the difference between the log likelihood for
-
+Two artificial neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$ separation
+and the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer, with the
+number of input parameters plus five nodes. Variables from both a single electron track and single
+muon hypothesis fit to every event are used for both networks, with a full list of inputs as
+follows:
 \begin{itemize}
-    \item The $\Delta\ln\mathcal{L}$ between electron and muon hypothesis for both time and charge
-          components.
-    \item The number of hit PMTs ($N_{hits}$).
-    \item $\frac{\Delta\ln\mathcal{L}_{charge}}{N_{hits}}$.
-    \item The fraction of hits inside, within and outside the central hole of the ring for
-          both electron and muon hypotheses.
+    \item The $\Delta\log\mathcal{L}$ between electron and muon hypothesis for both time and
+          charge components.
+    \item The total number of hit PMTs ($N_{hits}$) and total collected charge.
+    \item $\frac{\Delta\log\mathcal{L}_{charge}}{N_{hits}}$.
+    \item The fraction of hits inside the central hole, within, and outside the ring for both
+          electron and muon hypotheses.
     \item The fraction of predicted charge outside the ring for both electron and muon hypotheses.
     \item The ratio of the total predicted charged to the total measured charge for both electron
           and muon hypothesis.
@@ -311,34 +269,44 @@ Particle identification is primarily driven by the difference between the log li
     \item The reconstructed track direction under the electron hypothesis.
     \item The fraction of hits in the downstream half of the detector.
     \item The number of seeds generated by the Hough transform seeding algorithm.
-    \item The peak height score of the first and last seeds found by the Hough transform seeding algorithm.
+    \item The peak height score of the first and last seeds found by the Hough transform seeding
+          algorithm.
 \end{itemize}
 
-- Primarily driven by the difference in the log likelihood between the different likelihood
-hypotheses for an event.
-- Two artifical neural networks (ANNs) were developed, The first is used to seperate electon-like
-from muon-like interactions and the second to seperate between electron-like and NC interactions.
-- Trained on a sample of beam events
+A sample of CC $\nu_{e}$ and CC $\nu_{\mu}$ beam events characteristic of those expected to be
+seen by \chips is used to train the first classifier, and a corresponding sample of CC $\nu_{e}$
+and NC events for the second. Both output values can then be used to classify events into separate
+samples for analysis.
 
-- These are all hand engineered features, found by trial and error by a human. They are of course
-physically motivate to some degree, and would be expected to be different for different categories
-of event to discriminate between them.
-- It's very unlikely this is firstly and exhaustive list of all features that could be used, or
-that these are the best features to use.
-- Very hard when the parameter space of possible discriminating engineered features is so large.
-
-- Highlights another problem in that you have to run multiple hypothesis, yet more computation
-time in order to run an effective PID.
-
-- If one photon has a much lower energy than the other, or they are very closely overlapped,
-they are commonly misidentified as a single electron.
-- The shape of the ring can then be used for particle identification
-- Muon rings tend to be sharper and exibit a `plateau' shape as they emmit a constant amount of
-Cherenkov radiatioon from a single particle over a period of time.
-- Electron rings are more diffuse due to their production being from a electromagnetic shower.
+The main limitation of this approach is that the input features are restricted to those that have
+been imagined (requiring extensive domain knowledge) and then implemented in software. The current
+list is almost certainly not exhaustive of all the possible variables and combinations of
+variables that could, in theory, be used for discrimination between events. Additionally, any
+mistakes in the likelihood-based reconstruction and, therefore, input variables to the artificial
+neural networks could lead to incorrect categorisation of events.
 
 \section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Machine learning is concerned with algorithms that can learn to make predictions from data
+- Given a set of input variables, predict a set of output variables.
+- Separated into regression for predicting a value from a continuous function or classification
+for separating example into groups.
+- Common to separate into two categories: supervised and unsupervised.
+- In the supervised approach you algorithm is trained using a collection of example for which the
+output is known. In the unsupervised case, the algorithm learns to extract outputs from data where
+the function output is not known.
+
+- Deep learning is a subset of machine learning which has achieved tremendous success in recent
+years.
+- The vast majority of top performing algorithms in various fields are now deep learning methods.
+- Neural networks are made up of neurons, which are mathematical functions that receive one or
+several inputs and produce a corresponding output. Each input is multiplied by a weight and
+summed, a bias term is then added, and the output is then passed through a nonlinear activation
+function, to introduce non-linearities into the model.
+- MLP consists of input and output layer and at least a single intermediate commonly called a
+hidden layer.
+-
 
 - Neural networks are neural-inspired nonlinear models for supervised learning. Constructed from
 the basic building blocks of a "neuron".
@@ -365,6 +333,33 @@ event images
 \label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
+
+- Artificial neural network, like the one used in the old particle identification for \chips is a
+common tool used for both classification and regression tasks.
+- Draws inspiration from neuroscience and the study of the repeated structure of cells, called
+neurons in our brains.
+- Basic unit of a neural network is a node, each a function with computes an output value given a
+set of inputs.
+- Nodes are typically arranged in layers that from a graph theory standpoint is a feedforward
+graph, with information onyl passed to subsequent layers, but not to previous layers.
+- There can be any number of hidden layers before the final output layer.
+- The final prediction is then extracted from the final layer.
+- Output of a node is the product of the weight vector of the node and outputs of the previous
+layer in additional to a bias term.
+- The node response is then typically passed through a nonlinearity, to produce the final utput to
+then be passed to the next layer.
+- Common choices for the nonlinearity are given in ...
+- Sigmoid and tanh where traditionally used because they are attractive for being bounded and
+differentiable at all points.
+- Relu are more like the thresholded linear response seen in biological neurons, and is more
+commonly seen in modern neural networks.
+- Relu does not include an exponential function which is computation expensive to evaluate.
+- Relu unbounded derivative can lead to problems in gradient-based training, but an artificial
+bound on the derivative can avert this problem.
+- Even though Relu is not differentiable at zero, the derivative can be evaluated arbitrarily close
+to zero which is sufficient for training computations.
+- Input layer depends on the problem. Commonly have been hand engineered features extracted from
+the raw data.
 
 \begin{equation} % NETWORK BASIC EQUATION %
     z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
@@ -468,6 +463,12 @@ TODO: combine the same and valid conv operations into the same diagram
 \subsection{The evolution of convolutional networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
+Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
+classification task ImageNet by 12%. 
+- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
+error just three years later.
+
 Original 'dropout' paper in Ref.~\cite{hinton2012}
 Original Batch normalisation paper in Ref.~\cite{ioffe2015}
 Bag of tricks in Ref.~\cite{he2019}
@@ -519,6 +520,9 @@ EQUATION: Batch-normalisation equations
 
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Many high level libraries have now been formed, predominantly led by Tensorflow (from google)
+and pyTorch (from facebook) making it easier to quickly code and implemented DNNs.
 
 - Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
 - Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
