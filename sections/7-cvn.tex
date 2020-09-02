@@ -66,8 +66,8 @@ neutrino energy estimation.
 
 Over the last few years, neutrino experiments have started to adopt various deep learning
 techniques for a range of tasks. This trend has generally followed the explosion of interest in
-the field amongst the global research community, especially in computer vision, as can be seen in
-Fig.~\ref{fig:papers}.
+the field amongst the global research community, especially within computer vision, as can be seen
+in Fig.~\ref{fig:papers}.
 
 \begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/papers.png}
@@ -78,20 +78,20 @@ Fig.~\ref{fig:papers}.
     \label{fig:papers}
 \end{figure}
 
-In 2016 the \nova experiment initially applied a convolutional neural network to the task of
-classifying the interaction type of events within their sampling calorimeter
-detector~\cite{aurisano2016}. Two views of raw detector events were used as input to train a
-network based on the popular GoogLeNet architecture~\cite{szegedy2015}, discussed in section
-\ref{sec:cvn_theory_architectures}. An improved iteration of the network has since been applied to
-both the classification of individual clusters of energy deposits~\cite{aurisano2016} and the
-regression task of electron neutrino and electron energy reconstruction.
+In 2016 the \nova experiment applied a convolutional neural network to the task of classifying the
+interaction type of events within their sampling calorimeter detector~\cite{aurisano2016}. Two
+views of raw detector events were used as input to train a network based on the popular GoogLeNet
+architecture~\cite{szegedy2015}, discussed in section \ref{sec:cvn_theory_architectures}. An
+improved iteration of the network has since been applied to both the classification of individual
+clusters of energy deposits~\cite{aurisano2016}, and the regression task of $\nu_{e}$ and $e^{-}$
+energy reconstruction.
 
 Convolutional neural networks have also been applied to liquid argon time-projection chambers. The
 MicroBooNE experiment has shown that in addition to classification tasks, the localisation of
 single particles within events is possible~\cite{acciarri2017}. Furthermore, the DUNE
-collaboration has designed a network to output both the interaction type and counts of the
-different types of particle in an event~\cite{collaboration2020, abi2020}. This approach is called
-multi-task learning, which will be discussed in greater detail in \ref{sec:cvn_baseline_multi}.
+collaboration has designed a network to output both the interaction class and counts of different
+particle types in an event~\cite{collaboration2020, abi2020}. This approach is called multi-task
+learning, and is discussed in detail in Section.~\ref{sec:cvn_baseline_multi}.
 
 Applications to water Cherenkov detectors have also been made, by both the Daya Bay reactor
 experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
@@ -228,12 +228,12 @@ Carlo simulation, one representation of which is very similar to those shown in
 Fig.~\ref{fig:emission_profile}. Additionally, the last listed input is equal to that shown in
 Fig.~\ref{fig:digitisation}.
 
-The non-exhaustive list above demonstrates a fundamental problem with the likelihood-based
-approach. It is heavily reliant on the accuracy of low-level inputs and their associated use in
-human implemented software. If a physical process is not dealt with appropriately or overlooked,
-then the prediction of charges and hit times for the PMTs is challenging to do accurately,
-affecting the performance of finding the correct best-fit parameters. A large amount of tuning and
-calibration is, therefore, required to match even simulated data.
+The list above demonstrates a fundamental problem with the likelihood-based approach. It is
+heavily reliant on the accuracy of low-level inputs and their associated use in human implemented
+software. If a physical process is not dealt with appropriately or overlooked, then the prediction
+of charges and hit times for the PMTs is challenging to do accurately, affecting the performance
+of finding the correct best-fit parameters. A large amount of tuning and calibration is,
+therefore, required to match even simulated data.
 
 Real events expected within \chips are rarely simple single particle or even two-particle events.
 In reality, the majority of events contain multiple final state particles of various types and in
@@ -252,9 +252,9 @@ the reconstruction outputs have power in classifying the event type.
 
 Two artificial neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$ separation
 and the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer, with the
-number of input parameters plus five nodes. Variables from both a single electron track and single
-muon hypothesis fit to every event are used for both networks, with a full list of inputs as
-follows:
+number of nodes equal to the number of input parameters plus five. Variables from both a single
+electron track and single muon hypothesis fit to every event are used for both networks, with a
+full list of inputs as follows:
 \begin{itemize}
     \item The $\Delta\log\mathcal{L}$ between electron and muon hypothesis for both time and
           charge components.
@@ -276,17 +276,19 @@ follows:
 A sample of CC $\nu_{e}$ and CC $\nu_{\mu}$ beam events characteristic of those expected to be
 seen by \chips is used to train the first classifier, and a corresponding sample of CC $\nu_{e}$
 and NC events for the second. Both output values can then be used to classify events into separate
-samples for analysis.
+samples for further analysis.
 
 The main limitation of this approach is that the input features are restricted to those that have
 been imagined (requiring extensive domain knowledge) and then implemented in software. The current
-list is almost certainly not exhaustive of all the possible variables and combinations of
+list is almost certainly non exhaustive of all the possible variables and combinations of
 variables that could, in theory, be used for discrimination between events. Additionally, any
 mistakes in the likelihood-based reconstruction and, therefore, input variables to the artificial
 neural networks could lead to incorrect categorisation of events.
 
 \section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+NN Basics->Training/backprop->Conv/architectures/deeplearningtechniques
 
 - Machine learning is concerned with algorithms that can learn to make predictions from data
 - Given a set of input variables, predict a set of output variables.
@@ -297,24 +299,136 @@ for separating example into groups.
 output is known. In the unsupervised case, the algorithm learns to extract outputs from data where
 the function output is not known.
 
+- Neural networks have emerged as one of the most powerful and widely-used supervised learning
+techniques.
+- Deep learning caught the attention of the wider machine learning community in 2012 when Alex
+Krizhevsky, Ilya Sutskever and Geoff Hinton used a GPU deep neural network (DNN) AlexNet to lower
+the error rate on the ImageNet large scale visual recongnition challenge by an incredible 12\%
+from 28\% to 16\%.
+- Since then they have become the workhorses for many image based machine learning tasks.
+- Led to the rise of a number of high-level libraries and packages (Caffe, Keras, Pytorch and
+TensorFlow).
+
 - Deep learning is a subset of machine learning which has achieved tremendous success in recent
 years.
 - The vast majority of top performing algorithms in various fields are now deep learning methods.
-- Neural networks are made up of neurons, which are mathematical functions that receive one or
-several inputs and produce a corresponding output. Each input is multiplied by a weight and
-summed, a bias term is then added, and the output is then passed through a nonlinear activation
-function, to introduce non-linearities into the model.
-- MLP consists of input and output layer and at least a single intermediate commonly called a
-hidden layer.
--
 
-- Neural networks are neural-inspired nonlinear models for supervised learning. Constructed from
-the basic building blocks of a "neuron".
-- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even
-neutrino event classification if you know what to look for. But we will have way too much data, so
-need to train a computer to do this task for us.
-- A MPL with a single hidden layer can be shown to apprximate any function arbitrarily accurately.
-Give REF for this.
+\subsection{Neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A neural network is a type of supervised learning model inspired by the repeating cell structure
+of neurons within our brains. The basic building block of a neural network is a `neuron' which
+takes a vector of $k$ inputs $\vec{x} = (x_{1}, x_{2},\dots,x_{k})$ and outputs a scalar
+$a(\vec{x})$. The neurons are arranged into layers, with the input of each layer being the outputs
+from the previous layer. The first layer is commonly referred to as the input layer, the middle
+layers as `hidden layers', and the final layer as the output layer, as illustrated in
+Fig.~\ref{fig:network}.
+
+\begin{figure} % BASIC NETWORK DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/network.pdf}
+    \caption[Illustration of a simple neural network]
+    {Illustration of a simple neural network. There is a single input layer (yellow), two hidden
+        layers (blue), and an output layer (green). Each node corresponds to a `neuron' except for
+        the input layer.}
+    \label{fig:network}
+\end{figure}
+
+Input variables (traditionally hand-engineered features extracted from the raw data) are passed
+into the network via the input layer. Any number of hidden layers containing any number of neurons
+can then follow. The neurons contained within these layers are `trained' so that collectively
+their $a(\vec{x})$ functions solve the problem at hand. For a regression task, the output layer
+outputs a continuous decimal value. Otherwise, for a classification task, a value between zero and
+one representing a probability is usually output for each class. The forward passing of
+information from one layer to the next is why neural networks can also be referred to as
+`feed-forward graphs'.
+
+For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a linear operation, specific to the
+neuron, followed by a non-linear operation, which is the same across all neurons. The linear
+operation consists of the dot product of the input vector $\vec{x}$ with a vector of weights
+$\vec{w}^{(i)} = (w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$ plus a bias term $b^{(i)}$:
+\begin{equation} % NETWORK BASIC EQUATION %
+    z^{(i)}=\vec{w}^{(i)}\cdot\vec{x}+b^{(i)}.
+    \label{eq:network}
+\end{equation}
+After applying the non-linear operation $\sigma_{i}$, commonly referred to as the `activation
+function' the final output from the neuron can be written as
+\begin{equation} % NETWORK ACTIVATION EQUATION %
+    a_{i}(\vec{x})=\sigma_{i}(z^{(i)}).
+    \label{eq:activation}
+\end{equation}
+
+Traditionally a step-function (for networks called perceptrons) was used for the activation
+function. However, as is shown in Section.~\ref{sec:cvn_theory_training} a non-zero gradient is
+required for the practical training of neural networks. In fact, the choice of activation function
+can greatly affect how the network trains and its final performance.
+
+Therefore, common choices have been the hyperbolic tangent and the sigmoid function, primarily
+because they were bounded and differentiable at all points. Recently, the ReLU and other similar functions have become popular, especially for convolutional neural networks. This is mainly due to them avoiding the problem of `vanishing gradients' caused by the saturation of the
+tanh and sigmoid functions at large values of $x$. All of these functions are shown in
+Fig.\ref{fig:activations}.
+
+\begin{figure} % ACTIVATIONS DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/activations.pdf}
+    \caption[Common non-linear activation functions.]
+    {Common non-linear activation functions used for the neurons within neural networks.}
+    \label{fig:activations}
+\end{figure}
+
+\subsection{Training neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
+
+- Although the idea of neural networks have been around for half a century, the applciation of the
+idea was out of reach until the supervised learning strategy of backpropagation was introduced in
+1974.
+- \cite{werbos1974}
+- It is a supervised learning algorithm.
+- The network is presented with a set of training example with a known output and in a iterative
+process the optimal weight parametrs are learnt.
+- The breakthrough was a clever application of the chain rule to differentiable nonlinearities,
+thus allowing stochastic gradient descent to be used for training.
+- SGD is a common optimisation technique. If there is a function to be optimised SGD seeks optimal
+weights using the gradient of that function.
+- The form of the function depends on the problem at hand, but quantifies the error resulting from
+the network results relative to the desired output.
+- Ince this function depends on the network weights, over many iterations a function can be
+approximately minimised by adjusting the weights opposite to the gradient of the objective
+function. using an update rule.
+
+
+\begin{figure} % GRADIENT DESCENT DIAGRAM %
+    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/gradient_descent.pdf}
+    \caption[Illustration of the gradient descent process.]
+    {Simplified illustration of the gradient descent process. Shown in the case for a loss
+        function dependent on a single wight.}
+    \label{fig:gradient_descent}
+\end{figure}
+
+\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
+    E(\boldsymbol{w})=
+    \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
+    \hat{y}_{i}(\vec{w}))^{2}
+    \label{eq:mse}
+\end{equation}
+
+\begin{equation} % BINARY CROSS-ENTROPY EQUATION %
+    E(\vec{w})=
+    -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\vec{w})+
+    (1-y_{i})\log[1-\hat{y}_{i}(\vec{w})]
+    \label{eq:binary_cross_entropy}
+\end{equation}
+
+\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
+    E(\vec{w})=
+    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
+    (\vec{w})+(1-y_{im})\log[1-\hat{y}_{im}(\vec{w})]
+    \label{eq:categorical_cross_entropy}
+\end{equation}
+
+\subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 - Conv is a set of 'filters' that when applied via scanning across an input image result in a
 feature map
 - Pooling used as each layer requires less complexity and it is less important about the location
@@ -329,179 +443,42 @@ non linearities, SGD, prevention of overfitting techniques and conv networks, it
 - We do not predefine the filters, they are also trained to extact the important features from the
 event images
 
-\subsection{Neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even
+neutrino event classification if you know what to look for. But we will have way too much data, so
+need to train a computer to do this task for us.
 
-Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
-
-- Artificial neural network, like the one used in the old particle identification for \chips is a
-common tool used for both classification and regression tasks.
-- Draws inspiration from neuroscience and the study of the repeated structure of cells, called
-neurons in our brains.
-- Basic unit of a neural network is a node, each a function with computes an output value given a
-set of inputs.
-- Nodes are typically arranged in layers that from a graph theory standpoint is a feedforward
-graph, with information onyl passed to subsequent layers, but not to previous layers.
-- There can be any number of hidden layers before the final output layer.
-- The final prediction is then extracted from the final layer.
-- Output of a node is the product of the weight vector of the node and outputs of the previous
-layer in additional to a bias term.
-- The node response is then typically passed through a nonlinearity, to produce the final utput to
-then be passed to the next layer.
-- Common choices for the nonlinearity are given in ...
-- Sigmoid and tanh where traditionally used because they are attractive for being bounded and
-differentiable at all points.
-- Relu are more like the thresholded linear response seen in biological neurons, and is more
-commonly seen in modern neural networks.
-- Relu does not include an exponential function which is computation expensive to evaluate.
-- Relu unbounded derivative can lead to problems in gradient-based training, but an artificial
-bound on the derivative can avert this problem.
-- Even though Relu is not differentiable at zero, the derivative can be evaluated arbitrarily close
-to zero which is sufficient for training computations.
-- Input layer depends on the problem. Commonly have been hand engineered features extracted from
-the raw data.
-
-\begin{equation} % NETWORK BASIC EQUATION %
-    z^{(i)}=\boldsymbol{w}^{(i)}\cdot\boldsymbol{x}+b^{(i)}
-\end{equation}
-
-\begin{equation} % NETWORK ACTIVATION EQUATION %
-    a_{i}(\boldsymbol{x})=\sigma_i(z^{(i)})
-\end{equation}
-
-\begin{figure} % BASIC NETWORK DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/network.pdf}
-    \caption[network short]
-    {network long}
-    \label{fig:network}
-\end{figure}
-
-\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
-    E(\boldsymbol{w})=
-    \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
-    \hat{y}_{i}(\boldsymbol{w}))^{2}
-\end{equation}
-
-\begin{equation} % BINARY CROSS-ENTROPY EQUATION %
-    E(\boldsymbol{w})=
-    -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\boldsymbol{w})+
-    (1-y_{i})\log[1-\hat{y}_{i}(\boldsymbol{w})]
-\end{equation}
-
-\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
-    E(\boldsymbol{w})=
-    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
-    (\boldsymbol{w})+(1-y_{im})\log[1-\hat{y}_{im}(\boldsymbol{w})]
-\end{equation}
-
-\subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-EQUATION: Back propogation equations derivation and explanation
-
-\begin{figure} % ACTIVATIONS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/activations.pdf}
-    \caption[activations short]
-    {activations long}
-    \label{fig:activations}
-\end{figure}
-
-\begin{figure} % GRADIENT DESCENT DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/gradient_descent.pdf}
-    \caption[gradient descent short]
-    {gradient descent long}
-    \label{fig:gradient_descent}
-\end{figure}
-
-\begin{figure} % CONV INPUTS DIAGRAM %
-    \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_input.pdf}
-        \caption{conv input long}
-        \label{fig:conv_input}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_kernel.pdf}
-        \caption{conv kernel long}
-        \label{fig:conv_kernel}
-    \end{subfigure}
-    \caption{conv input and kernel}
-    \label{fig:conv_input_kernel}
-\end{figure}
-
-TODO: combine the same and valid conv operations into the same diagram
-
-\begin{figure} % CONV OPERATION DIAGRAM %
-    \centering
-    \begin{subfigure}[b]{0.71\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_valid.pdf}
-        \caption{conv valid long}
-        \label{fig:conv_valid}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.9\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_same.pdf}
-        \caption{conv same long}
-        \label{fig:conv_same}
-    \end{subfigure}
-    \caption{conv operations}
-    \label{fig:conv_operations}
-\end{figure}
-
-\begin{figure} % POOLING DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/pooling.pdf}
-    \caption[pooling short]
-    {pooling long}
-    \label{fig:pooling}
-\end{figure}
-
-\subsection{The evolution of convolutional networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
-Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
-classification task ImageNet by 12%. 
-- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
-error just three years later.
-
-Original 'dropout' paper in Ref.~\cite{hinton2012}
-Original Batch normalisation paper in Ref.~\cite{ioffe2015}
-Bag of tricks in Ref.~\cite{he2019}
+- Give a general overview of the classic architectures
 AlexNet paper in Ref.~\cite{krizhevsky2012}
 VGG paper in Ref.~\cite{simonyan2014}
 Original resnet paper in Ref.~\cite{he2016_original}
 Improved resnet paper in Ref.~\cite{he2016_improved}
 Inception-resnet paper in Ref.~\cite{szegedy2016}
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
 MobileNetV2 paper in Ref.~\cite{sandler2018}
 EfficientNet paper in Ref.~\cite{tan2019}
 
-EQUATION: Batch-normalisation equations
-
-\begin{figure} % DROPOUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/dropout.pdf}
-    \caption[dropout short]
-    {dropout long}
-    \label{fig:dropout}
+\begin{figure} % CONV INPUTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/conv_input.pdf}
+    \caption[Example of an input grid and kernel.]
+    {Example of an input grid (left) and kernel (right). The specific kernel shown is sensitive to
+        x-shaped features}
+    \label{fig:conv_input}
 \end{figure}
 
-\begin{figure} % EARLY STOPPING DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/early_stopping.pdf}
-    \caption[early stopping short]
-    {early stopping long}
-    \label{fig:early_stopping}
+\begin{figure} % CONV OPERATION DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/conv_operation.pdf}
+    \caption[Example of convolutional operation.]
+    {Example of a convolutional operation involving the input grid and kernel from
+        Fig.~\ref{fig:conv_input}. Both the operation for the case of valid (top) and same (bottom)
+        padding is shown. The blue square in the top-left of the output feature maps indicates the
+        output generated from the specific operation shown.}
+    \label{fig:conv_operation}
 \end{figure}
 
-\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/se.pdf}
-    \caption[se short]
-    {se long}
-    \label{fig:se}
+\begin{figure} % POOLING DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/pooling.pdf}
+    \caption[Example of pooling operation.]
+    {Example of both a max and average $2 \times 2$ pooling operation for a stride length of 2.}
+    \label{fig:pooling}
 \end{figure}
 
 \begin{figure} % RESNET BLOCK DIAGRAM %
@@ -515,6 +492,54 @@ EQUATION: Batch-normalisation equations
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/inception.pdf}
     \caption[inception short]
     {inception long}
+    \label{fig:se}
+\end{figure}
+
+\subsection{Regularisation and other improvements} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Just talk about the things that I have used in chips, do the BOLD title thing that is not really
+a new section but a heading for each
+- Batch normalisation
+- Dropout
+- Early stopping
+- Batch training
+- Hyperparameter optimisation
+- Squeeze-exitation blocks
+
+- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
+Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
+classification task ImageNet by 12%. 
+- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
+error just three years later.
+
+- Batch normalisation
+
+Original 'dropout' paper in Ref.~\cite{hinton2012}
+Original Batch normalisation paper in Ref.~\cite{ioffe2015}
+Bag of tricks in Ref.~\cite{he2019}
+Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
+
+\begin{figure} % DROPOUT DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/dropout.pdf}
+    \caption[dropout short]
+    {Example of dropout applied to the network shown in Fig.~\ref{fig:network}.}
+    \label{fig:dropout}
+\end{figure}
+
+\begin{figure} % EARLY STOPPING DIAGRAM %
+    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/early_stopping.pdf}
+    \caption[Illustration of the early stopping procedure.]
+    {Illustration of the early stopping procedure. Initially both the training and test error
+        decreases, but, at some point the test error will start to increase due to overfitting, at
+        this point the training is stopped.}
+    \label{fig:early_stopping}
+\end{figure}
+
+\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
+    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/se.pdf}
+    \caption[se short]
+    {se long}
     \label{fig:se}
 \end{figure}
 
