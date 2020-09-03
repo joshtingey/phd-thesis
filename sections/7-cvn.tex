@@ -81,17 +81,17 @@ in Fig.~\ref{fig:papers}.
 In 2016 the \nova experiment applied a convolutional neural network to the task of classifying the
 interaction type of events within their sampling calorimeter detector~\cite{aurisano2016}. Two
 views of raw detector events were used as input to train a network based on the popular GoogLeNet
-architecture~\cite{szegedy2015}, discussed in section \ref{sec:cvn_theory_architectures}. An
+architecture~\cite{szegedy2015}, discussed in section \ref{sec:cvn_theory_conv}. An
 improved iteration of the network has since been applied to both the classification of individual
-clusters of energy deposits~\cite{aurisano2016}, and the regression task of $\nu_{e}$ and $e^{-}$
-energy reconstruction.
+clusters of energy deposits~\cite{psihas2019}, and the regression task of $\nu_{e}$ and $e^{-}$
+energy reconstruction~\cite{baldi2019}.
 
 Convolutional neural networks have also been applied to liquid argon time-projection chambers. The
 MicroBooNE experiment has shown that in addition to classification tasks, the localisation of
 single particles within events is possible~\cite{acciarri2017}. Furthermore, the DUNE
 collaboration has designed a network to output both the interaction class and counts of different
 particle types in an event~\cite{collaboration2020, abi2020}. This approach is called multi-task
-learning, and is discussed in detail in Section.~\ref{sec:cvn_baseline_multi}.
+learning, and is discussed in detail within Section.~\ref{sec:cvn_baseline_multi}.
 
 Applications to water Cherenkov detectors have also been made, by both the Daya Bay reactor
 experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
@@ -106,8 +106,8 @@ increase the speed of data generation by many orders of magnitude.
 It is essential to outline the standard event reconstruction, and classification methods that have
 been used by the \chips project for detector optimisation studies up till now. This is key for two
 main reasons. Firstly, to add context when comparing the new convolutional neural network approach
-as is done later in the chapter. Secondly, to highlight the main weaknesses of these methods,
-motivating the new technique and making its advantages clear.
+as is done in Section~\ref{sec:cvn_final_comparison}. Secondly, to highlight the main weaknesses
+of these methods, motivating the new technique and making its advantages clear.
 
 A maximum likelihood method based on that implemented by MiniBooNE~\cite{patterson2009} is used
 for event reconstruction. Additionally, an artificial neural network built using the TMVA
@@ -133,7 +133,7 @@ the detector is predicted. By comparing this prediction with the measured hit ch
 the likelihood that the given track hypothesis produced the measured signals can be calculated.
 The parameters that describe the hypothesised tracks are then varied until the negative logarithm
 of the likelihood is minimised. Identifying the best-fit parameters for the hypothesis. A brief
-description of the full procedure is given below, however, for a full description see
+description of the procedure is given below, however, for a full description see
 Ref.~\cite{blake2016} and in great detail Ref.~\cite{perch2017}.
 
 The first stage of event reconstruction is the effective seeding of tracks that are then used in
@@ -338,7 +338,7 @@ into the network via the input layer. Any number of hidden layers containing any
 can then follow. The neurons contained within these layers are `trained' so that collectively
 their $a(\vec{x})$ functions solve the problem at hand. For a regression task, the output layer
 outputs a continuous decimal value. Otherwise, for a classification task, a value between zero and
-one representing a probability is usually output for each class. The forward passing of
+one representing a probability is typically output for each class. The forward passing of
 information from one layer to the next is why neural networks can also be referred to as
 `feed-forward graphs'.
 
@@ -377,57 +377,208 @@ Fig.\ref{fig:activations}.
 \subsection{Training neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Amazing machine learning for physicists thing in Ref.~\cite{mehta2019}
+The process of supervised training of a neural network uses labelled data to iteratively find the
+optimal weights and biases (network parameters) that maximise the network performance. In order to
+quantify the performance, we must define a loss function $E(\vec{w})$, where $\vec{w}$ is the
+vector of parameters that describe the network, that describes the difference between the network
+output and the true label. For a given input data point $(\vec{x}_{i}, y_{i})$, where
+$\vec{x}_{i}$ are the input parameters and $y_{i}$ is the known truth label, the network generates
+an output $\hat{y}_{i}(\vec{w})$. Using this notation, we can then construct loss functions
+suitable for different tasks.
 
-- Although the idea of neural networks have been around for half a century, the applciation of the
-idea was out of reach until the supervised learning strategy of backpropagation was introduced in
-1974.
-- \cite{werbos1974}
-- It is a supervised learning algorithm.
-- The network is presented with a set of training example with a known output and in a iterative
-process the optimal weight parametrs are learnt.
-- The breakthrough was a clever application of the chain rule to differentiable nonlinearities,
-thus allowing stochastic gradient descent to be used for training.
-- SGD is a common optimisation technique. If there is a function to be optimised SGD seeks optimal
-weights using the gradient of that function.
-- The form of the function depends on the problem at hand, but quantifies the error resulting from
-the network results relative to the desired output.
-- Ince this function depends on the network weights, over many iterations a function can be
-approximately minimised by adjusting the weights opposite to the gradient of the objective
-function. using an update rule.
+In the case of a simple binary classification task, the most commonly used function is the
+cross-entropy:
+\begin{equation} % BINARY CROSS-ENTROPY EQUATION %
+    E(\vec{w})=
+    -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\vec{w})+
+    (1-y_{i})\log[1-\hat{y}_{i}(\vec{w})],
+    \label{eq:binary_cross_entropy}
+\end{equation}
+where the number of data points is given by $n$. For a classification task where the number of
+classes is greater than two $y$ can take on $M$ values. In this case we redefine each data point
+so that $y$ is instead a vector $y_{im}$ such that
+\begin{equation} % ONE-HOT EQUATION %
+    y_{im}=
+    \begin{cases}
+        1 & \text{if $y_{i}=m$} \\
+        0 & \text{otherwise.}   \\
+    \end{cases}
+\end{equation}
+This is commonly named a `one-hot' vector. The cross-entropy then becomes
+\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
+    E(\vec{w})=
+    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
+    (\vec{w})+(1-y_{im})\log[1-\hat{y}_{im}(\vec{w})].
+    \label{eq:categorical_cross_entropy}
+\end{equation}
+For a regression task that predicts a continuous output variable, the mean-squared error is most
+often used as the loss function:
+\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
+    E(\vec{w})=
+    \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
+    \hat{y}_{i}(\vec{w}))^{2}.
+    \label{eq:mse}
+\end{equation}
 
+To find the optimal network parameters for the given task we can iteratively minimise the loss
+function until it converges to its minimum (or in reality a local minimum that performs well).
+This is done by updating the network parameters at each iteration $t$ to move in the direction of
+the gradient of the loss function using an update rule:
+\begin{equation} % UPDATE EQUATION %
+    \vec{w}_{t+1}=\vec{w}_{t}-\eta_{t}\nabla_{\vec{w}}E(\vec{w}),
+\end{equation}
+where $\eta_{t}$ is the `learning rate' which determines the size of the step that is taken at
+each iteration. This methodology is known as `gradient descent' and is illustrated in
+Fig.~\ref{fig:gradient_descent}.
 
 \begin{figure} % GRADIENT DESCENT DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/gradient_descent.pdf}
     \caption[Illustration of the gradient descent process.]
-    {Simplified illustration of the gradient descent process. Shown in the case for a loss
-        function dependent on a single wight.}
+    {Simplified illustration of the gradient descent process. Shown is the case for a loss
+        function dependent on a single weight.}
     \label{fig:gradient_descent}
 \end{figure}
 
-\begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
-    E(\boldsymbol{w})=
-    \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
-    \hat{y}_{i}(\vec{w}))^{2}
-    \label{eq:mse}
+Therefore, in order to use gradient descent, we require that the gradient of the loss function
+with respect to the parameters of the network can be calculated. Doing this for each parameter at
+every iteration would render neural networks impossible to use to the vast computational
+requirements. Instead, an innovative application of the chain rule in an algorithm called
+`backpropagation' (backprop) is used~\cite{werbos1974}. Here we follow the brilliant derivation of
+the four main equations required for backpropagation from Ref.~\cite{mehta2019}.
+
+For a network containing $L$ layers, we can index the individual layers using $l=1,\dots,L$. The
+weight associated with the connection between the $k$-th neuron in layer $l-1$ and the $j$-th
+neuron in layer $l$ can be denoted as $w^{l}_{jk}$. The bias of the layer $l$ neuron is written as
+$b^{l}_{j}$. The activation of the $j$-th neuron in layer $l$ is then related to the outputs from
+the previous layer by
+\begin{equation} % PREVIOUS LAYER EQUATION %
+    a^{l}_{j}=\sigma(z^{l}_{j})=\sigma\left(\sum_{k}w^{l}_{jk}a^{l-1}_{k}+b^{l}_{j}\right).
+    \label{eq:feedforward}
 \end{equation}
 
-\begin{equation} % BINARY CROSS-ENTROPY EQUATION %
-    E(\vec{w})=
-    -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\vec{w})+
-    (1-y_{i})\log[1-\hat{y}_{i}(\vec{w})]
-    \label{eq:binary_cross_entropy}
+The change in the loss function with respect to the linear weighted sum $z^{l}_{j}$ of the $j$-th
+neuron in the last layer $L$ can be used to defined the error:
+\begin{equation} % PREVIOUS LAYER EQUATION %
+    \Delta^{L}_{j}=\frac{\partial E}{\partial z^{L}_{j}}
+\end{equation}
+Similarly the error on any neuron $j$ in any layer $l$ is given by
+\begin{equation} % BACKPROP EQUATION 1 %
+    \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}=\frac{\partial E}{\partial a^{l}_{j}}
+    \sigma '(z^{l}_{j}),
+    \label{eq:backprop_1}
+\end{equation}
+with $\sigma '$ denoting the derivative of the non-linear activation function. As $\partial
+    b^{l}_{j}/\partial z^{l}_{j}=1$, the error can also be viewed as the partial derivative of the
+loss function with respect to the bias as shown by
+\begin{equation} % BACKPROP EQUATION 2 %
+    \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}
+    =\frac{\partial E}{\partial b^{l}_{j}}\frac{\partial b^{l}_{j}}{\partial z^{l}_{j}}
+    =\frac{\partial E}{\partial b^{l}_{j}}
+    \label{eq:backprop_2}
 \end{equation}
 
-\begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
-    E(\vec{w})=
-    -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
-    (\vec{w})+(1-y_{im})\log[1-\hat{y}_{im}(\vec{w})]
-    \label{eq:categorical_cross_entropy}
+Using the chain rule and the fact that the error on neurons in layer $l$ only depends on the
+activation of neurons in the following layer $l+1$, we can write
+\begin{align} % BACKPROP EQUATION 3 %
+    \begin{split}
+        \Delta^{l}_{j} &=\frac{\partial E}{\partial z^{l}_{j}}
+        =\sum_{k}\frac{\partial E}{\partial z^{l+1}_{k}}
+        \frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}} \\
+        &=\sum_{k}\Delta^{l+1}_{k}\frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}} \\
+        &=\left(\sum_{k}\Delta^{l+1}_{k}w^{l+1}_{kj}\right)\sigma '(z^{l}_{j}).
+    \end{split}
+    \label{eq:backprop_3}
+\end{align}
+Additionally, the differential of the cost function with respect to the weight $w^{l}_{jk}$ can be
+written as
+\begin{equation} % BACKPROP EQUATION 4 %
+    \frac{\partial E}{\partial w^{l}_{jk}}
+    =\frac{\partial E}{\partial z^{l}_{j}}\frac{\partial z^{l}_{j}}{\partial w^{l}_{jk}}
+    =\Delta^{l}_{j}a^{l-1}_{k}.
+    \label{eq:backprop_4}
 \end{equation}
+
+The full backpropagation algorithm then proceeds as follows:
+\begin{enumerate}
+    \item After calculating the activations $a^{1}_{j}$ for all neurons in the input layer, use
+          the feed-forward architecture of the network to calculate all activations at every layer
+          using Eq.~\ref{eq:feedforward}.
+    \item Use Eq.~\ref{eq:backprop_1} to calculate the error of the top layer neurons. Both the
+          derivative of the loss function and the activation function is required for this step.
+    \item Use Eq.~\ref{eq:backprop_2} to `backpropagate' the error through the network from the
+          top layer to the input layer to find all $\Delta^{l}_{j}$ values.
+    \item Calculate the gradients for all the weights and biases using Eq.~\ref{eq:backprop_3} and
+          Eq.~\ref{eq:backprop_4}.
+\end{enumerate}
+As can be seen a single `forward' pass to find the activations and a single `backward' pass
+propagating the error is all that's required to calculate the derivatives for all weights and
+biases within the network. This incredibly efficient procedure allows for the use of gradient
+descent to train neural networks.
 
 \subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Using standard CNN terminology, the discrete convolution between the input $x$ and the kernel $w$
+is given by
+\begin{equation}
+    f_{i}=(x*w)_{i}=\sum^{\infty}_{j=-\infty}x_{j}w_{i-j},
+\end{equation}
+where the output $f$ is commonly referred to as the feature map. In typical applications, the
+input is a two-dimensional array of input values $X$. Therefore, both the kernel $W$ and the
+resulting feature map $F$ also become two-dimensional. In this case the convolution operation
+becomes
+\begin{equation}
+    F_{i}=(X*W)_{i,j}=\sum_{m}\sum_{n}X_{i+m,j+n}W_{m,n},
+    \label{eq:conv}
+\end{equation}
+where the infinite sum has been replaced with a discrete sum over two-dimensional elements.
+Analogous to the simple neural network weights $\vec{w}$ first described in Eq.~\ref{eq:network},
+the elements of $W_{m,n}$ can be trained to maximise the network performance (minimise the loss).
+
+To illustrate this operation Fig.~\ref{fig:conv_input} gives examples of a $4 \times 4$ input grid
+and a $3 \times 3$ kernel. The output feature map is generated by sliding the kernel across both
+dimensions of the input grid, summing the products of all associated elements at each step
+according to Eq.~\ref{eq:conv}. Two additional parameters typically modify how the convolution
+proceeds, the `stride' and `padding'. The stride governs how far the kernel moves at each step
+while the padding decides if the input grid is padded with zeros around its border. The resulting
+operation is shown for both `same' and `valid' padding in Fig.~\ref{fig:conv_operation}.
+
+\begin{figure} % CONV INPUTS DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/conv_input.pdf}
+    \caption[Example of an input grid and kernel.]
+    {Example of an input grid (left) and kernel (right). The specific kernel shown is sensitive to
+        x-shaped features}
+    \label{fig:conv_input}
+\end{figure}
+
+\begin{figure} % CONV OPERATION DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/conv_operation.pdf}
+    \caption[Example of convolutional operation.]
+    {Example of a $\mathrm{stride}=1$ convolutional operation involving the input grid and kernel from
+        Fig.~\ref{fig:conv_input}. Both the operation for the case of `valid' (top) and `same' (bottom)
+        padding is shown. The blue square in the top-left of the output feature maps indicates the
+        output generated from the specific operation shown.}
+    \label{fig:conv_operation}
+\end{figure}
+
+- Typically kernels in the lower layers pick out simple features
+- These are them combined into more complex shapes in further layers
+
+- Conv networks CNNs are a special class of deep feed-forward neural networks
+- Best applied for processing data with a grid-like topology such as images.
+- They use a mathemetical operation called convolution.
+- Instead of the general matrix multiplication introduced earlier a discrete convolution is used
+instead in atleast some parts of the network.
+
+- Convolutional neural networks have been highly successful in computer vision for classification
+tasks. GIVE A FEW REFS
+- Mainly driven by the ImageNet challenge REF
+- Inspired by the visual cortex of animals, with groupings on neurons scanning over small
+sub-regions of the visual field.
+- Independent treatment of the sub-regions allows the network as a whole to detect featues in a
+position-independent fashion.
+- In other words classification of the image is possible even if the subject appears in a
+different location within the frame.
 
 - Conv is a set of 'filters' that when applied via scanning across an input image result in a
 feature map
@@ -447,32 +598,33 @@ event images
 neutrino event classification if you know what to look for. But we will have way too much data, so
 need to train a computer to do this task for us.
 
+
+- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
+Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
+classification task ImageNet by 12%. 
+- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
+error just three years later.
+
 - Give a general overview of the classic architectures
 AlexNet paper in Ref.~\cite{krizhevsky2012}
 VGG paper in Ref.~\cite{simonyan2014}
+GoogLeNet in Ref.~\cite{szegedy2015}
 Original resnet paper in Ref.~\cite{he2016_original}
 Improved resnet paper in Ref.~\cite{he2016_improved}
 Inception-resnet paper in Ref.~\cite{szegedy2016}
 MobileNetV2 paper in Ref.~\cite{sandler2018}
 EfficientNet paper in Ref.~\cite{tan2019}
 
-\begin{figure} % CONV INPUTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/conv_input.pdf}
-    \caption[Example of an input grid and kernel.]
-    {Example of an input grid (left) and kernel (right). The specific kernel shown is sensitive to
-        x-shaped features}
-    \label{fig:conv_input}
+\begin{figure} % CONV DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_diagram.jpeg}
+    \caption[conv diagram short]
+    {conv diagram long}
+    \label{fig:conv_diagram}
 \end{figure}
 
-\begin{figure} % CONV OPERATION DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/conv_operation.pdf}
-    \caption[Example of convolutional operation.]
-    {Example of a convolutional operation involving the input grid and kernel from
-        Fig.~\ref{fig:conv_input}. Both the operation for the case of valid (top) and same (bottom)
-        padding is shown. The blue square in the top-left of the output feature maps indicates the
-        output generated from the specific operation shown.}
-    \label{fig:conv_operation}
-\end{figure}
+
+
+
 
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/pooling.pdf}
@@ -481,51 +633,25 @@ EfficientNet paper in Ref.~\cite{tan2019}
     \label{fig:pooling}
 \end{figure}
 
-\begin{figure} % RESNET BLOCK DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/resnet_unit.png}
-    \caption[resnet unit short]
-    {resnet unit long}
-    \label{fig:resnet_unit}
+\begin{figure} % BLOCKS DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/blocks.pdf}
+    \caption[blocks short]
+    {blocks long}
+    \label{fig:blocks}
 \end{figure}
 
-\begin{figure} % INCEPTION BLOCK DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/inception.pdf}
-    \caption[inception short]
-    {inception long}
-    \label{fig:se}
-\end{figure}
 
-\subsection{Regularisation and other improvements} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regularisation and optimisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Just talk about the things that I have used in chips, do the BOLD title thing that is not really
-a new section but a heading for each
-- Batch normalisation
-- Dropout
-- Early stopping
-- Batch training
-- Hyperparameter optimisation
-- Squeeze-exitation blocks
+- introduce stochastic gradient descent vs full and single.
+- The full loss function often includes additional terms that implemenet regularisation. L1 and
+L2. Bag of tricks in Ref.~\cite{he2019}
 
-- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
-Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
-classification task ImageNet by 12%. 
-- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
-error just three years later.
-
-- Batch normalisation
-
-Original 'dropout' paper in Ref.~\cite{hinton2012}
+\subsubsection*{Batch training and normalisation}
 Original Batch normalisation paper in Ref.~\cite{ioffe2015}
-Bag of tricks in Ref.~\cite{he2019}
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
 
-\begin{figure} % DROPOUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/dropout.pdf}
-    \caption[dropout short]
-    {Example of dropout applied to the network shown in Fig.~\ref{fig:network}.}
-    \label{fig:dropout}
-\end{figure}
+\subsubsection*{Early stopping}
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/early_stopping.pdf}
@@ -536,12 +662,27 @@ Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
     \label{fig:early_stopping}
 \end{figure}
 
-\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/se.pdf}
-    \caption[se short]
-    {se long}
-    \label{fig:se}
+\subsubsection*{Dropout}
+
+Original 'dropout' paper in Ref.~\cite{hinton2012}
+\begin{figure} % DROPOUT DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/dropout.pdf}
+    \caption[dropout short]
+    {Example of dropout applied to the network shown in Fig.~\ref{fig:network}.}
+    \label{fig:dropout}
 \end{figure}
+
+\subsubsection*{Data preparation}
+
+- normalisation of data
+- standardisation etc...
+
+\subsubsection*{Hyperparameter optimisation}
+
+- Refer back to the learning rate as a good example
+parameter whose value greatly affects how a network trains. Too large and the minimisation will
+continue to step over the minima and too small and the time taken to reach the minima will
+increase or the minima may never be found.
 
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -553,6 +694,16 @@ and pyTorch (from facebook) making it easier to quickly code and implemented DNN
 - Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
 will have different energy resolutions and systematic uncertainties, so seperation can provide
 increased sensitivity.
+
+\subsubsection*{Squeeze-and-exitation blocks}
+
+Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
+\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
+    \includegraphics[width=0.4\textwidth]{diagrams/7-cvn/se.pdf}
+    \caption[se short]
+    {se long}
+    \label{fig:se}
+\end{figure}
 
 \begin{figure} % NU ENERGIES DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_nu_energies.pdf}
@@ -1061,6 +1212,9 @@ selections.
 
 \section{Combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_final} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Comparison with standard methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_final_comparison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % COSMIC HISTORY DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_history.pdf}
