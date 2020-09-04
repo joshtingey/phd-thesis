@@ -285,7 +285,7 @@ variables that could, in theory, be used for discrimination between events. Addi
 mistakes in the likelihood-based reconstruction and, therefore, input variables to the artificial
 neural networks could lead to incorrect categorisation of events.
 
-\section{The theory of deep convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 NN Basics->Training/backprop->Conv/architectures/deeplearningtechniques
@@ -313,8 +313,8 @@ TensorFlow).
 years.
 - The vast majority of top performing algorithms in various fields are now deep learning methods.
 
-\subsection{Neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_basic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A neural network is a type of supervised learning model inspired by the repeating cell structure
 of neurons within our brains. The basic building block of a neural network is a `neuron' which
@@ -322,7 +322,9 @@ takes a vector of $k$ inputs $\vec{x} = (x_{1}, x_{2},\dots,x_{k})$ and outputs 
 $a(\vec{x})$. The neurons are arranged into layers, with the input of each layer being the outputs
 from the previous layer. The first layer is commonly referred to as the input layer, the middle
 layers as `hidden layers', and the final layer as the output layer, as illustrated in
-Fig.~\ref{fig:network}.
+Fig.~\ref{fig:network}. In general, this simple neural network structure is referred to as
+`fully-connected' as all the neurons in each layer have connections to all the neurons in the
+previous and following layers.
 
 \begin{figure} % BASIC NETWORK DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/network.pdf}
@@ -337,10 +339,9 @@ Input variables (traditionally hand-engineered features extracted from the raw d
 into the network via the input layer. Any number of hidden layers containing any number of neurons
 can then follow. The neurons contained within these layers are `trained' so that collectively
 their $a(\vec{x})$ functions solve the problem at hand. For a regression task, the output layer
-outputs a continuous decimal value. Otherwise, for a classification task, a value between zero and
-one representing a probability is typically output for each class. The forward passing of
-information from one layer to the next is why neural networks can also be referred to as
-`feed-forward graphs'.
+outputs a continuous decimal value. Otherwise, for a classification task, a probability value
+between zero and one is typically output for each class. The forward passing of information from
+one layer to the next is why neural networks can also be referred to as `feed-forward graphs'.
 
 For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a linear operation, specific to the
 neuron, followed by a non-linear operation, which is the same across all neurons. The linear
@@ -358,14 +359,14 @@ function' the final output from the neuron can be written as
 \end{equation}
 
 Traditionally a step-function (for networks called perceptrons) was used for the activation
-function. However, as is shown in Section.~\ref{sec:cvn_theory_training} a non-zero gradient is
-required for the practical training of neural networks. In fact, the choice of activation function
-can greatly affect how the network trains and its final performance.
+function. However, as is shown in Section.~\ref{sec:cvn_theory_training} a non-zero gradient (only
+valid at $x=0$ for a step-function) is required for the practical training of neural networks. In
+fact, the choice of activation function can greatly affect how the network trains and performs.
 
 Therefore, common choices have been the hyperbolic tangent and the sigmoid function, primarily
 because they were bounded and differentiable at all points. Recently, the ReLU and other similar functions have become popular, especially for convolutional neural networks. This is mainly due to them avoiding the problem of `vanishing gradients' caused by the saturation of the
 tanh and sigmoid functions at large values of $x$. All of these functions are shown in
-Fig.\ref{fig:activations}.
+Fig.~\ref{fig:activations}.
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-cvn/activations.pdf}
@@ -380,11 +381,11 @@ Fig.\ref{fig:activations}.
 The process of supervised training of a neural network uses labelled data to iteratively find the
 optimal weights and biases (network parameters) that maximise the network performance. In order to
 quantify the performance, we must define a loss function $E(\vec{w})$, where $\vec{w}$ is the
-vector of parameters that describe the network, that describes the difference between the network
-output and the true label. For a given input data point $(\vec{x}_{i}, y_{i})$, where
-$\vec{x}_{i}$ are the input parameters and $y_{i}$ is the known truth label, the network generates
-an output $\hat{y}_{i}(\vec{w})$. Using this notation, we can then construct loss functions
-suitable for different tasks.
+vector of network parameters, describing the difference between the network output and the true
+label. For a given input data point $(\vec{x}_{i}, y_{i})$, where $\vec{x}_{i}$ are the input
+parameters and $y_{i}$ is the known truth label, the network generates an output
+$\hat{y}_{i}(\vec{w})$. Using this notation, we can then construct loss functions suitable for
+different tasks.
 
 In the case of a simple binary classification task, the most commonly used function is the
 cross-entropy:
@@ -411,7 +412,7 @@ This is commonly named a `one-hot' vector. The cross-entropy then becomes
     (\vec{w})+(1-y_{im})\log[1-\hat{y}_{im}(\vec{w})].
     \label{eq:categorical_cross_entropy}
 \end{equation}
-For a regression task that predicts a continuous output variable, the mean-squared error is most
+For a regression task predicting a continuous output variable, the mean-squared error is most
 often used as the loss function:
 \begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
     E(\vec{w})=
@@ -440,11 +441,11 @@ Fig.~\ref{fig:gradient_descent}.
 \end{figure}
 
 Therefore, in order to use gradient descent, we require that the gradient of the loss function
-with respect to the parameters of the network can be calculated. Doing this for each parameter at
-every iteration would render neural networks impossible to use to the vast computational
+with respect to the parameters of the network be calculated. Doing this for each parameter at
+every iteration would render neural networks impossible to use due to the vast computational
 requirements. Instead, an innovative application of the chain rule in an algorithm called
-`backpropagation' (backprop) is used~\cite{werbos1974}. Here we follow the brilliant derivation of
-the four main equations required for backpropagation from Ref.~\cite{mehta2019}.
+`backpropagation' (backprop) is used~\cite{werbos1974}. Here we follow the derivation of the four
+main equations of backpropagation from Ref.~\cite{mehta2019}.
 
 For a network containing $L$ layers, we can index the individual layers using $l=1,\dots,L$. The
 weight associated with the connection between the $k$-th neuron in layer $l-1$ and the $j$-th
@@ -457,9 +458,9 @@ the previous layer by
 \end{equation}
 
 The change in the loss function with respect to the linear weighted sum $z^{l}_{j}$ of the $j$-th
-neuron in the last layer $L$ can be used to defined the error:
+neuron in the last layer $L$ can be used to define the error:
 \begin{equation} % PREVIOUS LAYER EQUATION %
-    \Delta^{L}_{j}=\frac{\partial E}{\partial z^{L}_{j}}
+    \Delta^{L}_{j}=\frac{\partial E}{\partial z^{L}_{j}}.
 \end{equation}
 Similarly the error on any neuron $j$ in any layer $l$ is given by
 \begin{equation} % BACKPROP EQUATION 1 %
@@ -469,11 +470,11 @@ Similarly the error on any neuron $j$ in any layer $l$ is given by
 \end{equation}
 with $\sigma '$ denoting the derivative of the non-linear activation function. As $\partial
     b^{l}_{j}/\partial z^{l}_{j}=1$, the error can also be viewed as the partial derivative of the
-loss function with respect to the bias as shown by
+loss function with respect to the bias:
 \begin{equation} % BACKPROP EQUATION 2 %
     \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}
     =\frac{\partial E}{\partial b^{l}_{j}}\frac{\partial b^{l}_{j}}{\partial z^{l}_{j}}
-    =\frac{\partial E}{\partial b^{l}_{j}}
+    =\frac{\partial E}{\partial b^{l}_{j}}.
     \label{eq:backprop_2}
 \end{equation}
 
@@ -511,12 +512,25 @@ The full backpropagation algorithm then proceeds as follows:
           Eq.~\ref{eq:backprop_4}.
 \end{enumerate}
 As can be seen a single `forward' pass to find the activations and a single `backward' pass
-propagating the error is all that's required to calculate the derivatives for all weights and
+propagating the error is all that's required to calculate the gradients for all weights and
 biases within the network. This incredibly efficient procedure allows for the use of gradient
 descent to train neural networks.
 
 \subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The broad category of `deep learning' covers multiple neural network techniques spanning a range
+of application fields such as computer vision, speed recognition and natural language processing.
+By stacking many layers on top of each other into a `deep' network, these methods offer increased
+problem-solving capacity by allowing higher-order non-linear functions to form. Therefore, instead
+of requiring hand-engineered features as input, these techniques work to extract the most
+important features from raw data. Here we outline just the technique used in this work; the
+convolutional neural network (CNN).
+
+At their core, a CNN makes use of a mathematical operation called convolution. This either
+entirely or in part replaces the simple vector multiplication seen in fully-connected networks as
+introduced in Section~\ref{sec:cvn_theory_basics}. This change makes CNNs incredibly powerful for
+applications using grid-like data such as computer vision tasks.
 
 Using standard CNN terminology, the discrete convolution between the input $x$ and the kernel $w$
 is given by
@@ -532,16 +546,14 @@ becomes
     \label{eq:conv}
 \end{equation}
 where the infinite sum has been replaced with a discrete sum over two-dimensional elements.
-Analogous to the simple neural network weights $\vec{w}$ first described in Eq.~\ref{eq:network},
-the elements of $W_{m,n}$ can be trained to maximise the network performance (minimise the loss).
+Normally the output feature map is then passed through a non-linear activation function. Analogous
+to the simple neural network weights $\vec{w}$ first described in Eq.~\ref{eq:network}, the
+elements of $W_{m,n}$ can be trained to maximise the network performance (minimise the loss).
 
 To illustrate this operation Fig.~\ref{fig:conv_input} gives examples of a $4 \times 4$ input grid
 and a $3 \times 3$ kernel. The output feature map is generated by sliding the kernel across both
 dimensions of the input grid, summing the products of all associated elements at each step
-according to Eq.~\ref{eq:conv}. Two additional parameters typically modify how the convolution
-proceeds, the `stride' and `padding'. The stride governs how far the kernel moves at each step
-while the padding decides if the input grid is padded with zeros around its border. The resulting
-operation is shown for both `same' and `valid' padding in Fig.~\ref{fig:conv_operation}.
+according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_operation}.
 
 \begin{figure} % CONV INPUTS DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/conv_input.pdf}
@@ -554,99 +566,94 @@ operation is shown for both `same' and `valid' padding in Fig.~\ref{fig:conv_ope
 \begin{figure} % CONV OPERATION DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/conv_operation.pdf}
     \caption[Example of convolutional operation.]
-    {Example of a $\mathrm{stride}=1$ convolutional operation involving the input grid and kernel from
-        Fig.~\ref{fig:conv_input}. Both the operation for the case of `valid' (top) and `same' (bottom)
-        padding is shown. The blue square in the top-left of the output feature maps indicates the
-        output generated from the specific operation shown.}
+    {Example of a $\mathrm{stride}=1$ convolutional operation involving the input grid and kernel
+        from Fig.~\ref{fig:conv_input}. Both the operation for the case of `valid' (top) and
+        `same' (bottom) padding is shown. The blue square in the top-left of the output feature
+        maps indicates the output generated from the specific operation shown.}
     \label{fig:conv_operation}
 \end{figure}
 
-- Typically kernels in the lower layers pick out simple features
-- These are them combined into more complex shapes in further layers
+Two additional parameters that affect the output size of the feature map are also introduced in
+Fig.~\ref{fig:conv_operation}. The `stride' and the `padding'. The stride governs how far the
+kernel moves at each step while the padding decides if the input grid is padded with zeros around
+its border. If $L$ is the size of the input (both height and width) and $K$ is the kernel size,
+the output feature map size $O$ is given by
+\begin{equation}
+    O=\frac{(L-K+2P)}{S}+1,
+    \label{eq:conv_size}
+\end{equation}
+where $S$ is the stride, and $P$ is the amount of zero padding.
 
-- Conv networks CNNs are a special class of deep feed-forward neural networks
-- Best applied for processing data with a grid-like topology such as images.
-- They use a mathemetical operation called convolution.
-- Instead of the general matrix multiplication introduced earlier a discrete convolution is used
-instead in atleast some parts of the network.
-
-- Convolutional neural networks have been highly successful in computer vision for classification
-tasks. GIVE A FEW REFS
-- Mainly driven by the ImageNet challenge REF
-- Inspired by the visual cortex of animals, with groupings on neurons scanning over small
-sub-regions of the visual field.
-- Independent treatment of the sub-regions allows the network as a whole to detect featues in a
-position-independent fashion.
-- In other words classification of the image is possible even if the subject appears in a
-different location within the frame.
-
-- Conv is a set of 'filters' that when applied via scanning across an input image result in a
-feature map
-- Pooling used as each layer requires less complexity and it is less important about the location
-and that the feature exists.
-- Few learners search their hypothesis space fully. Therefore, a learner with a large hypothesis
-space that tries fewer hypotheses from it is less likely to overfit than one that tries more
-hypotheses from a smaller space.
-- All that "deep" really means is just many many hidden layers, which can encode complex
-structures more efficienctly.
-- They can be very difficult to train, but with GPUs, bigger training sets, weight inits, better
-non linearities, SGD, prevention of overfitting techniques and conv networks, its possible.
-- We do not predefine the filters, they are also trained to extact the important features from the
-event images
-
-- Take insights from neuroscience. The human eye can do remarkably well at image recognition, even
-neutrino event classification if you know what to look for. But we will have way too much data, so
-need to train a computer to do this task for us.
-
-
-- They truly caught the attention of the wider ML community in 2012 when A. Krizhevsky, I,
-Sutskever and G. Hinton used a GPU to train AlexNet, lowering the error rate on the image
-classification task ImageNet by 12%. 
-- Such was the rapid pace of advance afterwards that the ResNet model achieved a 3.57\percent
-error just three years later.
-
-- Give a general overview of the classic architectures
-AlexNet paper in Ref.~\cite{krizhevsky2012}
-VGG paper in Ref.~\cite{simonyan2014}
-GoogLeNet in Ref.~\cite{szegedy2015}
-Original resnet paper in Ref.~\cite{he2016_original}
-Improved resnet paper in Ref.~\cite{he2016_improved}
-Inception-resnet paper in Ref.~\cite{szegedy2016}
-MobileNetV2 paper in Ref.~\cite{sandler2018}
-EfficientNet paper in Ref.~\cite{tan2019}
-
-\begin{figure} % CONV DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_diagram.jpeg}
-    \caption[conv diagram short]
-    {conv diagram long}
-    \label{fig:conv_diagram}
-\end{figure}
-
-
-
-
+The other key operation used in CNNs is pooling. To reduce the number of network parameters which
+is typically high for CNNs, pooling layers coarse-grain the spatial information of the input via
+down-sampling. `Max pooling' or `average pooling' are the two common ways this is achieved. In
+both cases, the input is first divided into rectangular regions, and then either the maximum or
+average value of the region is used as output, for max and average pooling respectively. This is
+illustrated in Fig.\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/pooling.pdf}
     \caption[Example of pooling operation.]
-    {Example of both a max and average $2 \times 2$ pooling operation for a stride length of 2.}
+    {Example of both a max and average $2 \times 2$ pooling operation with $\mathrm{stride}=2$.}
     \label{fig:pooling}
 \end{figure}
 
+Taking inspiration from how neurons behave in the visual cortex of animals~\cite{lecun2015}, small
+kernels are generally used that only scan over a small spatial patch of the input at any one time.
+When combined with the loss of absolute position information that pooling produces, it highlights
+a key feature of CNNs. They exhibit translational invariance and respect the local structure
+contained within the input. In simpler terms, they do not care wherein the input image a
+particular feature exists, just that it exists.
+
+DON'T KNOW IF TENSE CHANGE IS OKAY HERE!!!
+
+In 2012 the AlexNet CNN managed to lower the error rate on the ubiquitous ImageNet classification
+task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
+standard CNN has adopted the same architecture. Multiple convolutional layers are stacked on top
+of each other, periodically interspersed with pooling layers. This process continues until the
+size of the output feature maps no longer allow for additional pooling. At this stage, one or more
+standard fully-connected layers are added to the network before the final output layer, as shown
+in Fig.~\ref{fig:conv_diagram}.
+
+\begin{figure} % CONV DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_diagram.jpeg}
+    \caption[Typical CNN architecture]
+    {Illustration of a typical CNN architecture, containing convolutional, pooling and
+        fully-connected layers before the final output layer.}
+    \label{fig:conv_diagram}
+\end{figure}
+
+Most commonly led by big research teams at the technology giants (Google, Microsoft, Amazon and
+Facebook), improvements upon this standard architecture have been made. Initially, this involved
+adding more and more layers to the CNN as the VGG network did in 2014~\cite{simonyan2014}. The
+same year the concept of the `inception module' allowing for different scales of features to be
+explored was introduced by GoogLeNet~\cite{szegedy2015}. The repeating set of layers that make up
+these networks, commonly referred to as `blocks' are shown in Fig.~\ref{fig:blocks}.
+
+As the size of CNNs increased in depth, the gradients on the lower layers of the network
+decreased, sometimes even `vanishing' removing the ability for these layers to learn. ResNet
+introduced the idea of residual connections skipping specific layers and allowing for a larger
+gradient to reach the affected lower layers during backpropagation~\cite{he2016_original,
+    he2016_improved}. Recently the inception module and ResNet ideas have been
+combined~\cite{szegedy2016}, and there has been a significant push for efficient rather than just
+deeper networks~\cite{sandler2018,tan2019}.
+
 \begin{figure} % BLOCKS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-cvn/blocks.pdf}
-    \caption[blocks short]
-    {blocks long}
+    \caption[Common CNN architecture blocks]
+    {Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
+        output through operations whose flow is outlined via the arrows. The blue and red boxes
+        represent convolutional and pooling layers respectively, with the size of the operation
+        shown. The circular yellow $R$ indicates the use of the ReLU activation function.}
     \label{fig:blocks}
 \end{figure}
 
-
-\subsection{Regularisation and optimisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regularisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - introduce stochastic gradient descent vs full and single.
-- The full loss function often includes additional terms that implemenet regularisation. L1 and
-L2. Bag of tricks in Ref.~\cite{he2019}
+- The full loss function often includes additional terms that regularisation. L1 and L2.
+- Bag of tricks in Ref.~\cite{he2019}
 
 \subsubsection*{Batch training and normalisation}
 Original Batch normalisation paper in Ref.~\cite{ioffe2015}
@@ -672,6 +679,17 @@ Original 'dropout' paper in Ref.~\cite{hinton2012}
     \label{fig:dropout}
 \end{figure}
 
+\section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Many high level libraries have now been formed, predominantly led by Tensorflow (from google)
+and pyTorch (from facebook) making it easier to quickly code and implemented DNNs.
+
+- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
+- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
+will have different energy resolutions and systematic uncertainties, so seperation can provide
+increased sensitivity.
+
 \subsubsection*{Data preparation}
 
 - normalisation of data
@@ -683,17 +701,6 @@ Original 'dropout' paper in Ref.~\cite{hinton2012}
 parameter whose value greatly affects how a network trains. Too large and the minimisation will
 continue to step over the minima and too small and the time taken to reach the minima will
 increase or the minima may never be found.
-
-\section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- Many high level libraries have now been formed, predominantly led by Tensorflow (from google)
-and pyTorch (from facebook) making it easier to quickly code and implemented DNNs.
-
-- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
-- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
-will have different energy resolutions and systematic uncertainties, so seperation can provide
-increased sensitivity.
 
 \subsubsection*{Squeeze-and-exitation blocks}
 
