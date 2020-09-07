@@ -1,67 +1,25 @@
 \chapter{Convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:cvn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TELL THEM WHAT YOU ARE GOING TO TELL THEM WITH A TOUCH OF MOTIVATION
+For the majority of HEP experiments, event analysis has two primary aims. The separation of signal
+events from background events and the estimation of particle energies. The same is true for
+\chips, with the primary aims being the selection of CC $\nu_{e}$ signal events from a sizeable
+background and the estimation of the associated neutrino energy.
 
-- for detector optimisation studies
+For this purpose, the \chips project has so far relied on a complex human implemented
+reconstruction algorithm and a simple classification neural network driven by hand-engineered
+features. Both of these methods are prone to human error and restricted in scope to what has been
+implemented in software.
 
-The principal goal of any physics analysis and no different for \chips, is the correct
-classification of signal events and the rejection of background events. Also of great importance
-is the accurate estimation of the energies of the particles involves in the interaction.
+The work outlined in this chapter presents a replacement event analysis methodology for \chips.
+Three Convolutional Neural Networks (CNNs) a type of deep neural network have been implemented to
+achieve the goals outlined above. One for cosmic muon rejection, one for beam classification, and
+one for neutrino energy estimation.
 
-Traditionally hand-engineered features and simple machine learning models have been used for
-classification of events and kinematic methods have been used for energy reconstruction.
-
-Water Cherenkov detectors generate essentially an `image' of the neutrino interaction and
-therefore they are well suited to use things from computer vision.
-
-- Core of any particle physics analysis is the selection of signal events.
-- Traditionally hand-engineered features extracted from event reconstruction are passed to a
-machine learning algorithm for classification.
-- Want an approach that relies less on event reconstruction, preferable using the raw detector
-outputs as input.
-
-- Core problem in experiment HEP is the correct categorisation of the particle interactions
-recorded in out detectors as either signal or background.
-- Commonly/typically this is done by reconstructing high level components such as clusters,
-tracks, showers, jets, and rings associated with the particle interactions. And then summarising
-the energies, directions etc.... of these objects.
-- Prone to failings, mistakes in the reco of high level features from the raw data can lead to
-incorrect categorisation.
-- Features then used to categorise events are limited to those which have been imagined and then
-implemented for the specific experiment.
-- This problem shares many similarities with the problems of computer vision. With great advances
-being made to move away from specially constructed features to the extraction of features using
-convolutional neural networks.
-
-- The principle goal of event reconstruction in CHIPS is to identify electron neutrino
-interactions against a large background of muon neutrinos and NC interactions.
-- Explain the goals of both event reconstruction and event classification/ particle identification
-- Main purpose for now is to allow for the exploration of different detector designs, for future
-CHIPS detectors.
-
-- CNNs have been widely applied in various computer vision tasks to solve image recognition and
-analysis problems.
-- Many HEP problems including water cherenkov detectors essentially result in an 'image' of an
-event, which are well suited to these tools.
-- MLP are widely used in HEP,
-- Deep neural networks have emerged as one of the most powerful supervised learning techniques.
-
-- If one photon has a much lower energy than the other, or they are very closely overlapped,
-they are commonly misidentified as a single electron.
-- The shape of the ring can then be used for particle identification
-- Muon rings tend to be sharper and exhibit a `plateau' shape as they emmit a constant amount of
-Cherenkov radiation from a single particle over a period of time.
-- Electron rings are more diffuse due to their production being from a electromagnetic shower.
-
-- In this chapter I will outline the current implementations used by \chips
-- Then I will give theoretical context to the deep learning methods
-- Then I will discuss the implementation to \chips and the process through which the optimal
-was found.
-- Then I will discuss the conslusions.
-- Can be split into regression and classification tasks
-- Present a convolutional neural network for cosmic muon rejection, beam event classification and
-neutrino energy estimation.
+After covering previous `deep learning' implementations for neutrino experiments, a brief
+description of the current techniques to be replaced is made. The theoretical background to CNNs
+is then outlined before the baseline implementation for \chips is described. Finally, the three
+separate networks are discussed, and their combined performance presented.
 
 \section{Previous applications of deep learning for neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -288,8 +246,18 @@ neural networks can lead to incorrect categorisation of events.
 \section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-NN Basics->Training/backprop->Conv/architectures/deeplearningtechniques
+There are many machine learning techniques: linear regression, logistic regression, k-nearest
+neighbours, decision trees, random forests, support vector machines, all of which learn to make
+predictions about data. However, none have been as successful, especially in recent years, as the
+neural network, particularly the deep neural network. As both the size of datasets and the amount
+of available computational power has increased, neural networks have proven the most power
+technique for many tasks as they are well suited to this paradigm.
 
+only supervised methods are discussed here as they
+
+-Tasks are either regression or classification and either superviser or unsupervised.
+-In this work both regression and classification tasks are presented, for supervised models.
+However, unsupervised techniques to analyse the MAYBE PUT THIS IN INTRO
 - Machine learning is concerned with algorithms that can learn to make predictions from data
 - Given a set of input variables, predict a set of output variables.
 - Separated into regression for predicting a value from a continuous function or classification
@@ -299,15 +267,13 @@ for separating example into groups.
 output is known. In the unsupervised case, the algorithm learns to extract outputs from data where
 the function output is not known.
 
-- Neural networks have emerged as one of the most powerful and widely-used supervised learning
-techniques.
-- Since then they have become the workhorses for many image based machine learning tasks.
-- Led to the rise of a number of high-level libraries and packages (Caffe, Keras, Pytorch and
-TensorFlow).
-
-- Deep learning is a subset of machine learning which has achieved tremendous success in recent
-years.
-- The vast majority of top performing algorithms in various fields are now deep learning methods.
+%\begin{figure} % AMOUNT OF DATA DIAGRAM %
+%    \includegraphics[width=0.5\textwidth]{diagrams/6-cvn/amount_of_data.png}
+%    \caption[Illustrative plot of the amount of data vs the expected performance.]
+%    {Illustrative plot of the amount of data vs the expected performance for traditional and
+%        neural network machine learning models. Figure taken from Ref.~\cite{mehta2019}.}
+%    \label{fig:amount_of_data}
+%\end{figure}
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -653,6 +619,21 @@ deeper networks~\cite{sandler2018,tan2019}.
 - The full loss function often includes additional terms that regularisation. L1 and L2.
 - Bag of tricks in Ref.~\cite{he2019}
 
+- Most widely-used variant of gradient descent is stochastic gradient descent, which introduces
+stochasticity. Incorporated by approximating the gradient on a subset of the data called a
+minibatch.
+- Instead of using the actual gradient over the full dataset at each gradient descent step, we ise
+an approximation to the gradient computer on just a single minibatch. This has two important
+benefits.
+- It introduces stochasticity and decreases the chane that the minimisation algorithm gets stuck
+in an isolated local minima.
+- Significantly speeds up the calculation.
+- Also the stochasticiy is a natural regulariser that prevents overfitting in deep isolated
+minima.
+- Many algorithms that build upon Stochastic gradient descent using momentum and even the second
+moment of the gradient etc... to improve the ability of the algorithm to find the best minima
+possible, in the fastest time, such as ADAM REFERENCE that is used in this work.
+
 \subsubsection*{Batch training and normalisation}
 Original Batch normalisation paper in Ref.~\cite{ioffe2015}
 
@@ -679,6 +660,13 @@ Original 'dropout' paper in Ref.~\cite{hinton2012}
 
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+-Water Cherenkov detectors generate essentially an `image' of the neutrino interaction and
+therefore they are well suited to use things from computer vision.
+- Many HEP problems including water cherenkov detectors essentially result in an 'image' of an
+event, which are well suited to these tools.
+- CNNs have been widely applied in various computer vision tasks to solve image recognition and
+analysis problems.
 
 EXPLAIN WHAT HAS BEEN IMPLEMENTED AS IT WAS FOUND TO BE THE BEST THEN INCLUDE PLOTS AS FOR YOU
 INTEREST.
