@@ -49,11 +49,79 @@ requirements.
 - Andy CHIPS-M prototype construction and simulations~\cite{perch2015}
 
 \begin{figure} % CHIPS-M DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/chips_m.png}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
     \caption[Picture of the \chipsm detector.]
     {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to
         the bottom endcap of the detector.}
     \label{fig:chips_m}
+\end{figure}
+
+\section{NuMI neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_numi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- The Numi beam big paper~\cite{adamson2016}
+
+\begin{figure} % NUMI BEAM DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
+    \caption[Schematic of the \numi beam.]
+    {Schematic of the main components of the \numi beam (not to scale) shown with their
+        dimensions. The horns control if the beam is in neutrino or anti-neutrino mode. Figure
+        taken from Ref.~\cite{adamson2016}.}
+    \label{fig:numi_beam}
+\end{figure}
+
+\begin{figure} % OFF-AXIS FLUX DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.png}
+    \caption[Neutrino flux for different detectors in the \numi beam.]
+    {Neutrino flux for different detectors in the \numi beam.
+        The difference is caused by the changing off-axis angle.
+        Figure taken from Ref.~\cite{adamson2013}.}
+    \label{fig:numi_axis}
+\end{figure}
+
+\section{Cherenkov radiation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
+    \caption[Diagram of Cherenkov radiation.]
+    {Diagram of Cherenkov radiation emission and wavefront angles. The angles $\theta_{c}$ and
+        $\eta$ are not equal in a dispersive medium. Figure taken from Ref.~\cite{particle2020}
+    }
+    \label{fig:cherenkov}
+\end{figure}
+
+- Charged particle emit Cherenkov radiation if their velocity is greater than the local phase
+velocity of light in the medium through which they are travelling.
+- The angle at which the Cherenkov radiation is emmited relative to the particles direction of
+travel is given by Ref.~\cite{particle2020}
+\begin{equation}
+    cos\theta_{c} = \frac{1}{n\beta}
+\end{equation}
+- Where n is the refractive index of the medium and $\beta=v/c$
+- n is actually a function of the light wavelength $\lambda$
+
+- The refractive index of water is very close to 1.33 in the relevant wavelength range, which for
+ultrarelativistic particles with $\beta\approx 1$ gives a value of $\theta_{c}\approx 41^{\circ}$
+
+- The threshold velocity for Cherenkov emmision is $\beta_{t}=1/n$
+
+\begin{figure} % EMISSION DISTANCE DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
+    \caption[Fraction of Cherenkov photons emitted as a function of distance.]
+    {The fraction of the total number of photons emitted as a function of the distance from the
+        interaction vertex for both electrons and muons. Note how the muon travels much further
+        emitted an approximately constant amount of Cherenkov radiation as it does so.}
+    \label{fig:emission distance}
+\end{figure}
+
+\begin{figure} % EMISSION PROFILE DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/emission_profile.pdf}
+    \caption[Emission profiles for both electrons and muons]
+    {Emission profiles for both electrons (left) and muons (right). They show the fraction of the
+        total number of emitted photons as a function of both the distance travelled from the
+        interaction vertex and the angle of emission for each photon.}
+    \label{fig:emission_profile}
 \end{figure}
 
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,7 +176,7 @@ INFO: detector module
 - veto pmt diameter
 
 \begin{figure} % CHIPS SUNRISE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/sunrise.jpeg}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/sunrise.jpeg}
     \caption[Sunrise over the \chips detector.]
     {Sunrise over the \chips detector structure. The perfectly calm pit water
         produces the mirror effect.}
@@ -116,7 +184,7 @@ INFO: detector module
 \end{figure}
 
 \begin{figure} % CHIPS FROM THE SKY DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/from_the_sky.jpg}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/from_the_sky.jpg}
     \caption[Picture of the \chips detector from the air.]
     {Picture of the \chips detector taken from an airplane. The Wentworth 2W pit is in the lower
         half of the image, with the half built detector, huts and construction containers
@@ -125,7 +193,7 @@ INFO: detector module
 \end{figure}
 
 \begin{figure} % PIT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/location.png}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/location.png}
     \caption[Satellite view of the Wentworth 2W mine pit.]
     {Satellite view of the Wentworth 2W mine pit in northern Minnesota.
         The size markers are shown for scale. Image taken from Ref.\cite{adamson2013}.}
@@ -133,7 +201,7 @@ INFO: detector module
 \end{figure}
 
 \begin{figure} % PIT CONTOUR DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/contour_map.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/contour_map.pdf}
     \caption[Topographic map of the Wentworth 2W mine pit.]
     {Topographic map of the Wentworth 2W mine pit. The contours are given in intervals of 5 feet,
         with the central areas of the pit having a depth of 50m. Image taken from
@@ -142,7 +210,7 @@ INFO: detector module
 \end{figure}
 
 \begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/numi_map.png}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_map.png}
     \caption[Map of detector locations in the \numi beam.]
     {Map of the \chips, \nova and \minos locations in the \numi beam showing the expected
         neutrino event rates, assuming no oscillations. Lines of constant L/E are shown by the
@@ -154,7 +222,7 @@ INFO: detector module
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % CHIPS RENDER 1 DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/chips_render_1.png}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_1.png}
     \caption[Graphical rendering of the \chipsfive detector with liner cutaway.]
     {Graphical rendering of the \chipsfive detector with a section of the liner cutaway.
         The bottom endcap and wall planes are visable,
@@ -163,7 +231,7 @@ INFO: detector module
 \end{figure}
 
 \begin{figure} % CHIPS RENDER 2 DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/chips_render_2.png}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_2.png}
     \caption[Graphical rendering of the \chipsfive detector structure.]
     {Graphical rendering of the \chipsfive detector structure.}
     \label{fig:chips_render_2}
@@ -187,18 +255,18 @@ generation to calibrate final PMT positions and time resolutuions.
 \begin{figure} % PMT ASSEMBLY DIAGRAM %
     \centering
     \subcaptionbox{pmt disassembled\label{fig:pmt_disassembled}}{%
-        \includegraphics[height=5cm]{diagrams/5-chips/pmt_disassembled.jpg}%
+        \includegraphics[height=5cm]{diagrams/4-chips/pmt_disassembled.jpg}%
     }
     \quad
     \subcaptionbox{pmt assembled\label{fig:pmt_assembled}}{%
-        \includegraphics[height=5cm]{diagrams/5-chips/pmt_assembled.jpg}%
+        \includegraphics[height=5cm]{diagrams/4-chips/pmt_assembled.jpg}%
     }
     \caption[The caption]
     {The caption}
 \end{figure}
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/5-chips/single_plane.jpg}
+    \includegraphics[width=0.8\textwidth]{diagrams/4-chips/single_plane.jpg}
     \caption[Picture of a single `Nikhef' plane.]
     {Picture of a single `Nikhef' high density top endcap plane. Both the inward facing and veto
         PMTs can be seen as well as the planes umbilical with the green tape attached.}
@@ -229,7 +297,7 @@ DIAGRAM: Deployment diagram
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/5-chips/flux.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/flux.pdf}
     \caption[NuMI neutrino flux at CHIPS.]
     {The NuMI beam neutrino flux with cross-sections applied at the CHIPS detector location. Shown
         are the seperate contributions from the different neutrino types and sign. No oscillations
@@ -238,7 +306,7 @@ DIAGRAM: Deployment diagram
 \end{figure}
 
 \begin{figure} % XSEC NUEL DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-chips/xsec_nu_e_O16.pdf}
+    \includegraphics[width=\textwidth]{diagrams/4-chips/xsec_nu_e_O16.pdf}
     \caption[$\nu_{e}$ GENIE cross-sections.]
     {Example GENIE cross-sections used in the Monte Carlo generation of beam events. Shown are the
         $\nu_{e}$ CC (left) and NC (right) cross-sections for each of the interaction channels as
@@ -260,7 +328,7 @@ DIAGRAM: expected cosmic rate at different height plot
 DIAGRAM: Cosmic rate given the water overburden diagram
 
 \begin{figure} % COSMICS AROUND DETECTOR DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/5-chips/cosmics.png}
+    \includegraphics[width=0.8\textwidth]{diagrams/4-chips/cosmics.png}
     \caption[Cosmic muon rays around the CHIPS detector]
     {Simulated cosmic muon rays around the CHIPS detector. Note how they are generated within a
         box.}
@@ -271,7 +339,7 @@ DIAGRAM: Cosmic rate given the water overburden diagram
 \label{sec:chips_monte_carlo_sim} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-chips/sim_event.png}
+    \includegraphics[width=\textwidth]{diagrams/4-chips/sim_event.png}
     \caption[sim event short]
     {$\nu_{\mu}$ CC quasi-elastic event with a single muon final state particle of energy
         1770.24 MeV}
@@ -281,11 +349,11 @@ DIAGRAM: Cosmic rate given the water overburden diagram
 \begin{figure} % DIGI DIAGRAM %
     \centering
     \subcaptionbox{\label{fig:digi_method}}{%
-        \includegraphics[height=6cm]{diagrams/5-chips/digi_method.pdf}%
+        \includegraphics[height=6cm]{diagrams/4-chips/digi_method.pdf}%
     }
     \quad
     \subcaptionbox{\label{fig:digi_likelihood}}{%
-        \includegraphics[height=6cm]{diagrams/5-chips/digi_likelihood.pdf}%
+        \includegraphics[height=6cm]{diagrams/4-chips/digi_likelihood.pdf}%
     }
     \caption[Simulation PMT digitisaion function.]
     {(a) Digitisation function used within the simulation to convert incident photons to measured

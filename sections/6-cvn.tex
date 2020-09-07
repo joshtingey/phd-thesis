@@ -1,7 +1,9 @@
-\chapter{Application of convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:cvn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TELL THEM WHAT YOU ARE GOING TO TELL THEM WITH A TOUCH OF MOTIVATION
+
+- for detector optimisation studies
 
 The principal goal of any physics analysis and no different for \chips, is the correct
 classification of signal events and the rejection of background events. Also of great importance
@@ -61,16 +63,16 @@ was found.
 - Present a convolutional neural network for cosmic muon rejection, beam event classification and
 neutrino energy estimation.
 
-\section{Previous applications of deep learning to neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
+\section{Previous applications of deep learning for neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Over the last few years, neutrino experiments have started to adopt various deep learning
-techniques for a range of tasks. This trend has generally followed the explosion of interest in
-the field amongst the global research community, especially within computer vision, as can be seen
-in Fig.~\ref{fig:papers}.
+Over the last few years, neutrino experiments have started to adopt deep learning techniques for a
+range of tasks. This trend has followed the general explosion of interest in the field amongst the
+global research community, especially within computer vision, as can be seen in
+Fig.~\ref{fig:papers}.
 
 \begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/papers.png}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/papers.png}
     \caption[papers short]
     {The number of artificial intelligence papers submitted to arXiv, broken down by sub-category.
         Note the particularly large increase in Computer Vision (CV) and pattern recognition
@@ -98,16 +100,16 @@ experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}.
 type of generative network known as a `variational autoencoder' has been shown to approximate the
 distribution of simulated water Cherenkov data~\cite{abhishek2019}. If further studies prove
 successful, this could allow for training on real data to reduce experimental uncertainties and
-increase the speed of data generation by many orders of magnitude.
+increase the speed of simulated data generation by many orders of magnitude.
 
 \section{Standard event reconstruction and classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is essential to outline the standard event reconstruction, and classification methods that have
-been used by the \chips project for detector optimisation studies up till now. This is key for two
-main reasons. Firstly, to add context when comparing the new convolutional neural network approach
-as is done in Section~\ref{sec:cvn_final_comparison}. Secondly, to highlight the main weaknesses
-of these methods, motivating the new technique and making its advantages clear.
+been used by the \chips project up till now. This is key for two main reasons. Firstly, to add
+context when comparing the new convolutional neural network approach, as is done in
+Section~\ref{sec:cvn_final_comparison}. Secondly, to highlight the main weaknesses of these
+methods, motivating the new technique and making its advantages clear.
 
 A maximum likelihood method based on that implemented by MiniBooNE~\cite{patterson2009} is used
 for event reconstruction. Additionally, an artificial neural network built using the TMVA
@@ -117,12 +119,11 @@ water Cherenkov neutrino experiments. A prime example is the fiTQun algorithm de
 Super-Kamiokande detector, which is now used for both atmospheric~\cite{jiang2019} and
 T2K~\cite{missert2017} analyses.
 
-Due to the small size and limited resources of the \chips project collaboration, it is highly
-likely that both the event reconstruction and classification do not represent the `optimal'
-implementation of these methods. However, through tracking the development process of both
-methods, it is clear that any performance improvements would now be small relative to those
-introduced by the new convolutional neural network approach. Thus, it can be assumed that the
-implementation approximates the maximum performance these approaches can provide reasonably well.
+Due to the limited resources of the \chips collaboration, it is a certainty that both the event
+reconstruction and classification do not rep resent an optimal implementation of these methods.
+However, it is clear that any possible improvements would be small relative to those introduced by
+the convolutional neural network approach. Therefore, for comparisons, it is reasonable to assume
+they approximate the maximum performance these approaches can provide.
 
 \subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,8 +167,8 @@ Additionally, for a photon hypothesis (identical to an electron hypothesis in re
 distance between the interaction vertex and the beginning of the electromagnetic shower initiated
 by the $\gamma$ is included as a parameter.
 
-These parameters are then initialised using the parameters found in the seeding procedure in
-descending order of Hough peak height score. As the particle energy is not estimated by the
+All the tracks in the hypothesis are then initialised using those found in the seeding procedure
+in descending order of Hough peak height score. As the particle energy is not estimated by the
 seeding algorithms, a default value equal to the average particle energy observed in the Monte
 Carlo simulation is assigned. Additionally, constraints can be placed on multi-track fits before
 the minimisation process begins to reduce the number of free parameters.
@@ -183,11 +184,11 @@ In it's simplest form the likelihood is a simple product of two terms:
     \prod_{unhit}P_{unhit}(\vec{x})\prod_{hit}P_{charge}(\vec{x})P_{time}(\vec{x}),
     \label{eq:likelihood}
 \end{equation}
-where the first gives the likelihood that the hypothesis $\vec{x}$ will not predict a hit on the
-PMTs that do not have a measured hit, and the second gives the likelihood that $\vec{x}$ produces
-the observed photoelectrons and hit times on the hit PMTs. By considering the negative logarithm
-of the likelihood instead, the computation can be simplified into a sum of logarithms over the
-PMTs, such that
+where the first ($unhit$) gives the likelihood that the hypothesis $\vec{x}$ will not predict a
+hit on the PMTs that do not have a measured hit, and the second ($hit$) gives the likelihood that
+$\vec{x}$ produces the observed photoelectrons and hit times on the hit PMTs. By considering the
+negative logarithm of the likelihood instead, the computation can be simplified into a sum of
+logarithms over the PMTs, such that
 \begin{equation} % LIKELIHOOD SUM PMTS EQUATION %
     -\log\mathcal{L}(\vec{x})=
     -\sum_{unhit}\log(P_{unhit}(\vec{x}))
@@ -195,17 +196,17 @@ PMTs, such that
     -\sum_{hit}\log(P_{time}(\vec{x})).
     \label{eq:likelihood_sum}
 \end{equation}
-This also has the effect of separating the charge and time components which can then be dealt with
-separately in the prediction process. In the actual likelihood calculation the
-$P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the probability of
-an unhit PMT is treated as a PMT with observed charge equal to zero.
+This also has the effect of separating the charge (number of photoelectrons) and time prediction
+components which can then be dealt with separately computationally. In the actual likelihood
+calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the
+probability of an unhit PMT is treated as a PMT with observed charge equal to zero.
 
 The Minuit2 algorithm contained within ROOT~\cite{brun1997} is used for the minimisation process.
 At each iteration, the charge and hit time predictions are made, and the negative logarithm of the
-likelihood is calculated. The track parameters are then varied before the next iteration to
-minimise the value. Through a series of stages, fixing and then freeing specific parameters, the
+likelihood is calculated. The track parameters are then varied to minimise the likelihood before
+the next iteration. Through a series of stages, fixing and then freeing specific parameters, the
 minimisation process converges to the best-fit parameters for the given hypothesis. This process
-typically takes approximately two minutes on a standard batch farm computing node.
+typically takes two minutes on a standard batch farm computing node.
 
 The charge and hit time predictions and their associated likelihood contributions rely on many
 low-level inputs to the reconstruction. These generally describe how Cherenkov light is emitted
@@ -231,42 +232,41 @@ Fig.~\ref{fig:digitisation}.
 The list above demonstrates a fundamental problem with the likelihood-based approach. It is
 heavily reliant on the accuracy of low-level inputs and their associated use in human implemented
 software. If a physical process is not dealt with appropriately or overlooked, then the prediction
-of charges and hit times for the PMTs is challenging to do accurately, affecting the performance
-of finding the correct best-fit parameters. A large amount of tuning and calibration is,
-therefore, required to match even simulated data.
+accuracy of charges and hit times for the PMTs is affected, impacting the performance of finding
+the correct best-fit parameters.
 
-Real events expected within \chips are rarely simple single particle or even two-particle events.
-In reality, the majority of events contain multiple final state particles of various types and in
-various topologies. Highlighting the other main problem with the likelihood-based approach. The
-requirement of a predefined track hypothesis. This makes it impossible to implement a generalised
-approach to event reconstruction where no input hypothesis, susceptible to bias or lacking in
-necessary complexity is required to analyse the event.
+The other key flaw of the likelihood-based approach is the requirement of a predefined track
+hypothesis. Real events expected within \chips are rarely simple single particle or even
+two-particle events. In reality, the majority of events contain multiple final state particles of
+various types and in various topologies. The predefinition of a track hypothesis makes it
+impossible to implement a generalised approach to event reconstruction where all possible event
+types are considered and explored.
 
 \subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As the reconstruction is based on the calculation of a likelihood (analogous to a
 `goodness-of-fit'), the likelihood ratio between different hypotheses can be used for event
-classification tasks. It has also been found that additional hand-engineered features derived from
-the reconstruction outputs have power in classifying the event type.
+classification tasks. It is also found that additional hand-engineered features derived from the
+reconstruction outputs have power in classifying the event type.
 
 Two artificial neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$ separation
 and the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer, with the
 number of nodes equal to the number of input parameters plus five. Variables from both a single
-electron track and single muon hypothesis fit to every event are used for both networks, with a
+$e$ track and single $\mu$ track hypothesis fit to every event are used for both networks, with a
 full list of inputs as follows:
 \begin{itemize}
-    \item The $\Delta\log\mathcal{L}$ between electron and muon hypothesis for both time and
+    \item The $\Delta\log\mathcal{L}$ between $e$ and $\mu$ hypothesis for both time and
           charge components.
     \item The total number of hit PMTs ($N_{hits}$) and total collected charge.
     \item $\frac{\Delta\log\mathcal{L}_{charge}}{N_{hits}}$.
     \item The fraction of hits inside the central hole, within, and outside the ring for both
-          electron and muon hypotheses.
-    \item The fraction of predicted charge outside the ring for both electron and muon hypotheses.
-    \item The ratio of the total predicted charged to the total measured charge for both electron
-          and muon hypothesis.
+          $e$ and $\mu$ hypotheses.
+    \item The fraction of predicted charge outside the ring for both $e$ and $\mu$ hypotheses.
+    \item The ratio of the total predicted charged to the total measured charge for both $e$
+          and $\mu$ hypothesis.
     \item The ratio of the reconstructed energy to the total measured charge.
-    \item The reconstructed track direction under the electron hypothesis.
+    \item The reconstructed track direction under the $e$ hypothesis.
     \item The fraction of hits in the downstream half of the detector.
     \item The number of seeds generated by the Hough transform seeding algorithm.
     \item The peak height score of the first and last seeds found by the Hough transform seeding
@@ -281,9 +281,9 @@ samples for further analysis.
 The main limitation of this approach is that the input features are restricted to those that have
 been imagined (requiring extensive domain knowledge) and then implemented in software. The current
 list is almost certainly non exhaustive of all the possible variables and combinations of
-variables that could, in theory, be used for discrimination between events. Additionally, any
+variables that can, in theory, be used for discrimination between events. Additionally, any
 mistakes in the likelihood-based reconstruction and, therefore, input variables to the artificial
-neural networks could lead to incorrect categorisation of events.
+neural networks can lead to incorrect categorisation of events.
 
 \section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -301,10 +301,6 @@ the function output is not known.
 
 - Neural networks have emerged as one of the most powerful and widely-used supervised learning
 techniques.
-- Deep learning caught the attention of the wider machine learning community in 2012 when Alex
-Krizhevsky, Ilya Sutskever and Geoff Hinton used a GPU deep neural network (DNN) AlexNet to lower
-the error rate on the ImageNet large scale visual recongnition challenge by an incredible 12\%
-from 28\% to 16\%.
 - Since then they have become the workhorses for many image based machine learning tasks.
 - Led to the rise of a number of high-level libraries and packages (Caffe, Keras, Pytorch and
 TensorFlow).
@@ -319,15 +315,15 @@ years.
 A neural network is a type of supervised learning model inspired by the repeating cell structure
 of neurons within our brains. The basic building block of a neural network is a `neuron' which
 takes a vector of $k$ inputs $\vec{x} = (x_{1}, x_{2},\dots,x_{k})$ and outputs a scalar
-$a(\vec{x})$. The neurons are arranged into layers, with the input of each layer being the outputs
-from the previous layer. The first layer is commonly referred to as the input layer, the middle
-layers as `hidden layers', and the final layer as the output layer, as illustrated in
+$a(\vec{x})$. The neurons are arranged into layers, with input of one layer being the output from
+the previous layer. The first layer is commonly referred to as the input layer, the middle layers
+as `hidden layers', and the final layer as the output layer, as illustrated in
 Fig.~\ref{fig:network}. In general, this simple neural network structure is referred to as
 `fully-connected' as all the neurons in each layer have connections to all the neurons in the
 previous and following layers.
 
 \begin{figure} % BASIC NETWORK DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/network.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/network.pdf}
     \caption[Illustration of a simple neural network]
     {Illustration of a simple neural network. There is a single input layer (yellow), two hidden
         layers (blue), and an output layer (green). Each node corresponds to a `neuron' except for
@@ -340,13 +336,14 @@ into the network via the input layer. Any number of hidden layers containing any
 can then follow. The neurons contained within these layers are `trained' so that collectively
 their $a(\vec{x})$ functions solve the problem at hand. For a regression task, the output layer
 outputs a continuous decimal value. Otherwise, for a classification task, a probability value
-between zero and one is typically output for each class. The forward passing of information from
-one layer to the next is why neural networks can also be referred to as `feed-forward graphs'.
+between zero and one is output for each class. The forward passing of information from one layer
+to the next is why neural networks can also be referred to as `feed-forward graphs'.
 
 For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a linear operation, specific to the
 neuron, followed by a non-linear operation, which is the same across all neurons. The linear
 operation consists of the dot product of the input vector $\vec{x}$ with a vector of weights
-$\vec{w}^{(i)} = (w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$ plus a bias term $b^{(i)}$:
+$\vec{w}^{(i)} = (w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$, which weight the relative
+importance of the inputs, plus a bias term $b^{(i)}$:
 \begin{equation} % NETWORK BASIC EQUATION %
     z^{(i)}=\vec{w}^{(i)}\cdot\vec{x}+b^{(i)}.
     \label{eq:network}
@@ -358,18 +355,21 @@ function' the final output from the neuron can be written as
     \label{eq:activation}
 \end{equation}
 
-Traditionally a step-function (for networks called perceptrons) was used for the activation
-function. However, as is shown in Section.~\ref{sec:cvn_theory_training} a non-zero gradient (only
-valid at $x=0$ for a step-function) is required for the practical training of neural networks. In
-fact, the choice of activation function can greatly affect how the network trains and performs.
+Traditionally, a step-function (for networks called perceptrons) was used for the activation
+function. However, as is shown in Section.~\ref{sec:cvn_theory_training}, a non-zero gradient
+(only valid at $x=0$ for a step-function) is required for the practical training of neural
+networks. In fact, the choice of activation function can greatly affect how the network trains and
+performs.
 
 Therefore, common choices have been the hyperbolic tangent and the sigmoid function, primarily
-because they were bounded and differentiable at all points. Recently, the ReLU and other similar functions have become popular, especially for convolutional neural networks. This is mainly due to them avoiding the problem of `vanishing gradients' caused by the saturation of the
-tanh and sigmoid functions at large values of $x$. All of these functions are shown in
+because they are bounded and differentiable at all points. Recently, the ReLU and other similar
+functions have become popular, especially for convolutional neural networks. This is mainly due to
+them avoiding the problem of `vanishing gradients' caused by the saturation of the tanh and
+sigmoid functions at large values of $x$. All of these functions are shown in
 Fig.~\ref{fig:activations}.
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/activations.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/activations.pdf}
     \caption[Common non-linear activation functions.]
     {Common non-linear activation functions used for the neurons within neural networks.}
     \label{fig:activations}
@@ -433,7 +433,7 @@ each iteration. This methodology is known as `gradient descent' and is illustrat
 Fig.~\ref{fig:gradient_descent}.
 
 \begin{figure} % GRADIENT DESCENT DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/gradient_descent.pdf}
+    \includegraphics[width=0.5\textwidth]{diagrams/6-cvn/gradient_descent.pdf}
     \caption[Illustration of the gradient descent process.]
     {Simplified illustration of the gradient descent process. Shown is the case for a loss
         function dependent on a single weight.}
@@ -441,7 +441,7 @@ Fig.~\ref{fig:gradient_descent}.
 \end{figure}
 
 Therefore, in order to use gradient descent, we require that the gradient of the loss function
-with respect to the parameters of the network be calculated. Doing this for each parameter at
+with respect to the parameters of the network can be calculated. Doing this for each parameter at
 every iteration would render neural networks impossible to use due to the vast computational
 requirements. Instead, an innovative application of the chain rule in an algorithm called
 `backpropagation' (backprop) is used~\cite{werbos1974}. Here we follow the derivation of the four
@@ -520,14 +520,14 @@ descent to train neural networks.
 \label{sec:cvn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The broad category of `deep learning' covers multiple neural network techniques spanning a range
-of application fields such as computer vision, speed recognition and natural language processing.
+of application fields such as computer vision, speech recognition and natural language processing.
 By stacking many layers on top of each other into a `deep' network, these methods offer increased
 problem-solving capacity by allowing higher-order non-linear functions to form. Therefore, instead
 of requiring hand-engineered features as input, these techniques work to extract the most
 important features from raw data. Here we outline just the technique used in this work; the
 convolutional neural network (CNN).
 
-At their core, a CNN makes use of a mathematical operation called convolution. This either
+At their core, a CNN makes use of a mathematical operation called convolution, which either
 entirely or in part replaces the simple vector multiplication seen in fully-connected networks as
 introduced in Section~\ref{sec:cvn_theory_basics}. This change makes CNNs incredibly powerful for
 applications using grid-like data such as computer vision tasks.
@@ -556,7 +556,7 @@ dimensions of the input grid, summing the products of all associated elements at
 according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_operation}.
 
 \begin{figure} % CONV INPUTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/conv_input.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/conv_input.pdf}
     \caption[Example of an input grid and kernel.]
     {Example of an input grid (left) and kernel (right). The specific kernel shown is sensitive to
         x-shaped features}
@@ -564,7 +564,7 @@ according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_operation}.
 \end{figure}
 
 \begin{figure} % CONV OPERATION DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/conv_operation.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/conv_operation.pdf}
     \caption[Example of convolutional operation.]
     {Example of a $\mathrm{stride}=1$ convolutional operation involving the input grid and kernel
         from Fig.~\ref{fig:conv_input}. Both the operation for the case of `valid' (top) and
@@ -592,7 +592,7 @@ average value of the region is used as output, for max and average pooling respe
 illustrated in Fig.\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/pooling.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/pooling.pdf}
     \caption[Example of pooling operation.]
     {Example of both a max and average $2 \times 2$ pooling operation with $\mathrm{stride}=2$.}
     \label{fig:pooling}
@@ -605,8 +605,6 @@ a key feature of CNNs. They exhibit translational invariance and respect the loc
 contained within the input. In simpler terms, they do not care wherein the input image a
 particular feature exists, just that it exists.
 
-DON'T KNOW IF TENSE CHANGE IS OKAY HERE!!!
-
 In 2012 the AlexNet CNN managed to lower the error rate on the ubiquitous ImageNet classification
 task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
 standard CNN has adopted the same architecture. Multiple convolutional layers are stacked on top
@@ -616,7 +614,7 @@ standard fully-connected layers are added to the network before the final output
 in Fig.~\ref{fig:conv_diagram}.
 
 \begin{figure} % CONV DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/conv_diagram.jpeg}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_diagram.jpeg}
     \caption[Typical CNN architecture]
     {Illustration of a typical CNN architecture, containing convolutional, pooling and
         fully-connected layers before the final output layer.}
@@ -639,7 +637,7 @@ combined~\cite{szegedy2016}, and there has been a significant push for efficient
 deeper networks~\cite{sandler2018,tan2019}.
 
 \begin{figure} % BLOCKS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/blocks.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/blocks.pdf}
     \caption[Common CNN architecture blocks]
     {Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
         output through operations whose flow is outlined via the arrows. The blue and red boxes
@@ -661,7 +659,7 @@ Original Batch normalisation paper in Ref.~\cite{ioffe2015}
 \subsubsection*{Early stopping}
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/7-cvn/early_stopping.pdf}
+    \includegraphics[width=0.5\textwidth]{diagrams/6-cvn/early_stopping.pdf}
     \caption[Illustration of the early stopping procedure.]
     {Illustration of the early stopping procedure. Initially both the training and test error
         decreases, but, at some point the test error will start to increase due to overfitting, at
@@ -673,7 +671,7 @@ Original Batch normalisation paper in Ref.~\cite{ioffe2015}
 
 Original 'dropout' paper in Ref.~\cite{hinton2012}
 \begin{figure} % DROPOUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/dropout.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/dropout.pdf}
     \caption[dropout short]
     {Example of dropout applied to the network shown in Fig.~\ref{fig:network}.}
     \label{fig:dropout}
@@ -681,6 +679,62 @@ Original 'dropout' paper in Ref.~\cite{hinton2012}
 
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+EXPLAIN WHAT HAS BEEN IMPLEMENTED AS IT WAS FOUND TO BE THE BEST THEN INCLUDE PLOTS AS FOR YOU
+INTEREST.
+I WILL POINT OUT THE KEY FINDINGS IN OPTIMISATION OF THE NETWORK
+
+PLAN
+- Explain the primary task we are trying to solve and how we will judge how well it have done.
+Which output scores will we use to compare etc... Although we will use a similar implementation
+for both cosmic rejection and energy estimation, primary we are looking for electron neutrino
+identification in beam events. Just talk about nuel scores for this first section. We have a
+independent test dataset that is scaled to match the events expected in CHIPS. Energy spectrum,
+type of neutrino interaction, number of events expected table etc...
+- MODEL EVALUATION + TESTING SAMPLE
+- SOFTWARE IMPLEMENTATION + TRAINING
+- TRAINING SAMPLE
+- EVENT REPRESENTATION
+- NETWORK ARCHITECTURE
+- MULTI-TASK METHODOLOGY
+
+\subsection{Model evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Software implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+FACTS
+- We have developed the `chipsnet' python package built intop of the Tensorflow framework.
+- We use Tensorflow framework initially developed by Google
+- Makes training across multiple graphics processing units (GPUs) easy to implement.
+- We use the Tensorflow dataset API which creates an efficient input pipeline for training data,
+allowing it to be loaded on the fly at training time. Impossible to load everything into memory.
+- The input files are loaded and random events are loaded into memory decoded and any
+manipulations applied before use in training.
+- The use of parrallelism allows for all CPU cores (and threads) to be used for loading and
+preprocessing data for the GPU batch training process. Preloading the data so it is ready for when
+it is needed.
+- To optimise data storage and training speed at the training stage all inputs are encoded using
+8-bits, with the scaling determined to saturate for each channel ~0.001!!! SHOW PLOT Bottleneck at
+training becomes the loading of data on the fly and not the actual network calculations done on
+the GPUs.
+- Input data is scaled for all channels to be between [0, 1]
+- Training data is split into a train and validation dataset 95-5\% split.
+- We apply augmentation to the images apply a random factor scaling to each input pixel of
+2\% for all channels. Clipping any negative values this produces back to zero.
+- The keras high-level API is used within Tensorflow to implement the networks using pre defined
+common layers.
+- Mini-batch training strategy was used.
+- The SHERPA hyperparameter tuning framework was used for hyperparameter tuning.
+- We use a learning rate determined from hyperparamter studies to converge well,reducing the
+learning rate at each step according to
+\begin{equation}
+    l_{e}=\frac{l_{0}}{1+c_{d}n_{e}}
+\end{equation}
+where $c_{d}$ is the coefficient of decay set to be 0.5 and $n_{e}$ is the epoch number
+- Implement early stopping
+- Input are 64*64 images, how do we represent a cylinder?
 
 - Many high level libraries have now been formed, predominantly led by Tensorflow (from google)
 and pyTorch (from facebook) making it easier to quickly code and implemented DNNs.
@@ -702,32 +756,24 @@ parameter whose value greatly affects how a network trains. Too large and the mi
 continue to step over the minima and too small and the time taken to reach the minima will
 increase or the minima may never be found.
 
-\subsubsection*{Squeeze-and-exitation blocks}
 
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
-\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
-    \includegraphics[width=0.4\textwidth]{diagrams/7-cvn/se.pdf}
-    \caption[se short]
-    {se long}
-    \label{fig:se}
-\end{figure}
 
 \begin{figure} % NU ENERGIES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_nu_energies.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_nu_energies.pdf}
     \caption[explore nu energies short]
     {explore nu energies long}
     \label{fig:explore_nu_energies}
 \end{figure}
 
 \begin{figure} % OSC FLUXES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_osc_fluxes.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
     \caption[explore osc fluxes short]
     {explore osc fluxes long}
     \label{fig:explore_osc_fluxes}
 \end{figure}
 
 \begin{figure} % SIMPLE CUTS DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_simple_cuts.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_simple_cuts.pdf}
     \caption[explore simple cuts short]
     {explore simple cuts long}
     \label{fig:explore_simple_cuts}
@@ -744,7 +790,7 @@ Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
     [0,3500], outside range: 0.0023
 
 \begin{figure} % 8-BIT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_8_bit_range.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_8_bit_range.pdf}
     \caption[explore 8 bit range short]
     {explore 8 bit range long}
     \label{fig:explore_8_bit_range}
@@ -753,8 +799,19 @@ Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
 \subsection{Network architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- truncated versions of the other networks so they have approximately the same number of parameters
+to train for making a good comparison.
+
+Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
+\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
+    \includegraphics[width=0.4\textwidth]{diagrams/6-cvn/se.pdf}
+    \caption[se short]
+    {se long}
+    \label{fig:se}
+\end{figure}
+
 \begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet.pdf}
     \caption[chipsnet short]
     {chipsnet long}
     \label{fig:chipsnet}
@@ -766,14 +823,14 @@ resnet: 16,526,288 (112ms)
 inception-resnet: 17,145,238 (209ms)
 
 \begin{figure} % ARCHITECTURE NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/arch_nuel_eff_curves.pdf}
     \caption[arch nuel eff curves short]
     {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % ARCHITECTURE NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/arch_nuel_comp_curves.pdf}
     \caption[arch nuel comp curves short]
     {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
     \label{fig:arch_nuel_comp_curves}
@@ -795,20 +852,6 @@ inception-resnet: 17,145,238 (209ms)
 - FOM1-> 0.44448, 0.90500, 52.61119, 10.90981, 15.11323, 0.66433, 0.66906
 - FOM2-> 13.48962, 0.98500, 23.98040, 0.96809, 2.19211, 0.30280, 0.88356
 
-\begin{figure} % ARCHITECTURE NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_eff_curves.pdf}
-    \caption[arch numu eff curves short]
-    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
-    \label{fig:arch_numu_eff_curves}
-\end{figure}
-
-\begin{figure} % ARCHITECTURE NUMU COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/arch_numu_comp_curves.pdf}
-    \caption[arch numu comp curves short]
-    {vgg=solid, inception=dashed, resnet=dotted, inception-resnet=dot-dash}
-    \label{fig:arch_numu_comp_curves}
-\end{figure}
-
 \subsection{Which training sample to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -816,56 +859,56 @@ inception-resnet: 17,145,238 (209ms)
 to the zero score as expected.
 
 \begin{figure} % FLUX TRAINING SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_flux_sample.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_flux_sample.pdf}
     \caption[explore flux sample short]
     {explore flux sample long}
     \label{fig:explore_flux_sample}
 \end{figure}
 
 \begin{figure} % UNIFORM TRAINING SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_uniform_sample.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_uniform_sample.pdf}
     \caption[explore uniform sample short]
     {explore uniform sample long}
     \label{fig:explore_uniform_sample}
 \end{figure}
 
 \begin{figure} % BOTH TRAINING SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_both_sample.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_both_sample.pdf}
     \caption[explore both sample short]
     {explore both sample long}
     \label{fig:explore_both_sample}
 \end{figure}
 
 \begin{figure} % SAMPLE FLUX OUTPUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/sample_flux_output_values.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/sample_flux_output_values.pdf}
     \caption[sample flux output values short]
     {sample flux output values long}
     \label{fig:sample_flux_output_values}
 \end{figure}
 
 \begin{figure} % SAMPLE UNIFORM OUTPUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/sample_uniform_output_values.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/sample_uniform_output_values.pdf}
     \caption[sample uniform output values short]
     {sample uniform output values long}
     \label{fig:sample_uniform_output_values}
 \end{figure}
 
 \begin{figure} % SAMPLE BOTH OUTPUT DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/sample_both_output_values.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/sample_both_output_values.pdf}
     \caption[sample both output values short]
     {sample both output values long}
     \label{fig:sample_both_output_values}
 \end{figure}
 
 \begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/sample_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/sample_nuel_eff_curves.pdf}
     \caption[sample nuel eff curves short]
     {both=solid, flux=dashed, uniform=dotted}
     \label{fig:sample_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % SAMPLE NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/sample_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/sample_nuel_comp_curves.pdf}
     \caption[sample nuel comp curves short]
     {both=solid, flux=dashed, uniform=dotted}
     \label{fig:sample_nuel_comp_curves}
@@ -890,12 +933,36 @@ to the zero score as expected.
 - New ideas with x+ x- mapping in Ref.~\cite{berns2020}
 - Fraction of deposited charge in endcaps = 0.4769380479133997
 
+
+\begin{equation} % ONE-HOT EQUATION %
+    X_{\pm}=
+    \begin{cases}
+        1-\chi_{\mp} & (z \geq 0) \\
+        \chi_{\pm}   & (z < 0)
+    \end{cases}
+\end{equation}
+
+\begin{equation} % ONE-HOT EQUATION %
+    \chi_{\pm}=W(\rho,z)\frac{\pi\pm\phi}{2\pi}
+\end{equation}
+
+\begin{equation}
+    W(\rho,z)=\sqrt{\frac{\rho^{2}-2R\abs{z}+RH}{R^{2}+RH}}
+\end{equation}
+
+where R and Z are the radius and height of the detector cylinder and W is chosen for constant
+surface density.
+
+- Turns out removing the distortions of not viewing the event from the vertex is the most important
+thing!!!
+
+
 - Approaches in the past for event classification using CNNs for water cherenkov detectors have
 taken a few Approaches to generating the input image representation.
 - Projecting onto a 2d surface "outside" the detector
 
 \begin{figure} % NUEL EVENT DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ccres_event.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ccres_event.pdf}
     \caption[explore nuel ccres event short]
     {3
         3307.41
@@ -910,7 +977,7 @@ taken a few Approaches to generating the input image representation.
 \end{figure}
 
 \begin{figure} % NUMU EVENT DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_numu_ccdis_event.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ccdis_event.pdf}
     \caption[explore numu ccdis event short]
     {91
         3520.17
@@ -925,7 +992,7 @@ taken a few Approaches to generating the input image representation.
 \end{figure}
 
 \begin{figure} % NC EVENT DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_nuel_ncdis_event.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ncdis_event.pdf}
     \caption[explore nuel ncdis event short]
     {92
     9301.59
@@ -941,7 +1008,7 @@ taken a few Approaches to generating the input image representation.
 \end{figure}
 
 \begin{figure} % COSMIC MUON EVENT DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/explore_cosmic_event.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_event.pdf}
     \caption[explore cosmic event short]
     {100
         2928.5
@@ -955,21 +1022,21 @@ taken a few Approaches to generating the input image representation.
 \end{figure}
 
 \begin{figure} % HOUGH REPRESENTATIONS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explore_hough_events.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_hough_events.pdf}
     \caption[example hough events short]
     {example hough events long}
     \label{fig:example_hough_events}
 \end{figure}
 
 \begin{figure} % VTX POSITIONS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explore_vtx_positions.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_vtx_positions.pdf}
     \caption[explore vtx positions short]
     {explore vtx positions long}
     \label{fig:explore_vtx_positions}
 \end{figure}
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explore_true_reco_vtx.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_true_reco_vtx.pdf}
     \caption[explore true reco vtx short]
     {explore true reco vtx long}
     \label{fig:explore_true_reco_vtx}
@@ -988,28 +1055,28 @@ taken a few Approaches to generating the input image representation.
 - FOM2-> 12.22739, 0.99000, 28.43808, 1.74364, 3.66555, 0.35900, 0.84019
 
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/repr_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_eff_curves.pdf}
     \caption[repr nuel eff curves short]
     {v=solid, o=dashed, i=dotted}
     \label{fig:repr_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/repr_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_comp_curves.pdf}
     \caption[repr nuel comp curves short]
     {v=solid, o=dashed, i=dotted}
     \label{fig:repr_nuel_comp_curves}
 \end{figure}
 
 \begin{figure} % REPR NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/repr_numu_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/repr_numu_eff_curves.pdf}
     \caption[repr numu eff curves short]
     {v=solid, o=dashed, i=dotted}
     \label{fig:repr_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % REPR NUMU COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/repr_numu_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_numu_comp_curves.pdf}
     \caption[repr numu comp curves short]
     {v=solid, o=dashed, i=dotted}
     \label{fig:repr_numu_comp_curves}
@@ -1019,14 +1086,14 @@ taken a few Approaches to generating the input image representation.
 \label{sec:cvn_baseline_channel} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % CHANNEL NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/channel_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/channel_nuel_eff_curves.pdf}
     \caption[channel nuel eff curves short]
     {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % CHANNEL NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/channel_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/channel_nuel_comp_curves.pdf}
     \caption[channel nuel comp curves short]
     {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_nuel_comp_curves}
@@ -1049,14 +1116,14 @@ taken a few Approaches to generating the input image representation.
 - FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
 
 \begin{figure} % CHANNEL NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/channel_numu_eff_curves.pdf}
     \caption[channel numu eff curves short]
     {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % CHANNEL NUMU COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/channel_numu_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/channel_numu_comp_curves.pdf}
     \caption[channel numu comp curves short]
     {c=solid, ct=dashed, cth=dotted, cth-stacked=dot-dash}
     \label{fig:channel_numu_comp_curves}
@@ -1077,49 +1144,49 @@ Multi-task learning how to weight paper in Ref.~\cite{kendall2018}
 \label{sec:cvn_beam_cat} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % T_ALL_CAT SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_t_all_cat.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_t_all_cat.pdf}
     \caption[explore t all cat short]
     {explore t all cat long}
     \label{fig:explore_t_all_cat}
 \end{figure}
 
 \begin{figure} % T_NC_COMB_CAT SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_t_nc_comb_cat.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_t_nc_comb_cat.pdf}
     \caption[explore t nc comb cat short]
     {explore t nc comb cat long}
     \label{fig:explore_t_nc_comb_cat}
 \end{figure}
 
 \begin{figure} % T_COMB_CAT SAMPLE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/explore_t_comb_cat.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_t_comb_cat.pdf}
     \caption[explore t comb cat short]
     {explore t comb cat long}
     \label{fig:explore_t_comb_cat}
 \end{figure}
 
 \begin{figure} % CAT NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/cat_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/cat_nuel_eff_curves.pdf}
     \caption[cat nuel eff curves short]
     {cat nuel eff curves long}
     \label{fig:cat_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % CAT NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/cat_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/cat_nuel_comp_curves.pdf}
     \caption[cat nuel comp curves short]
     {cat nuel comp curves long}
     \label{fig:cat_nuel_comp_curves}
 \end{figure}
 
 \begin{figure} % CAT NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/cat_numu_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/cat_numu_eff_curves.pdf}
     \caption[cat numu eff curves short]
     {cat numu eff curves long}
     \label{fig:cat_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % CAT NUMU COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/cat_numu_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/cat_numu_comp_curves.pdf}
     \caption[cat numu comp curves short]
     {cat numu comp curves long}
     \label{fig:cat_numu_comp_curves}
@@ -1136,28 +1203,28 @@ sensitivity by indentifying subsamples with specific topologies.
 selections.
 
 \begin{figure} % BEAM NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/beam_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/beam_nuel_eff_curves.pdf}
     \caption[beam nuel eff curves short]
     {beam nuel eff curves long}
     \label{fig:beam_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % BEAM NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/beam_nuel_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/beam_nuel_comp_curves.pdf}
     \caption[beam nuel comp curves short]
     {beam nuel comp curves long}
     \label{fig:beam_nuel_comp_curves}
 \end{figure}
 
 \begin{figure} % BEAM NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/beam_numu_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/beam_numu_eff_curves.pdf}
     \caption[beam numu eff curves short]
     {beam numu eff curves long}
     \label{fig:beam_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % BEAM NUMU COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/beam_numu_comp_curves.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/beam_numu_comp_curves.pdf}
     \caption[beam numu comp curves short]
     {beam numu comp curves long}
     \label{fig:beam_numu_comp_curves}
@@ -1170,14 +1237,14 @@ selections.
 \label{sec:cvn_energy_chan} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % ENERGY CHAN DISTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_chan_frac_dist.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_dist.pdf}
     \caption[energy chan frac dist short]
     {energy chan frac dist long}
     \label{fig:energy_chan_frac_dist}
 \end{figure}
 
 \begin{figure} % ENERGY CHAN FRAC VS E DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_chan_frac_vs_e.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_vs_e.pdf}
     \caption[energy chan frac vs e short]
     {energy chan frac vs e long}
     \label{fig:energy_chan_frac_vs_e}
@@ -1187,14 +1254,14 @@ selections.
 \label{sec:cvn_energy_par} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % ENERGY PAR DISTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_par_frac_dist.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_par_frac_dist.pdf}
     \caption[energy par frac dist short]
     {energy par frac dist long}
     \label{fig:energy_par_frac_dist}
 \end{figure}
 
 \begin{figure} % ENERGY PAR FRAC VS E DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/energy_par_frac_vs_e.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_par_frac_vs_e.pdf}
     \caption[energy par frac vs e short]
     {energy par frac vs e long}
     \label{fig:energy_par_frac_vs_e}
@@ -1204,14 +1271,14 @@ selections.
 \label{sec:cvn_energy_split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % ENERGY SPLIT NUEL DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_energy_split_nuel_frac_vs_e.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_energy_split_nuel_frac_vs_e.pdf}
     \caption[final energy split nuel frac vs e short]
     {final energy split nuel frac vs e long}
     \label{fig:final_energy_split_nuel_frac_vs_e}
 \end{figure}
 
 \begin{figure} % ENERGY SPLIT NUMU DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_energy_split_numu_frac_vs_e.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_energy_split_numu_frac_vs_e.pdf}
     \caption[final energy split numu frac vs e short]
     {final energy split numu frac vs e long}
     \label{fig:final_energy_split_numu_frac_vs_e}
@@ -1224,140 +1291,140 @@ selections.
 \label{sec:cvn_final_comparison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % COSMIC HISTORY DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_history.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_history.pdf}
     \caption[final cosmic history short]
     {final cosmic history long}
     \label{fig:final_cosmic_history}
 \end{figure}
 
 \begin{figure} % BEAM HISTORY DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_beam_history.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_beam_history.pdf}
     \caption[final beam history short]
     {final beam history long}
     \label{fig:final_beam_history}
 \end{figure}
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_energy_history.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_energy_history.pdf}
     \caption[final energy history short]
     {final energy history long}
     \label{fig:final_energy_history}
 \end{figure}
 
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_outputs.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
     \caption[final cosmic outputs short]
     {final cosmic outputs long}
     \label{fig:final_cosmic_outputs}
 \end{figure}
 
 \begin{figure} % COSMIC OUTPUTS ZOOMED DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_zoomed_outputs.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_zoomed_outputs.pdf}
     \caption[final cosmic zoomed outputs short]
     {final cosmic zoomed outputs long}
     \label{fig:final_cosmic_zoomed_outputs}
 \end{figure}
 
 \begin{figure} % ESCAPES OUTPUTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_escapes_outputs.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_escapes_outputs.pdf}
     \caption[final escapes outputs short]
     {final escapes outputs long}
     \label{fig:final_escapes_outputs}
 \end{figure}
 
 \begin{figure} % BEAM OUTPUTS NUEL DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_beam_nuel_outputs.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_beam_nuel_outputs.pdf}
     \caption[final beam nuel outputs short]
     {final beam nuel outputs long}
     \label{fig:final_beam_nuel_outputs}
 \end{figure}
 
 \begin{figure} % BEAM OUTPUTS NUMU DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_beam_numu_outputs.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_beam_numu_outputs.pdf}
     \caption[final beam numu outputs short]
     {final beam numu outputs long}
     \label{fig:final_beam_numu_outputs}
 \end{figure}
 
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nuel_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_eff_curves.pdf}
     \caption[final nuel eff curves short]
     {final nuel eff curves long}
     \label{fig:final_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % FINAL NUMU EFF CURVES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_numu_eff_curves.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_numu_eff_curves.pdf}
     \caption[final numu eff curves short]
     {final numu eff curves long}
     \label{fig:final_numu_eff_curves}
 \end{figure}
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nuel_hists.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_hists.pdf}
     \caption[final nuel hists short]
     {final nuel hists long}
     \label{fig:final_nuel_hists}
 \end{figure}
 
 \begin{figure} % FINAL NUMU HISTS DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_numu_hists.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_numu_hists.pdf}
     \caption[final numu hists short]
     {final numu hists long}
     \label{fig:final_numu_hists}
 \end{figure}
 
 \begin{figure} % FINAL COMB CAT CONFUSION DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_comb_cat_confusion.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_comb_cat_confusion.pdf}
     \caption[final comb cat confusion short]
     {final comb cat confusion long}
     \label{fig:final_comb_cat_confusion}
 \end{figure}
 
 \begin{figure} % FINAL CC CAT CONFUSION DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_cc_cat_confusion.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_cc_cat_confusion.pdf}
     \caption[final cc cat confusion short]
     {final cc cat confusion long}
     \label{fig:final_cc_cat_confusion}
 \end{figure}
 
 \begin{figure} % FINAL NC CAT CONFUSION DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nc_cat_confusion.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_nc_cat_confusion.pdf}
     \caption[final nc cat confusion short]
     {final nc cat confusion long}
     \label{fig:final_nc_cat_confusion}
 \end{figure}
 
 \begin{figure} % FINAL NUEL ENERGY DIST DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_nuel_passed_energy_dist.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_passed_energy_dist.pdf}
     \caption[final nuel passed energy dist short]
     {final nuel passed energy dist long}
     \label{fig:final_nuel_passed_energy_dist}
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIST DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_numu_passed_energy_dist.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_numu_passed_energy_dist.pdf}
     \caption[final numu passed energy dist short]
     {final numu passed energy dist long}
     \label{fig:final_numu_passed_energy_dist}
 \end{figure}
 
 \begin{figure} % FINAL 2D ENERGY DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/7-cvn/chipsnet/final_energy_2d.pdf}
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_2d.pdf}
     \caption[final energy 2d short]
     {final energy 2d long}
     \label{fig:final_energy_2d}
 \end{figure}
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/final_energy_nuel.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_nuel.pdf}
     \caption[final energy nuel short]
     {final energy nuel long}
     \label{fig:final_energy_nuel}
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/final_energy_numu.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_numu.pdf}
     \caption[final energy numu short]
     {final energy numu long}
     \label{fig:final_energy_numu}
@@ -1400,35 +1467,35 @@ in Ref.~\cite{jiang2019}
 \label{sec:cvn_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % COSMIC t-SNE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/final_cosmic_tsne.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_tsne.pdf}
     \caption[final cosmic tsne short]
     {final cosmic tsne long}
     \label{fig:final_cosmic_tsne}
 \end{figure}
 
 \begin{figure} % BEAM t-SNE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-cvn/chipsnet/final_beam_tsne.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne.pdf}
     \caption[final beam tsne short]
     {final beam tsne long}
     \label{fig:final_beam_tsne}
 \end{figure}
 
 \begin{figure} % BEAM t-SNE EVENTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/final_beam_tsne_events.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_beam_tsne_events.pdf}
     \caption[final beam tsne events short]
     {final beam tsne events long}
     \label{fig:final_beam_tsne_events}
 \end{figure}
 
 \begin{figure} % FRAC ENERGY EFF DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/7-cvn/chipsnet/final_frac_energy_eff.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_frac_energy_eff.pdf}
     \caption[final frac energy eff short]
     {final frac energy eff long}
     \label{fig:final_frac_energy_eff}
 \end{figure}
 
 \begin{figure} % EXPLAIN EXAMPLE EVENT DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-cvn/chipsnet/explain_example_event.pdf}
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explain_example_event.pdf}
     \caption[explain example event short]
     {explain example event long}
     \label{fig:explain_example_event}
@@ -1437,15 +1504,15 @@ in Ref.~\cite{jiang2019}
 \begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %
     \centering
     \subcaptionbox{explain cosmic activations\label{fig:explain_cosmic_activations}}{%
-        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_cosmic_activations.pdf}%
+        \includegraphics[height=16cm]{diagrams/6-cvn/chipsnet/explain_cosmic_activations.pdf}%
     }
     \quad
     \subcaptionbox{explain beam activations\label{fig:explain_beam_activations}}{%
-        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_beam_activations.pdf}%
+        \includegraphics[height=16cm]{diagrams/6-cvn/chipsnet/explain_beam_activations.pdf}%
     }
     \quad
     \subcaptionbox{explain energy activations\label{fig:explain_energy_activations}}{%
-        \includegraphics[height=16cm]{diagrams/7-cvn/chipsnet/explain_energy_activations.pdf}%
+        \includegraphics[height=16cm]{diagrams/6-cvn/chipsnet/explain_energy_activations.pdf}%
     }
     \caption[The caption]
     {The caption}
