@@ -8,7 +8,7 @@ background and the estimation of the associated neutrino energy.
 
 For this purpose, the \chips project has so far relied on a complex human implemented
 reconstruction algorithm and a simple classification neural network driven by hand-engineered
-features. Both of these methods are prone to human error and restricted in scope to what has been
+features. Both of which are prone to human error and restricted in scope to what has been
 implemented in software.
 
 The work outlined in this chapter presents a replacement event analysis methodology for \chips.
@@ -249,31 +249,15 @@ neural networks can lead to incorrect categorisation of events.
 There are many machine learning techniques: linear regression, logistic regression, k-nearest
 neighbours, decision trees, random forests, support vector machines, all of which learn to make
 predictions about data. However, none have been as successful, especially in recent years, as the
-neural network, particularly the deep neural network. As both the size of datasets and the amount
-of available computational power has increased, neural networks have proven the most power
-technique for many tasks as they are well suited to this paradigm.
+deep neural network. As both the size of datasets and the amount of available computational power
+has increased, deep neural networks have proven the most powerful technique for many tasks as they
+are well suited to this paradigm.
 
-only supervised methods are discussed here as they
-
--Tasks are either regression or classification and either superviser or unsupervised.
--In this work both regression and classification tasks are presented, for supervised models.
-However, unsupervised techniques to analyse the MAYBE PUT THIS IN INTRO
-- Machine learning is concerned with algorithms that can learn to make predictions from data
-- Given a set of input variables, predict a set of output variables.
-- Separated into regression for predicting a value from a continuous function or classification
-for separating example into groups.
-- Common to separate into two categories: supervised and unsupervised.
-- In the supervised approach you algorithm is trained using a collection of example for which the
-output is known. In the unsupervised case, the algorithm learns to extract outputs from data where
-the function output is not known.
-
-%\begin{figure} % AMOUNT OF DATA DIAGRAM %
-%    \includegraphics[width=0.5\textwidth]{diagrams/6-cvn/amount_of_data.png}
-%    \caption[Illustrative plot of the amount of data vs the expected performance.]
-%    {Illustrative plot of the amount of data vs the expected performance for traditional and
-%        neural network machine learning models. Figure taken from Ref.~\cite{mehta2019}.}
-%    \label{fig:amount_of_data}
-%\end{figure}
+Here we discuss the application of neural networks for `supervised learning', one of two broad
+machine learning categories that is concerned with using labelled example data to train the
+algorithm. The other category `unsupervised learning', where the properties the dataset are
+inferred without example data is not discussed, however, will be used
+Section.~\ref{sec:cvn_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,6 +377,7 @@ This is done by updating the network parameters at each iteration $t$ to move in
 the gradient of the loss function using an update rule:
 \begin{equation} % UPDATE EQUATION %
     \vec{w}_{t+1}=\vec{w}_{t}-\eta_{t}\nabla_{\vec{w}}E(\vec{w}),
+    \label{eq:update_rule}
 \end{equation}
 where $\eta_{t}$ is the `learning rate' which determines the size of the step that is taken at
 each iteration. This methodology is known as `gradient descent' and is illustrated in
@@ -571,13 +556,14 @@ a key feature of CNNs. They exhibit translational invariance and respect the loc
 contained within the input. In simpler terms, they do not care wherein the input image a
 particular feature exists, just that it exists.
 
-In 2012 the AlexNet CNN managed to lower the error rate on the ubiquitous ImageNet classification
+\subsubsection*{CNN architectures}
+
+In 2012 the AlexNet CNN lowered the error rate of the ubiquitous ImageNet classification
 task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
 standard CNN has adopted the same architecture. Multiple convolutional layers are stacked on top
-of each other, periodically interspersed with pooling layers. This process continues until the
-size of the output feature maps no longer allow for additional pooling. At this stage, one or more
-standard fully-connected layers are added to the network before the final output layer, as shown
-in Fig.~\ref{fig:conv_diagram}.
+of each other, periodically interspersed with pooling layers. Once the output feature map size no
+longer allows for additional pooling, one or more fully-connected layers are added before the final
+output layer, as shown in Fig.~\ref{fig:conv_diagram}.
 
 \begin{figure} % CONV DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/conv_diagram.jpeg}
@@ -587,20 +573,20 @@ in Fig.~\ref{fig:conv_diagram}.
     \label{fig:conv_diagram}
 \end{figure}
 
-Most commonly led by big research teams at the technology giants (Google, Microsoft, Amazon and
-Facebook), improvements upon this standard architecture have been made. Initially, this involved
-adding more and more layers to the CNN as the VGG network did in 2014~\cite{simonyan2014}. The
-same year the concept of the `inception module' allowing for different scales of features to be
-explored was introduced by GoogLeNet~\cite{szegedy2015}. The repeating set of layers that make up
-these networks, commonly referred to as `blocks' are shown in Fig.~\ref{fig:blocks}.
+Led by research teams at the technology giants, improvements upon this standard architecture have
+been made. Initially this involved the addition of extra convolutional layers to form a deeper
+network as VGG did in 2014~\cite{simonyan2014}. Separately, the `inception module' introduced by
+GoogLeNet~\cite{szegedy2015} the same year allowed for different scales of features to be explored
+using the concept of a `network within a network'.
 
-As the size of CNNs increased in depth, the gradients on the lower layers of the network
-decreased, sometimes even `vanishing' removing the ability for these layers to learn. ResNet
-introduced the idea of residual connections skipping specific layers and allowing for a larger
-gradient to reach the affected lower layers during backpropagation~\cite{he2016_original,
-    he2016_improved}. Recently the inception module and ResNet ideas have been
-combined~\cite{szegedy2016}, and there has been a significant push for efficient rather than just
-deeper networks~\cite{sandler2018,tan2019}.
+As the size of CNNs increased it was found that the gradients on the lower layers of the network
+were found to decrease. This sometimes had the effect of the gradient `vanishing' from these
+layers preventing learning. To counter this problem ResNet~\cite{he2016_original, he2016_improved}
+introduced residual connections, skipping specific layers and allowing for a large gradient to
+reach the affected lower layers during backpropagation. Recently the inception module and ResNet
+ideas have been combined~\cite{szegedy2016}, and there has been a significant push for efficient
+rather than just deeper networks~\cite{sandler2018,tan2019}. The repeating layout of layers that
+form the above networks, often referred to as `blocks', are shown in Fig.~\ref{fig:blocks}.
 
 \begin{figure} % BLOCKS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/blocks.pdf}
@@ -615,29 +601,37 @@ deeper networks~\cite{sandler2018,tan2019}.
 \subsection{Regularisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- introduce stochastic gradient descent vs full and single.
-- The full loss function often includes additional terms that regularisation. L1 and L2.
-- Bag of tricks in Ref.~\cite{he2019}
+A key challenge for supervised machine learning techniques is ensuring the algorithm can
+generalise to new previously unseen datasets. This can be difficult when for a deep neural network
+containing millions of trainable parameters, it can become easy for the network to learn the
+specific features and noise of the training dataset. This process is called `overfitting' and is
+common when training convolutional neural networks. Methods used within this work to prevent this
+from happening are outlined below, all of which are commonly referred to as `regularisation'
+techniques.
 
-- Most widely-used variant of gradient descent is stochastic gradient descent, which introduces
-stochasticity. Incorporated by approximating the gradient on a subset of the data called a
-minibatch.
-- Instead of using the actual gradient over the full dataset at each gradient descent step, we ise
-an approximation to the gradient computer on just a single minibatch. This has two important
-benefits.
-- It introduces stochasticity and decreases the chane that the minimisation algorithm gets stuck
-in an isolated local minima.
-- Significantly speeds up the calculation.
-- Also the stochasticiy is a natural regulariser that prevents overfitting in deep isolated
-minima.
-- Many algorithms that build upon Stochastic gradient descent using momentum and even the second
-moment of the gradient etc... to improve the ability of the algorithm to find the best minima
-possible, in the fastest time, such as ADAM REFERENCE that is used in this work.
+\subsubsection*{Stochastic Gradient Descent}
 
-\subsubsection*{Batch training and normalisation}
-Original Batch normalisation paper in Ref.~\cite{ioffe2015}
+The process outlined so far of updating the network weights at each training iteration using the
+gradient calculated over the full dataset is called `batch training'. It is instead much more
+common to calculate an approximation to the gradient at each iteration using a `minibatch' of the
+full dataset. This is done by considering just a subset of the training data with a size commonly
+referred to as the `batch size' and typically equal to a power of two for computational reasons.
+
+This modification to standard gradient descent is called stochastic gradient descent as it
+introduces stochasticity to the training process, and has two main advantages. Firstly the
+computational speed of each iteration is significantly reduced, and crucially the memory
+requirements lowered. Secondly, the additional noise introduced decreases the chance that the
+minimisation will get stuck in a local minimum suited to overfitting the training dataset.
 
 \subsubsection*{Early stopping}
+
+Early stopping is a simple procedure which prevents the inevitable overfitting process from
+affecting the final generalised performance of the network. During training, the training dataset
+is commonly iterated over multiple times, with each iteration called an `epoch'. By evaluating the
+error on an independent `validation' dataset at the end of each epoch, the point at which
+overfitting begins can be determined, as shown in Fig.~\ref{fig:early_stopping}. At this point,
+the training is stopped to return the best possible generalised model. In practice, it is common
+only to stop training after $n$ number of epochs have passed with no improvement.
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/6-cvn/early_stopping.pdf}
@@ -648,18 +642,42 @@ Original Batch normalisation paper in Ref.~\cite{ioffe2015}
     \label{fig:early_stopping}
 \end{figure}
 
+\subsubsection*{Batch normalisation}
+
+The training of a neural network is found to work best when the inputs of each neuron are centred
+on zero with respect to the bias of the neuron. This is because neuron input values can cause
+saturation of the activation function and subsequent `vanishing' of the associated gradient,
+reducing the ability of the network to learn. To counter this, Batch
+Normalisation~\cite{ioffe2015} introduces layers that standardise the inputs using the mean and
+variance calculated over each minibatch. This not only speeds up training by preventing the
+`vanishing' of gradients but also reduces overfitting by again using the stochasticity of the
+minibatch.
+
 \subsubsection*{Dropout}
 
-Original 'dropout' paper in Ref.~\cite{hinton2012}
+Dropout is another simple technique to reduce the overfitting of training data~\cite{hinton2012}.
+At each training iteration, each neuron has a probability $p$ to be `dropped-out' and ignored in
+the iterations calculations. This is illustrated in \ref{fig:dropout}. By ignoring a subset of the
+neurons at each iteration it makes it harder for the network to form the particularly strong
+connections between neurons that are usually responsible for overfitting, allowing for a better
+generalisation.
+
 \begin{figure} % DROPOUT DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/dropout.pdf}
-    \caption[dropout short]
-    {Example of dropout applied to the network shown in Fig.~\ref{fig:network}.}
+    \caption[Illustration of dropout.]
+    {Example of dropout applied to the network shown in Fig.~\ref{fig:network}. Neurons are
+        randomly `dropped out' and not considered at each training step. This reduces the strong
+        correlations between neurons that can lead to overfitting.}
     \label{fig:dropout}
 \end{figure}
 
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The output from a water Cherenkov neutrino detector is effectively a simple image of each event
+where the number of photoelectrons and hit times for each PMT are known.
+
+- We need a grid-like topology
 
 -Water Cherenkov detectors generate essentially an `image' of the neutrino interaction and
 therefore they are well suited to use things from computer vision.
@@ -667,6 +685,30 @@ therefore they are well suited to use things from computer vision.
 event, which are well suited to these tools.
 - CNNs have been widely applied in various computer vision tasks to solve image recognition and
 analysis problems.
+
+\subsection{Model evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % OSC FLUXES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
+    \caption[explore osc fluxes short]
+    {explore osc fluxes long}
+    \label{fig:explore_osc_fluxes}
+\end{figure}
+
+\begin{figure} % STACK INT TYPES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_stacked_int_types.pdf}
+    \caption[explore stacked int types short]
+    {explore stacked int types long}
+    \label{fig:explore_stacked_int_types}
+\end{figure}
+
+\begin{figure} % SIMPLE CUTS DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_simple_cuts.pdf}
+    \caption[explore simple cuts short]
+    {explore simple cuts long}
+    \label{fig:explore_simple_cuts}
+\end{figure}
 
 EXPLAIN WHAT HAS BEEN IMPLEMENTED AS IT WAS FOUND TO BE THE BEST THEN INCLUDE PLOTS AS FOR YOU
 INTEREST.
@@ -685,9 +727,6 @@ type of neutrino interaction, number of events expected table etc...
 - EVENT REPRESENTATION
 - NETWORK ARCHITECTURE
 - MULTI-TASK METHODOLOGY
-
-\subsection{Model evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Software implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -745,27 +784,6 @@ continue to step over the minima and too small and the time taken to reach the m
 increase or the minima may never be found.
 
 
-
-\begin{figure} % NU ENERGIES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_nu_energies.pdf}
-    \caption[explore nu energies short]
-    {explore nu energies long}
-    \label{fig:explore_nu_energies}
-\end{figure}
-
-\begin{figure} % OSC FLUXES DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
-    \caption[explore osc fluxes short]
-    {explore osc fluxes long}
-    \label{fig:explore_osc_fluxes}
-\end{figure}
-
-\begin{figure} % SIMPLE CUTS DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_simple_cuts.pdf}
-    \caption[explore simple cuts short]
-    {explore simple cuts long}
-    \label{fig:explore_simple_cuts}
-\end{figure}
 
 \subsection{Software implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
