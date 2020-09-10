@@ -607,7 +607,7 @@ the specific features and noise of the training dataset. This process is called 
 and is common when training CNNs. Methods used within this work to prevent this from happening are
 outlined below, all of which are commonly referred to as \emph{regularisation} techniques.
 
-\subsubsection*{Stochastic Gradient Descent}
+\subsubsection*{Stochastic Gradient Descent} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The process outlined so far of updating the network weights at each training iteration using the
 gradient calculated over the full dataset is called \emph{batch training}. It is instead much more
@@ -622,7 +622,7 @@ computational speed of each iteration is significantly reduced, and crucially th
 requirements lowered. Secondly, the additional noise introduced decreases the chance that the
 minimisation will get stuck in a local minimum suited to overfitting the training dataset.
 
-\subsubsection*{Early stopping}
+\subsubsection*{Early stopping} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \emph{Early stopping} is a simple procedure which prevents overfitting from affecting the final
 generalised performance of the network. During training, the training dataset is commonly iterated
@@ -641,7 +641,7 @@ training after $n$ number of epochs have passed with no validation error improve
     \label{fig:early_stopping}
 \end{figure}
 
-\subsubsection*{Batch normalisation}
+\subsubsection*{Batch normalisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The training of a neural network is found to work best when the inputs of each neuron are centred
 on zero with respect to the bias of the neuron. This is because large input values can cause
@@ -651,7 +651,7 @@ introduces layers that standardise the inputs using the mean and variance calcul
 minibatch~\cite{ioffe2015}. This not only speeds up training by preventing the \emph{vanishing} of
 gradients but also reduces overfitting by again using the stochasticity of the minibatch.
 
-\subsubsection*{Dropout}
+\subsubsection*{Dropout} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \emph{Dropout} is another simple technique to reduce overfitting~\cite{hinton2012}. At each
 training iteration, each neuron has a probability $p$ to be \emph{dropped out} and ignored for
@@ -672,84 +672,91 @@ generalisation.
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The output from a water Cherenkov neutrino detector is effectively a simple image of each event
-where the number of photoelectrons and hit times for each PMT are known.
-- We need a grid-like topology
--Water Cherenkov detectors generate essentially an \emph{image} of the neutrino interaction and
-therefore they are well suited to use things from computer vision.
-- Many HEP problems including water cherenkov detectors essentially result in an 'image' of an
-event, which are well suited to these tools.
-- CNNs have been widely applied in various computer vision tasks to solve image recognition and
-analysis problems.
-- MENTION CHIPSNET HERE
-- MENTION TENSORFLOW HERE
-- In this section we discuss the implementation for the primary objective of beam interaction type
-classification
-- For this purpose a baseline CNN model was implemented for beam classification
-- We have developed the `chipsnet' python package built intop of the Tensorflow framework.
-- We use Tensorflow framework initially developed by Google
-- Many high level libraries have now been formed, predominantly led by Tensorflow (from google)
-and pyTorch (from facebook) making it easier to quickly code and implemented DNNs.
+MAYBE REFER TO THE BASELINE JUST AT CHIPSNET
 
-I first describe how I have implemented the repr v cth model from generating it's input to how the
-chipsnet package used the parts of tensorflow to do everything. To how the VGG architecture is
-implemented and the model is finally trained, with all the different proccesses that are
-implemented and everything. Also introduce how I have introduced the ability for multi-task
-learning to be used easily and the different ways that can be explored.
+The output from a water Cherenkov detector such as \chips is effectively a simple \emph{image} of
+each event (neutrino interaction) where the number of collected photoelectrons (p.e) and hit times
+are known for each PMT. Therefore, it is a natural fit for these event \emph{images} to be
+analysed by a CNN which was primarily developed for computer vision tasks on images and other
+grid-like input data.
 
-\subsection{Event representation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline_repr} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Describe the inputs, 8-bit, [0,1], how the mapping works with the hough seed fit etc...
+For this purpose, a python based software package named \emph{chipsnet}~\cite{chipsnet2020} has
+been developed. By using the high-level \emph{application programming interfaces}, (APIs) provided
+by the Tensorflow framework (initially built by Google)~\cite{tf2015}, a full pipeline including
+data preparation, network training, and final network performance evaluation has been implemented.
 
-The primary difficulty in the application of CNNs to \chips is determining how to map an event
-captured on the cylindrical surface of the detector to a rectangular grid. Furthermore, this must
-be done in such a way as to not distort the event topology which could make it harder for the CNN
-to learn. To solve this problem this work takes inspiration and then builds upon the ideas
-outlined in Ref.~\cite{theodore2016}. Put simply, an event is projected onto a two-dimensional
-grid as though it was \emph{viewed} from its estimated interaction vertex position. Other,
-competing representations that do not perform as well are outlined in
-Section~\ref{sec:cvn_baseline_alt} for completeness.
+In this section, an outline for the baseline implementation built into chipsnet for applying CNNs
+to \chips is presented. The following section then details the specifics surrounding the
+individual cosmic rejection, beam classification and energy estimation applications.
 
-To estimate the interaction vertex position for each event, the top scoring seed from the
-\emph{seeding} process introduced in Section~\ref{sec:cvn_old_reco} is used. This procedure
-requires no track hypothesis unlike the full likelihood fit and typically takes a much reduced 0.5
-seconds to complete per event on a standard batch farm computing node. The seed estimated vertex
-resolution (truth-seed) distribution for a sample of expected beam events is shown in
-Fig.~\ref{fig:explore_true_reco_vtx}. Although, the x-component of the interaction vertex position
-tends to be closer to the downstream wall of the detector than reality, this should not increase
-event distortions greatly as these are primarily driven by the $y$ and $z$ components.
+\subsection{Baseline inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The primary difficulty in the application of CNNs to the \chips project is determining how to map
+an event captured on a cylindrical surface to a rectangular grid. Furthermore, this must be done
+in such a way as not to distort the event topology which could make it harder for the CNN to
+learn. To solve this problem, this work takes inspiration and then builds upon the ideas outlined
+in Ref.~\cite{theodore2016}. Simply put, an event is projected onto a two-dimensional grid as
+though it was \emph{viewed} from its estimated interaction vertex position. The primary motivation
+behind this is to remove the detector shape from having any impact and to focus on the underlying
+event topology and Cherenkov profiles. Other, competing representations that do not perform as
+well are outlined in Section~\ref{sec:cvn_baseline_alt} for completeness.
+
+To estimate the interaction vertex position for each event, the top-scoring seed from the
+\emph{seeding} process introduced in Section~\ref{sec:cvn_old_reco} is used. This procedure unlike
+the full likelihood fit requires no track hypothesis and typically takes a much reduced 0.5
+seconds per event on a standard batch farm computing node. The seed estimated vertex position
+resolutions (truth-seed) for a sample of expected beam events are shown in
+Fig.~\ref{fig:explore_true_reco_vtx}. Although the $x$ component of the position tends to be
+estimated closer to the downstream wall of the detector than reality, this should not increase
+event distortions greatly as these are primarily driven by the $y$ and $z$ components not parallel
+to the beamline.
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_true_reco_vtx.pdf}
-    \caption[explore true reco vtx short]
-    {Truth minus seed estimated interaction vertex position split by component. The tail of
-        negative values for the x-component distribution shows the tendency of the seeding
-        procedure to estimate an x-component closer to the downstream walls than reality.}
+    \caption[Seed interaction vertex resolutions.]
+    {$Truth - seed$ interaction vertex position resolution, split by component. The large negative
+        tail for the $x$ component shows the tendency of the seeding procedure to estimate the $x$
+        component closer to the downstream detector wall than reality.}
     \label{fig:explore_true_reco_vtx}
 \end{figure}
 
-As viewed from the estimated interaction vertex position facing along the x-axis (downstream) all
-hit PMTs in the event are projected onto a square $64 \times 64$ \emph{hit-map} using $\theta$ and
-$\phi$ components calculated from that position. This procedure maps a PMT onto a specific bin
-within the hit-map and is used to generate two channels of input data for the CNN. Firstly, a
-\emph{hit-charge} map where each bin value is given by the sum of the total collected charge (p.e)
-from all PMTs mapped to that bin. Secondly, a \emph{hit-time} map where each bin value is given by
-the first hit time from all the PMTs mapped to that bin.
+Using $\theta$ and $\phi$ components calculated from the estimated interaction vertex position
+facing along the x-axis (downstream), all hit PMTs within an event are projected onto a $64 \times
+    64$ grid. This procedure results in a mapping between all PMTs and their associated bins within
+the grid, which is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where
+each bin value is given by the sum of the total collected charge (p.e) from all PMTs mapped to
+that bin. Secondly, a \emph{hit-time} map where each bin value is given by the first hit time from
+all the PMTs mapped to that bin (corrected, so the first hit time in the event is at zero).
 
-In addition to the two hit-maps of input data defined above a third, the \emph{Hough-value} map is
-also used. By design, the Hough transform used in the seeding procedure uses the estimated
-interaction vertex position to generate the transform space. Therefore, by down-sampling the
-transform space to a $64 \times 64$ grid, an additional input channel related to the others via
-the interaction vertex can be created. This is the Hough-value map. The aim of this channel is to
-provide a different representation of the image with any Cherenkov rings represented as peaks
-which may allow for additional powerful features to be learnt by the CNN.
+By design, the Hough transform used in the seeding procedure uses the estimated interaction vertex
+position to generate the transform space. Therefore, by re-binning the transform space to a $64
+    \times 64$ grid a third \emph{hough-height} map is also generated for each event. This event map
+aims to provide a complementary but different representation of the event where Cherenkov rings
+are instead represented as peaks, which may allow for additional powerful features to be learnt.
 
-- All three hit-maps (hit-charge, hit-time, Hough-value) are down-sampled using 8-bit encoding.
-- [0,25], outside range: 0.0010
-- [0,120], outside range: 0.0015
-- [0,3500], outside range: 0.0023
-- When used by the CNN the values are additionally converted to a float between 0 and 1.
-- Chosen so approx 0.001 of the values lied in the overflow bin.
+All three event map: hit-charge, hit-time and hough-height, are down-sampled (from 32-bit floats)
+using 8-bit encoding. This not only significantly reduces the storage requirements but also
+dramatically increases the speed with which data can be loaded during training. For each map type,
+a range over which to encode from zero up to a \emph{cap-point} is chosen. This is selected to
+minimise the number of values that are capped at the maximum encoded value of 255, which otherwise
+could lead to the loss of crucial information within the data. Table.~\ref{tab:encoding} shows the
+cap-points, and associated percentage of values capped for each map type, while
+Fig.~\ref{fig:explore_8_bit_range} shows the distribution of values for each map across the
+encoded range.
+
+\begin{table}
+    \begin{tabular}{lllll}
+        Event map    & Cap-point & Capped percentage \\
+        \midrule
+        hit-charge   & 25 p.e    & 0.10\%            \\
+        hit-time     & 120 ns    & 0.15\%            \\
+        hough-height & 3500 p.e  & 0.23\%            \\
+    \end{tabular}
+    \caption{Table showing the cap-points (maximum value of the encoding range) and the associated
+        percentage of values that are capped at the maximum 8-bit value of 255 as a consequence.}
+    \label{tab:encoding}
+\end{table}
 
 \begin{figure} % 8-BIT DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_8_bit_range.pdf}
@@ -759,18 +766,17 @@ which may allow for additional powerful features to be learnt by the CNN.
     \label{fig:explore_8_bit_range}
 \end{figure}
 
-- Example events are shown for different events expected within \chips
-- Fig.~\ref{fig:explore_nuel_ccres_event} for a CC resonant $\nu_{e}$ event.
-- Fig.~\ref{fig:explore_numu_ccdis_event} for a CC DIS $\nu_{\mu}$ event.
-- Fig.~\ref{fig:explore_nuel_ncdis_event} for a NC DIS event.
-- Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
+Example events expected within \chips are shown in Fig.~\ref{fig:explore_nuel_ccres_event} for a
+CC resonant $\nu_{e}$ event, in Fig.~\ref{fig:explore_numu_ccdis_event} for a CC DIS $\nu_{\mu}$
+event, in Fig.~\ref{fig:explore_nuel_ncdis_event} for a NC DIS event, and in
+Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 
 \begin{figure} % NUEL EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ccres_event.pdf}
     \caption[Example of a CC resonant $\nu_{e}$ event.]
     {Three channel representation of a CC resonant $\nu_{e}$ event. Initiated by a $\nu_{e}$ of
-        energy 3.3~\GeV, the final state particles above the Cherenkov threshold include a $e^{-}$
-        of energy 2.8~\GeV~and a 0.3~\GeV~$\pi^{0}$.}
+        energy \unit{3.3}{\GeV}, the final state particles above the Cherenkov threshold include a
+        $e^{-}$ of energy \unit{2.8}{\GeV} and a \unit{0.3}{\GeV} $\pi^{0}$.}
     \label{fig:explore_nuel_ccres_event}
 \end{figure}
 
@@ -778,49 +784,124 @@ which may allow for additional powerful features to be learnt by the CNN.
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_numu_ccdis_event.pdf}
     \caption[Example of a CC DIS $\nu_{\mu}$ event.]
     {Three channel representation of a CC DIS $\nu_{\mu}$ event. Initiated by a $\nu_{\mu}$ of
-        energy 3.5~\GeV, the final state particles above the Cherenkov threshold include a
-        $\mu^{-}$ of energy 1.9~\GeV, a proton of 2.0~\GeV~and a 0.2~\GeV~$\pi^{-}$.}
+        energy \unit{3.5}{\GeV}, the final state particles above the Cherenkov threshold include a
+        $\mu^{-}$ of energy \unit{1.9}{\GeV}, a proton of \unit{2.0}{\GeV} and a \unit{0.2}{\GeV}
+        $\pi^{-}$.}
     \label{fig:explore_numu_ccdis_event}
 \end{figure}
 
 \begin{figure} % NC EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_nuel_ncdis_event.pdf}
     \caption[Example of a NC DIS event.]
-    {Three channel representation of a NC DIS event. Initiated by a $\nu_{e}$ of energy 9.3~\GeV,
-        the final state particles above the Cherenkov threshold include a proton of 2.6~\GeV~and a
-        2.5~\GeV~$\pi^{-}$.}
+    {Three channel representation of a NC DIS event. Initiated by a $\nu_{e}$ of energy
+        \unit{9.3}{GeV}, the final state particles above the Cherenkov threshold include a proton
+        of \unit{2.6}{\GeV} and a \unit{2.5}{\GeV} $\pi^{-}$.}
     \label{fig:explore_nuel_ncdis_event}
 \end{figure}
 
 \begin{figure} % COSMIC MUON EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_event.pdf}
     \caption[Example of a cosmic muon event.]
-    {Three channel representation of a cosmic muon event, containing a $\mu^{-}$ or energy
-        2.9~\GeV.}
+    {Three channel representation of a cosmic muon event, containing a $\mu^{-}$ of energy
+        \unit{2.9}{\GeV}.}
     \label{fig:explore_cosmic_event}
 \end{figure}
 
-\subsection{Network architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Baseline architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Describe the implementation of the VGG architecture
-% How the networks are implemented, se, bn, dropout, outputs and inputs, keras etc...
 
-- The keras high-level API is used within Tensorflow to implement the networks using pre defined
-common layers.
+An illustrative diagram of the baseline network architecture is shown in Fig.~\ref{fig:chipsnet}.
+It is based on the VGG network (16 layer variant) previously mentioned in
+Section.~\ref{sec:cvn_previous} and detailed in Ref.~\cite{simonyan2014}. There are a few key and
+major differences from the network outlined in the literature, these are discussed below.
 
-Squeeze-and-excitation networks paper in Ref.~\cite{hu2018}
-\begin{figure} % SQUEEZE-EXITATION BLOCK DIAGRAM %
-    \includegraphics[width=0.4\textwidth]{diagrams/6-cvn/se.pdf}
-    \caption[Squeeze-excitation block diagram.]
-    {Illustrative diagram of the squeeze-excitation block used.}
-    \label{fig:se}
+\begin{figure} % CHIPSNET DIAGRAM %
+    \includegraphics[width=0.9\textwidth]{diagrams/6-cvn/chipsnet.pdf}
+    \caption[chipsnet short]
+    {Illustrative diagram of the baseline chipsnet network architecture. }
+    \label{fig:chipsnet}
 \end{figure}
 
-\subsection{Network training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{itemize}
+    \item Each of the three event maps: hit-charge, hit-time, and hough-height are initially fed
+          into three separate branches. Each branch contains two VGG blocks each with 2
+          convolutional layers (4 convolutional layers in total). The outputs from all three
+          branches are merged together using a concatenation layer before being fed to the rest of
+          the network. This structure allows for the most important features from each type of
+          event map to be learnt independently before the higher layers of the network learn
+          combined features.
+
+    \item Batch normalisation as described in Section.~\ref{sec:cvn_theory_reg} is included before
+          the activation (ReLU) function in every convolutional layer.
+
+    \item Squeeze-and-excitation units~\cite{hu2018} which are found to improve performance are
+          included in all VGG blocks after the max-pooling operation. These units introduce extra
+          parameters that aim to model the interdependencies between output feature maps, allowing
+          the network to effectively weight each feature map.
+
+    \item Dropout is included at the end of each VGG block as well as after the fully-connected
+          layers. Instead of dropping individual elements, the dropout within the blocks drops
+          entire kernels at each training iteration with a probability $p_{d}$. The dropout after
+          the fully-connected layers, is normal, in that it drops out individual fully-connected
+          neurons.
+
+    \item Five seed output parameters are concatenated with the flattened layer before the two
+          fully-connected layers. These are the three components of the estimated interaction
+          vertex position ($s_{x}, s_{y}, s_{z}$) and the two components of the seed estimated
+          track direction ($s_{\theta}, s_{\phi}$). This aims to provide the network with context
+          as to where the input event maps where generated from within the detector and any power
+          that can be gained from an estimate to the track direction.
+\end{itemize}
+
+In software the network architecture is implemented using the Keras API built into
+Tensorflow~\cite{chollet2015}. This allows for simple pre-defined common layers to be easily
+structured into the required architecture. Other, more advanced architectures were tested which
+did not produce any performance improvements, but are outlined in
+Section~\ref{sec:cvn_baseline_alt} for completeness.
+
+\subsection{Baseline outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The specific outputs for the different networks are detailed in Section.~\ref{sec:cvn_specific},
+however they all share a common methodology which is described here. Many CNN applications are
+found to benefit from learning multiple tasks (regression and classification) from the same
+inputs. This is commonly believed to be the case as the learning process of multiple tasks leads
+to a more generalised representation of the inputs where the features learnt for one task can
+improve the performance of another. This is called \emph{multi-task} learning and is used
+extensively in this work.
+
+In order to train the network a loss function $E_{tot}$ must be defined that combines the
+individual loss functions for each task $E_{i}$. This can be done simply by using a linear
+weighted sum, sum that
+\begin{equation}
+    E_{tot} = \sum_{i=1}^{i=N}w_{i}E_{i},
+    \label{eq:multi_simple}
+\end{equation}
+where $N$ is the number of tasks and $w_{i}$ are the associated weights. In this work this is
+referred to as the \emph{simple} multi-task output. As the final network performance can strongly
+depend on the relative weighting between loss functions, optimising these simple weights can be
+difficult and time consuming. Especially when the return values from the different loss functions
+are many order of magnitude different. Another approach outlined in Ref.~\cite{kendall2018} is to
+learn the optimal weighting between loss functions by introducing any additional trainable
+parameter for each $\sigma_{i}$, such that
+\begin{equation}
+    E_{tot}= \sum_{i=1}^{i=N}\frac{1}{2\sigma_{i}^2}E_{i}+ \log\sigma_{i}.
+\end{equation}
+In this work we refer to this as the \emph{learnt} multi-task output.
+
+As will be shown in Section.~\ref{sec:cvn_specific}, both methods are found to be advantageous in
+different scenario's. The ability to quickly test either method with any number of outputs was a
+key goal behind the software implementation of chipsnet. This allows for rapid iteration of
+multi-task testing, which is especially important when trial-and-error seems to be the only way to
+determine if something will work. CLASSIC DOWNSIDE OF THE BLACK BOX, SOMETIMES IT WORKS SOMETIMES
+NOT!!!
+
+\subsection{Baseline Training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Describe the training sample used, typical training times, epochs, batch sizes, hyperparamters
 % The basic categorisation we are training for etc...
 
+- When used by the CNN the values are additionally converted to a float between 0 and 1.
 - Makes training across multiple graphics processing units (GPUs) easy to implement.
 - We use the Tensorflow dataset API which creates an efficient input pipeline for training data,
 allowing it to be loaded on the fly at training time. Impossible to load everything into memory.
@@ -846,14 +927,14 @@ learning rate at each step according to
 \end{equation}
 where $c_{d}$ is the coefficient of decay set to be 0.5 and $n_{e}$ is the epoch number
 - Implement early stopping
+- learning rate = 0.0001
+- learning rate decay = 0.5
+- precision policy = mixed float 16
+- Augment 2\% on all channels
 
-\subsection{Multi-task methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline_multi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Describe the multi-task method implementations
+- GIVE TABLE OF FULL LIST OF HYPERPARAMETERS THAT ARE TUNABLE USING SHERPA
 
-Multi-task learning how to weight paper in Ref.~\cite{kendall2018}
-
-\subsection{Model evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Baseline evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_eval} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduce testing sample, event weighting and metrics used for determining the best model
 % How we combine nuel and numu results into a combined score
@@ -905,7 +986,7 @@ to the zero score as expected.
     \label{fig:explore_simple_cuts}
 \end{figure}
 
-\subsection{Alternative} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Baseline Alternatives} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduce testing sample, event weighting and metrics used for determining the best model
 
@@ -916,11 +997,11 @@ implementation. Noting this interesting things and trying to explain why they ma
 - truncated versions of the other networks so they have approximately the same number of parameters
 to train for making a good comparison.
 
-\begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet.pdf}
-    \caption[chipsnet short]
-    {chipsnet long}
-    \label{fig:chipsnet}
+\begin{figure} % ARCH DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/6-cvn/arch.pdf}
+    \caption[arch short]
+    {arch long}
+    \label{fig:arch}
 \end{figure}
 
 vgg: 17,225,296 (88ms)
@@ -1111,14 +1192,18 @@ taken a few Approaches to generating the input image representation.
 - FOM1-> 0.45819, 0.91500, 55.18628, 11.56662, 17.17741, 0.69684, 0.65753
 - FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
 
-\section{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Specific implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_specific} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Which categorisation to use} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_beam_cat} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Escaping particles} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Beam classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{Categorisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % T_ALL_CAT SAMPLE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/explore_t_all_cat.pdf}
@@ -1169,10 +1254,9 @@ taken a few Approaches to generating the input image representation.
     \label{fig:cat_numu_comp_curves}
 \end{figure}
 
-\subsection{Does counting primary particles help?} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_beam_prim} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Counting primary particles} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- DUne tried counting exclusive final state particles (protons, chargedpions, neutral pions)
+- DUNE tried counting exclusive final state particles (protons, chargedpions, neutral pions)
 - As the different final states will have different energy resolutions and sytematic
 uncertainties, it may be possible for a future analysis to improve the oscillation paramter
 sensitivity by indentifying subsamples with specific topologies.
@@ -1207,11 +1291,10 @@ selections.
     \label{fig:beam_numu_comp_curves}
 \end{figure}
 
-\section{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_specific_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Neutrino and lepton multitask} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_energy_chan} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Including other energies} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \begin{figure} % ENERGY CHAN DISTS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_dist.pdf}
@@ -1227,8 +1310,7 @@ selections.
     \label{fig:energy_chan_frac_vs_e}
 \end{figure}
 
-\subsection{Extra parameters} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_energy_par} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Other event parameters} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \begin{figure} % ENERGY PAR DISTS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_par_frac_dist.pdf}
@@ -1244,8 +1326,7 @@ selections.
     \label{fig:energy_par_frac_vs_e}
 \end{figure}
 
-\subsection{Combined or split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_energy_split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Combined or split} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \begin{figure} % ENERGY SPLIT NUEL DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_energy_split_nuel_frac_vs_e.pdf}
@@ -1261,7 +1342,7 @@ selections.
     \label{fig:final_energy_split_numu_frac_vs_e}
 \end{figure}
 
-\section{Combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Final combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_final} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Comparison with standard methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1407,15 +1488,11 @@ selections.
     \label{fig:final_energy_numu}
 \end{figure}
 
-DIAGRAM: True neutrino energy distributions for different categories for energy estimation.
 DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
 INFO: Table of the final number of expected events and efficiency and purity of the signal at the
 chosen cut value (nuel and numu)
-DIAGRAM: Parrallel coordinates plots for tuning the hyperparameters
-INFO: Time taken comparison with old reconstruction (just inference time for all stages)
 INFO: Super-k/Dune/Nova comparison numbers for effeciencies and energy resolutions etc...
 DIAGRAM: Table of how succesive cuts affect the selection of different event types
-DIAGRAM: Plots of exclusive state predictions by multiplying different score outputs.
 
 - BIG UP the difference in time it takes, as this can have a huge impact on reprocessing your full
 dataset
