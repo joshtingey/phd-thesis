@@ -595,8 +595,9 @@ form the above networks, often referred to as \emph{blocks}, are shown in Fig.~\
     \caption[Common CNN architecture blocks]
     {Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
         output through operations whose flow is described with the arrows. The blue and red boxes
-        represent convolutional and pooling layers respectively, with the size of the operation
-        shown. The circular yellow $R$ indicates the use of the ReLU activation function.}
+        represent convolutional (conv) and max pooling (m-pool) layers respectively, with the size
+        of the operation shown. The circular yellow $R$ indicates the use of the ReLU activation
+        function.}
     \label{fig:blocks}
 \end{figure}
 
@@ -647,7 +648,7 @@ training after $n$ number of epochs have passed with no validation error improve
 
 \subsubsection*{Batch normalisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The training of a neural network is found to work best when the inputs of each neuron are centred
+The training of a neural network is found to work best when the inputs of each neuron are centered
 on zero with respect to the bias of the neuron. This is because large input values can cause
 saturation of the activation function and subsequent \emph{vanishing} of the associated gradient,
 reducing the ability of the network to learn. To counter this, \emph{batch normalisation}
@@ -682,7 +683,7 @@ are known for each PMT. Therefore, it is a natural fit for these event \emph{ima
 analysed by a CNN primarily developed for computer vision tasks on images and other grid-like
 input data.
 
-For this purpose, a python based software package named \emph{chipsnet}~\cite{chipsnet2020} has
+For this purpose, a Python based software package named \emph{chipsnet}~\cite{chipsnet2020} has
 been developed. By using the high-level \emph{application programming interfaces}, (APIs) provided
 by the Tensorflow framework (initially built by Google)~\cite{tf2015}, a full pipeline including
 data preparation, network training, and final network performance evaluation has been implemented.
@@ -699,7 +700,7 @@ captured on a cylindrical surface to a rectangular grid. Furthermore, this must 
 way as not to distort the underlying event topology which could inhibit the CNN from learning. To
 solve this problem, this work takes inspiration and then builds upon the ideas outlined in
 Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid as though it
-was \emph{viewed} from its estimated interaction vertex position. The primary motivation behind
+is \emph{viewed} from its estimated interaction vertex position. The primary motivation behind
 this is to remove the detector shape from having any impact and to focus on the underlying event
 topology and Cherenkov profiles. Other, competing representations that do not perform as well are
 outlined in Section~\ref{sec:cvn_baseline_alt} for completeness.
@@ -815,29 +816,25 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 \subsection{Baseline architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-An illustrative diagram of the baseline network architecture is shown in Fig.~\ref{fig:chipsnet}.
-Based on the VGG network (16 layer variant) previously mentioned in
-Section.~\ref{sec:cvn_previous} and detailed in Ref.~\cite{simonyan2014} there are a few key and
-major differences from the literature defined network, these are discussed below.
+An illustrative diagram of the baseline network architecture that all three specific task networks
+share in Section.~\ref{sec:cvn_specific} is shown in Fig.~\ref{fig:chipsnet}. Based on the VGG
+network (16 layer variant) previously mentioned in Section.~\ref{sec:cvn_previous} and detailed in
+Ref.~\cite{simonyan2014} there are a few key and major differences from the literature defined
+network, these are discussed below.
 
 \begin{figure} % CHIPSNET DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet.pdf}
     \caption[chipsnet short]
     {Illustrative diagram of the baseline chipsnet architecture. The three input event maps are
-        separately passed through two VGG blocks before their outputs being combined and passed
+        separately passed through two VGG blocks before their outputs are combined and passed
         through a further three VGG blocks. Both the number of convolutional units and number of
         kernels is shown for each block, with the detailed block structure shown within the grey
         box. The circular yellow $R$ and $Bn$ indicate the use of the ReLU activation function and
         batch normalisation respectively. The flattened VGG blocks outputs are then concatenated
-        with five seed parameters and passed through two fully-connected layers of 512 neurons
-        each before the output layer.}
+        with five seed parameters (seed pars) and passed through two fully-connected (FC) layers
+        of 512 neurons each before the output layer.}
     \label{fig:chipsnet}
 \end{figure}
-
-Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
-output through operations whose flow is described with the arrows. The blue and red boxes
-represent convolutional and pooling layers respectively, with the size of the operation
-shown. The circular yellow $R$ indicates the use of the ReLU activation function.
 
 \begin{itemize}
     \item Each of the three event maps: hit-charge, hit-time, and hough-height are initially fed
@@ -917,51 +914,52 @@ via a simple configuration file.
 \subsection{Baseline Training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Exact training sample size and make up will be detailed in the network specific sections.
-- Training times will be detailed in network specific sections.
-- Training took place on a 36 CPU core machine with four Nvidia GeForce RTX 2080 graphics cards each
-with 8Gb of on-board memory.
-- Data was stored locally on the machines so it could be loaded faster at training time.
-- Used Tensorflow dataset API to create efficient input pipeline for loading and using training
-data at training time.
-- Instead of all being loaded into memory beforehand which would be impossible, data is loaded
-on-the-fly at training time.
-- Makes use of all four graphics processing units (GPUs).
-- The machines CPU cores are used to load, decode and prepare data for training before it is
-needed by the GPUs to maximise the efficiency with which they are being used.
-- Input data is converted to a float between zero and one.
-- We also apply a random factor scaling of every bin in every event map, centred on one with a
-standard deviation of $\sigma_{a}$ which is another hyperparameter.
-- We varied bin (pixel) intensities by adding gaussian noise with a standard dev of 2\%.
-- Clip any negative value to zero.
-- This provides augmentation and is another regularisation strategy to prevent overfitting, by
-forcing the network to focus less on the absolute bin values and more on the topology of the event.
-- Split training data 95\% to 5\% training/validation.
-- Minibatch training strategy with a minibatch size $n_{b}$
-- We use mixed precision operations where some layers use float-16 operations instead of float-32
-operations which speeds up training and is found to not impact performance.
-- The learning rate reduces at each epoch (as it gets closer to the minimum) using
+All three networks are trained using Tensorflow 2.3.0 on an 18 core CPU (36 thread) machine
+equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The Tensorflow
+dataset API is used to create an efficient input data pipeline where data is loaded on-the-fly at
+training time. This ensures all GPU threads are utilised loading, decoding, and preprocessing data
+before it is needed by the GPUs to maximise their efficiency of use.
+
+During preprocessing, all three input maps have their 8-bit bin values converted to 32-bit float
+values between zero and one. Additionally, a random factor scaling is applied to each map bin
+generated from a gaussian centered on one with a standard deviation of $\sigma_{r}$. This is
+applied to force the network to focus less on the absolute bin values and more on the full
+topology of the event. Furthermore, this provides additional regularisation to prevent
+overfitting.
+
+A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
+optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
+used. The exact training sample sizes are given in Section.~\ref{sec:cvn_specific} but for all
+networks a 95\% training to 5\% validation data split is used allowing for early stopping to be
+employed. The learning rate for each epoch $\eta_{e}$ is set to decrease throughout training
+according to
 \begin{equation}
-    \eta_{e}=\frac{\eta_{0}}{1+c_{d}e}
+    \eta_{e}=\frac{\eta_{0}}{1+c_{d}e},
 \end{equation}
-where $c_{d}$ is the coefficient of decay set to be 0.5 and $e$ is the epoch number
-- We implement early stopping, the specific values will be given in the network specific sections.
-- Therefore have the following hyperparameters, which are optimised for the final three models
-using SHERPA hyperparameter tuning framework which was used for hyperparameter tuning.
+where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number minus one, and $c_{d}$ is
+the learning rate decay coefficient.
+
+The list bellow, therefore, details all the possible \emph{hyperparameters} that are tunable when
+training each network. All are optimised for each network using the SHERPA~\cite{hertel2020}
+hyperparameter tuning framework which randomly tests configurations from either a range of
+selection of choices for each hyperparameter also mentioned bellow.
 
 \begin{itemize}
-    \item \textbf{Initial learning rate, $\eta_{0}$:} range from 0.00005 to 0.001.
-    \item \textbf{Learning rate decay coefficient, $c_{d}$:} range from 0.2 to 0.8.
-    \item \textbf{Dropout probability, $p_{d}$:} range from 0.0 to 0.5.
-    \item \textbf{Augmentation size, $\sigma_{a}$:} range from 0.0 to 0.1.
-    \item \textbf{Minibatch size, $n_{b}$:} choice from 32, 64, 128, or 256.
-    \item \textbf{Multi-task loss combination strategy:} choice from simple or learnt.
+    \item \textbf{Initial learning rate, $\eta_{0}$:} in a range from 0.00005 to 0.001.
+    \item \textbf{Learning rate decay coefficient, $c_{d}$:} in a range from 0.2 to 0.8.
+    \item \textbf{Dropout probability, $p_{d}$:} in a range from 0.0 to 0.5.
+    \item \textbf{Random scaling size, $\sigma_{r}$:} in a range from 0.0 to 0.1.
+    \item \textbf{Minibatch size, $n_{b}$:} choosing from 32, 64, 128, or 256.
+    \item \textbf{Multi-task loss combination strategy:} choosing from \emph{simple} or
+          \emph{learnt}.
 \end{itemize}
 
-\subsection{Baseline evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline_eval} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Baseline evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_eval} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduce testing sample, event weighting and metrics used for determining the best model
-% How we combine nuel and numu results into a combined score
+
+It is crucial to develop an evaluation platform that returns the performance of the networks and
+is easy to run after every testing iteration.
 
 - Total of 753152 events in evaluation sample (352768 are cosmic)
 - Not the best with cosmic but best I can do!!!
@@ -1013,112 +1011,6 @@ to the zero score as expected.
     \label{fig:explore_simple_cuts}
 \end{figure}
 
-\subsection{Baseline Alternatives} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:cvn_baseline_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Introduce testing sample, event weighting and metrics used for determining the best model
-
-As a nice sidenote I can then just mention a few things such as the input sample type, different
-architectures and different input representations that where tested to get to this final baseline
-implementation. Noting this interesting things and trying to explain why they may be physically.
-
-\subsubsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- New ideas with x+ x- mapping in Ref.~\cite{berns2020}
-- Fraction of deposited charge in endcaps = 0.4769380479133997
-
-\begin{equation} % ONE-HOT EQUATION %
-    X_{\pm}=
-    \begin{cases}
-        1-\chi_{\mp} & (z \geq 0) \\
-        \chi_{\pm}   & (z < 0)
-    \end{cases}
-\end{equation}
-
-\begin{equation} % ONE-HOT EQUATION %
-    \chi_{\pm}=W(\rho,z)\frac{\pi\pm\phi}{2\pi}
-\end{equation}
-
-\begin{equation}
-    W(\rho,z)=\sqrt{\frac{\rho^{2}-2R\abs{z}+RH}{R^{2}+RH}}
-\end{equation}
-
-- where R and Z are the radius and height of the detector cylinder and W is chosen for constant
-surface density.
-- Turns out removing the distortions of not viewing the event from the vertex is the most
-important thing!!!
-
-- Approaches in the past for event classification using CNNs for water cherenkov detectors have
-taken a few Approaches to generating the input image representation.
-- Projecting onto a 2d surface "outside" the detector
-
-- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
-- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
-- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
-
-- Nuel-> ROC-AUC: 0.82178, PRC-AUC: 0.67486, S-Eff: 0.87439, S-Pur: 0.29114
-- FOM1-> 0.42202, 0.95500, 50.65626, 10.27209, 15.82963, 0.63948, 0.65995
-- FOM2-> 12.53864, 0.99000, 29.40728, 1.75353, 3.74706, 0.37123, 0.84243
-
-- Nuel-> ROC-AUC: 0.82116, PRC-AUC: 0.66987, S-Eff: 0.86660, S-Pur: 0.29764
-- FOM1-> 0.41895, 0.94500, 50.97483, 10.86474, 16.45768, 0.64350, 0.65104
-- FOM2-> 12.22739, 0.99000, 28.43808, 1.74364, 3.66555, 0.35900, 0.84019
-
-\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_eff_curves.pdf}
-    \caption[repr nuel eff curves short]
-    {v=solid, o=dashed, i=dotted}
-    \label{fig:repr_nuel_eff_curves}
-\end{figure}
-
-\begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_comp_curves.pdf}
-    \caption[repr nuel comp curves short]
-    {v=solid, o=dashed, i=dotted}
-    \label{fig:repr_nuel_comp_curves}
-\end{figure}
-
-WHICH CHANNELS TO USE!!!
-- Nuel-> ROC-AUC: 0.82377, PRC-AUC: 0.68935, S-Eff: 0.86860, S-Pur: 0.35681
-- FOM1-> 0.43601, 0.91000, 53.71070, 12.22704, 17.60798, 0.67821, 0.64289
-- FOM2-> 12.70378, 0.99000, 20.73912, 0.76294, 1.90217, 0.26187, 0.88613
-
-- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
-- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
-- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
-
-- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
-- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
-- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
-
-- Nuel-> ROC-AUC: 0.82521, PRC-AUC: 0.70198, S-Eff: 0.87180, S-Pur: 0.38254
-- FOM1-> 0.45819, 0.91500, 55.18628, 11.56662, 17.17741, 0.69684, 0.65753
-- FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
-
-\subsubsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- truncated versions of the other networks so they have approximately the same number of
-parameters to train for making a good comparison.
-
-vgg: 17,225,296 (88ms)
-- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
-- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
-- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
-
-inception: 16,893,216 (192ms)
-- Nuel-> ROC-AUC: 0.82519, PRC-AUC: 0.70632, S-Eff: 0.86992, S-Pur: 0.37332
-- FOM1-> 0.45910, 0.91500, 53.20954, 9.73154, 14.92970, 0.67188, 0.68331
-- FOM2-> 13.47965, 0.98500, 28.04995, 1.43802, 2.89217, 0.35419, 0.86627
-
-resnet: 16,526,288 (112ms)
-- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.68789, S-Eff: 0.86926, S-Pur: 0.37417
-- FOM1-> 0.44511, 0.91000, 54.46409, 11.50537, 18.18029, 0.68772, 0.64723
-- FOM2-> 12.22026, 0.98000, 32.56108, 2.77151, 4.32813, 0.41115, 0.82099
-
-inception-resnet: 17,145,238 (209ms)
-- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.69946, S-Eff: 0.87369, S-Pur: 0.34882
-- FOM1-> 0.44448, 0.90500, 52.61119, 10.90981, 15.11323, 0.66433, 0.66906
-- FOM2-> 13.48962, 0.98500, 23.98040, 0.96809, 2.19211, 0.30280, 0.88356
-
 \section{Specific implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1138,7 +1030,7 @@ trainexample = 3150336
 $\eta_{0}$ = 0.00005
 $c_{d}$ = 0.7
 $p_{d}$ = 0.1
-$\sigma_{a}$ = 0.02
+$\sigma_{r}$ = 0.02
 $n_{b}$ = 128
 - Epochs and early stopping settings
 epochs = 30 (in reality much less)
@@ -1185,7 +1077,7 @@ trainexample = 1673749
 $\eta_{0}$ = 0.0002
 $c_{d}$ = 0.5
 $p_{d}$ = 0.1
-$\sigma_{a}$ = 0.02
+$\sigma_{r}$ = 0.02
 $n_{b}$ = 128
 - Epochs and early stopping settings
 epochs = 30 (in reality much less)
@@ -1265,7 +1157,7 @@ trainexample = 250000
 $\eta_{0}$ = 0.0002
 $c_{d}$ = 0.5
 $p_{d}$ = 0.1
-$\sigma_{a}$ = 0.00
+$\sigma_{r}$ = 0.00
 $n_{b}$ = 128
 - Epochs and early stopping settings
 epochs = 30 (in reality much less)
@@ -1559,3 +1451,113 @@ clusters to move through each other and explore all possible global organisation
 this is implemented as an L2-penalty term proportional to the sum of squared distances from the
 origin, this is then removed at an iteration given as input. Secondly, "Early exaggeration" which
 creates tight widely seperated clusters.
+
+TODO:
+- Explain how stochastic gradient descent is linked to Adam and optimisers in general.
+-
+
+\section{Baseline Alternatives} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:cvn_baseline_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduce testing sample, event weighting and metrics used for determining the best model
+
+As a nice sidenote I can then just mention a few things such as the input sample type, different
+architectures and different input representations that where tested to get to this final baseline
+implementation. Noting this interesting things and trying to explain why they may be physically.
+
+\subsubsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- New ideas with x+ x- mapping in Ref.~\cite{berns2020}
+- Fraction of deposited charge in endcaps = 0.4769380479133997
+
+\begin{equation} % ONE-HOT EQUATION %
+    X_{\pm}=
+    \begin{cases}
+        1-\chi_{\mp} & (z \geq 0) \\
+        \chi_{\pm}   & (z < 0)
+    \end{cases}
+\end{equation}
+
+\begin{equation} % ONE-HOT EQUATION %
+    \chi_{\pm}=W(\rho,z)\frac{\pi\pm\phi}{2\pi}
+\end{equation}
+
+\begin{equation}
+    W(\rho,z)=\sqrt{\frac{\rho^{2}-2R\abs{z}+RH}{R^{2}+RH}}
+\end{equation}
+
+- where R and Z are the radius and height of the detector cylinder and W is chosen for constant
+surface density.
+- Turns out removing the distortions of not viewing the event from the vertex is the most
+important thing!!!
+
+- Approaches in the past for event classification using CNNs for water cherenkov detectors have
+taken a few Approaches to generating the input image representation.
+- Projecting onto a 2d surface "outside" the detector
+
+- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
+- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
+- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
+
+- Nuel-> ROC-AUC: 0.82178, PRC-AUC: 0.67486, S-Eff: 0.87439, S-Pur: 0.29114
+- FOM1-> 0.42202, 0.95500, 50.65626, 10.27209, 15.82963, 0.63948, 0.65995
+- FOM2-> 12.53864, 0.99000, 29.40728, 1.75353, 3.74706, 0.37123, 0.84243
+
+- Nuel-> ROC-AUC: 0.82116, PRC-AUC: 0.66987, S-Eff: 0.86660, S-Pur: 0.29764
+- FOM1-> 0.41895, 0.94500, 50.97483, 10.86474, 16.45768, 0.64350, 0.65104
+- FOM2-> 12.22739, 0.99000, 28.43808, 1.74364, 3.66555, 0.35900, 0.84019
+
+\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_eff_curves.pdf}
+    \caption[repr nuel eff curves short]
+    {v=solid, o=dashed, i=dotted}
+    \label{fig:repr_nuel_eff_curves}
+\end{figure}
+
+\begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_comp_curves.pdf}
+    \caption[repr nuel comp curves short]
+    {v=solid, o=dashed, i=dotted}
+    \label{fig:repr_nuel_comp_curves}
+\end{figure}
+
+WHICH CHANNELS TO USE!!!
+- Nuel-> ROC-AUC: 0.82377, PRC-AUC: 0.68935, S-Eff: 0.86860, S-Pur: 0.35681
+- FOM1-> 0.43601, 0.91000, 53.71070, 12.22704, 17.60798, 0.67821, 0.64289
+- FOM2-> 12.70378, 0.99000, 20.73912, 0.76294, 1.90217, 0.26187, 0.88613
+
+- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
+- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
+- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
+
+- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
+- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
+- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+
+- Nuel-> ROC-AUC: 0.82521, PRC-AUC: 0.70198, S-Eff: 0.87180, S-Pur: 0.38254
+- FOM1-> 0.45819, 0.91500, 55.18628, 11.56662, 17.17741, 0.69684, 0.65753
+- FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
+
+\subsubsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- truncated versions of the other networks so they have approximately the same number of
+parameters to train for making a good comparison.
+
+vgg: 17,225,296 (88ms)
+- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
+- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
+- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+
+inception: 16,893,216 (192ms)
+- Nuel-> ROC-AUC: 0.82519, PRC-AUC: 0.70632, S-Eff: 0.86992, S-Pur: 0.37332
+- FOM1-> 0.45910, 0.91500, 53.20954, 9.73154, 14.92970, 0.67188, 0.68331
+- FOM2-> 13.47965, 0.98500, 28.04995, 1.43802, 2.89217, 0.35419, 0.86627
+
+resnet: 16,526,288 (112ms)
+- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.68789, S-Eff: 0.86926, S-Pur: 0.37417
+- FOM1-> 0.44511, 0.91000, 54.46409, 11.50537, 18.18029, 0.68772, 0.64723
+- FOM2-> 12.22026, 0.98000, 32.56108, 2.77151, 4.32813, 0.41115, 0.82099
+
+inception-resnet: 17,145,238 (209ms)
+- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.69946, S-Eff: 0.87369, S-Pur: 0.34882
+- FOM1-> 0.44448, 0.90500, 52.61119, 10.90981, 15.11323, 0.66433, 0.66906
+- FOM2-> 13.48962, 0.98500, 23.98040, 0.96809, 2.19211, 0.30280, 0.88356
