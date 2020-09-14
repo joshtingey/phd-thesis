@@ -14,7 +14,7 @@ pages:
     stage: deploy
     script:
       - mkdir public  # create a folder called public
-      - mv main.pdf thesis.pdf
+      - mv build/main.pdf thesis.pdf
       - cp thesis.pdf public  # copy the pdf file into the public folder
     artifacts:
       paths: 
