@@ -8,7 +8,7 @@ compile_pdf:
       - lualatex --halt-on-error --output-directory=build main.tex
     artifacts:
       paths: 
-        - main.pdf  # instruct GitLab to keep the main.pdf file
+        - build/main.pdf  # instruct GitLab to keep the main.pdf file
   
 pages:
     stage: deploy
