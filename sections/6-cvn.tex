@@ -38,7 +38,7 @@ Fig.~\ref{fig:papers}.
     \label{fig:papers}
 \end{figure}
 
-In 2016 the \nova experiment applied a CNN to the task of classifying the interaction type of
+In 2016 the NoVA experiment applied a CNN to the task of classifying the interaction type of
 events within their sampling calorimeter detector~\cite{aurisano2016}. Two views of raw detector
 events were used as input to train a network based on the popular GoogLeNet
 architecture~\cite{szegedy2015}, discussed in section \ref{sec:cvn_theory_conv}. An improved
@@ -755,10 +755,11 @@ map across the encoded range.
         hit-time     & 120 ns    & 0.15\%            \\
         hough-height & 3500 p.e  & 0.23\%            \\
     \end{tabular}
-    \caption{Table showing the cap-points (maximum value of the encoding range) and the associated
-        percentage of values that are capped at the maximum 8-bit value of 255 as a consequence.
-        The cap-points are specifically chosen to keep the \emph{capped percentage} to
-        approximately 0.1\% as a greater value could lead to the loss of powerful information
+    \caption[Table of input event map 8-bit cap-points]
+    {Table showing the input event map cap-points (maximum value of the encoding range) and the
+        associated percentage of values that are capped at the maximum 8-bit value of 255 as a
+        consequence. The cap-points are specifically chosen to keep the \emph{capped percentage}
+        to approximately 0.1\% as a greater value could lead to the loss of powerful information
         within the data.}
     \label{tab:encoding}
 \end{table}

@@ -1,3 +1,4 @@
+%% Contain packages to use, metadata and random tweaks and macros
 \usepackage{xspace}
 \usepackage{tikz}
 \usepackage{mathrsfs}
@@ -8,68 +9,33 @@
 \usepackage{subcaption}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage[compat=1.1.0]{tikz-feynman}
+\usepackage{resources/abmath}
+\usepackage{mathtools}
+\usepackage{resources/abhep}
 
-\usepackage{lmodern}  %% lmodern, mathpazo, euler
-\usepackage[english]{babel}  %% Using Babel allows other languages to be used and mixed-in easily
-\selectlanguage{english}
+%% Metadata
+\makeatletter
+\@ifpackageloaded{hyperref}{%
+    \hypersetup{%
+        pdftitle    = {Convolution neural networks for the CHIPS neutrino detector R\&D project},
+        pdfsubject  = {Josh Tingey's PhD thesis},
+        pdfkeywords = {CHIPS, Physics, CNN, Machine Learning},
+        pdfauthor   = {\textcopyright\ Josh Chalcraft Tingey}
+    }}{}
+\makeatother
 
-\usepackage[compat=1.1.0]{tikz-feynman}  %% Use the tikz-feynman package for Feynman diagram.
-
-\makeatletter  %% Tweak so maths adapts its boldness to match the context.
+%% Random tweaks and personal macros
+\makeatletter
 \g@addto@macro\bfseries\boldmath
 \makeatother
 
-\usepackage{resources/abmath}
-\usepackage{mathtools}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
-%% High-energy physics stuff
-\usepackage{resources/abhep}
-%\usepackage{resources/SIunits}
-%\usepackage{hepnames}
-%\usepackage{hepunits}
-
-% Use \xspace at the end of the macros
-% Use \text for text of units in macro
-% write 5--10 for 5 to 10
-% \mathrm{...} macro, i.e. $\mathrm{d}f/\mathrm{d}x$ → df /dx, not $df/dx$ → df /dx
-% So put the whole of each mathematical expression in math mode (and drop out of it via \mathrm or \text if needed).
-% Negative numbers should be written in math mode
-
-%% Personal macros
 \DeclareRobustCommand{\chips}{\textsc{Chips}\xspace}
 \DeclareRobustCommand{\chipsm}{\textsc{Chips-M}\xspace}
 \DeclareRobustCommand{\chipsfive}{\textsc{Chips-5}\xspace}
-\DeclareRobustCommand{\nova}{NOvA\xspace}
-\DeclareRobustCommand{\minos}{\textsc{Minos}\xspace}
 \DeclareRobustCommand{\numi}{NuMI\xspace}
-\DeclareRobustCommand{\genie}{\textsc{Genie}\xspace}
-\DeclareRobustCommand{\root}{\textsc{Root}\xspace}
-\DeclareRobustCommand{\tensorflow}{\textsc{Tensorflow}\xspace}
-\DeclareRobustCommand{\python}{\textsc{Python}\xspace}
-\DeclareRobustCommand{\google}{\textsc{Google}\xspace}
-
-\DeclareRobustCommand{\arXivCode}[1]{arXiv:#1}
-\DeclareRobustCommand{\CP}{\ensuremath{\mathcal{CP}}\xspace}
-\DeclareRobustCommand{\CPviolation}{\CP-violation\xspace}
-\DeclareRobustCommand{\CPv}{\CPviolation}
-\DeclareRobustCommand{\LHC}{LHC\xspace}
-\DeclareRobustCommand{\CERN}{CERN\xspace}
-\DeclareRobustCommand{\bphysics}{\Pbottom-physics\xspace}
-\DeclareRobustCommand{\bhadron}{\Pbottom-hadron\xspace}
-\DeclareRobustCommand{\Bmeson}{\PB-meson\xspace}
-\DeclareRobustCommand{\bbaryon}{\Pbottom-baryon\xspace}
-\DeclareRobustCommand{\Bdecay}{\PB-decay\xspace}
-\DeclareRobustCommand{\bdecay}{\Pbottom-decay\xspace}
-\DeclareRobustCommand{\BToKPi}{\HepProcess{ \PB \to \PK \Ppi }\xspace}
-\DeclareRobustCommand{\BToPiPi}{\HepProcess{ \PB \to \Ppi \Ppi }\xspace}
-\DeclareRobustCommand{\BToKK}{\HepProcess{ \PB \to \PK \PK }\xspace}
-\DeclareRobustCommand{\BToRhoPi}{\HepProcess{ \PB \to \Prho \Ppi }\xspace}
-\DeclareRobustCommand{\BToRhoRho}{\HepProcess{ \PB \to \Prho \Prho }\xspace}
-\DeclareRobustCommand{\X}{\thesismath{X}\xspace}
-\DeclareRobustCommand{\Xbar}{\thesismath{\overline{X}}\xspace}
-\DeclareRobustCommand{\Xzero}{\HepGenParticle{X}{}{0}\xspace}
-\DeclareRobustCommand{\Xzerobar}{\HepGenAntiParticle{X}{}{0}\xspace}
-\DeclareRobustCommand{\epluseminus}{\Ppositron\!\Pelectron\xspace}
-\DeclareRobustCommand{\protonproton}{\Pproton\APantiproton\xspace}

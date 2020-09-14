@@ -1,33 +1,9 @@
-%\documentclass[hyperpdf,nobind,draft,oneside]{hepthesis}  %% For normal draft builds, no figs
-%\documentclass[hyperpdf,nobind,draft,twoside]{hepthesis}  %% For normal draft builds, no figs
-%\documentclass[hyperpdf,nobind,draft,hidefrontback]{hepthesis}  %% For short draft builds
-\documentclass[hyperpdf,bindnopdf]{hepthesis}  %%For Cambridge soft-bound version
-%\documentclass[hyperpdf,oneside]{hepthesis}  %% For Cambridge hard-bound version
+%\documentclass[a4paper,hyperpdf,twoside,nobind,hidefront]{hepthesis}  %% For draft versions
+\documentclass[a4paper,hyperpdf,twoside,nobind]{hepthesis}  %% For final pdf version
+%\documentclass[a4paper,hyperpdf,twoside,bind]{hepthesis}  %% For final bound version
 
-%% Put package includes etc... into a seperate preamble.tex to keep things tidy
 \input{sections/0-preamble}
-
-%% You can set the line spacing this way
-%\setallspacing{double}
-%% or a section at a time like this
-%\setfrontmatterspacing{double}
-
-%% Define the thesis title and author
-\title{Convolution neural networks for the CHIPS neutrino detector R\&D project}
-\author{Josh Chalcraft Tingey}
-
-%% Doc-specific PDF metadata
-\makeatletter
-\@ifpackageloaded{hyperref}{%
-\hypersetup{%
-    pdftitle    = {Convolution neural networks for the CHIPS neutrino detector R\&D project},
-    pdfsubject  = {Josh Tingey's PhD thesis},
-    pdfkeywords = {CHIPS, Physics, CNN, Machine Learning},
-    pdfauthor   = {\textcopyright\ Josh Chalcraft Tingey}
-}}{}
-\makeatother
-
-\begin{document} % Start the document 
+\begin{document}
 
 \begin{frontmatter}
     \input{sections/1-frontmatter}
@@ -44,7 +20,8 @@
 \end{mainmatter}
 
 \begin{backmatter}
-    \input{sections/9-backmatter}
+    \bibliographystyle{unsrt} % resources/h-physrev
+    \bibliography{bibliography}
 \end{backmatter}
 
-\end{document} % End the document 
+\end{document}
