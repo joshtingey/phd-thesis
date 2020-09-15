@@ -4,7 +4,7 @@ default: build
 
 build: $(LaTeXSources)
 	lualatex --halt-on-error --output-directory=build main.tex
-	bibtex build/main
+	biber --output-directory=build build/main 
 	lualatex --halt-on-error --output-directory=build main.tex
 	lualatex --halt-on-error --output-directory=build main.tex
 
