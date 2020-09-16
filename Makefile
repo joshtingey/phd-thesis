@@ -1,10 +1,8 @@
-LaTeXSources= $(wildcard *.tex *.bib)
+.phony: main.pdf clean
 
-default: build
-
-build: $(LaTeXSources)
+main.pdf:
 	lualatex --halt-on-error --output-directory=build main.tex
-	biber --output-directory=build build/main 
+	biber --output-directory=build main 
 	lualatex --halt-on-error --output-directory=build main.tex
 	lualatex --halt-on-error --output-directory=build main.tex
 

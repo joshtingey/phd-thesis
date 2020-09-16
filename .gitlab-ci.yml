@@ -3,7 +3,7 @@ compile_pdf:
     image: timnn/texlive  # use a Docker image for LaTeX from https://hub.docker.com/
     script: 
       - lualatex --halt-on-error --output-directory=build main.tex
-      - bibtex build/main
+      - biber --output-directory=build main 
       - lualatex --halt-on-error --output-directory=build main.tex
       - lualatex --halt-on-error --output-directory=build main.tex
     artifacts:
