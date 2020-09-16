@@ -491,27 +491,54 @@ $\approx\unit{5}{\GeV}$.
 
 The three-component representation of the PMNS matrix presented in Eq.~\ref{eq:matrix} splits our
 understanding of neutrino oscillations into three sectors. Historically, this separated
-experiments observing different sources of neutrinos, from either the sun, the atmosphere or
-nuclear reactors. Hence the standard names given to the three sectors: the \emph{solar sector},
-\emph{atmospheric sector}, and \emph{reactor sector}. However, it is perhaps more rigorous to
-think of these sectors as instead corresponding to the PMNS parameters they encompass: $\Delta
-    m^{2}_{21}$ and $\theta_{12}$ for the solar sector, $\Delta m^{2}_{32}$ and $\theta_{23}$ for the
-atmospheric sector, and $\theta_{13}$ for the reactor sector.
+experiments observing different sources of neutrinos, from either the sun, atmosphere or nuclear
+reactors. Hence the standard names given to each: the \emph{solar sector}, \emph{atmospheric
+    sector}, and \emph{reactor sector}. However, it is perhaps more rigorous to think of each sector
+as corresponding to the PMNS parameters they encompass: $\Delta m^{2}_{21}$ and $\theta_{12}$ for
+the solar sector, $\Delta m^{2}_{32}$ and $\theta_{23}$ for the atmospheric sector, and
+$\theta_{13}$ for the reactor sector.
 
 During the last couple of decades the focus of experiments in each of these sectors has shifted
-from the discovery of neutrino fundamentals to their precision measurement. This is led to a
+from the discovery of neutrino fundamentals to precision measurement. This is led to a
 corresponding shift in using increasingly abundant neutrino sources and larger and larger
 detectors. Below we outline the current status, open questions, and what the future holds for
 neutrino physics.
 
-SORT ARXIV REFS
-
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_current} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection*{The solar neutrino sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Global fits to neutrino oscillation data aggregate the most up-to-date results from multiple
+experimental sources, some of which are outlined below, to constrain the parameters of the PMNS
+matrix. The latest best fit results from one such global fit,
+NuFIT~\cite{esteban2019,esteban2020}, are shown in Fig.~\ref{fig:best_fit}.
 
-- SNO combined results~\cite{maneira2011}
+\begin{figure} % BEST FIT DIAGRAM %
+    \includegraphics[origin=c,width=0.8\textwidth]{diagrams/3-theory/best_fit.pdf}
+    \caption[best fit short]
+    {Three-flavour results from the NuFIT v5.0 global fit as of July 2020, showing both 1$\sigma$
+        uncertainties and $\pm 3 \sigma$ ranges. The first column shows the results for the normal
+        hierarchy and the second for the inverted hierarchy. Additionally, the lower section
+        includes atmospheric neutrino data from the Super-Kamiokande experiment, while the upper
+        section does not. Figure taken from Ref.~\cite{esteban2020}.}
+    \label{fig:best_fit}
+\end{figure}
+
+\subsubsection*{Solar parameters: $\theta_{12}$ and $\Delta m^{2}_{21}$} %%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Homestake chlorine~\cite{cleveland1998}
+- SNO combined results~\cite{maneira2011} mentioned earlier
+- GALLEX updated results~\cite{kaether2010} mentioned earlier gallium
+- SAGE latest results~\cite{abdurashitov2009} mentoned earlier gallium
+- Super-Kamiokande, water Cherenkov detector, 1km underground, 40m diameter, 40m tall, 50kt of
+pure water. Observed by 11 thousand 20 inch MTs detecting Cherenkov light.
+- super-kamiokande 1 solar results~\cite{hosaka2006}
+- super-kamiokande 2 solar results~\cite{cravens2008}
+- super-kamiokande 3 solar results~\cite{abe2011_super}
+- super-kamiokande combined solar results~\cite{nakano2017}
+- Borexino 1~\cite{bellini2011} -  liquid scintillator experiment
+- Borexino 2~\cite{Bellini2010}
+- Borexino 3~\cite{bellini2014}
+- KamLAND solar~\cite{gando2011} - Liquid Scintillator Antineutrino Detector underground
 
 - The rightmost sub-matrix of REF describes the solar sector
 - Experiments detector neutrinos created in the sun are sensitive to
@@ -527,11 +554,22 @@ parameters.
 - KamLAND was a reactor neutrino experiment consisting of a 1 kton liquid scintillator detector
 - Positioned between several nuclear reactors
 
-\subsubsection*{The atmospheric neutrino sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Atmospheric parameters: $\theta_{23}$ and $\Delta m^{2}_{32}$} %%%%%%%%%%%%%%%%%%%
+
+- Conventional super-k~\cite{abe2018}
+- Conventional IceCube DeepCore~\cite{aartsen2015}
+- Amundsen–Scott South Pole Station in Antarctica. Uses PMTs arranged in DOMs under the ice
+- Accelerator/beam experiments. Nova, Fermilab minnesota.
+- MINOS atm~\cite{adamson2013_1,adamson2013_2}
+- NoVA atm~\cite{acero2019,himmel2020}
+- Uses same SUper-K but a beam of neutrinos as well for JParc
+- T2k atm~\cite{dunne2020}
+
 - The leftmost sub-matrix of REF describes the atmospheric sector
 - Experiments looking at neutrinos produced in cosmic ray interactions in the upper atmosphere
 - The mixing angle $\theta_{23}$ and the mass difference $\Delta m^{2}_{32}$
 ($\approx\Delta m^{2}_{31}$)
+- Accelerator experiments looking at $P(\nu_{\mu}\rightarrow\nu_{\mu})$.
 - Kamiokande and IMB background mentioned earlier.
 - A deficit just like in solar sector \emph{atmospheric neutrino anomaly}.
 - Probed using atmospheric neutrinos and accelerator neutrinos.
@@ -540,28 +578,22 @@ at a target. By focusing the pions and kaons this produces, a neutrino beam crea
 downstream decays, creates the muon neutrino beam.
 - Main channel relevant to this sector in muon neutrino survival.
 
-\subsubsection*{The reactor neutrino sector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Reactor parameter: $\theta_{13}$} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Daya bay theta13 Ref.~\cite{an2012}
-RENO theta13 Ref.~\cite{ahn2012}
-Double Chooz theta13 Ref.~\cite{abe2012}
+- KamLAND theta13~\cite{eguchi2002,gando2013}
+- Daya bay theta13~\cite{an2012,an2017}
+- RENO theta13~\cite{ahn2012,bak2018}
+- Double Chooz theta13~\cite{abe2012}
+Accelerator experiments have also found not as good but consistent values
+- Minos appearance~\cite{adamson2013_3}
+- T2K appearance~\cite{abe2013}
+- NoVA appearance~\cite{adamson2016_2}
 
-\subsubsection*{Global fit} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Global fits to neutrino oscillation data use multiple experimental sources to contrain the
-parameters of the PMNS matrix and the neutrino mass-squared differences. The latest best fit
-results from one such global fit, NuFIT, are shown in \ref{fig:best_fit}.
-
-\begin{figure} % BEST FIT DIAGRAM %
-    \includegraphics[origin=c,width=0.8\textwidth]{diagrams/3-theory/best_fit.pdf}
-    \caption[best fit short]
-    {Three-flavour results from the NuFIT v5.0 global fit as of July 2020, showing both
-        1$\sigma$ uncertainties and $\pm 3 \sigma$ ranges. The first column shows the results
-        for the normal hierarchy and the second for the inverted hierarchy. Additionally, the
-        lower section includes atmospheric neutrino data from the Super-Kamiokande experiment,
-        while the upper section does not. Figure taken from Ref.~\cite{esteban2020}.}
-    \label{fig:best_fit}
-\end{figure}
+- Reactor experiments have become sensitive enough to measure the survival probability for
+electron antineutrinos $P(\bar{\nu_{e}}\rightarrow\bar{\nu_{e}})$.
+- With the measurements of a non-zero theta13 by reactor neutrino experiments, the main focus now
+has shifted to resolving the mass hierarchy ambiguity and measuring delta-cp. These can be probed
+by long-baseline neutrino experiments by looking to numu to nuel transitions.
 
 \subsection{Open Questions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_open} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -595,6 +627,10 @@ matter effects allow for the sign to be determined. Resolving this ambiguity wil
 improve the ability of experiments to both determine the value of $\delta_{CP}$ and discover if
 neutrinos are Dirac or Majorana in nature.
 
+- Best bet is long-baseline accelerator experiments as their neutrinos have travelled a long
+distance through material for it to take effect.
+- JUNO medium baseline reactor experiment will solve this~\cite{an2016}
+
 \begin{figure} % MASS HIERARCHY DIAGRAM %
     \includegraphics[origin=c,width=0.5\textwidth]{diagrams/3-theory/hierarchy.png}
     \caption[Illustration of the two possible mass hierarchies]
@@ -623,15 +659,30 @@ where the oscillation probabilities change significantly, as shown in Fig.~\ref{
     \label{fig:osc_cp_probs}
 \end{figure}
 
+- Provide tantalising hints at a non zero value
+- NoVA delta-cp~\cite{acero2019}
+- T2k delta-cp~\cite{abe2018_2}
+
 \subsection{The future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Hyper-k letter of intent~\cite{abe2011}
 Dune CDR~\cite{acciarri2016}
 
-- With the measurements of a non-zero theta13 by reactor neutrino experiments, the main focus now
-has shifted to resolving the mass hierarchy ambiguity and measuring delta-cp. These can be probed
-by long-baseline neutrino experiments by looking to numu to nuel transitions.
+Two large-scale long-baseline experiments are under preparation or proposed in future. DUNE
+    [103]will be a 1,300 km long-baseline experiment based in US. The DUNE far detector will consist
+offour modules of at least 10 kt fiducial mass liquid argon time projection chambers, located 1.5
+kmunderground at the Sanford Underground Research Facility in South Dakota. The beamline forDUNE,
+1.2 MW at start and upgradable to 2.4 MW, as well as the facility for near detectors willbe newly
+constructed at Fermilab. In Japan, Hyper-Kamiokande [102] is proposed as the succes-sor of the
+Super-Kamiokande detector. It will be a water Cherenkov detector with 260 (190) kttotal (fiducial)
+mass. With upgrade of existing accelerator and beamline, J-PARC will provide a1.3 MW neutrino beam
+to Hyper-Kamiokande. Both DUNE and Hyper-Kamiokande will have arich physics program besides the
+long-baseline experiment, such as searches for nucleon decays andstudy of supernova neutrinos.
+
+- They can also study atmospheric neutrinos
+
+
 - BIG EQUATION FOR PROBABILITY: shows sensitivity to the mass hiearchy through the matter effect
 parameters A and to the cp-violtating phase trhough the second term.
 - Over that last 20 years neutrino oscillations have become well-established and we are now moving
