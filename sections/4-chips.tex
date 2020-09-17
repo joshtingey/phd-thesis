@@ -36,6 +36,8 @@ multiple independent cylindrical units.
 - The detector height is then constrained by the depth of the water and the cosmic overburden
 requirements.
 
+BULLET POINT THE 5 CHEAP AS CHIPS POINT IN LOTS OF DETAIL!!!
+
 - Oscillation probability equation~\cite{cervera2000}
 - Physics sensitivity in ~\cite{pfutzner2017}
 - CHIPS letter of intent~\cite{adamson2013}
@@ -43,29 +45,13 @@ requirements.
 - Maciej prototype detection unit~\cite{pfutznerProto2017}
 - Sensitivity Determination in the CHIPS Neutrino Detector~\cite{adde2016}
 
-\subsection{The \chipsm detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:chips_concept_m} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Andy CHIPS-M prototype construction and simulations~\cite{perch2015}
-
-- If one photon has a much lower energy than the other, or they are very closely overlapped,
-they are commonly misidentified as a single electron.
-- The shape of the ring can then be used for particle identification
-- Muon rings tend to be sharper and exhibit a `plateau' shape as they emmit a constant amount of
-Cherenkov radiation from a single particle over a period of time.
-- Electron rings are more diffuse due to their production being from a electromagnetic shower.
-
-\begin{figure} % CHIPS-M DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
-    \caption[Picture of the \chipsm detector.]
-    {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to
-        the bottom endcap of the detector.}
-    \label{fig:chips_m}
-\end{figure}
-
-\section{NuMI neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:chips_numi} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+- Better to think of \chips applying to any Beam
+- Here we will talk about the NuMI beam as the prime example as that is the one used for the
+current generation of \chips prototype.
+- Possible future \chips in LBNF which is primarily being built for DUNE
 - The \numi beam big paper~\cite{adamson2016}
 
 \begin{figure} % NUMI BEAM DIAGRAM %
@@ -86,8 +72,10 @@ Cherenkov radiation from a single particle over a period of time.
     \label{fig:numi_axis}
 \end{figure}
 
-\section{Cherenkov radiation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:chips_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Water Cherenkov events} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_concept_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- CHERENKOV RADIATION -> PMTS -> TYPES OF EVENT (main problem ones etc...)
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
@@ -146,6 +134,26 @@ $\approx 8^{\circ}$. This creates two overlapping rings of hits picked up by the
 which can prove difficult to separate.
 
 - TALK ABOUT THE DIFFERENT TYPE OF INTERACTIONS AT HOW THEY MANIFEST DUE TO CHERENKOV RADIATION!!!
+
+\subsection{\chipsm prototype} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_concept_m} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Andy CHIPS-M prototype construction and simulations~\cite{perch2015}
+
+- If one photon has a much lower energy than the other, or they are very closely overlapped,
+they are commonly misidentified as a single electron.
+- The shape of the ring can then be used for particle identification
+- Muon rings tend to be sharper and exhibit a `plateau' shape as they emit a constant amount of
+Cherenkov radiation from a single particle over a period of time.
+- Electron rings are more diffuse due to their production being from a electromagnetic shower.
+
+\begin{figure} % CHIPS-M DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
+    \caption[Picture of the \chipsm detector.]
+    {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to
+        the bottom endcap of the detector.}
+    \label{fig:chips_m}
+\end{figure}
 
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -327,8 +335,6 @@ DIAGRAM: Deployment diagram
         have been applied.}
     \label{fig:flux}
 \end{figure}
-
-
 
 Cosmic event rate in \cite{son2013}
 
