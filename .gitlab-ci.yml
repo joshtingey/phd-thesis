@@ -2,7 +2,8 @@ compile_pdf:
     stage: build
     image: timnn/texlive  # use a Docker image for LaTeX from https://hub.docker.com/
     script: 
-      - apt-get install -y biber
+      - apt-get update
+      - apt-get install biber
       - lualatex --halt-on-error --output-directory=build main.tex
       - biber --output-directory=build main 
       - lualatex --halt-on-error --output-directory=build main.tex
