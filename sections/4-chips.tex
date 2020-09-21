@@ -1,28 +1,11 @@
 \chapter{The \chips R\&D Project} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:chips}
 
-\begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-THE CHIPS CONCEPT
-- We need cheap large detectors
-- We need to use commercially availiable hardware
-- We need to be able to fit detector size/scalability to availiable funds
-- The CHIPS-M detector
-
-THE CHIPS-5 DETECTOR
-- Detector structure
-- Detector instrumentation
-- Detector deployment
-- Current status
-
-MONTE CARLO EVENT GENERATION AND SIMULATION
-- Beam event generation
-- Cosmic event generation
-- Detector simulation
-\end{comment}
-
 \section{The \chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Complement the the better instrumented detectors that will study a wider range of physics.
+- NEED THOSE STATS!
 - General overview of why a large, cheap detector like CHIPS is needed
 - Brief overview of what CHIPS could add to physics, what it can detect etc...
 - general non-detailed description of the general principles behind CHIPS
@@ -38,7 +21,6 @@ requirements.
 
 BULLET POINT THE 5 CHEAP AS CHIPS POINT IN LOTS OF DETAIL!!!
 
-- Oscillation probability equation~\cite{cervera2000}
 - Physics sensitivity in ~\cite{pfutzner2017}
 - CHIPS letter of intent~\cite{adamson2013}
 - Karol prospects for CHIPS paper~\cite{lang2015}
@@ -48,6 +30,11 @@ BULLET POINT THE 5 CHEAP AS CHIPS POINT IN LOTS OF DETAIL!!!
 \subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- These can be measured using four data sample, two for neutrino and two for antineutrinos.
+- These sample are produced by "Forward Horn current" FHC and "Reverse Horn current" RHC,
+producing predominetetly neutrinos and anti-neutrinos respectively.
+- Neutrino oscillation probabilities can then be inferred by comparisons of the observed neutrino
+spectra and the near and far detectors.
 - Primarily muon neutrinos can be produced by using a particle accelerator to direct a proton beam
 at a target. By focusing the pions and kaons this produces, a neutrino beam created from the
 downstream decays, creates the muon neutrino beam.
@@ -77,6 +64,18 @@ current generation of \chips prototype.
 
 \subsection{Water Cherenkov events} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Dissapearence channels sensitive to %abs(delta31^2), and sin^2(2theta23).
+- Apperence channels sensitive to all four parameters including sign of %delta32^2.
+- The "signal" in all cases are CC interactions, therefore selection of nuel, anuel, numu and
+anumu CC is the goal.
+- Main background in CC numu selections are NC with charged pions.
+- Main background in CC nuel selections is pi-zero NC, which can mimic the chracteristic EM
+shower, due to its near certain decay into two photons.
+- You get a small number of nuel intrinsic to the beam, they are just a background as they are
+indistinguishabe from the nuel appreaence neutrinos.
+- Once you have collected samples in all four cases, a fit is performed to the reconstructed
+neutrino energy distributions to extract the four neutrino oscillation parameters.
 
 - CHERENKOV RADIATION -> PMTS -> TYPES OF EVENT (main problem ones etc...)
 

@@ -418,11 +418,11 @@ Fig.~\ref{fig:nc_interaction}.
     \label{fig:nc_interaction}
 \end{figure}
 
-CC interactions provide the signal events for the majority of neutrino experiments as the original
-neutrino flavour can be determined via identification of the charged lepton. Conversely, NC
-interactions are background events as there is no way to identify the original neutrino without a
-charged lepton and when the cross-sections are constant across all neutrino flavours in the NC
-case.
+CC interactions provide the signal events for the majority of neutrino experiments, as the
+original neutrino flavour can be determined via identification of the charged lepton. Conversely,
+as NC cross-sections are the same across all neutrino flavours and there is no charged lepton in
+the final state, there is no way to identify the original neutrino, therefore, NC interactions are
+commonly background events.
 
 For \chips the relevant neutrino interaction energy regime is commonly referred to as the
 \emph{transition region}, covering a range of energies between 1 and \unit{10}{\GeV}. Both CC and
@@ -436,20 +436,19 @@ NC interactions within this regime fall into one of five main categories outline
           referred to as \emph{elastic} scattering.
 
     \item \textbf{Meson Exchange Current (MEC)} provides an additional contribution to the energy
-          range dominated by QE interactions. The interaction involves two nucleons and produces
-          two protons in the final state. Sometimes referred to as the \emph{2p2h} interaction it
-          has become essential for explaining the discrepancy between theory and observations
-          within many modern experiments and is now included by default in popular event
+          range dominated by QE interactions, involving two nucleons and producing two protons in
+          the final state. Sometimes referred to as the \emph{2p2h} interaction it has become
+          essential for explaining the discrepancy between theory and observations within many
+          modern experiments, and is now included by default in popular event
           generators~\cite{katori2013}.
 
     \item \textbf{Resonant Pion Production (Res)} is the dominant channel between 1 and
           \unit{2}{\GeV} and involves the neutrino exciting the nucleon into a resonant state. The
-          resonance then decays the vast majority of the time to produce a single pion and nucleon
-          in the final state. Resonant production is responsible for the majority of NC single
-          $\pi^{0}$ events within water Cherenkov detectors such as \chips. This channel,
-          discussed further in Section.~\ref{sec:chips_cherenkov}, forms an incredibly difficult
-          component of the background to deal with as it can mimic single electrons in the final
-          state.
+          resonance then decays the vast majority of the time to produce a single pion and
+          nucleon. Resonant production is responsible for the majority of NC $\pi^{0}$ events
+          within water Cherenkov detectors such as \chips. This channel, discussed further in
+          Section.~\ref{sec:chips_concept_cherenkov}, forms an incredibly difficult component of
+          the background to deal with as it can mimic the topology of a single electron.
 
     \item \textbf{Coherent Pion production (Coh)} is a much rarer interaction mechanism where the
           neutrino scatters coherently from the entire nucleus. This process transfers negligible
@@ -458,8 +457,8 @@ NC interactions within this regime fall into one of five main categories outline
 
     \item \textbf{Deep inelastic scattering (DIS)} is dominant for neutrino energies above
           \unit{3}{\GeV} with the additional energy allowing for the neutrino to resolve the
-          individual quark content of the nucleon. The subsequent scattering off an individual
-          quark produces a hadronic shower in the final state, containing multiple pions which are
+          individual quark content of the nucleon. The subsequent scattering from an individual
+          quark produces a hadronic shower in the final state containing multiple pions which are
           often a challenge to reconstruct.
 \end{itemize}
 
@@ -509,13 +508,13 @@ future for neutrino physics.
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_current} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The current state of neutrino physics is summarised by global fits to neutrino oscillation data.
-These aggregate the latest experimental results to constrain the neutrino oscillation parameters.
-The best-fit results from one such fit, NuFIT~\cite{esteban2019,esteban2020}, are shown in
-Fig.~\ref{fig:best_fit}. A detailed overview of other global fits is given in The Particle Data
-Group's 2020 Review of Particle Physics~\cite{particle2020}. In summary, all mixing angles
-$\theta_{12}$, $\theta_{23}$, and $\theta_{13}$ are found to be non-zero and $\Delta m^{2}_{21}$
-is found to be much smaller than $\Delta m^{2}_{32}$.
+The current state of neutrino physics is best summarised by global fits to neutrino oscillation
+data. These aggregate the latest experimental results to constrain the neutrino oscillation
+parameters. The best-fit results from one such fit, NuFIT~\cite{esteban2019,esteban2020}, are
+shown in Fig.~\ref{fig:best_fit}. A detailed overview of other global fits is given in The
+Particle Data Group's 2020 Review of Particle Physics~\cite{particle2020}. In summary, all mixing
+angles $\theta_{12}$, $\theta_{23}$, and $\theta_{13}$ are found to be non-zero and $\Delta
+    m^{2}_{21}$ is found to be much smaller than $\Delta m^{2}_{32}$.
 
 \begin{figure} % BEST FIT DIAGRAM %
     \includegraphics[origin=c,width=0.8\textwidth]{diagrams/3-theory/best_fit.pdf}
@@ -535,7 +534,7 @@ about $1.5^{\circ}$ of uncertainty, and $\Delta m^{2}_{21}\approx7.4\times10^{-5
 about $0.4\times10^{-5}\eV^{2}$ of uncertainty.
 
 These results primarily come from a range of historic and currently running experiments studying
-neutrinos generated in the sun: the radiochemical chlorine-based Homestake~\cite{cleveland1998},
+neutrinos generated by the sun: the radiochemical chlorine-based Homestake~\cite{cleveland1998},
 and gallium-based GALLEX~\cite{kaether2010} and SAGE~\cite{abdurashitov2009}; the deuterium
 Cherenkov SNO~\cite{maneira2011}; the water Cherenkov Super-Kamiokande~\cite{hosaka2006,
     cravens2008, abe2011_super, nakano2017}; and the liquid scintillator detector
@@ -567,10 +566,10 @@ Gifu Prefecture, Japan.
 Additionally, \emph{long baseline accelerator experiments} measuring
 $P(\nu_{\mu}\rightarrow\nu_{\mu})$ from accelerator generated muon neutrinos over a long baseline
 of many hundreds of km are sensitive to the atmospheric parameters. Such experiments include:
-MINOS~\cite{adamson2013_1,adamson2013_2} and NoVA~\cite{acero2019,himmel2020} using a beam
-generated at Fermilab with detectors in northern Minnesota, and T2k~\cite{dunne2020} using a beam
-generated at J-PARC (on the east coast of Japan) and using the Super-Kamiokande detector described
-above.
+MINOS~\cite{adamson2013_1,adamson2013_2}(now finished) and NoVA~\cite{acero2019,himmel2020} using
+a beam generated at Fermilab with detectors in northern Minnesota, and T2k~\cite{dunne2020} using
+a beam generated at J-PARC (on the east coast of Japan) and using the Super-Kamiokande detector
+described above.
 
 \subsubsection*{Reactor parameter: $\theta_{13}$} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -587,7 +586,7 @@ this measurement at a similar time.
 Additionally, long baseline accelerator experiments are sensitive to $\theta_{13}$ through the
 electron neutrino appearance channel, $P(\nu_{\mu}\rightarrow\nu_{e})$. Measurements have been
 made by MINOS~\cite{adamson2013_3}, T2k~\cite{abe2013} and NoVA~\cite{adamson2016_2}, but with
-larger uncertainties than the reactor measurements.
+much larger uncertainties than reactor experiments.
 
 \subsection{Open Questions} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_open} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -638,12 +637,12 @@ $m_{1}$ is defined to be the dominant mass state of the electron neutrino. Howev
 $\Delta m_{32}^2$ is still currently unknown. This allows for two possible scenarios, either
 $m_1<m_2<m_3$, known as \emph{normal hierarchy}, or $m_3<m_1<m_2$, known as \emph{inverted
     hierarchy}, both illustrated in Fig.~\ref{fig:hierarchy}. Resolving this ambiguity will
-significantly improve the ability of experiments to both determine the value of $\delta_{CP}$ and
-discover if neutrinos are Dirac or Majorana in nature.
+significantly improve the ability of experiments to both determine the value of
+$\delta_{CP}$ (discussed next) and discover if neutrinos are Dirac or Majorana in nature.
 
 Oscillations in vacuum are not sensitive to the sign of the $\Delta m^{2}$ parameters. However,
-matter effects allow for the sign to be determined. $\nu_{e}$ appearance is sensitive to the sign
-of $\Delta m_{32}^2$ via the $\Delta$, $A$, and $\alpha$ parameters in
+matter effects allow for the sign to be determined. Long baseline $\nu_{e}$ appearance is
+sensitive to the sign of $\Delta m_{32}^2$ via the $\Delta$, $A$, and $\alpha$ parameters in
 Equation.~\ref{eq:chips_prob}. Furthermore, determining the hierarchy is possible using future
 reactor experiments such as JUNO~\cite{an2016}.
 
@@ -662,13 +661,14 @@ reactor experiments such as JUNO~\cite{an2016}.
 The current level of CP violation observed in the quark sector does not fully explain the
 matter-antimatter asymmetry of the universe. However, if CP violation is shown to exist in the
 leptonic sector, leptogenesis models of the early universe allow this to go some way to resolving
-the issue. Neutrino CP violation is allowed in the PMNS matrix as
-$P(\nu_{\alpha}\rightarrow\nu_{\beta}) \neq P(\bar{\nu}_{\alpha}\rightarrow\bar{\nu}_{\beta})$,
-when $\delta_{CP}$ is not 0 or $\pi$. $\nu_{e}$ appearance, sensitive to $\delta_{CP}$ via the
-third term in Equation.~\ref{eq:chips_prob} is the most promising channel for measurement, with
-the oscillation probabilities changing significantly, as shown in Fig.~\ref{fig:osc_cp_probs}.
-Current results from both NoVA~\cite{acero2019} and T2k~\cite{abe2018_2} hint at a possible
-non-zero value, however, a significant measurement is yet to be made.
+the issue. Neutrino CP violation when $P(\nu_{\alpha}\rightarrow\nu_{\beta}) \neq
+    P(\bar{\nu}_{\alpha}\rightarrow\bar{\nu}_{\beta})$ is possible according to the PMNS matrix when
+$\delta_{CP}$ is not 0 or $\pi$. $\nu_{e}$ appearance, sensitive to $\delta_{CP}$ via the third
+term in Equation.~\ref{eq:chips_prob} is the most promising channel for measurement. The
+oscillation probabilities are seen to change significantly with $\delta_{CP}$, as shown in
+Fig.~\ref{fig:osc_cp_probs}. Current results from both NoVA~\cite{acero2019} and
+T2k~\cite{abe2018_2} hint at a possible non-zero value, however, a significant measurement is yet
+to be made.
 
 \begin{figure} % OSCILLATION CP PROBS DIAGRAM %
     \includegraphics[origin=c,width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_cp_probs.pdf}
@@ -678,65 +678,40 @@ non-zero value, however, a significant measurement is yet to be made.
     \label{fig:osc_cp_probs}
 \end{figure}
 
-
 \subsection{The future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_status_future} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Hyper-k letter of intent~\cite{abe2011}
-Dune CDR~\cite{acciarri2016}
+The current generation of long baseline accelerator experiments (NoVA and T2K) is not expected to
+unambiguously determine the octant of $\theta_{23}$, the mass hierarchy, or the value of
+$\delta_{CP}$. To finally determine the answers to these questions, two large collaboration, next
+generation experiments are planned. The USA based Deep Underground Neutrino Experiment (DUNE) and
+Hyper-Kamiokande in Japan. Both will also have rich neutrino physics programs alongside their
+primary goals, studying atmopsheric neutrinos, nucleon decays and supernova neutrinos.
 
-Two large-scale long-baseline experiments are under preparation or proposed in future. DUNE
-    [103]will be a 1,300 km long-baseline experiment based in US. The DUNE far detector will
-consist offour modules of at least 10 kt fiducial mass liquid argon time projection chambers,
-located 1.5 kmunderground at the Sanford Underground Research Facility in South Dakota. The
-beamline forDUNE, 1.2 MW at start and upgradable to 2.4 MW, as well as the facility for near
-detectors willbe newly constructed at Fermilab. In Japan, Hyper-Kamiokande [102] is proposed
-as the succes-sor of the Super-Kamiokande detector. It will be a water Cherenkov detector with
-260 (190) kttotal (fiducial) mass. With upgrade of existing accelerator and beamline, J-PARC
-will provide a1.3 MW neutrino beam to Hyper-Kamiokande. Both DUNE and Hyper-Kamiokande will
-have arich physics program besides the long-baseline experiment, such as searches for nucleon
-decays andstudy of supernova neutrinos.
+DUNE~\cite{acciarri2016, abi2020} will consist of four \unit{10}{\mathrm{kt}} liquid argon time
+projection chambers (LArTPCs) located \unit{1.5}{\mathrm{km}} underground at the Sanford
+Underground Research Facility (Homestake mine) in South Dakota. LArTPCs have been chosen as they
+provide exceptional track reconstruction and particle identification performance.
 
-- They can also study atmospheric neutrinos
+Additionally, DUNE will use a new very high intensity beam constructed at Fermilab
+(\unit{1285}{\mathrm{km}} from DUNE) named the Long-Baseline Neutrino Facility
+(LBNF)~\cite{acciarri2016_lbnf}. Replacing the current \unit{400}{\mathrm{kW}} NuMI beam, LBNF is
+initially planned to run at \unit{1.2}{\mathrm{MW}}, but will eventually reach
+\unit{2.4}{\mathrm{MW}}.
 
-- BIG EQUATION FOR PROBABILITY: shows sensitivity to the mass hiearchy through the matter effect
-parameters A and to the cp-violtating phase trhough the second term.
-- Over that last 20 years neutrino oscillations have become well-established and we are now moving
-into the precision measurement era.
-- DUNE is a next-generation neutrino oscillation experiment with a primary scientific goal of
-observation of CP-violation in the neutrino sector.
-- In DUNE a muon neutrino(anti-neutrino) beam will be produced by the Long-Baseline Neutrino
-Facility (LBNF)
-- There will be a near detector at Fermilab before the neutrinos travel the 1285km to the Sanford
-Underground Research Facility (SURF) in South Dakota.
-- The far detector will consist of four 10kt (fiducial) liquid argon time projections chamber
-(LArTPC) detectors.
-- Neutrino oscillation probabilities can then be infered by comparisons of the observed neutrino
-spectra and the near and far detectors.
-- Recent obsevation of a large theta13 have focuseed the next genetation of long baseline
-experiments towards the mass hierarchy, octant of theta23 and measureing delta-CP
-- Nova and T2k will not be able to measure the remaining unknows (check this)
-- Dune will hopefully solve these problems but will be increadibly expensive
+The initial cost estimate for DUNE combined with LBNF was forecast at between \$1.26 billion and
+\$1.86~\cite{dune_cost}. However, mainly due to rising underground excavation costs this has
+recently risen to approximately \$2.6 billion~\cite{aip_budget}, a very high cost relatively for a
+neutrino experiment.
 
-- Symmetries under charge-conjugation and parity inversion are both macimally violated by the
-waek interaction.
-- Their combined operation has been shown to be violated, to a small degress, by quark mixing
-processes.
-- If sin(delta-cp) is non zero then vacuum oscillation properties of nu and anti nu will be
-different.
-- DUNE (I assume CHIPS) is sensative to four oscillation paramters, delta31, theta23, theta13
-and delta-cp.
-- These can be measured using four data sample, two for neutrino and two for antineutrinos.
-- These sample are produced by "Forward Horn current" FHC and "Reverse Horn current" RHC,
-producing predominetetly neutrinos and anti-neutrinos respectively.
-- Dissapearence channels sensitive to %abs(delta31^2), and sin^2(2theta23).
-- Apperence channels sensitive to all four parameters including sign of %delta32^2.
-- The "signal" in all cases are CC interactions, therefore selection of nuel, anuel, numu and
-anumu CC is the goal.
-- Main background in CC numu selections are NC with charged pions.
-- Main background in CC nuel selections is pi-zero NC, which can mimic the chracteristic EM
-shower, due to its near certain decay into two photons.
-- You get a small number of nuel intrinsic to the beam, they are just a background as they are
-indistinguishabe from the nuel appreaence neutrinos.
-- Once you have collected samples in all four cases, a fit is performed to the reconstructed
-neutrino energy distributions to extract the four neutrino oscillation parameters.
+Hyper-Kamiokande~\cite{abe2011,hyper_dr,hyperkamiok2014} will be the next generation replacement
+for the currently running Super-Kamiokande experiment. When fully constructed it will consist of
+two cylindrical water Cherenkov detectors each 60 m in height and 74 m in diameter. Both will be
+built under 650 m of rock at the Tochibora mine, close to the current Super-Kamiokande location.
+New high efficiency photomultiplier tubes will be used, covering 40\% of the detector walls to
+record the Cherenkov radiation emitted from neutrino events.
+
+Additionally, there will be upgrades to the existing J-PARC neutrino beam, currently used by T2k.
+This will increase the beam power from \unit{400}{\mathrm{kW}} to \unit{1.3}{\mathrm{MW}}.
+Combined, the total expected cost is \$700 million, with \$260 million dedicated to just
+excavation of the underground cavern.
