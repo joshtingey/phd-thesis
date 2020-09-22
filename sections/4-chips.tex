@@ -1,28 +1,80 @@
 \chapter{The \chips R\&D Project} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:chips}
 
-\section{The \chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In pursuit of answering the open questions outlined in the previous chapter, amongst others,
+neutrino experiments are becoming increasingly, and possibly prohibitively, expensive and
+impractical. This is particularly true of long baseline accelerator experiments, with the
+traditional scaling approaches taken by DUNE and Hyper-Kamiokande now resulting in multi billion
+dollar cost estimates to achieve the required physics sensitivities. It is also telling that only
+\emph{two} future projects receive the vast majority of the global research effort, such is their
+complexity, cost and lead time. Such large collaborations also have the downside of crushing
+creativity and reducing funding within the larger neutrino field.
 
-- Complement the the better instrumented detectors that will study a wider range of physics.
-- NEED THOSE STATS!
-- General overview of why a large, cheap detector like CHIPS is needed
-- Brief overview of what CHIPS could add to physics, what it can detect etc...
-- general non-detailed description of the general principles behind CHIPS
-- CHIPS a large, yet cost-effective water chereknov detector concept, to initially run in the
-\numi beam line.
-- Will be deployed in a flooded mine pit, which removes the necessity and expense of a substantial
-external structure to support the large detector mass.
+It is clear that for detectors to remain practical and affordable into the future a novel approach
+to detector design is required. This is particularly true if practical megaton scale detectors are
+to ever become a reality. While high performance signal identification and reconstruction will
+always be required, the statistics of low event counts will always limit neutrino experiments.
+Therefore, R\&D efforts must focus on how to make this achievable, while complementing the current
+and upcoming generation of experiments.
+
+The \chips R\&D project~\cite{adamson2013} aims to developed novel strategies and technologies for
+very large yet `cheap as chips' water Cherenkov detectors. Aimed primarily for deployment in long
+baseline accelerator scenarios studying $\nu_{e}$ appearance, \chips aims to lower the
+construction cost per kt of fiducial mass to between \$200k-\$300k. In comparison, the
+Super-Kamiokande detector cost \$4 million/kt to build. Although this direct comparison does not
+tell the full story as physics sensitivity depends on more than just the fiducial volume, for the
+specific $\nu_{e}$ appearance channel \chips is designed for, similar performance is expected,
+therefore, the comparison can be made.
+
+The \chips concept is to construct cylindrical water Cherenkov detectors that can be sunk to the
+bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs, and flooded mine
+pits. The water above the detector provides a modest overburden from cosmic rays, while the
+surrounding water provides support for the lightweight detector structure. By removing the need
+for underground excavation and expensive structural support, the cost of construction can be
+dramatically reduced. Additionally, to reduce costs further, the common practice of building
+bespoke components across the entire detector is replaces with using modern commercially available
+components wherever possible. By only considering neutrino beam events, the instrumentation of the
+detector can also be greatly optimised to save money.
+
+Furthermore, individual \chips detectors are designed to be easy to build, quick to deploy, and
+upgradable once built. Multiple such detectors, each between 10-20 kt in size are envisioned to be
+deployed separately to reach the total target volume. Combined, this makes the \chips concept
+incredibly flexible to available funding when compared to projects such as DUNE and
+Hyper-Kamiokande. With the possibility of extra funding allowing for an additional detector module
+to be deployed in months, compared to the roughly half decade long construction for DUNE and
+Hyper-Kamiokande.
+
+Currently all \chips prototype efforts are based in the USA, using the currently running NuMI beam
+generated at Fermilab. A small prototype detector \chipsm was deployed in a flooded mine pit in
+the summer of 2014 to test the basic components
+
+\begin{figure} % CHIPS-M DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
+    \caption[Picture of the \chipsm detector.]
+    {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to
+        the bottom endcap of the detector.}
+    \label{fig:chips_m}
+\end{figure}
+
+TALK ABOUT ALL PREVIOUS WORK, CHIPS-M, ATTENUATION, SENSITIVITY STUDIES (Maceij thesis), MADISON
+TESTS.
+
+- Andy CHIPS-M prototype construction and simulations~\cite{perch2015}
+- Attenuation length paper~\cite{amat2017}
+
+- Currently all efforts have been based in the USA, using the NuMI beam generated at Fermilab.
+Have deployed a small prototype chips-M, in 2019 summer deployed a much large 5kt detector in the
+same lake. All of this is to demonstrate R\&D efforts. This detector has the benefit of
+additionally being able to exploit that NuMI beam. Long term CHIPS can be scaled and deployed in
+the LBNF/LBNE beam primarily for DUNE, as multiple detector modules.
+- Long term CHIPS can be scaled a deployed as multiple detectors in the LBNE beam up to a megaton.
+- Complement the expensive, underground, expensively instrumented detectors to focus on a specific
+task rather than being fully general purpose.
 - Can easily be deployed in the LBNF beam once operational.
-- Instead of deploying very large single detectors which would be impractical, you can deploy
-multiple independent cylindrical units.
-- The detector height is then constrained by the depth of the water and the cosmic overburden
-requirements.
 
-BULLET POINT THE 5 CHEAP AS CHIPS POINT IN LOTS OF DETAIL!!!
+Studies have been made of the contribution a modest sized \chips sensitivities etc...
 
 - Physics sensitivity in ~\cite{pfutzner2017}
-- CHIPS letter of intent~\cite{adamson2013}
 - Karol prospects for CHIPS paper~\cite{lang2015}
 - Maciej prototype detection unit~\cite{pfutznerProto2017}
 - Sensitivity Determination in the CHIPS Neutrino Detector~\cite{adde2016}
@@ -30,6 +82,7 @@ BULLET POINT THE 5 CHEAP AS CHIPS POINT IN LOTS OF DETAIL!!!
 \subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- CHIPS will use a neutrino beam to measure,
 - These can be measured using four data sample, two for neutrino and two for antineutrinos.
 - These sample are produced by "Forward Horn current" FHC and "Reverse Horn current" RHC,
 producing predominetetly neutrinos and anti-neutrinos respectively.
@@ -43,6 +96,7 @@ downstream decays, creates the muon neutrino beam.
 current generation of \chips prototype.
 - Possible future \chips in LBNF which is primarily being built for DUNE
 - The \numi beam big paper~\cite{adamson2016}
+- How will LBNF be different from NuMI, upgrades etc...
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
@@ -79,6 +133,20 @@ neutrino energy distributions to extract the four neutrino oscillation parameter
 
 - CHERENKOV RADIATION -> PMTS -> TYPES OF EVENT (main problem ones etc...)
 
+- Operate on the fact that charged particles travelling faster than the local speed of light in a
+dielectric medium will emit photons due to the Cherenkov effect.
+- Therefore water Cherenkov detectors consist of a large body of water instrumented with
+photomultiplier tubes.
+- A neutrino interacts with nucleon in thw water emitting a charged particle such as an electron or
+muon.
+- If particle is sufficiently relativistic it will emit Cherenkov radiation.
+- The induced polarisation of the water molecules in the wake of the charged particle causes a
+coherent shock wave of light to be emitted.
+- Excite electron and atoms in its path which then must return to the ground state by emitting
+radiation.
+0 As the particle is faster than speed on light in medium the wavefront is in the shape of a cone
+simlar to the wake behind a boat.
+
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
     \caption[Diagram of Cherenkov radiation.]
@@ -94,14 +162,26 @@ velocity of light in the medium through which they are travelling.
 travel is given by Ref.~\cite{particle2020}
 \begin{equation}
     cos\theta_{c} = \frac{1}{n\beta}
+    \label{eq:cherenkov_angle}
 \end{equation}
 - Where n is the refractive index of the medium and $\beta=v/c$
 - n is actually a function of the light wavelength $\lambda$
-
 - The refractive index of water is very close to 1.33 in the relevant wavelength range, which for
 ultrarelativistic particles with $\beta\approx 1$ gives a value of $\theta_{c}\approx 41^{\circ}$
-
 - The threshold velocity for Cherenkov emmision is $\beta_{t}=1/n$
+
+- Cherenkov emission per unit wavelength per centimetre travelled by the particle is\dots
+\begin{equation}
+    \frac{d^{2}N}{d\lambda dx}=\frac{2\pi\alpha^{2}}{\lambda^{2}}
+    (1-\frac{1}{1-\beta^{2}n^{2}(\lambda)})
+    \label{eq:cherenkov_emission}
+\end{equation}
+
+- By reconstructing the Cherenkov cone of light deposited in the detector PMTs info about the
+interaction can be determined.
+- Muons will be a single well-defined cone, electron will produce EM shower, results in all the
+shower particle cherenkov ones overapping, so a distincttly `fuzzy cone' is produced.
+- THis allows these two or events with multiple rings to be told apart.
 
 \begin{figure} % EMISSION DISTANCE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
@@ -137,25 +217,12 @@ which can prove difficult to separate.
 
 - TALK ABOUT THE DIFFERENT TYPE OF INTERACTIONS AT HOW THEY MANIFEST DUE TO CHERENKOV RADIATION!!!
 
-\subsection{\chipsm prototype} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:chips_concept_m} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- Andy CHIPS-M prototype construction and simulations~\cite{perch2015}
-
 - If one photon has a much lower energy than the other, or they are very closely overlapped,
 they are commonly misidentified as a single electron.
 - The shape of the ring can then be used for particle identification
 - Muon rings tend to be sharper and exhibit a `plateau' shape as they emit a constant amount of
 Cherenkov radiation from a single particle over a period of time.
 - Electron rings are more diffuse due to their production being from a electromagnetic shower.
-
-\begin{figure} % CHIPS-M DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
-    \caption[Picture of the \chipsm detector.]
-    {Picture of the \chipsm detector just before deployment. The umbilical is visable, attached to
-        the bottom endcap of the detector.}
-    \label{fig:chips_m}
-\end{figure}
 
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
