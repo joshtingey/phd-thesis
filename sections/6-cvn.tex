@@ -334,7 +334,7 @@ $\hat{y}_{i}(\vec{w})$. Using this notation, we can then construct loss function
 different tasks.
 
 In the case of a simple binary classification task, the most commonly used function is the
-\emph{cross-entropy}:
+\emph{binary cross-entropy}:
 \begin{equation} % BINARY CROSS-ENTROPY EQUATION %
     E(\vec{w})=
     -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\vec{w})+
@@ -351,7 +351,8 @@ so that $y$ is instead a vector $y_{im}$ such that
         0 & \text{otherwise.}   \\
     \end{cases}
 \end{equation}
-This is commonly named a \emph{one-hot} vector. The cross-entropy then becomes
+This is commonly named a \emph{one-hot} vector. The cross-entropy then becomes the
+\emph{categorical cross-entropy}:
 \begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
     E(\vec{w})=
     -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
@@ -897,6 +898,7 @@ weighting between loss functions. This is done by introducing an additional trai
 $\sigma_{i}$, for each loss function, such that
 \begin{equation}
     E_{tot}= \sum_{i=1}^{i=N}\frac{1}{2\sigma_{i}^2}E_{i}+ \log\sigma_{i}.
+    \label{eq:multi_learnt}
 \end{equation}
 In this work we refer to this as the \emph{learnt} multi-task loss.
 
@@ -975,6 +977,9 @@ I can then explain how we will evaluate the network using a separate testing dat
 stuff etc and which metrics are used to determine the performance of both the primary and
 secondary objectives.
 
+- Use the best epoch for all evaluation
+- Independent from the training sample described in the next section.
+
 - See signal interactions peaked closely near score values of unity and the backgrounds lie close
 to the zero score as expected.
 
@@ -995,7 +1000,8 @@ to the zero score as expected.
 \begin{figure} % STACK INT TYPES DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_stacked_int_types.pdf}
     \caption[Weighted spectrum of interaction types within the testing sample.]
-    {The weighted spectrum of events contained within the testing sample separated by interaction type.}
+    {The weighted spectrum of events contained within the testing sample separated by interaction
+        type.}
     \label{fig:explore_stacked_int_types}
 \end{figure}
 
@@ -1012,28 +1018,54 @@ to the zero score as expected.
 \subsection{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection*{Network outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- ["tcosmiccat", "tescapes"]
-Multi-task loss combination strategy = simple, all weights are = 1
-\subsubsection*{Network training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- Training sample
-"./data/input/chips1200/numuallnumuflux/"
-"./data/input/chips1200/nuelallnumuflux/"
-"./data/input/chips1200/cosmics/"
-trainexample = 3150336
-- Optimised hyperparameters
-$\eta_{0}$ = 0.00005
-$c_{d}$ = 0.7
-$p_{d}$ = 0.1
-$\sigma_{r}$ = 0.02
-$n_{b}$ = 128
-- Epochs and early stopping settings
-epochs = 30 (in reality much less)
-esdelta = 0.00001
-esepochs = 5
-- Typical training time
-~ 15 Hours
-\subsubsection*{Specific interest} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The cosmic rejection CNN aims to primarily prevent the large cosmic muon background expected
+within \chips from contaminating the final selected sample of beam events. In addition to
+separating beam and cosmic events, additionally training the network to reject events for which
+the primary charged lepton escapes the detector volume is found to improve performance.
+
+The network is trained on an sample of 3.15 million simulated events, roughly $1/3^{rd}$
+$\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events as
+shown in Fig.~\ref{fig:cosmic_training_sample}. All beam events are generated using the expected
+\chips $\nu_{\mu}$ energy spectrum to closely mimic the dominant $\nu_{\mu}$ component and
+important appeared $\nu_{e}$ component of the beam.
+
+\begin{figure} % COSMIC TRAINING SAMPLE DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_training_sample.pdf}
+    \caption[Number of training events per category for the cosmic rejection network.]
+    {Number of training events per category for the cosmic rejection network. All beam event
+        interaction types are shown, however, all are classed as beam events (blue) in training
+        against cosmic events (red).}
+    \label{fig:cosmic_training_sample}
+\end{figure}
+
+There are two outputs to the cosmic rejection network:
+\begin{enumerate}
+    \item \textbf{True cosmic (1 neuron):} Returns a score between zero and one corresponding to
+          whether the event is cosmic or beam like. Trained using the binary cross-entropy loss
+          function as in Eq.~\ref{eq:binary_cross_entropy} with a simple multi-task weight of $1$.
+    \item \textbf{True escapes (1 neuron):} Returns a score between zero and one corresponding to
+          whether the charged lepton in an event escapes the detector or not. Trained using the
+          binary cross-entropy loss function as in Eq.~\ref{eq:binary_cross_entropy} with a simple
+          multi-task weight of $1$. NC beam events without a charged lepton are masked in the
+          training process for this output so they do not contribute to the loss.
+\end{enumerate}
+
+The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
+$\eta_{0}=0.00005$, $c_{d}=0.7$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, using a simple
+multi-task loss combination as given in Eq.~\ref{eq:multi_simple}. However, it is found only 6
+epochs are required to reach maximum validation sample accuracy, with early stopping halting
+training after 11 epochs, as can be seen in Fig.~\ref{fig:final_cosmic_history}. Training takes
+approximately 15 hours.
+
+\begin{figure} % COSMIC HISTORY DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_history.pdf}
+    \caption[Loss and accuracy throughout training for the cosmic rejection network.]
+    {Total loss and `true cosmic' accuracy for both the training dataset (solid) and validation
+        dataset (dashed) throughout training from the cosmic rejection network.}
+    \label{fig:final_cosmic_history}
+\end{figure}
+
+SPECIFIC INTEREST
 - The use of the escapes
 - Out of full 352768 sample of cosmic events
 - 5 passed for just tcosmiccat
@@ -1043,44 +1075,87 @@ esepochs = 5
 - Escapes is very useful for getting rid of particles for which we don't have a good energy
 estimation.
 
-\begin{figure} % FLUX TRAINING SAMPLE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_training_sample.pdf}
-    \caption[explore flux sample short]
-    {explore flux sample long}
-    \label{fig:explore_flux_sample}
-\end{figure}
-
-\begin{figure} % COSMIC HISTORY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_history.pdf}
-    \caption[final cosmic history short]
-    {final cosmic history long}
-    \label{fig:final_cosmic_history}
-\end{figure}
-
 \subsection{Beam classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection*{Network outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- ["tcombcat", "tcccat", "tnccat", "telcount", "tmucount", "tpcount", "tcpcount", "tnpcount", "tgcount"]
-Multi-task loss combination strategy = simple, all weights are = 1
-\subsubsection*{Network training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- Training sample
-"./data/input/chips1200/numuallnumuflux/"
-"./data/input/chips1200/nuelallnumuflux/"
-trainexample = 1673749
-- Optimised hyperparameters
-$\eta_{0}$ = 0.0002
-$c_{d}$ = 0.5
-$p_{d}$ = 0.1
-$\sigma_{r}$ = 0.02
-$n_{b}$ = 128
-- Epochs and early stopping settings
-epochs = 30 (in reality much less)
-esdelta = 0.0001
-esepochs = 5
-- Typical training time
-~ 15 Hours
-\subsubsection*{Specific interest} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The beam classification CNN aims to separate beam events by their interaction type, primarily the
+select a pure and efficient sample of appeared $\nu_{e}$ events. Similar to work done by DUNE in
+Ref.~\cite{collaboration2020}, alongside the core classification between CC $\nu_{e}$, CC
+$\nu_{\mu}$, and NC events, we also learn other task that are found to improve performance. These
+are\dots
+
+The network is trained on an sample of 1.67 million simulated events, roughly half $\nu_{\mu}$
+beam events, and half $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}.
+All events are generated using the expected \chips $\nu_{\mu}$ energy spectrum to closely mimic
+the dominant $\nu_{\mu}$ component and important appeared $\nu_{e}$ component of the beam.
+
+\begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_beam_training_sample.pdf}
+    \caption[Number of training events per category for the beam classification network.]
+    {Number of training events per category for the beam classification network. All beam event
+        interaction types are shown.}
+    \label{fig:beam_training_sample}
+\end{figure}
+
+There are nine outputs to the beam classification network:
+\begin{enumerate}
+    \item \textbf{Combined category (3 neurons):} Returns a probability score between zero and one
+          for each of CC $\nu_{e}$, CC $\nu_{\mu}$, and NC (summing to one). Trained using the
+          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
+          with a simple multi-task weight of $1$.
+    \item \textbf{CC category (6 neurons):} Returns a probability score between zero and one for
+          each of CC-QE, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to one). Trained
+          using the categorical cross-entropy loss function as in
+          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$. NC beam
+          events are masked in the training process for this output so they do not contribute to
+          the loss.
+    \item \textbf{NC category (4 neurons):} Returns a probability score between zero and one for
+          each of NC-Res, NC-DIS, NC-Coh and NC-other (summing to one). Trained using the
+          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
+          with a simple multi-task weight of $1$. CC beam events are masked in the training
+          process for this output so they do not contribute to the loss.
+    \item \textbf{Electron count (4 neurons):} Returns a probability score between zero and one
+          for each of 0, 1, 2, and 3 or more electrons in the event (summing to one). Trained
+          using the categorical cross-entropy loss function as in
+          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$.
+    \item \textbf{Muon count (4 neurons):} Returns a probability score between zero and one for
+          each of 0, 1, 2, and 3 or more muons in the event (summing to one). Trained using the
+          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
+          with a simple multi-task weight of $1$.
+    \item \textbf{Proton count (4 neurons):} Returns a probability score between zero and one for
+          each of 0, 1, 2, and 3 or more protons in the event (summing to one). Trained using the
+          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
+          with a simple multi-task weight of $1$.
+    \item \textbf{Charged pion count (4 neurons):} Returns a probability score between zero and
+          one for each of 0, 1, 2, and 3 or more charged pions in the event (summing to one).
+          Trained using the categorical cross-entropy loss function as in
+          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$.
+    \item \textbf{Neutral pion count (4 neurons):} Returns a probability score between zero and
+          one for each of 0, 1, 2, and 3 or more neutral pions in the event (summing to one).
+          Trained using the categorical cross-entropy loss function as in
+          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$.
+    \item \textbf{Photon count (4 neurons):} Returns a probability score between zero and one for
+          each of 0, 1, 2, and 3 or more photons in the event (summing to one). Trained using the
+          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
+          with a simple multi-task weight of $1$.
+\end{enumerate}
+
+The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
+$\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, using a simple
+multi-task loss combination as given in Eq.~\ref{eq:multi_simple}. However, it is found only 7
+epochs are required to reach maximum validation sample accuracy, with early stopping halting
+training after 12 epochs, as can be seen in Fig.~\ref{fig:final_beam_history}. Training takes
+approximately 15 hours.
+
+\begin{figure} % BEAM HISTORY DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_beam_history.pdf}
+    \caption[Loss and accuracy throughout training for the beam classification network.]
+    {Total loss and `combined category' accuracy for both the training dataset (solid) and
+        validation dataset (dashed) throughout training from the beam classification network.}
+    \label{fig:final_beam_history}
+\end{figure}
+
+SPECIFIC INTEREST
 - The categorisation chosen matters
 - Here we choose the one that gives the best primary goal performance, taken from DUNE idea
 - DUNE tried counting exclusive final state particles (protons, chargedpions, neutral pions)
@@ -1089,20 +1164,6 @@ uncertainties, it may be possible for a future analysis to improve the oscillati
 sensitivity by indentifying subsamples with specific topologies.
 - Primary partile scores can be combined to give compounded scores for the exclusive final state
 selections.
-
-\begin{figure} % FLUX TRAINING SAMPLE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_beam_training_sample.pdf}
-    \caption[explore flux sample short]
-    {explore flux sample long}
-    \label{fig:explore_flux_sample}
-\end{figure}
-
-\begin{figure} % BEAM HISTORY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_beam_history.pdf}
-    \caption[final beam history short]
-    {final beam history long}
-    \label{fig:final_beam_history}
-\end{figure}
 
 tallcat
 - Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
@@ -1141,37 +1202,57 @@ splitcat+primlearn
 \subsection{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection*{Network outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- ["tnuenergy", "tlepenergy", "tvtxx", "tvtxy", "tvtxz", "tvtxt"]
-Multi-task loss combination strategy = learnt
-\subsubsection*{Network training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- Training sample
-"./data/input/chips1200/nuelccqelnumuflux/" just single samples
-trainexample = 250000
-- Optimised hyperparameters
-$\eta_{0}$ = 0.0002
-$c_{d}$ = 0.5
-$p_{d}$ = 0.1
-$\sigma_{r}$ = 0.00
-$n_{b}$ = 128
-- Epochs and early stopping settings
-epochs = 30 (in reality much less)
-esdelta = 2
-esepochs = 5
-- Typical training time
-~ 2 Hours
-\subsubsection*{Specific interest} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The energy estimation networks primarily aim to estimate the neutrino energy across a range of CC
+event types for both $\nu_{e}$ and $\nu_{\mu}$ events. It is also found that training the network
+to learn the charged lepton energy and the interaction vertex position and time improves the
+neutrino energy estimation performance.
+
+Separate network are trained for each of CC-QE(CC-MEC), CC-Res, CC-DIS, and CC-Coh for both
+$\nu_{e}$ and $\nu_{\mu}$ events using 250000 simulated events each. All events are generated
+using the expected \chips $\nu_{\mu}$ energy spectrum to closely mimic the dominant $\nu_{\mu}$
+component and important appeared $\nu_{e}$ component of the beam. Note that CC-QE and CC-MEC
+events have their energy estimated by the same network as their final state topology is
+incredibly similar.
+
+There are six outputs to each of the energy estimation networks:
+\begin{enumerate}
+    \item \textbf{Neutrino energy (1 neuron):} Returns the estimated neutrino energy for the
+          event. Trained using the mean-squared error loss function as in Eq.~\ref{eq:mse}.
+    \item \textbf{Charged lepton energy (1 neuron):} Returns the estimated primary charged lepton
+          energy for the event. Trained using the mean-squared error loss function as in
+          Eq.~\ref{eq:mse}.
+    \item \textbf{Interaction vertex x-position (1 neuron):} Returns the estimated interaction
+          vertex x-position for the event. Trained using the mean-squared error loss function as
+          in Eq.~\ref{eq:mse}.
+    \item \textbf{Interaction vertex x-position (1 neuron):} Returns the estimated interaction
+          vertex y-position for the event. Trained using the mean-squared error loss function as
+          in Eq.~\ref{eq:mse}.
+    \item \textbf{Interaction vertex x-position (1 neuron):} Returns the estimated interaction
+          vertex z-position for the event. Trained using the mean-squared error loss function as
+          in Eq.~\ref{eq:mse}.
+    \item \textbf{Interaction time (1 neuron):} Returns the estimated interaction time relative to
+          the first PMT hit time for each event. Trained using the mean-squared error loss
+          function as in Eq.~\ref{eq:mse}.
+\end{enumerate}
+
+The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
+$\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.0$, and $n_{b}=128$, using a learnt
+multi-task loss combination as given in Eq.~\ref{eq:multi_learnt}. However, training is found to
+typically take approximately 15 epochs for each network to reach the minimum validation sample
+mean absolute neutrino energy error, with early stopping typically halting training after about 20
+epochs. An example of how the training typically proceeds is given in in
+Fig.~\ref{fig:final_energy_history}, typically taking 2 hours to complete.
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_history.pdf}
-    \caption[final energy history short]
-    {final energy history long}
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_history.pdf}
+    \caption[Loss and mean absolute error throughout training for the beam classification network.]
+    {Total loss and `neutrino energy' mean absolute error for both the training dataset (solid)
+        and validation dataset (dashed) throughout training for the energy estimation network
+        trained on CC-QE and CC-MEC $\nu_{e}$ events.}
     \label{fig:final_energy_history}
 \end{figure}
 
-
-
-
+SPECIFIC INTEREST
 \begin{figure} % ENERGY CHAN DISTS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_dist.pdf}
     \caption[energy chan frac dist short]
@@ -1219,11 +1300,6 @@ esepochs = 5
 
 \subsection{Comparison with standard methods} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_final_comparison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
 
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
