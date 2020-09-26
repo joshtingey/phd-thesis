@@ -1,96 +1,80 @@
 \chapter{The \chips R\&D Project} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:chips}
 
-In pursuit of answering the open questions outlined in the previous chapter, amongst others,
-neutrino experiments are becoming increasingly, and possibly prohibitively, expensive and
-impractical. This is particularly true of long baseline accelerator experiments, with the
-traditional scaling approaches taken by DUNE and Hyper-Kamiokande now resulting in multi billion
-dollar cost estimates to achieve the required physics sensitivity. It is also telling that only
-\emph{two} future projects receive the vast majority of the global research effort, such is their
-complexity, cost and lead time.
+In pursuit of answers to the open questions outlined in the previous chapter, neutrino experiments
+are becoming increasingly, and possibly prohibitively, expensive and impractical. This is
+particularly true of the next generation long baseline experiments (DUNE and Hyper-Kamiokande),
+with cost estimates reaching billions of dollars and construction times of more than half a
+decade. It is also telling that only two future projects receive the vast majority of global
+research effort, such is their complexity, cost, and lead time.
 
-It is clear that for detectors to remain practical and affordable into the future a novel approach
-to detector design is required. This is particularly true if megaton scale detectors are to ever
-become a reality. While high performance signal identification and reconstruction will always be
-required, the statistics of low event counts will always limit neutrino experiments. Therefore,
-R\&D efforts must focus on how to make very large detectors achievable, while complementing the
-current and upcoming generation of experiments.
+It is clear that for detectors to remain practical and affordable into the future, a novel
+approach to neutrino detector design is required. This is particularly true is megaton scale
+detectors are ever to become a reality. While instrumentation will continue to improve with time,
+the statistics of low event counts will always limit neutrino experiments until vastly larger
+detectors can be built. Therefore, R\&D efforts must focus on such detectors while attempting to
+complement the current and upcoming generation of experiments.
 
-The \chips R\&D project~\cite{adamson2013} aims to developed novel strategies and technologies for
-very large yet `cheap as chips' water Cherenkov detectors. Aimed primarily for deployment in long
-baseline accelerator scenarios studying $\nu_{e}$ appearance, \chips aims to lower the
-construction cost per kt of fiducial mass to between \$200k-\$300k. In comparison, the
-Super-Kamiokande detector cost \$4 million/kt to build. A direct cost comparison such as this is
-not fully rigorous as physics sensitivity depends on more than just fiducial volume. Additionally,
-Super-Kamiokande was designed to study a broad range of neutrino physics unlike \chips. However,
-for a similar expected performance in the $\nu_{e}$ appearance between both experiments, the cost
-savings are still clear.
+The \chips R\&D project~\cite{adamson2013} aims to develop novel strategies and technologies for
+very large yet `cheap as chips' water Cherenkov detectors. Primarily aimed for deployment in long
+baseline accelerator scenarios, \chips aims to lower the construction cost per kt of fiducial mass
+to between \$200k-\$300k. For comparison, the Super-Kamiokande detector cost approximately \$4
+million/kt to build. As physics sensitivity depends on more than just fiducial volume, this
+comparison is not entirely rigorous; however, it highlights the scale of cost savings possible.
 
-The \chips concept is to construct cylindrical water Cherenkov detectors that can be sunk to the
-bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs, and flooded mine
-pits. The water above the detector provides a modest overburden from cosmic rays, while the
-surrounding water provides support for the lightweight detector structure. By removing the need
-for underground excavation and expensive structural support, the cost of construction can be
+The \chips concept is to construct cylindrical water Cherenkov detectors that can then be sunk to
+the bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs and flooded
+mine pits. The water above the detectors provides a modest overburden from cosmic rays, while the
+surrounding water provides support for a lightweight detector structure. By removing the need for
+underground excavation and expensive structural support, the cost of construction can be
 dramatically reduced.
 
-Additionally, to reduce costs further, the common practice of building bespoke components across
-the entire detector is replaced with using modern commercially available components wherever
-possible. By only considering accelerator beam neutrino events, the number of expensive components
-such as photomultiplier tubes can also be greatly reduced to save money.
+Additionally, the common practice of building bespoke components for the majority of the detector
+is replaced with using modern commercially available components wherever possible. The number of
+expensive components, such as photomultiplier tubes is also reduced by only considering
+accelerator beam neutrino events, such that full detector instrumentation is not required.
 
-Furthermore, individual \chips detectors are designed to be easy to build, quick to deploy, and
-upgradable once operational. Multiple such detectors, each between 10-20 kt in size are envisioned
-to be deployed separately to reach the total target volume. Combined, these factors make the
-\chips concept incredibly flexible to available funding when compared to projects such as DUNE and
-Hyper-Kamiokande. Additional funding should allow for an additional detector module to be deployed
-on a timespan of months, compared to the approximately decade long construction for DUNE and
-Hyper-Kamiokande.
+Furthermore, \chips detectors are not only designed to be cheap but practical. Easy to build,
+quick to deploy, and upgradable one operational, multiple detector modules can be flexibly
+combined depending on available resources. Compared to DUNE and Hyper-Kamiokande that require a
+large upfront budget and years to construct, \chips detector modules can be flexibly deployed in
+under a year.
 
-Various R\&D effort
+\subsubsection*{R\&D effort} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-R\&D efforts for \chips have been directed
-
-Note that all current
-
-So far, all \chips efforts have been based in the USA, with the aim of exploiting the NuMI beam
-before the end of its lifetime. In the summer of 2014 a small prototype detector, \chipsm, shown
-in Fig.~\ref{fig:chips_m} was deployed into a flooded mine pit in northern Minnesota. R\&D efforts
-that have been completed or ongoing by \chips.
-
-The R\&D efforts for the \chips project fall into four clear streams outlined below, each with the
-primary goal of proving that a key part of the \chips concept is viable.
+The \chips project consists of multiple R\&D streams outlined below, each with the primary goal of
+proving a key component of the \chips concept is viable.
 
 \begin{itemize}
-    \item \textbf{Detector construction:}
-    \item \textbf{Water filtration:}
-    \item \textbf{Detector sensitivity:}
-    \item \textbf{Data acquisition:}
-    \item \textbf{Event reconstruction and identification:}
-\end{itemize}
+    \item \textbf{Detector construction:} Detailed in Section.~\ref{sec:chips_detector} this
+          stream aims to prove that construction and deployment of a \chips detector is possible.
+          Two prototype detectors have so far been deployed. Firstly, the very small \chipsm
+          detector~\cite{perch2015, pfutznerProto2017, pfutzner2017} deployed into a flooded mine
+          pit in northern Minnesota in the summer of 2014. Additionally, the much larger 5kt,
+          \chipsfive detector deployed into the same pit in the summer of 2019.
 
+    \item \textbf{Water filtration:} This stream aims to prove that adequate water purity can be
+          achieved using cheap, commercially available filtration. Extensive
+          studies~\cite{amat2017, campbell2020} have proven that by filtering water directly from
+          the flooded mine pit using cheap filtration an adequate attenuation length of greater
+          than \unit{50}{\mathrm{m}} is possible. This is not discussed further in this work.
 
-\begin{itemize}
-    \item In the summer of 2014 a small prototype detector \chipsm~\cite{perch2015,
-              pfutznerProto2017, pfutzner2017}, shown in Fig.~\ref{fig:chips_m} was deployed into
-          a flooded mine pit in northern Minnesota. The main aims of this prototype were to
-          test the general concept and specific components to learn valuable lessons for
-          larger \chips prototypes.
+    \item \textbf{Detector sensitivity:} This stream aims to prove that \chips detectors can
+          provide significant physics contributions alongside the current and next generation of
+          experiments. Single detectors in the NuMI beam and multiple detectors in the future LBNF
+          beam have been considered in multiple studies~\cite{pfutzner2017, adde2016, lang2015}.
+          This is not discussed further in this work.
 
-    \item Extensive studies to determine the attenuation length of water~\cite{amat2017,
-              campbell2020} filtered using commercially available and cheap components. This has
-          proved successful showing that adequate attenuation lengths are possible on a much
-          reduced budget and using water originally from whichever location a \chips detector is
-          deployed into. Not discussed in this work.
+    \item \textbf{Data acquisition:} Outlined in Chapter.~\ref{chap:daq} this stream aims to prove
+          that a cheap data acquisition system using commercially available components in
+          viable~\cite{eijk2018}. \chips implements a novel use of cheap single-board computers to
+          collect data from multiple PMTs.
 
-    \item \chips sensitivity, ~\cite{pfutzner2017, adde2016, lang2015}, recent work for multi
-          detector. Not discussed in this work
-
-    \item \chipsfive detector
-
-    \item Novel DAQ such as this work, Madison~\cite{eijk2018}
-
-    \item Novel reconstruction for water Cherenkov detectors, never been applied seriously before
-          such as this work
+    \item \textbf{Event reconstruction and identification:} Detailed in Chapter.~\ref{chap:cvn}
+          this stream aims to prove that modern machine learning techniques can be applied to
+          water Cherenkov detectors such as \chips. This work both feeds into the detector
+          sensitivity work mentioned above and also allows to detector optimisation studies to be
+          carried out.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
@@ -101,15 +85,9 @@ primary goal of proving that a key part of the \chips concept is viable.
     \label{fig:chips_m}
 \end{figure}
 
-- Currently all efforts have been based in the USA, using the NuMI beam generated at Fermilab.
-Have deployed a small prototype chips-M, in 2019 summer deployed a much large 5kt detector in the
-same lake. All of this is to demonstrate R\&D efforts. This detector has the benefit of
-additionally being able to exploit that NuMI beam. Long term CHIPS can be scaled and deployed in
-the LBNF/LBNE beam primarily for DUNE, as multiple detector modules.
-- Long term CHIPS can be scaled a deployed as multiple detectors in the LBNE beam up to a megaton.
-- Complement the expensive, underground, expensively instrumented detectors to focus on a specific
-task rather than being fully general purpose.
-- Can easily be deployed in the LBNF beam once operational.
+So far, \chips efforts have been based in the USA to exploit the NuMI beam before the end of its
+lifetime. Future plans are focused on the scaling of \chips detectors and the deployment of
+multiple modules in the LBNF beam once it becomes operational.
 
 \subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
