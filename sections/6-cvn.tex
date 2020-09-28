@@ -12,8 +12,8 @@ are prone to human error and restricted in scope to what has been implemented in
 
 The work outlined in this chapter presents a replacement event analysis methodology for \chips.
 Three \emph{Convolutional Neural Networks} (CNNs) a type of \emph{deep learning} neural network
-has been implemented, primarily to achieve the goals outlined above. One for cosmic muon
-rejection, one for beam classification, and one for neutrino energy estimation.
+has been implemented, primarily to achieve the goals outlined above. One for cosmic rejection, one
+for beam classification, and one for neutrino energy estimation.
 
 After covering previous deep learning implementations for neutrino experiments, a brief
 description of the current techniques to be replaced is made. The theoretical background to CNNs
@@ -674,42 +674,39 @@ generalisation.
 \section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The output from a water Cherenkov detector such as \chips is effectively a simple \emph{image} of
-each event (neutrino interaction) where the number of collected photoelectrons (p.e) and hit times
-are known for each PMT. Therefore, it is a natural fit for these event \emph{images} to be
-analysed by a CNN, primarily developed for computer vision tasks on images and other grid-like
-input data.
+The output from a water Cherenkov detector such as \chips is effectively a simple image of each
+event where two channels of information are known for each PMT: the number of collected
+photoelectrons, and the associated hit times. Therefore, it is a natural fit for a CNN primarily
+developed for image based computer vision tasks to be used for \chips event analysis.
 
 For this purpose, a Python-based software package named \emph{chipsnet}~\cite{chipsnet2020} has
-been developed. By using the high-level \emph{application programming interfaces}, (APIs) provided
-by the Tensorflow framework (initially built by Google)~\cite{tf2015}, a full pipeline including
-data preparation, network training, and final network performance evaluation is implemented.
-
-First, in this section, an outline of the baseline CNN implementation built into chipsnet is
-presented. This is followed by Section.~\ref{sec:cvn_specific} which details the specific
-implementations for cosmic rejection, beam classification and neutrino energy estimation.
+been built. By using the high-level \emph{Application Programming Interfaces}, (APIs) provided by
+the Tensorflow framework (initially developed by Google)~\cite{tf2015}, a full pipeline including
+data preparation, network training, and final network performance evaluation is implemented. Here,
+the baseline CNN implementation built into chipsnet is outlined. All the specific network
+implementations described in Section.~\ref{sec:cvn_specific} share this baseline with a few
+differences.
 
 \subsection{Baseline inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The primary difficulty in the application of CNNs to \chips is determining how to map an event
 captured on a cylindrical surface to a rectangular grid. Furthermore, this must be done in such a
-way as not to distort the underlying event topology which could inhibit the CNN from learning. To
-solve this problem, this work takes inspiration and then builds upon the ideas outlined in
+way as not to distort the underlying event topology which could inhibit network learning. To solve
+this problem, this work takes inspiration and then builds upon the ideas outlined in
 Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid as though it
-is \emph{viewed} from its estimated interaction vertex position. The primary motivation behind
-this is to remove the detector shape and to focus on the underlying event topology and Cherenkov
-profiles. Other, competing representations that do not perform as well are outlined in
-Section~\ref{sec:cvn_alt} for completeness.
+is viewed from its estimated interaction vertex position. The primary motivation behind this is to
+remove any detector shape effects and to focus on the underlying event topology and Cherenkov
+profiles.
 
-To estimate the interaction vertex position for each event, the top-scoring seed from the
-\emph{seeding} process introduced in Section~\ref{sec:cvn_old_reco} is used. This procedure unlike
-the full likelihood fit requires no track hypothesis and typically takes a much reduced 0.5
-seconds per event on a standard batch farm computing node. The seed estimated vertex position
-resolutions (truth-seed) for a sample of expected beam events are shown in
-Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is seen to be estimated closer to the
-downstream wall of the detector than reality, however, as the dimensions perpendicular to the beam
-($y$ and $z$ components) primarily drive event distortions the impact on event topology is small.
+To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
+process introduced in Section~\ref{sec:cvn_old_reco} is used. This procedure, unlike the full
+likelihood fit, requires no track hypothesis and typically takes a quick
+\unit{0.5}{\mathrm{seconds}} per event on a standard batch farm computing node. The seed estimated
+vertex position resolutions for a sample of expected beam events are shown in
+Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is commonly estimated closer to the
+downstream wall of the detector than reality, however, as the $y$ and $z$ components perpendicular
+to the beam primarily drive event distortions, the impact on event topology is small.
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_true_reco_vtx.pdf}
@@ -723,9 +720,9 @@ downstream wall of the detector than reality, however, as the dimensions perpend
 Using $\theta$ and $\phi$ components calculated from the estimated interaction vertex position
 facing along the x-axis (downstream), hit PMTs are mapped onto a $64 \times 64$ grid. This
 procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where each
-grid bin is given by the sum of the total collected charge (p.e) from all PMTs mapped to that bin.
-Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time from all the
-PMTs mapped to that bin (corrected, so the first hit time in the event is zero).
+grid bin is given by the sum of the total collected photoelectrons from all PMTs mapped to that
+bin. Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time from all
+the PMTs mapped to that bin (corrected, so the first hit time in the event is zero).
 
 By design, the Hough transform within the seeding procedure uses the estimated interaction vertex
 position to generate the transform space. Therefore, by re-binning the transform space to a $64
@@ -738,9 +735,9 @@ using 8-bit encoding. This not only significantly reduces storage requirements b
 dramatically increases the speed with which data can be loaded during training. For each map type,
 a range over which to encode from zero up to a \emph{cap-point} is chosen. This is selected to
 minimise the number of values that are capped at the maximum encoded value of 255.
-Table.~\ref{tab:encoding} shows the cap-points, and associated percentage of values capped for
-each map type, while Fig.~\ref{fig:explore_8_bit_range} shows the distribution of values for each
-map across the encoded range.
+Table.~\ref{tab:encoding} shows the cap-points and associated percentage of values capped for each
+map type, while Fig.~\ref{fig:explore_8_bit_range} shows the distribution of values for each map
+across the encoded range.
 
 \begin{table}
     \begin{tabular}{lcc}
@@ -753,9 +750,9 @@ map across the encoded range.
     \caption[Table of input event map 8-bit cap-points]
     {Table showing the input event map cap-points (maximum value of the encoding range) and the
         associated percentage of values that are capped at the maximum 8-bit value of 255 as a
-        consequence. The cap-points are specifically chosen to keep the \emph{capped percentage}
-        to approximately 0.1\% as a greater value could lead to the loss of powerful information
-        within the data.}
+        consequence. The cap-points are specifically chosen so that the \emph{capped percentage}
+        is approximately 0.1\%, keeping the amount of powerful information lost as small as
+        possible.}
     \label{tab:encoding}
 \end{table}
 
@@ -812,11 +809,10 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 \subsection{Baseline architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-An illustrative diagram of the baseline network architecture that all three specific task networks
-share in Section.~\ref{sec:cvn_specific} is shown in Fig.~\ref{fig:chipsnet}. Based on the VGG
-network (16 layer variant) previously mentioned in Section.~\ref{sec:cvn_previous} and detailed in
-Ref.~\cite{simonyan2014} there are a few key and major differences from the literature defined
-network, these are discussed below.
+An illustrative diagram of the baseline network architecture is shown in Fig.~\ref{fig:chipsnet}.
+Based on the VGG network (16 layer variant) previously mentioned in
+Section.~\ref{sec:cvn_previous} and detailed in Ref.~\cite{simonyan2014} there are a few key
+differences from the literature defined network, discussed below.
 
 \begin{figure} % CHIPSNET DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet.pdf}
@@ -838,8 +834,7 @@ network, these are discussed below.
           convolutional layers (four convolutional layers in total). The outputs from all three
           branches are merged together using a concatenation layer before being fed to the rest of
           the network. This structure allows for the most important features from each event map
-          to be learnt independently before the following layers of the network learn combined
-          features.
+          to be learnt independently before the rest of the networks learns combined features.
 
     \item Batch normalisation as described in Section.~\ref{sec:cvn_theory_reg} is included before
           the activation (ReLU) function for every convolutional layer.
@@ -865,20 +860,16 @@ network, these are discussed below.
 
 Within chipsnet the network architecture is implemented using the Keras~\cite{chollet2015} API
 built into Tensorflow. This allows for predefined common layers such as a two-dimensional
-convolution or a max-pooling layer to be easily structured into a full network definition. Other,
-modern architectures that do not provide a performance improvement are outlined in
-Section~\ref{sec:cvn_alt} for completeness.
+convolution or a max-pooling layer to be easily structured into a full network definition.
 
 \subsection{Baseline outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The specific outputs for the different networks are detailed in Section.~\ref{sec:cvn_specific},
-however, they all share a standard methodology described here. Many CNN applications are found to
-benefit from learning multiple tasks (both regression and classification) at the same time, from
-the same inputs. This is believed to be the case as the learning process with multiple tasks tends
-to produce a network with an improved generalised representation of the inputs. Therefore,
-features learnt for one task can improve the performance of another. This is called
-\emph{multi-task} learning and is used extensively in this work.
+Many CNN applications are found to benefit from learning multiple tasks (both regression and/or
+classification) at the same time, from the same inputs. This is believed to be the case as
+training with multiple tasks tends to return a network with an improved generalised representation
+of the inputs. Thus, features learnt for one task can improve the performance of another. Commonly
+named \emph{multi-task} learning, this methodology is used extensively in this work.
 
 In order to train a network with multiple tasks (outputs), a loss function $E_{tot}$ must be
 defined to combine the individual loss functions for each task $E_{i}$. The simplest way to do
@@ -902,11 +893,11 @@ $\sigma_{i}$, for each loss function, such that
 \end{equation}
 In this work we refer to this as the \emph{learnt} multi-task loss.
 
-Although physically motivated to some degree, the exact combination of tasks and loss combination
-technique used for the three networks in Section.~\ref{sec:cvn_specific} is mainly driven by
-trial-and-error. The chipsnet software implementation is specifically designed to allow for this
-by making it easy to define any number of tasks using either loss function combination technique,
-via a simple configuration file.
+The specific number and nature of outputs for the different network are detailed in
+Section.~\ref{sec:cvn_specific}. Although physically motivated to some degree, the exact set of
+tasks and the loss combination technique used is mainly driven by trial-and-error. The chipsnet
+software is specifically designed to enable this process by making it easy to configure the
+network outputs via a simple configuration file.
 
 \subsection{Baseline Training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -915,31 +906,32 @@ All three networks are trained using Tensorflow 2.3.0 on an 18 core CPU (36 thre
 equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The Tensorflow
 dataset API is used to create an efficient input data pipeline where data is loaded on-the-fly at
 training time. This ensures all GPU threads are utilised loading, decoding, and preprocessing data
-before it is needed by the GPUs to maximise their efficiency of use.
+for the GPUs before being needed to maximise their efficiency of use.
 
-During preprocessing, all three input maps have their 8-bit bin values converted to 32-bit float
-values between zero and one. Additionally, a random factor scaling is applied to each map bin
-generated from a Gaussian centred on one with a standard deviation of $\sigma_{r}$. This is
-applied to force the network to focus less on the absolute bin values and more on the full
-topology of the event. Furthermore, this provides additional regularisation to prevent
+During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
+between zero and one. Additionally, a random factor scaling is applied to each map bin, generated
+from a Gaussian centred on one with a standard deviation of $\sigma_{r}$. By random fluctuating
+the bin values in this way the network is forced to focus less on the absolute bin values and more
+of the underlying event topology. Furthermore, this provides valuable regularisation to reduce
 overfitting.
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
 optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
 used. The exact training sample sizes are given in Section.~\ref{sec:cvn_specific} but for all
-networks a 95\% training to 5\% validation data split is used allowing for early stopping to be
-employed. The learning rate for each epoch $\eta_{e}$ is set to decrease throughout training
+networks a 95\% training to 5\% validation data split is employed allowing for early stopping to
+be implemented. The learning rate for each epoch $\eta_{e}$ is set to decrease throughout training
 according to
 \begin{equation}
-    \eta_{e}=\frac{\eta_{0}}{1+c_{d}e},
+    \eta_{e}=\frac{\eta_{0}}{1+c_{d}(e-1)},
 \end{equation}
-where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number minus one, and $c_{d}$ is
-the learning rate decay coefficient.
+where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number (starting at one), and
+$c_{d}$ is the learning rate decay coefficient.
 
-The list below, therefore, details all the possible \emph{hyperparameters} that are tunable when
-training each network. All are optimised for each network using the SHERPA~\cite{hertel2020}
-hyperparameter tuning framework which randomly tests configurations from either a range of
-selection of choices for each hyperparameter also mentioned bellow.
+In summary, the list below details all the possible \emph{hyperparameters} that are tunable when
+training each network. All are optimised for each specific network using the
+SHERPA~\cite{hertel2020} hyperparameter tuning framework. Random configurations selected from
+either a range or selection of choices for each hyperparameter (also outlined below) are tested to
+maximise performance.
 
 \begin{itemize}
     \item \textbf{Initial learning rate, $\eta_{0}$:} in a range from 0.00005 to 0.001.
@@ -954,22 +946,27 @@ selection of choices for each hyperparameter also mentioned bellow.
 \section{Specific implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Using the baseline implementation just described multiple CNNs are trained
-- Combination of networks found to maximise the selection of a pure and efficient sample of
-$\nu_{e}$ appeared beams events, whose neutrino energy can then be accurately determined.
-- Obviously apply this to other types of event as well!
-- Many combinations of network have been tested
-- For example combining cosmic and beam classification, found that it is best to separate them
+The specific CNN implementations for cosmic rejection, beam classification and energy estimation
+are outlined below. It is important to note that this exact configuration of networks is the
+result of extensive testing designed to maximise the selection of a pure and efficient sample of
+$\nu_{e}$ beam events, whose neutrino energy can be accurately determined.
 
-\subsection{Cosmic muon rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For example, if cosmic and beam classification are combined into a single network, both objectives
+see a reduction in performance, hence they are separated. The same is also true if either
+classification task and neutrino energy estimation are combined. However, certain secondary
+outputs such as counting the number of primary particles in conjunction with beam classification
+is seen to improve performance. It is clear, therefore, that the multi-task approach only works
+for tasks that require a similar representation of the inputs to be learnt by the network. Put
+simply, the tasks must be similar.
+
+\subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The cosmic rejection network aims to prevent the large expected cosmic muon background from
-contaminating the final selected sample of beam events. In addition to separating beam and cosmic
-events, training the network to also separate events where the primary charged lepton escapes the
-detector volume is found to improve cosmic rejection performance. As the vast majority of cosmic
-muons are very high energy and escape the detector in this fashion, there is motivation as to why
-this additional task is helpful.
+contaminating the final selected sample of beam events. Additionally, training the network to also
+separate events where the primary charged lepton escapes the detector volume is found to improve
+cosmic rejection performance. As the vast majority of cosmic muons are very high energy and escape
+the detector in this fashion, there is motivation as to why this additional task is helpful.
 
 The network is trained on a sample of 3.15 million simulated events, roughly $1/3^{rd}$
 $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events. The
@@ -1108,17 +1105,23 @@ network or even separate $\nu_{e}$ and $\nu_{\mu}$ networks are trained to estim
 energies. This makes sense as a single network is expected to be unable to capture all the
 different event topology features from every type of beam event using a single set of weights.
 
-In addition to learning the neutrino energy of each event, training the network also to learn the
-primary charged lepton energy and the interaction vertex position and time if found to improve
-neutrino energy estimation. These both make sense because...
+In addition to learning the neutrino energy of each event, training the network to also learn the
+primary charged lepton energy and the interaction vertex position and time is found to improve
+neutrino energy estimation. Although this improvement is relatively small for neutrino energy
+estimation it greatly improves primary charged lepton energy estimation compared to when being
+estimated alone. Additionally, including additional event parameter tasks prevents an extra
+network from being required. As the interaction vertex position within the detector and hence
+distance from instrumented wall can impact the amount of deposited photoelectrons there is
+motivation as to why these additional tasks are helpful. WHY DOES LEPTON HELP!!!!
 
 Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, CC-DIS, and CC-Coh for both
 $\nu_{e}$ and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each.
-All events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$
-energy spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$
-signal. Each sample is split 95\% to 5\% for the training and validation, respectively. Note that
-CC-QE and CC-MEC neutrino energy estimation is combined as both have incredibly similar final
-state topologies.
+Only events for which the primary charged lepton is fully contained within the detector volume are
+considered. All events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips
+$\nu_{\mu}$ energy spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared
+$\nu_{e}$ signal. Each sample is split 95\% to 5\% for the training and validation, respectively.
+Note that CC-QE and CC-MEC neutrino energy estimation is combined as both have incredibly similar
+final state topologies.
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}
@@ -1161,24 +1164,25 @@ Fig.~\ref{fig:final_energy_history}. Training each takes approximately 2 hours.
 \section{Results} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Evaluation sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluation sample and preselection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A statistically independent sample of events is used to evaluate the combined performance of the
-trained CNNs. The evaluation sample is generated in the same way as the training and validation
-sample and consists of 400000 beam and 350000 cosmic muon events. The beam events include the
-expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the beam as
-well as additional events generated to mimic the appeared $\nu_{e}$ component. In this work, only
-the neutrino mode (forward horn current) of NuMI beam operation is considered for simplicity.
+trained CNNs. Generated in the same way as the training and validation samples the evaluation
+sample consists of 400000 beam and 350000 cosmic muon events. The beam events include the expected
+$\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the beam as well as
+events generated to mimic the appeared $\nu_{e}$ component. In this work, only the neutrino mode
+(forward horn current) of NuMI beam operation is considered for simplicity.
 
-All beam events are weighted to match the expected spectrum at the \chips detector location, as
-shown in Fig.~\ref{fig:explore_osc_fluxes}. For simplicity, the neutrino and antineutrino
-components of the beam are combined as they are impossible to tell apart. The cosmic events are
-also weighted to match the expected \unit{5.1}{\mathrm{kHz}} cosmic muon rate with
-\unit{50}{\mathrm{m}} of overburden, rejecting those outside the NuMI beam spill window. This
-results in five total event categories whose expected number of events per year is summarised in
-Table.~\ref{tab:eval_events}. Furthermore, the beam sample contains the appropriate fractions for
-each underlying interaction type, as shown in Fig.~\ref{fig:explore_stacked_int_types}.
+All evaluation events are weighted to match the expected spectrum in the 5 kton \chipsfive
+detector running for a year in the NuMI beam, corresponding to $6\times 10^{20}$ protons on target
+(POT). An expected cosmic rate of \unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of
+overburden is assumed, rejecting those that fall outside the NuMI beam spill window. For
+simplicity, the neutrino and antineutrino components of the beam are combined as they are
+impossible to tell apart in practice. The final weighted spectrum of events is shown in
+Fig.~\ref{fig:explore_osc_fluxes}. Furthermore, the evaluation sample contains the expected
+combination of underlying beam interaction types, as shown in
+Fig.~\ref{fig:explore_stacked_int_types}.
 
 \begin{figure} % OSC FLUXES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
@@ -1189,27 +1193,10 @@ each underlying interaction type, as shown in Fig.~\ref{fig:explore_stacked_int_
         probabilities. Shown in blue, green and olive are the survived CC $\nu_{\mu}$, appeared CC
         $\nu_{e}$ and the intrinsic beam CC $\nu_{e}$ spectra respectively, binned in terms of
         their neutrino energy. Shown in red is the NC event spectra binned in terms of the energy
-        of the hadronic system (excluding the outgoing neutrino energy) to represent the
-        energy visible to the detector better.}
+        of the hadronic system (excluding the outgoing neutrino energy) to represent the energy
+        visible to the detector better.}
     \label{fig:explore_osc_fluxes}
 \end{figure}
-
-\begin{table}
-    \begin{tabular}{lr}
-        Event type                  & Expected number of events \\
-        \midrule
-        Appeared CC $\nu_{e}$       & 44                        \\
-        \midrule
-        Survived CC $\nu_{\mu}$ bkg & 2045                      \\
-        Beam CC $\nu_{e}$ bkg       & 35                        \\
-        NC bkg                      & 355                       \\
-        Cosmic bkg                  & 1211000                   \\
-    \end{tabular}
-    \caption[Table of expected number of events per year in the \chipsfive detector.]
-    {Total number of expected events for each event category observed per year in the \chipsfive
-        detector with neutrino mode NuMI operation and $\delta_{CP}=0$. }
-    \label{tab:eval_events}
-\end{table}
 
 \begin{figure} % STACK INT TYPES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_stacked_int_types.pdf}
@@ -1221,15 +1208,15 @@ each underlying interaction type, as shown in Fig.~\ref{fig:explore_stacked_int_
     \label{fig:explore_stacked_int_types}
 \end{figure}
 
-A simple preselection is applied to all events in the evaluation sample. Designed to reject cosmic
-muon and NC events while keeping the efficiency of CC beam events high, the preselection consists
-of four simple cuts, shown in Fig.~\ref{fig:explore_simple_cuts}. Firstly, the total collected
-charge across all PMTs in an event must be greater than \unit{250}{\mathrm{p.e}}. Secondly, the
-maximum Hough transform space height must be greater than \unit{250}{\mathrm{p.e}}. Thirdly, the
-leading seed $\cos(\theta)$ direction must be between $\pm$0.7. Finally, the leading seed $\phi$
-direction must be between $\pm$1.1. The first two cuts reject low energy events which are usually
-NC in nature, while the last two reject events whose activity is not along the beamline, typically
-cosmic muons.
+A simple preselection separate from any CNN work is applied to all events in the evaluation
+sample. Designed to reject cosmic muon and NC events while keeping the efficiency of CC beam
+events high, the preselection consists of four simple cuts, shown in
+Fig.~\ref{fig:explore_simple_cuts}. Firstly, the total collected charge (photoelectrons) across
+all PMTs in an event must be greater than 250 photoelectrons. Secondly, the maximum Hough
+transform space height must be greater than 250 photoelectrons. Thirdly, the leading seed
+$\cos(\theta)$ direction must be between $\pm$0.7. Finally, the leading seed $\phi$ direction must
+be between $\pm$1.1. The first two cuts reject low energy events which are usually NC in nature,
+while the last two reject events whose activity is not along the beamline, typically cosmic muons.
 
 \begin{figure} % SIMPLE CUTS DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/explore_simple_cuts.pdf}
@@ -1239,7 +1226,7 @@ cosmic muons.
     \label{fig:explore_simple_cuts}
 \end{figure}
 
-\subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosmic rejection and containment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The `cosmic score' output from the trained cosmic rejection network gives excellent separation
@@ -1248,30 +1235,12 @@ seen in Fig.~\ref{fig:final_cosmic_outputs}. The vast majority of beam like even
 score incredibly close to zero which is more clearly shown in
 Fig.~\ref{fig:final_cosmic_zoomed_outputs}.
 
-By inspection, a `cosmic score' value below 0.0001 is chosen to select beam like events and reject
-cosmic like events. Out of the total 350000 cosmic events in the evaluation sample, zero pass this
-cut. Although not statistically significant due to the expected $\approx$1.2 million cosmic events
-per year, due to computational constraints a sample of sufficient size is deemed too difficult to
-generate in this work. JUSTIFY WHY THIS IS OKAY TO THINK COSMIC REJECTION IS SUFFICIENT, JUST
-NEEDS TO BE LOWER THAN NOVA 5\% FOR EXAMPLE.
-
-The second output from the cosmic rejection network `escapes score'. A value of 0.5 is chosen by
-inspection.
-
-- Which metrics will we use to judge success for each of these objectives
-- How the test events are scaled (weighted) with oscillations and expected beam and cosmic nums.
-- Completely independent of the training dataset
-- Present a simple exploration of the testing dataset key components and distributions.
-- Expected number of events table etc...
-- Primary goal is to classify the neutrino flavour nuel CC, numu CC or NC
-- Secondary goal is to then classify the individual interaction mode (QEL, RES, DIS etc...) these
-will have different energy resolutions and systematic uncertainties, so seperation can provide
-increased sensitivity.
-
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
-    \caption[final cosmic outputs short]
-    {final cosmic outputs long}
+    \caption[Distribution of cosmic rejection output values]
+    {Distribution of `cosmic score' output values for the different event categories. A score
+        close to one signifies a cosmic like event, while a score close to zero corresponds to a
+        beam like event.}
     \label{fig:final_cosmic_outputs}
 \end{figure}
 
@@ -1282,12 +1251,57 @@ increased sensitivity.
     \label{fig:final_cosmic_zoomed_outputs}
 \end{figure}
 
+By inspection, a `cosmic score' value above 0.0001 is chosen to reject cosmic like events. Out of
+the total 350000 cosmic events in the evaluation sample, zero pass this cut. Although not
+statistically significant due to the expected $\approx$1.2 million cosmic events per year, due to
+computational constraints a sample of sufficient size is deemed too difficult to generate in this
+work. JUSTIFY WHY THIS IS OKAY TO THINK COSMIC REJECTION IS SUFFICIENT, JUST NEEDS TO BE LOWER
+THAN NOVA 5\% FOR EXAMPLE.
+
+The second output from the cosmic rejection network
+
+Aim to get a sample of reasonably energetic beam events that are fully contained and have the
+majority of their activity along the beam line.
+
+The second output from the cosmic rejection network `escapes score'. A value of 0.5 is chosen by
+inspection.
+
+- Estimating the energy of events requires that they are fully contained within the detector!
+Difficult to estimate how much energy is missing if they escape.
+
+- Using simple definition of escaping, in that the primary lepton escapes
+- Vast majority of nuel CC events are contained!
+- For the energies \chips has, a large proportion of the numu are not contained, 44\% are fully
+contained within the detector volume. Can't estimate their energy!
+- For numu 97\% contained are classified as contained and 96\% escaped are classified as escaped.
+- Therefore contained sample is 95\% purity, which is good!
+
 \begin{figure} % ESCAPES OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_escapes_outputs.pdf}
     \caption[final escapes outputs short]
-    {final escapes outputs long}
+    {NC events are not used in training so their meaning on this is quite arbitrary, most are
+        deemed to be contained. Network is likely just learning that muon like events are escaped ones
+        maybe.}
     \label{fig:final_escapes_outputs}
 \end{figure}
+
+\begin{table}
+    \begin{tabular}{lccccc}
+                              & Appeared CC $\nu_{e}$ & Survived CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Cosmic  \\
+        \midrule
+        Total expected events & 44.2                  & 2045.9                  & 35.1              & 348.7 & 1211000 \\
+        After preselection    & 41.2                  & 1889.5                  & 33.5              & 239.6 & 249260  \\
+        After cosmic cut      & 41.1                  & 1874.4                  & 33.4              & 238.0 & 0.0     \\
+        After escapes cut     & 40.8                  & 818.0                   & 33.0              & 231.0 & 0.0     \\
+        \midrule
+        Efficiency            & 0.923                 & 0.400                   & 0.940             & 0.662 & 0.000   \\
+    \end{tabular}
+    \caption[Number of events passing cuts for each event category.]
+    {Number of events passing each successive cut for each of the main event categories.
+        The efficiency after all the cuts have been applied is also shown.}
+    \label{tab:selection}
+\end{table}
+
 
 \subsection{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1512,6 +1526,8 @@ creates tight widely seperated clusters.
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Go through a few key interesting alternative implementations...
+
+- Fore completeness!
 
 As a nice sidenote I can then just mention a few things such as the input sample type, different
 architectures and different input representations that where tested to get to this final baseline
