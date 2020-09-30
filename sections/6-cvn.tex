@@ -953,20 +953,22 @@ $\nu_{e}$ beam events, whose neutrino energy can be accurately determined.
 
 For example, if cosmic and beam classification are combined into a single network, both objectives
 see a reduction in performance, hence they are separated. The same is also true if either
-classification task and neutrino energy estimation are combined. However, certain secondary
+classification task and neutrino energy estimation are combined. However, specific secondary
 outputs such as counting the number of primary particles in conjunction with beam classification
-is seen to improve performance. It is clear, therefore, that the multi-task approach only works
+are seen to improve performance. It is clear, therefore, that the multi-task approach only works
 for tasks that require a similar representation of the inputs to be learnt by the network. Put
-simply, the tasks must be similar.
+simply; the tasks must be similar.
 
 \subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The cosmic rejection network aims to prevent the large expected cosmic muon background from
-contaminating the final selected sample of beam events. Additionally, training the network to also
-separate events where the primary charged lepton escapes the detector volume is found to improve
-cosmic rejection performance. As the vast majority of cosmic muons are very high energy and escape
-the detector in this fashion, there is motivation as to why this additional task is helpful.
+contaminating the final selected sample of beam events. Therefore, the primary task is a simple
+binary classification between the beam and cosmic events. Additionally, training the network to
+also separate events where the primary charged lepton escapes the detector volume or not, is found
+to improve cosmic rejection performance. As the vast majority of cosmic muons are very high energy
+and escape the detector in this fashion, there is motivation as to why this additional task is
+helpful.
 
 The network is trained on a sample of 3.15 million simulated events, roughly $1/3^{rd}$
 $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events. The
@@ -988,12 +990,13 @@ There are two outputs to the cosmic rejection network:
 \begin{enumerate}
     \item \textbf{Cosmic score (1 neuron):} Returns a score between zero and one corresponding to
           whether the event is beam or cosmic like. The binary cross-entropy loss function in
-          Eq.~\ref{eq:binary_cross_entropy} with a simple multi-task weight of $1$ is used.
+          Eq.~\ref{eq:binary_cross_entropy} is used for training with a simple multi-task weight
+          of $1$.
     \item \textbf{Escapes score (1 neuron):} Returns a score between zero and one corresponding to
           whether the charged lepton in an event is contained or escapes the detector. The binary
-          cross-entropy loss function in Eq.~\ref{eq:binary_cross_entropy} with a simple
-          multi-task weight of $1$ is used. NC beam events without a charged lepton are masked in
-          training for this output, so they do not contribute to the loss.
+          cross-entropy loss function in Eq.~\ref{eq:binary_cross_entropy} is used for training
+          with a simple multi-task weight of $1$. NC beam events without a charged lepton are
+          masked during training for this output, so they do not contribute to the loss.
 \end{enumerate}
 
 The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
@@ -1016,10 +1019,12 @@ takes approximately 15 hours.
 \label{sec:cvn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The beam classification network aims to separate beam events by their interaction type primarily
-to select a pure and efficient sample of appeared $\nu_{e}$ events. Similar to the implementation
-used by DUNE~\cite{collaboration2020} alongside the core classification between CC $\nu_{e}$, CC
-$\nu_{\mu}$, and NC events, we also learn additional classification and particle counting tasks
-outlined below to improve performance.
+to select a pure and efficient sample of appeared $\nu_{e}$ events. Therefore, the primary task is
+a categorical classification between CC $\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is
+made to separate the appeared CC $\nu_{e}$ and intrinsic beam CC $\nu_{e}$ components as they are
+impossible to tell apart. Similar to the implementation used by DUNE~\cite{collaboration2020},
+alongside the core classification additional classification and particle counting tasks outlined
+below are included that improve performance.
 
 The network is trained on a sample of 1.67 million simulated events, roughly half $\nu_{\mu}$ beam
 events, and half $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All
@@ -1039,44 +1044,45 @@ There are nine outputs to the beam classification network:
 \begin{enumerate}
     \item \textbf{Combined category (3 neurons):} Returns a classification probability score
           between zero and one for each of CC $\nu_{e}$, CC $\nu_{\mu}$, and NC (summing to one).
-          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$.
     \item \textbf{CC category (6 neurons):} Returns a classification probability score between
           zero and one for each of CC-QE, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to
           one). The categorical cross-entropy loss function in
-          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$ is used.
-          NC events are masked in training for this output, so they do not contribute to the loss.
-          This ensures only CC events are used to train this output.
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$. NC events are masked during training for this output, so they do not
+          contribute to the loss.
     \item \textbf{NC category (4 neurons):} Returns a classification probability score between
           zero and one for each of NC-Res, NC-DIS, NC-Coh and NC-other (summing to one). The
-          categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} with a
-          simple multi-task weight of $1$ is used. CC events are masked in training for this
-          output, so they do not contribute to the loss. This ensures only NC events are used to
-          train this output.
+          categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$. CC events are masked during
+          training for this output, so they do not contribute to the loss.
     \item \textbf{Electron count (4 neurons):} Returns a classification probability score between
           zero and one for each of 0, 1, 2, and 3+ electrons in the final state (summing to one).
-          The categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$.
     \item \textbf{Muon count (4 neurons):} Returns a classification probability score between zero
           and one for each of 0, 1, 2, and 3+ muons in the final state (summing to one). The
-          categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$.
     \item \textbf{Proton count (4 neurons):} Returns a classification probability score between
           zero and one for each of 0, 1, 2, and 3+ protons in the final state (summing to one).
-          The categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$.
     \item \textbf{$\pi^{\pm}$ count (4 neurons):} Returns a classification probability score
-          between zero and one for each of 0, 1, 2, and 3+ $\pi^{\pm}$ in the final state (summing
-          to one). The categorical cross-entropy loss function as in
-          Eq.~\ref{eq:categorical_cross_entropy} with a simple multi-task weight of $1$ is used.
+          between zero and one for each of 0, 1, 2, and 3+ charged pions in the final state
+          (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
     \item \textbf{$\pi^{0}$ count (4 neurons):} Returns a classification probability score between
-          zero and one for each of 0, 1, 2, and 3+ $\pi^{0}$ in the final state (summing to one).
-          The categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          zero and one for each of 0, 1, 2, and 3+ neutral pions in the final state (summing to
+          one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
     \item \textbf{Photon count (4 neurons):} Returns a classification probability score between
           zero and one for each of 0, 1, 2, and 3+ photons in the final state (summing to one).
-          The categorical cross-entropy loss function as in Eq.~\ref{eq:categorical_cross_entropy}
-          with a simple multi-task weight of $1$ is used.
+          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
+          used for training with a simple multi-task weight of $1$.
 \end{enumerate}
 
 The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
@@ -1098,21 +1104,21 @@ takes approximately 15 hours.
 \subsection{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Accurate event neutrino energy estimation is accomplished using multiple networks trained on
-separate samples of $\nu_{e}$ and $\nu_{\mu}$ events across multiple CC interaction types. It is
-found that this separation results in higher performance than if a single energy estimation
-network or even separate $\nu_{e}$ and $\nu_{\mu}$ networks are trained to estimate neutrino
-energies. This makes sense as a single network is expected to be unable to capture all the
-different event topology features from every type of beam event using a single set of weights.
+Accurate neutrino energy estimation is accomplished using multiple networks trained on separate
+samples of $\nu_{e}$ and $\nu_{\mu}$ events across multiple CC interaction types. It is found that
+separation such as this results in greater performance than if a single energy estimation network
+or even separate $\nu_{e}$ and $\nu_{\mu}$ networks are trained. This is expected as a single
+network should to be unable to capture the differing event topology features that contribute to
+the energy for every type of event.
 
-In addition to learning the neutrino energy of each event, training the network to also learn the
-primary charged lepton energy and the interaction vertex position and time is found to improve
-neutrino energy estimation. Although this improvement is relatively small for neutrino energy
-estimation it greatly improves primary charged lepton energy estimation compared to when being
-estimated alone. Additionally, including additional event parameter tasks prevents an extra
-network from being required. As the interaction vertex position within the detector and hence
-distance from instrumented wall can impact the amount of deposited photoelectrons there is
-motivation as to why these additional tasks are helpful. WHY DOES LEPTON HELP!!!!
+Alongside the primary neutrino energy regression task, additionally learning the primary charged
+lepton energy and the interaction vertex position and time is found to improve performance.
+Although this improvement is relatively small for neutrino energy estimation, it dramatically
+improves primary charged lepton energy estimation compared to being predicted alone. With the two
+energy tasks, the network is encouraged to learn how the primary charged lepton and neutrino
+energies are related. As the interaction vertex position within the detector and hence distance
+from the instrumented wall can impact the number of deposited photoelectrons, there is motivation
+as to why these additional tasks are helpful.
 
 Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, CC-DIS, and CC-Coh for both
 $\nu_{e}$ and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each.
@@ -1168,11 +1174,13 @@ Fig.~\ref{fig:final_energy_history}. Training each takes approximately 2 hours.
 \label{sec:cvn_results_sample} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A statistically independent sample of events is used to evaluate the combined performance of the
-trained CNNs. Generated in the same way as the training and validation samples the evaluation
+trained CNNs. Generated in the same way as the training and validation samples, the evaluation
 sample consists of 400000 beam and 350000 cosmic muon events. The beam events include the expected
 $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the beam as well as
 events generated to mimic the appeared $\nu_{e}$ component. In this work, only the neutrino mode
 (forward horn current) of NuMI beam operation is considered for simplicity.
+
+THIS INCLUDES EXPECTED FLUX, CROSS-SECTIONS AND STANDARD OSCILLATION PROBABILITIES.
 
 All evaluation events are weighted to match the expected spectrum in the 5 kton \chipsfive
 detector running for a year in the NuMI beam, corresponding to $6\times 10^{20}$ protons on target
@@ -1231,9 +1239,8 @@ while the last two reject events whose activity is not along the beamline, typic
 
 The `cosmic score' output from the trained cosmic rejection network gives excellent separation
 between beam like (output close to zero) and cosmic like (output close to one) events, as can be
-seen in Fig.~\ref{fig:final_cosmic_outputs}. The vast majority of beam like events in fact have a
-score incredibly close to zero which is more clearly shown in
-Fig.~\ref{fig:final_cosmic_zoomed_outputs}.
+seen in Fig.~\ref{fig:cosmic_outputs}. The vast majority of beam like events in fact have a score
+incredibly close to zero as is more clearly shown in Fig.~\ref{fig:cosmic_zoomed_outputs}.
 
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
@@ -1241,14 +1248,14 @@ Fig.~\ref{fig:final_cosmic_zoomed_outputs}.
     {Distribution of `cosmic score' output values for the different event categories. A score
         close to one signifies a cosmic like event, while a score close to zero corresponds to a
         beam like event.}
-    \label{fig:final_cosmic_outputs}
+    \label{fig:cosmic_outputs}
 \end{figure}
 
 \begin{figure} % COSMIC OUTPUTS ZOOMED DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_zoomed_outputs.pdf}
     \caption[final cosmic zoomed outputs short]
     {final cosmic zoomed outputs long}
-    \label{fig:final_cosmic_zoomed_outputs}
+    \label{fig:cosmic_zoomed_outputs}
 \end{figure}
 
 By inspection, a `cosmic score' value above 0.0001 is chosen to reject cosmic like events. Out of
@@ -1287,14 +1294,14 @@ contained within the detector volume. Can't estimate their energy!
 
 \begin{table}
     \begin{tabular}{lccccc}
-                              & Appeared CC $\nu_{e}$ & Survived CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Cosmic  \\
+                           & Appeared CC $\nu_{e}$ & Survived CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Cosmic  \\
         \midrule
-        Total expected events & 44.2                  & 2045.9                  & 35.1              & 348.7 & 1211000 \\
-        After preselection    & 41.2                  & 1889.5                  & 33.5              & 239.6 & 249260  \\
-        After cosmic cut      & 41.1                  & 1874.4                  & 33.4              & 238.0 & 0.0     \\
-        After escapes cut     & 40.8                  & 818.0                   & 33.0              & 231.0 & 0.0     \\
+        Total events       & 44.2                  & 2045.9                  & 35.1              & 348.7 & 1211000 \\
+        After preselection & 41.2                  & 1889.5                  & 33.5              & 239.6 & 249260  \\
+        After cosmic cut   & 41.1                  & 1874.4                  & 33.4              & 238.0 & 0.0     \\
+        After escapes cut  & 40.8                  & 818.0                   & 33.0              & 231.0 & 0.0     \\
         \midrule
-        Efficiency            & 0.923                 & 0.400                   & 0.940             & 0.662 & 0.000   \\
+        Efficiency         & 0.923                 & 0.400                   & 0.940             & 0.662 & 0.000   \\
     \end{tabular}
     \caption[Number of events passing cuts for each event category.]
     {Number of events passing each successive cut for each of the main event categories.
@@ -1378,13 +1385,39 @@ contained within the detector volume. Can't estimate their energy!
 \subsection{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plots.
+\begin{figure} % FINAL ENERGY DISTS DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_dists.pdf}
+    \caption[final energy dists short]
+    {final energy dist long}
+    \label{fig:final_energy_dists}
+\end{figure}
+
+\begin{figure} % FINAL ENERGY FRAC DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_frac.pdf}
+    \caption[final energy frac short]
+    {final energy frac long}
+    \label{fig:final_energy_frac}
+\end{figure}
+
+\begin{figure} % FINAL ENERGY FRAC SPLIT DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_frac_split.pdf}
+    \caption[final energy frac split short]
+    {final energy frac split long}
+    \label{fig:final_energy_frac_split}
+\end{figure}
 
 \begin{figure} % FINAL 2D ENERGY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_2d.pdf}
     \caption[final energy 2d short]
     {final energy 2d long}
     \label{fig:final_energy_2d}
+\end{figure}
+
+\begin{figure} % FINAL 2D ENERGY DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_energy_2d_cats.pdf}
+    \caption[final energy 2d cats short]
+    {final energy 2d cats long}
+    \label{fig:final_energy_2d_cats}
 \end{figure}
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
@@ -1407,7 +1440,6 @@ DIAGRAM: Neutrino energy and estimated neutrino energy distributions on same plo
 INFO: Table of the final number of expected events and efficiency and purity of the signal at the
 chosen cut value (nuel and numu)
 INFO: Super-k/Dune/Nova comparison numbers for efficiencies and energy resolutions etc...
-DIAGRAM: Table of how successive cuts affect the selection of different event types
 
 \begin{figure} % FINAL NUEL ENERGY DIST DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_passed_energy_dist.pdf}
