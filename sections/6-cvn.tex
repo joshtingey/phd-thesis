@@ -850,7 +850,7 @@ differences from the literature defined network, discussed below.
           \emph{two-dimensional spatial dropout}. The dropout after the fully-connected layers, is
           normal, in that it drops out individual fully-connected neurons.
 
-    \item Give seed parameters are concatenated with the flattened layer before the
+    \item Five seed parameters are concatenated with the flattened layer before the
           fully-connected layers. There are the three components of the estimated interaction
           vertex position and the two components of the estimated track direction ($s_{x},s_{y},
               s_{z},s_{\theta},s_{\phi}$). This provides the network with spatial context as to where
@@ -1180,29 +1180,30 @@ $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the 
 events generated to mimic the appeared $\nu_{e}$ component. In this work, only the neutrino mode
 (forward horn current) of NuMI beam operation is considered for simplicity.
 
-THIS INCLUDES EXPECTED FLUX, CROSS-SECTIONS AND STANDARD OSCILLATION PROBABILITIES.
-
 All evaluation events are weighted to match the expected spectrum in the 5 kton \chipsfive
-detector running for a year in the NuMI beam, corresponding to $6\times 10^{20}$ protons on target
-(POT). An expected cosmic rate of \unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of
-overburden is assumed, rejecting those that fall outside the NuMI beam spill window. For
-simplicity, the neutrino and antineutrino components of the beam are combined as they are
-impossible to tell apart in practice. The final weighted spectrum of events is shown in
-Fig.~\ref{fig:explore_osc_fluxes}. Furthermore, the evaluation sample contains the expected
-combination of underlying beam interaction types, as shown in
-Fig.~\ref{fig:explore_stacked_int_types}.
+detector, generated using the expected unoscillated flux, cross-sections, and standard oscillation
+probabilities. Further weighting also scales the events to match running in the NuMI beam for a
+year, corresponding to $6\times 10^{20}$ protons on target (POT). For cosmic events, a rate of
+\unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of overburden is assumed, rejecting events
+that fall outside the NuMI beam spill window. For simplicity, the neutrino and antineutrino
+components of the beam are also combined as they are impossible to tell apart in practice. The
+final weighted spectrum of events is shown in Fig.~\ref{fig:explore_osc_fluxes}. Furthermore, the
+evaluation sample contains the expected combination of underlying beam interaction types, as shown
+in Fig.~\ref{fig:explore_stacked_int_types}.
 
 \begin{figure} % OSC FLUXES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
     \caption[Weighted spectrum of evaluation sample events.]
     {The weighted spectrum of events contained within the evaluation sample. The weighting is
-        designed to mimic the expected beam neutrino event spectrum of the \chips detector by
-        combining the expected un-oscillated flux with cross-sections and standard oscillation
-        probabilities. Shown in blue, green and olive are the survived CC $\nu_{\mu}$, appeared CC
+        designed to mimic the expected event spectrum of the \chips detector. Beam events are
+        weighted by combining the expected un-oscillated flux with cross-sections and standard
+        oscillation probabilities, while cosmic events are weighted using the expected rate and
+        overburden. Shown in blue, green and olive are the survived CC $\nu_{\mu}$, appeared CC
         $\nu_{e}$ and the intrinsic beam CC $\nu_{e}$ spectra respectively, binned in terms of
-        their neutrino energy. Shown in red is the NC event spectra binned in terms of the energy
-        of the hadronic system (excluding the outgoing neutrino energy) to represent the energy
-        visible to the detector better.}
+        their neutrino energy. Additionally, shown in red is the NC event spectra binned in terms
+        of the energy of the hadronic system (excluding the outgoing neutrino energy) to represent
+        the energy visible to the detector better. Finally, shown in black is the cosmic muon
+        event spectra binned in terms of the muon energy.}
     \label{fig:explore_osc_fluxes}
 \end{figure}
 
@@ -1216,11 +1217,11 @@ Fig.~\ref{fig:explore_stacked_int_types}.
     \label{fig:explore_stacked_int_types}
 \end{figure}
 
-A simple preselection separate from any CNN work is applied to all events in the evaluation
+Separate from any CNN driven work a simple preselection is applied to all events in the evaluation
 sample. Designed to reject cosmic muon and NC events while keeping the efficiency of CC beam
 events high, the preselection consists of four simple cuts, shown in
 Fig.~\ref{fig:explore_simple_cuts}. Firstly, the total collected charge (photoelectrons) across
-all PMTs in an event must be greater than 250 photoelectrons. Secondly, the maximum Hough
+all PMTs in the event must be greater than 250 photoelectrons. Secondly, the maximum Hough
 transform space height must be greater than 250 photoelectrons. Thirdly, the leading seed
 $\cos(\theta)$ direction must be between $\pm$0.7. Finally, the leading seed $\phi$ direction must
 be between $\pm$1.1. The first two cuts reject low energy events which are usually NC in nature,
@@ -1234,17 +1235,19 @@ while the last two reject events whose activity is not along the beamline, typic
     \label{fig:explore_simple_cuts}
 \end{figure}
 
-\subsection{Cosmic rejection and containment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosmic rejection and containment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The `cosmic score' output from the trained cosmic rejection network gives excellent separation
 between beam like (output close to zero) and cosmic like (output close to one) events, as can be
-seen in Fig.~\ref{fig:cosmic_outputs}. The vast majority of beam like events in fact have a score
-incredibly close to zero as is more clearly shown in Fig.~\ref{fig:cosmic_zoomed_outputs}.
+seen in Fig.~\ref{fig:cosmic_outputs}. Importantly, the vast majority of beam events have a score
+incredibly close to zero as is more clearly shown in Fig.~\ref{fig:cosmic_zoomed_outputs}. Given
+this, a `cosmic score' value above 0.0001 is chosen by inspection to reject cosmic like events.
+Out of the total 350000 cosmic events in the evaluation sample, all are rejected by this cut.
 
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
-    \caption[Distribution of cosmic rejection output values]
+    \caption[Distribution of cosmic score output values.]
     {Distribution of `cosmic score' output values for the different event categories. A score
         close to one signifies a cosmic like event, while a score close to zero corresponds to a
         beam like event.}
@@ -1253,44 +1256,48 @@ incredibly close to zero as is more clearly shown in Fig.~\ref{fig:cosmic_zoomed
 
 \begin{figure} % COSMIC OUTPUTS ZOOMED DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_zoomed_outputs.pdf}
-    \caption[final cosmic zoomed outputs short]
-    {final cosmic zoomed outputs long}
+    \caption[Distribution of cosmic score output values close to zero.]
+    {Distribution of `cosmic score' output values close to zero for the different event
+        categories. The cosmic rejection cut value at 0.0001 is shown with the arrow showing the
+        events that are selected. Note that no cosmic events are within the range shown due to the
+        statistical limitations of the evaluation sample.}
     \label{fig:cosmic_zoomed_outputs}
 \end{figure}
 
-By inspection, a `cosmic score' value above 0.0001 is chosen to reject cosmic like events. Out of
-the total 350000 cosmic events in the evaluation sample, zero pass this cut. Although not
-statistically significant due to the expected $\approx$1.2 million cosmic events per year, due to
-computational constraints a sample of sufficient size is deemed too difficult to generate in this
-work. JUSTIFY WHY THIS IS OKAY TO THINK COSMIC REJECTION IS SUFFICIENT, JUST NEEDS TO BE LOWER
-THAN NOVA 5\% FOR EXAMPLE.
+It is crucial for accurate neutrino energy estimation that the activity of an event is fully
+contained within the volume of the detector. If charged event particles instead leave the detector
+and emit Cherenkov radiation not captured by PMTs, it can be incredibly difficult to estimate the
+resulting missing energy and hence the neutrino energy. Within the \chipsfive detector, this is
+particularly important for CC $\nu_{\mu}$ events for which only 44\% of the primary charged muons
+are fully contained within the detector volume.
 
-The second output from the cosmic rejection network
+Therefore, the second output from the cosmic rejection network `escapes score' is also used to
+select events. Although, this only considers the primary charged lepton instead of all event
+particles, it still acts as a reasonably simplified proxy from event containment. The distribution
+of `escapes score' output values from the trained cosmic rejection network is shown in
+Fig.~\ref{fig:final_escapes_outputs}.
 
-Aim to get a sample of reasonably energetic beam events that are fully contained and have the
-majority of their activity along the beam line.
-
-The second output from the cosmic rejection network `escapes score'. A value of 0.5 is chosen by
-inspection.
-
-- Estimating the energy of events requires that they are fully contained within the detector!
-Difficult to estimate how much energy is missing if they escape.
-
-- Using simple definition of escaping, in that the primary lepton escapes
-- Vast majority of nuel CC events are contained!
-- For the energies \chips has, a large proportion of the numu are not contained, 44\% are fully
-contained within the detector volume. Can't estimate their energy!
-- For numu 97\% contained are classified as contained and 96\% escaped are classified as escaped.
-- Therefore contained sample is 95\% purity, which is good!
+A value below 0.5 is chosen by inspection to select events for which the primary charged lepton is
+fully contained within the detector. With this selection, 97\%(96\%) of CC $\nu_{\mu}$ events for
+which the primary charged lepton is contained within(escapes) the detector are classified
+correctly, resulting in a 95\% purity for the selected `contained' CC $\nu_{\mu}$ sample. As
+expected, the vast majority of CC $\nu_{e}$ and NC events are selected.
 
 \begin{figure} % ESCAPES OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_escapes_outputs.pdf}
-    \caption[final escapes outputs short]
-    {NC events are not used in training so their meaning on this is quite arbitrary, most are
-        deemed to be contained. Network is likely just learning that muon like events are escaped ones
-        maybe.}
+    \caption[Distribution of escapes score output values.]
+    {Distribution of `escapes score' output values for the different event categories. A score
+        close to one signifies an escaped primary charged lepton like event, while a score close
+        to zero corresponds to a contained primary charged lepton like event. The containment cut
+        value at 0.5 is shown with the arrow representing the events that are selected.}
     \label{fig:final_escapes_outputs}
 \end{figure}
+
+The total number of events per year that pass each successive cut (including preselection) for
+each event category is shown in Table.~\ref{tab:selection}. Both CC $\nu_{e}$ categories are
+selected with an efficiency greater than 90\%, while $\nu_{\mu}$ events are heavily reduced due to
+their containment. Furthermore, NC events are primarily rejected by the preselection, while cosmic
+events are heavily rejected by both the preselection and `cosmic score' cuts.
 
 \begin{table}
     \begin{tabular}{lccccc}
@@ -1303,24 +1310,67 @@ contained within the detector volume. Can't estimate their energy!
         \midrule
         Efficiency         & 0.923                 & 0.400                   & 0.940             & 0.662 & 0.000   \\
     \end{tabular}
-    \caption[Number of events passing cuts for each event category.]
-    {Number of events passing each successive cut for each of the main event categories.
-        The efficiency after all the cuts have been applied is also shown.}
+    \caption[Number of events passing basic cuts for each event category.]
+    {Table showing the total number of events and the number that pass successive contained beam
+        selection cuts for the different event categories. Those that pass the preselection, the
+        `cosmic score' cut, and the `escapes score' cut are shown.}
     \label{tab:selection}
 \end{table}
 
+When compared to the approximately 1.2 million expected cosmic events per year, the zero out of
+350000 evaluation events that pass the cuts is not statistically significant. However, due to
+computational constraints, a sufficiently sized cosmic evaluation sample is deemed infeasible for
+this work.
+
+To more accurately gauge the number of cosmic events likely to be classified as beam events, we
+consider the more statistically significant number that pass a loose `cosmic score' cut below a
+value of 0.9. In this case, 501 out of 350000 evaluation sample cosmic events are selected, which
+when weighted corresponds to 2384 events per year. After the preselection and `escapes score' cuts
+have also been applied only 38 or when weighted 180 cosmic events survive. This corresponds to a
+rejection factor for cosmic muon events of $1.5\times10^{-4}$.
+
+Furthermore of the surviving 180 cosmic events, 95 would be selected as CC $\nu_{\mu}$ events and
+zero as CC $\nu_{e}$ events by the beam classification detailed in the following section. This
+incredibly generous estimation, therefore, predicts a 10\% contamination for the beam CC
+$\nu_{mu}$ selection and a negligible contamination for the beam CC $\nu_{e}$ selection. In
+reality, both are likely to be lower. Due to the constraints of the evaluation sample outlined
+above, we do not consider cosmic events for the rest of this section.
 
 \subsection{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The output values from each of the `combined category' neurons of the trained beam classification
+network give the probability score that the event in question belongs to the corresponding
+category. As the output neuron scores collectively sum to one, the highest scoring neuron can be
+used to simply classify events as either CC $\nu_{e}$, CC $\nu_{\mu}$, or NC in nature.
+Fig.~\ref{fig:final_comb_cat_confusion}, shows the resulting classification matrix for this
+approach.
+
 \begin{figure} % FINAL COMB CAT CONFUSION DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_comb_cat_confusion.pdf}
-    \caption[final comb cat confusion short]
-    {final comb cat confusion long}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_comb_cat_confusion.pdf}
+    \caption[Classification matrix for the trained beam classification network.]
+    {Classification matrix for the `combined category' output of the trained beam classification
+        network. Events are simply classified using the categorical score for which they have the
+        highest value. The numbers shown are the fraction of true category events that are
+        classified into each of the three possible categories.}
     \label{fig:final_comb_cat_confusion}
 \end{figure}
 
-\subsubsection*{Appeared $\nu_{e}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To access the beam classification performance more rigorously it is instead common to calculate a
+selection value for each of the output scores found by maximising a figure-of-merit. In this work
+two figure-of-merit values are optimised, $\mathrm{efficiency}\times\mathrm{purity}$ and $s/\sqrt{b}$, where $s$
+and $b$ are the number of selected signal and background events respectively. The first optimises
+for an efficient sample, while the second optimises for a pure sample. Below are the results for
+both CC $\nu_{e}$ and CC $\nu_{e\mu}$ selections.
+
+\subsubsection*{CC $\nu_{e}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The distribution of output CC $\nu_{e}$ scores for the different event categories is shown in
+Fig.~\ref{fig:final_beam_nuel_outputs}. Excellent separation between appeared CC $\nu_{e}$ signal
+and both CC $\nu_{\mu}$ and NC background events is achieved, especially given the large
+discrepancy in sample size. As no attempt is made to separate the appeared CC $\nu_{e}$ signal
+component from the intrinsic beam CC $\nu_{e}$ background, both are clustered with event scores
+close to one as expected.
 
 \begin{figure} % BEAM OUTPUTS NUEL DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_beam_nuel_outputs.pdf}
@@ -1329,12 +1379,36 @@ contained within the detector volume. Can't estimate their energy!
     \label{fig:final_beam_nuel_outputs}
 \end{figure}
 
+The efficiency, purity, and their product for all CC $\nu_{e}$ events (both appeared and beam) as
+a function of selecting events above a certain CC $\nu_{e}$ score value is shown in
+Fig.~\ref{fig:final_nuel_eff_curves}. The maximum $\mathrm{efficiency}\times\mathrm{purity}$
+value, the first of the two figure-of-merits, is found at a CC $\nu_{e}$ score of 0.8 as can be
+seen. The number of selected events for each event category and corresponding signal efficiency
+and purity for both optimised figure-of-merits is shown in Table.~\ref{tab:nuel_selection}.
+
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_eff_curves.pdf}
     \caption[final nuel eff curves short]
     {final nuel eff curves long}
     \label{fig:final_nuel_eff_curves}
 \end{figure}
+
+\begin{table}
+    \begin{tabular}{ccccccc}
+        Selection                               & Appeared CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Efficiency & Purity \\
+        \midrule
+        Pre+cos+esc                             & 40.8                  & 818.0          & 33.0              & 231.0 & 0.923      & 0.036  \\
+        \midrule
+        $\mathrm{eff}\times\mathrm{pur}$ (0.80) & 31.3                  & 6.1            & 26.7              & 17.6  & 0.708      & 0.383  \\
+        $s/\sqrt{b}$ (0.97)                     & 16.9                  & 0.9            & 17.9              & 3.6   & 0.382      & 0.430  \\
+    \end{tabular}
+    \caption[Table showing CC $\nu_{e}$ selected event numbers.]
+    {Table showing CC $\nu_{e}$ selected event numbers for the various event categories as well as
+        associated appeared CC $\nu_{e}$ efficiency and purity. Shown are the post preselection,
+        `cosmic score' and `escapes score' numbers in addition to the two different
+        figure-of-merit optimisations for which the cut value is also given in brackets.}
+    \label{tab:nuel_selection}
+\end{table}
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_hists.pdf}
@@ -1343,7 +1417,7 @@ contained within the detector volume. Can't estimate their energy!
     \label{fig:final_nuel_hists}
 \end{figure}
 
-\subsubsection*{Survived $\nu_{\mu}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{CC $\nu_{\mu}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % BEAM OUTPUTS NUMU DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_beam_numu_outputs.pdf}
@@ -1358,6 +1432,23 @@ contained within the detector volume. Can't estimate their energy!
     {final numu eff curves long}
     \label{fig:final_numu_eff_curves}
 \end{figure}
+
+\begin{table}
+    \begin{tabular}{ccccccc}
+        Selection                                & CC $\nu_{\mu}$ & Appeared CC $\nu_{e}$ & Beam CC $\nu_{e}$ & NC    & Efficiency & Purity \\
+        \midrule
+        Pre+cos+esc                              & 818.0          & 40.8                  & 33.0              & 231.0 & 0.400      & 0.729  \\
+        \midrule
+        $\mathrm{eff}\times\mathrm{pur}$ (0.315) & 777.9          & 1.32                  & 1.37              & 29.3  & 0.380      & 0.961  \\
+        $s/\sqrt{b}$ (0.995)                     & 605.9          & 0.01                  & 0.03              & 0.25  & 0.296      & 0.999  \\
+    \end{tabular}
+    \caption[Table showing CC $\nu_{\mu}$ selected event numbers.]
+    {Table showing CC $\nu_{\mu}$ selected event numbers for the various event categories as well
+        as associated appeared CC $\nu_{\mu}$ efficiency and purity. Shown are the post
+        preselection, `cosmic score' and `escapes score' numbers in addition to the two different
+        figure-of-merit optimisations for which the cut value is also given in brackets.}
+    \label{tab:numu_selection}
+\end{table}
 
 \begin{figure} % FINAL NUMU HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_hists.pdf}
