@@ -62,10 +62,10 @@ increase the speed of simulated data generation by many orders of magnitude.
 \label{sec:cvn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is essential to outline the standard event reconstruction and classification methods that have
-been used by the \chips project up till now. This is key for two main reasons. Firstly, to add
-context for comparison with the new CNN approach, as is done in
-Section~\ref{sec:cvn_results_comparison}. Secondly, to highlight the main weaknesses of these
-methods, motivating the new technique and making its advantages clear.
+been used by the \chips project until now, for two main reasons. Firstly, to add context for
+comparison with the new CNN approach, as is done in Section~\ref{sec:cvn_results_comparison}.
+Secondly, to highlight the main weaknesses of these methods, motivating the new technique and
+making its advantages clear.
 
 A \emph{maximum likelihood} method based on that implemented by MiniBooNE~\cite{patterson2009} is
 used for event reconstruction. Additionally, a simple neural network built using the TMVA
@@ -101,7 +101,7 @@ considered. Each cleaned slice is then run through simple vertex finding algorit
 the interaction position and time, as well and the initial track direction.
 
 A circular \emph{Hough transform} algorithm, traditionally used for water Cherenkov ring finding
-is then applied. The voting-based transformation produces as output a space within which rings of
+is then applied. The voting-based transformation produces an output space within which rings of
 PMT hits exist as single peaks. The track direction values are then further refined using this
 space, and a search for smaller peaks is carried out to indicate if multiple particles are likely
 to be involved. This process results in a list of seeds with a corresponding score related
@@ -236,10 +236,10 @@ samples for further analysis.
 
 The main limitation of this approach is that the input features are restricted to those that have
 been imagined (requiring extensive domain knowledge) and then implemented in software. The current
-list is almost certainly non-exhaustive of all the possible variables and combinations of
-variables that can, in theory, be used for discrimination between events. Additionally, any
-mistakes in the likelihood-based reconstruction and, therefore, input variables to the neural
-networks, can lead to incorrect categorisation of events.
+list is undoubtedly non-exhaustive of all the possible variables and combinations of variables
+that can, in theory, be used for discrimination between events. Additionally, any mistakes in the
+likelihood-based reconstruction and, therefore, input variables to the neural networks, can lead
+to incorrect categorisation of events.
 
 \section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -253,7 +253,8 @@ are well suited to this paradigm.
 
 Here we discuss the application of neural networks for \emph{supervised learning}, one of two
 broad machine learning categories that is concerned with using labelled example data to train
-algorithms. The other category of \emph{unsupervised learning}, where the properties of the dataset are inferred without example data is not discussed, however, will be used
+algorithms. The other category of \emph{unsupervised learning}, where the properties of the
+dataset are inferred without example data is not discussed, however, will be used
 Section.~\ref{sec:cvn_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -538,7 +539,7 @@ The other key operation used in CNNs is pooling. Pooling layers coarse-grain the
 information of the input via down-sampling to reduce the number of network parameters. \emph{Max
     pooling} or \emph{average pooling} are the two common ways this is achieved. In both cases, the
 input is first divided into rectangular regions, and then either the maximum or average value of
-the region is used as output, for max and average pooling respectively. This is illustrated in
+the region is used as output, for max and average pooling respectively. As illustrated in
 Fig.\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
@@ -676,8 +677,8 @@ generalisation.
 
 The output from a water Cherenkov detector such as \chips is a simple image of each event where
 two channels of information are known for each PMT: the number of collected photoelectrons, and
-the associated hit times. Therefore, it is a natural fit to use CNNs primarily developed for image
-based computer vision tasks for \chips event analysis.
+the associated hit times. Therefore, it is a natural fit to use CNNs primarily developed for
+image-based computer vision tasks for \chips event analysis.
 
 For this purpose, a Python-based software package named \emph{chipsnet}~\cite{chipsnet2020} has
 been built. By using the high-level \emph{Application Programming Interfaces}, (APIs) provided by
@@ -692,8 +693,8 @@ classification, and energy estimation share this common baseline with a few spec
 
 The primary difficulty in the application of CNNs to \chips is determining how to map an event
 captured on a cylindrical surface to a rectangular grid. Furthermore, this must be done in such a
-way as not to distort the underlying event topology which could inhibit network learning. To solve
-this problem, this work takes inspiration and then builds upon the ideas outlined in
+way as not to distort the underlying event topology which could inhibit network learning. As a
+solution, this work takes inspiration and then builds upon the ideas outlined in
 Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid as though it
 is viewed from its estimated interaction vertex position. The primary motivation behind this is to
 remove any detector shape effects and to focus on the underlying event topology and Cherenkov
@@ -736,9 +737,10 @@ using 8-bit encoding. This not only significantly reduces storage requirements b
 dramatically increases the speed with which data can be loaded during training (which turns out to
 be the primary bottleneck). For each map type, a range over which to encode from zero up to a
 \emph{cap-point} is chosen. This is selected to minimise the number of bin values that are capped
-at the maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points and associated
-percentage of bin values capped for each map type, while Fig.~\ref{fig:explore_8_bit_range} shows
-the distribution of bin values for each map across the encoded range.
+at the maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points, and
+associated percentage of bin values capped for each map type, while
+Fig.~\ref{fig:explore_8_bit_range} shows the distribution of bin values for each map across the
+encoded range.
 
 \begin{table}
     \begin{tabular}{lcc}
@@ -822,7 +824,7 @@ differences from the literature defined network, discussed below.
         through a further three VGG blocks. Both the number of convolutional units and kernels is
         shown for each block. The detailed block structure is shown within the grey box. The
         circular yellow $R$ and $Bn$ indicate the use of the ReLU activation function and batch
-        normalisation respectively. The flattened VGG blocks outputs are then concatenated with
+        normalisation, respectively. The flattened VGG blocks outputs are then concatenated with
         five seed parameters (seed pars) and passed through two fully-connected (FC) layers of 512
         neurons each before the output layer.}
     \label{fig:chipsnet}
@@ -833,8 +835,8 @@ differences from the literature defined network, discussed below.
           into three separate branches. Each branch contains two VGG blocks with two convolutional
           layers (four convolutional layers in total). The outputs from all branches are merged
           together using a concatenation layer before being fed to the rest of the network. This
-          structure allows for features from each event map to be learnt independently before
-          combined features are learnt by the rest of the network.
+          structure allows for features from each event map to be learnt independently before the
+          rest of the network learns combined features.
 
     \item Batch normalisation as described in Section.~\ref{sec:cvn_theory_reg} is included before
           the activation (ReLU) function for every convolutional layer.
@@ -865,12 +867,12 @@ convolution or a max-pooling layer to be easily structured into a full network d
 \subsection{Baseline outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_baseline_outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Many CNN applications are found to benefit from learning multiple tasks (both regression and/or
-classification) at the same time, using the same inputs. This is believed to be the case as
-training with multiple tasks tends to return a network with an improved generalised representation
-of the inputs. Thus, features learnt for one task can improve the performance of another.
-Additionally, multiple tasks work to regularise any one output from overfitting. Commonly named
-\emph{multi-task} learning, this methodology is used extensively in this work.
+Many CNN applications are found to benefit from learning multiple tasks at the same time, using
+the same inputs. This is believed to be the case as training with multiple tasks tends to return a
+network with an improved generalised representation of the inputs. Thus, features learnt for one
+task can improve the performance of another. Additionally, multiple tasks work to regularise any
+one output from overfitting. Commonly named \emph{multi-task} learning, this methodology is used
+extensively in this work.
 
 In order to train a network with multiple tasks (outputs), a loss function $E_{tot}$ must be
 defined to combine the individual loss functions for each task $E_{i}$. The simplest way to do
@@ -907,7 +909,7 @@ All three networks are trained using Tensorflow 2.3.0 on an 18 core CPU (36 thre
 equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The Tensorflow
 dataset API is used to create an efficient input data pipeline where data is loaded on-the-fly at
 training time. This ensures all GPU threads are utilised loading, decoding, and preprocessing data
-for the main GPU based calculations before being needed, maximising computational efficiency.
+for the primary GPU based calculations before being needed, maximising computational efficiency.
 
 During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
 between zero and one. Additionally, a random factor scaling is applied to each map bin. Generated
@@ -952,12 +954,11 @@ is the result of extensive testing designed to maximise the selection of a pure 
 sample of $\nu_{e}$ beam events whose neutrino energy can also be accurately determined.
 
 For example, if cosmic and beam classification are combined into a single network, both objectives
-see a reduction in performance, hence they are separated. The same is also true if either
-classification task and neutrino energy estimation are combined. However, specific secondary
-outputs such as counting the number of primary particles in conjunction with beam classification
-are seen to improve performance. It is clear, therefore, that the multi-task approach only works
-for tasks that require a similar representation of the inputs to be learnt by the network. Put
-simply; the tasks must be similar.
+see a reduction in performance. The same is also true if either classification task and neutrino
+energy estimation are combined. However, specific secondary outputs such as counting the number of
+primary particles in conjunction with beam classification are seen to improve performance. It is
+clear, therefore, that the multi-task approach only works for tasks that require a similar
+representation of the inputs to be learnt by the network. Put simply; the tasks must be similar.
 
 \subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1019,18 +1020,19 @@ takes approximately 15 hours.
 \label{sec:cvn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The beam classification network aims to separate beam events by their interaction type primarily
-to select a pure and efficient sample of appeared $\nu_{e}$ events. Therefore, the primary task is
-a categorical classification between CC $\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is
-made to separate the appeared CC $\nu_{e}$ and intrinsic beam CC $\nu_{e}$ components as they are
-impossible to tell apart. Similar to the implementation used by DUNE~\cite{collaboration2020},
+to select a pure and efficient sample of appeared $\nu_{e}$ events, but also a sample of survived
+CC $\nu_{\mu}$ events. Therefore, the primary task is a categorical classification between CC
+$\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is made to separate the appeared CC $\nu_{e}$
+and intrinsic beam CC $\nu_{e}$ components as they are impossible to tell apart, except for their
+energy distributions. Similar to the implementation used by DUNE~\cite{collaboration2020},
 alongside the core classification additional classification and particle counting tasks outlined
-below are included that improve performance.
+below are included to improve performance.
 
 The network is trained on a sample of 1.67 million simulated events, roughly half $\nu_{\mu}$ beam
 events, and half $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All
 events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
 spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
-The full sample is split 95\% to 5\% for the training and validation, respectively.
+The full sample is split 95\% to 5\% for training and validation, respectively.
 
 \begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_beam_training_sample.pdf}
@@ -1050,13 +1052,13 @@ There are nine outputs to the beam classification network:
           zero and one for each of CC-QE, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to
           one). The categorical cross-entropy loss function in
           Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
-          weight of $1$. NC events are masked during training for this output, so they do not
-          contribute to the loss.
+          weight of $1$. NC events are masked (do not contribute to the loss) during training for
+          this output.
     \item \textbf{NC category (4 neurons):} Returns a classification probability score between
           zero and one for each of NC-Res, NC-DIS, NC-Coh and NC-other (summing to one). The
           categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$. CC events are masked during
-          training for this output, so they do not contribute to the loss.
+          used for training with a simple multi-task weight of $1$. CC events are masked (do not
+          contribute to the loss) during training for this output.
     \item \textbf{Electron count (4 neurons):} Returns a classification probability score between
           zero and one for each of 0, 1, 2, and 3+ electrons in the final state (summing to one).
           The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
@@ -1107,27 +1109,27 @@ takes approximately 15 hours.
 Accurate neutrino energy estimation is accomplished using multiple networks trained on separate
 samples of $\nu_{e}$ and $\nu_{\mu}$ events across multiple CC interaction types. It is found that
 separation such as this results in greater performance than if a single energy estimation network
-or even separate $\nu_{e}$ and $\nu_{\mu}$ networks are trained. This is expected as a single
-network should to be unable to capture the differing event topology features that contribute to
-the energy for every type of event.
+or even separate $\nu_{e}$ and $\nu_{\mu}$ networks are trained. This is expected as a single set
+of network weights is unlikely to be able to capture the specific topological features that
+contribute to the energy for all types of event.
 
 Alongside the primary neutrino energy regression task, additionally learning the primary charged
 lepton energy and the interaction vertex position and time is found to improve performance.
 Although this improvement is relatively small for neutrino energy estimation, it dramatically
-improves primary charged lepton energy estimation compared to being predicted alone. With the two
+improves primary charged lepton energy estimation when compared to being predicted alone. With two
 energy tasks, the network is encouraged to learn how the primary charged lepton and neutrino
 energies are related. As the interaction vertex position within the detector and hence distance
 from the instrumented wall can impact the number of deposited photoelectrons, there is motivation
-as to why these additional tasks are helpful.
+as to why these additional tasks are also helpful.
 
-Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, CC-DIS, and CC-Coh for both
-$\nu_{e}$ and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each.
-Only events for which the primary charged lepton is fully contained within the detector volume are
-considered. All events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips
-$\nu_{\mu}$ energy spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared
-$\nu_{e}$ signal. Each sample is split 95\% to 5\% for the training and validation, respectively.
-Note that CC-QE and CC-MEC neutrino energy estimation is combined as both have incredibly similar
-final state topologies.
+Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$ and
+$\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. Only events for
+which the primary charged lepton is fully contained within the detector volume are considered. All
+events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
+spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
+Each sample is split 95\% to 5\% for training and validation, respectively. Note that CC-QE and
+CC-MEC neutrino energy estimation is combined as both have incredibly similar final state
+topologies.
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}
@@ -1182,7 +1184,7 @@ events generated to mimic the appeared $\nu_{e}$ component. In this work, only t
 
 All evaluation events are weighted to match the expected spectrum in the 5 kton \chipsfive
 detector, generated using the expected unoscillated flux, cross-sections, and standard oscillation
-probabilities. Further weighting also scales the events to match running in the NuMI beam for a
+probabilities. Additional weighting also scales the events to match running in the NuMI beam for a
 year, corresponding to $6\times 10^{20}$ protons on target (POT). For cosmic events, a rate of
 \unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of overburden is assumed, rejecting events
 that fall outside the NuMI beam spill window. For simplicity, the neutrino and antineutrino
@@ -1217,9 +1219,9 @@ shown in Fig.~\ref{fig:explore_stacked_int_types}.
     \label{fig:explore_stacked_int_types}
 \end{figure}
 
-Separate from the CNN driven work a simple preselection is applied to all events in the evaluation
-sample. Designed to reject cosmic muon and NC events while keeping the efficiency of CC beam
-events high, the preselection consists of four simple cuts, shown in
+Separate from the CNN driven work, a simple preselection is applied to all events in the
+evaluation sample. Designed to reject cosmic muon and NC events while keeping the efficiency of CC
+beam events high, the preselection consists of four simple cuts, shown in
 Fig.~\ref{fig:explore_simple_cuts}. Firstly, the total collected charge (photoelectrons) across
 all PMTs in the event must be greater than 250 photoelectrons. Secondly, the maximum Hough
 transform space height must be greater than 250 photoelectrons. Thirdly, the leading seed
@@ -1235,17 +1237,18 @@ cosmic events.
         event categories. The greyed out areas show the regions for which events are rejected.}
     \label{fig:explore_simple_cuts}
 \end{figure}
-
 \subsection{Cosmic rejection and containment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The `cosmic score' output from the trained cosmic rejection network gives excellent separation
 between beam like (output close to zero) and cosmic like (output close to one) events, as can be
-seen in Fig.~\ref{fig:cosmic_outputs}. Importantly, the vast majority of beam events have a score
-incredibly close to zero as is more clearly shown in Fig.~\ref{fig:cosmic_zoomed_outputs}. Given
-this, a `cosmic score' above 0.0001 is chosen by inspection to reject cosmic like events. Out of
-the total 350000 cosmic events in the evaluation sample, all are rejected after preselection and
-this cut.
+seen in Fig.~\ref{fig:cosmic_outputs}. Importantly, the vast majority of beam events are
+associated with a score incredibly close to zero as is more clearly shown in
+Fig.~\ref{fig:cosmic_zoomed_outputs}. Given this, a tight cut of a `cosmic score' below 0.0001 is
+chosen by inspection to accept beam like events. Out of the total 350000 cosmic events in the
+evaluation sample, all are rejected by this cut along with preselection. Without the addition of
+the second `escapes score' output, a trained cosmic rejection network instead allow five cosmic
+events to pass preselection and the cut above.
 
 \begin{figure} % COSMIC OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_outputs.pdf}
@@ -1274,7 +1277,7 @@ particularly important for CC $\nu_{\mu}$ events for which only 44\% of the long
 charged muons are fully contained within the detector volume.
 
 Therefore, the second output from the cosmic rejection network `escapes score' is also used to
-select events. Although, this only considers the primary charged lepton instead of all event
+select events. Although this only considers the primary charged lepton instead of all event
 particles, it still acts as a reasonable simplified proxy for event containment. The distribution
 of `escapes score' output values from the trained cosmic rejection network is shown in
 Fig.~\ref{fig:final_escapes_outputs}.
@@ -1321,15 +1324,15 @@ preselection and `cosmic score' cuts.
 \end{table}
 
 When compared to the approximately 1.2 million expected cosmic events per year, the zero out of
-350000 evaluation events that are selected is not statistically significant. However, due to
-computational constraints, generation of a sufficiently sized cosmic evaluation sample is deemed
-infeasible for this work.
+350000 evaluation events that are selected are not statistically significant. However, due to
+computational constraints, the generation of a sufficiently sized cosmic evaluation sample is
+deemed infeasible for this work.
 
 To more accurately gauge the number of cosmic events likely to be classified as beam events, we
-consider the more statistically significant number that pass a loose `cosmic score' cut below a
+consider the more statistically significant number that passes a loose `cosmic score' cut below a
 value of 0.9. In this case, 501 out of 350000 evaluation sample cosmic events are selected, which
 when weighted corresponds to 2384 events per year. After the preselection and `escapes score' cuts
-have also been applied only 38 or when weighted 180 cosmic events survive. This corresponds to a
+have also been applied only 38 or when weighted 180 cosmic events survive, corresponding to a
 rejection factor of $1.5\times10^{-4}$.
 
 Furthermore of the surviving 180 cosmic events, 95 are selected as CC $\nu_{\mu}$ events and zero
@@ -1345,14 +1348,15 @@ sample outlined above, we do not consider cosmic events for the rest of the resu
 
 The output values from each of the `combined category' neurons of the trained beam classification
 network give the probability score that an event belongs to the corresponding category. As the
-output neuron scores collectively sum to one, the highest scoring neuron can be used to simply
-classify events as either CC $\nu_{e}$, CC $\nu_{\mu}$, or NC in nature.
+output neuron scores collectively sum to one, the highest-scoring neuron can be used to classify
+events as either CC $\nu_{e}$, CC $\nu_{\mu}$, or NC in nature.
 Fig.~\ref{fig:final_comb_cat_confusion}, shows the resulting classification matrix for this
 approach.
 
 \begin{figure} % FINAL COMB CAT CONFUSION DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cvn/chipsnet/final_comb_cat_confusion.pdf}
-    \caption[Classification matrix for the trained beam classification network.]
+    \caption[Classification matrix for the `combined category' output of the beam classification
+        network.]
     {Classification matrix for the `combined category' output of the trained beam classification
         network. Events are simply classified using the categorical score for which they have the
         highest value. The numbers shown are the fraction of true category events that are
@@ -1361,11 +1365,10 @@ approach.
 \end{figure}
 
 To access the beam classification performance more rigorously it is instead common to calculate a
-selection value for each of the output scores, found by maximising a figure-of-merit. In this work
-two figure-of-merit values are optimised, $\mathrm{efficiency}\times\mathrm{purity}$ and
-$s/\sqrt{b}$, where $s$ and $b$ are the number of selected signal and background events
-respectively. The first optimises for an efficient sample, while the second optimises for a pure
-sample. Below are the results for both CC $\nu_{e}$ and CC $\nu_{\mu}$ selection.
+selection score for each of the output categories, found by maximising a figure-of-merit. All
+events above the optimised score are then accepted as signal. In this work the figure-of-merit
+$\mathrm{efficiency}\times\mathrm{purity}$ is optimised to give an efficient sample. Below are the
+results for both appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections.
 
 \subsubsection*{CC $\nu_{e}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1389,18 +1392,18 @@ one as expected.
 The efficiency, purity, and their product for CC $\nu_{e}$ events (both appeared and beam) as a
 function of selecting events above a certain CC $\nu_{e}$ score value is shown in
 Fig.~\ref{fig:final_nuel_eff_curves}. The number of selected events for each event category and
-corresponding signal efficiency and purity for both optimised figure-of-merits is shown in
-Table.~\ref{tab:nuel_selection}. Both figure-of-merits are optimised considering both appeared and
+corresponding signal efficiency and purity for the optimised figure-of-merit is shown in
+Table.~\ref{tab:nuel_selection}. The figure-of-merit is optimised considering both appeared and
 beam CC $\nu_{e}$ components as signal. Due to their indistinguishable nature, this is the only
-approach that generates reasonable figure-of-merit values.
+approach that generates reasonable figure-of-merit cuts.
 
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$.]
     {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
         values of CC $\nu_{e}$ score selection. The maximum
-        $\mathrm{efficiency}\times\mathrm{purity}$ value, the first of the two figure-of-merits,
-        is found at a CC $\nu_{e}$ score of 0.8 as can be seen.}
+        $\mathrm{efficiency}\times\mathrm{purity}$ value, the figure-of-merit, is found at a CC
+        $\nu_{e}$ score of 0.8 as can be seen.}
     \label{fig:final_nuel_eff_curves}
 \end{figure}
 
@@ -1409,9 +1412,7 @@ approach that generates reasonable figure-of-merit values.
         Selection                               & Appeared CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Efficiency & Purity \\
         \midrule
         Pre+cos+esc                             & 40.8                  & 818.0          & 33.0              & 231.0 & 0.923      & 0.036  \\
-        \midrule
         $\mathrm{eff}\times\mathrm{pur}$ (0.80) & 31.3                  & 6.1            & 26.7              & 17.6  & 0.708      & 0.383  \\
-        $s/\sqrt{b}$ (0.97)                     & 16.9                  & 0.9            & 17.9              & 3.6   & 0.382      & 0.430  \\
     \end{tabular}
     \caption[Table showing CC $\nu_{e}$ selected event numbers.]
     {Table showing CC $\nu_{e}$ selected event numbers for the various event categories as well as
@@ -1428,11 +1429,11 @@ Fig.~\ref{fig:final_nuel_hists}. From low neutrino energies, both CC $\nu_{e}$ c
 efficiencies rise steeply to a plateau of 80\% beginning at \unit{4}{GeV}. This is expected as low
 energy CC $\nu_{e}$ events typically do not have well-defined electron Cherenkov rings, leading to
 their rejection. Due to the abundance of selected intrinsic beam CC $\nu_{e}$ events at higher
-energies the appeared CC $\nu_{e}$ purity is observed to peak at approximately \unit{2}{\GeV}
-before declining. The NC efficiency is seen to slowly increase approaching 10\% for hadronic
-system energies above \unit{8}{\GeV}; this is likely due to high energy pions being misidentified
-as electrons. However, within the important signal region from 2 to \unit{4}{\GeV}, NC selection
-efficiency remains very low.
+energies the appeared CC $\nu_{e}$ purity is observed to peak at approximately \unit{2.5}{\GeV}
+before declining. The NC efficiency is seen to slowly increase approaching 15\% for hadronic
+system energies above \unit{5}{\GeV}; this is likely due to high energy pions or protons being
+misidentified as electrons. Importantly, however, within the key signal region from 2 to
+\unit{4}{\GeV}, NC selection efficiency remains low.
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_hists.pdf}
@@ -1449,7 +1450,7 @@ efficiency remains very low.
 The distribution of CC $\nu_{\mu}$ scores for the different event categories is shown in
 Fig.~\ref{fig:final_beam_numu_outputs}. Excellent separation between appeared CC $\nu_{\mu}$
 signal and both CC $\nu_{e}$ components and NC background is achieved. For high CC $\nu_{\mu}$
-scores the difference between signal and background event counts is approximately 3 orders or
+scores the difference between signal and background event counts is approximately three orders of
 magnitude.
 
 \begin{figure} % BEAM OUTPUTS NUMU DIAGRAM %
@@ -1464,12 +1465,11 @@ The efficiency, purity, and their product for survived CC $\nu_{\mu}$ events as 
 selecting events above a certain CC $\nu_{\mu}$ score value is shown in
 Fig.~\ref{fig:final_numu_eff_curves}. The number of selected events for each event category and
 corresponding signal efficiency and purity for both optimised figure-of-merits is shown in
-Table.~\ref{tab:numu_selection}. An incredibly high purity of 99.9\% is achievable using the
-$s/\sqrt{b}$ figure-of-merit selection. Although the final selection efficiencies are low, at 38\%
-and 30\% for both figure-of-merits respectively, it should be remembered that that majority of
-this is due to selection of fully contained events which is desirable. For better comparison it is
-worth considering that of the truly contained CC $\nu_{\mu}$ events, using the first
-figure-of-merit, they are selected with 87\% efficiency.
+Table.~\ref{tab:numu_selection}. An incredibly high signal purity of 99.9\% is achieved using the
+$s/\sqrt{b}$ figure-of-merit selection. Although the final selection efficiency is low for both
+figure-of-merit optimisations, this is desirable to ensure events are fully contained for energy
+estimation. When considering just the CC $\nu_{\mu}$ events for which the primary charged muon
+is contained, an 87\% selection efficiency for the first figure-of-merit is achieved.
 
 \begin{figure} % FINAL NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_eff_curves.pdf}
@@ -1501,13 +1501,12 @@ figure-of-merit, they are selected with 87\% efficiency.
 
 The CC $\nu_{\mu}$ selection efficiency for the $\mathrm{eff}\times\mathrm{pur}$ figure-of-merit
 as a function of energy for the different event categories is shown in
-Fig.~\ref{fig:final_numu_hists}. Survived CC $\nu_{\mu}$ selection efficiency peaks at
-approximately \unit{2}{\GeV} before slowly declining, this is entirely due to higher energy events
-being less likely to have their primary charged lepton fully contained within the detector, so is
-a desired feature. The signal purity is observed to remain very high across all energies. As in
-the CC $\nu_{e}$ selection case the NC efficiency is seen to slowly rise with energy, again likely
-due to misidentification of energetic pions. However, again within the peak of CC $\nu_{\mu}$ the
-NC efficiency remains low.
+Fig.~\ref{fig:final_numu_hists}. Survived CC $\nu_{\mu}$ selection efficiency peaks just below
+\unit{2}{\GeV} before slowly declining, this is entirely explained by higher energy events being
+less likely to have their primary charged muon fully contained within the detector. The signal
+purity is observed to remain very high (>95\%) across the main signal energy region. As in the CC
+$\nu_{e}$ selection case the NC efficiency is seen to rise with energy, again likely due to
+misidentification of energetic protons and pions.
 
 \begin{figure} % FINAL NUMU HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_hists.pdf}
@@ -1521,17 +1520,26 @@ NC efficiency remains low.
 
 \subsubsection*{Interaction type classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-CC $\nu_{e}$ and CC $\nu_{\mu}$ selected events are further classified by interaction type using
-the `CC category' output from the beam classification network.
+Using the `CC category' output from the trained beam classification network, the CC interaction
+type for CC $\nu_{e}$ and CC $\nu_{\mu}$ selected events is also determined. As in the `combined
+category' output case the highest-scoring neuron can be used for classification. The resulting
+classification matrix is shown in Fig.~\ref{fig:final_cc_cat_confusion}.
 
-- This classification is then used during energy estimation discussed in the following section!
+- As the different final states will have different energy resolutions and sytematic
+uncertainties, it may be possible for a future analysis to improve the oscillation paramter
+sensitivity by indentifying subsamples with specific topologies.
 
 \begin{figure} % FINAL CC CAT CONFUSION DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cc_cat_confusion.pdf}
-    \caption[final cc cat confusion short]
-    {final cc cat confusion long}
+    \caption[Classification matrix for the `CC category' output of the beam classification
+        network.] {Classification matrix for the `CC category' output of the trained beam
+        classification network applied to the evaluation sample. The numbers shown are the
+        fraction of true category events that are classified into each of the three possible
+        categories.}
     \label{fig:final_cc_cat_confusion}
 \end{figure}
+
+- This classification is then used during energy estimation discussed in the following section!
 
 \begin{figure} % FINAL NC CAT CONFUSION DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nc_cat_confusion.pdf}
@@ -1541,6 +1549,10 @@ the `CC category' output from the beam classification network.
 \end{figure}
 
 \subsubsection*{Primary particle counting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Primary partile scores can be combined to give compounded scores for the exclusive final state
+selections.
+- Don't look at this in this work, just use the fact it increases primary task performance.
 
 \subsection{Energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1647,6 +1659,8 @@ in Ref.~\cite{jiang2019}
 \section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Simple PCA REF was also tried, but t-SNE was found to work much better as expected.
+
 \begin{figure} % COSMIC t-SNE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_tsne.pdf}
     \caption[final cosmic tsne short]
@@ -1682,7 +1696,7 @@ in Ref.~\cite{jiang2019}
     \label{fig:explain_example_event}
 \end{figure}
 
-\begin{figure} % BEAGLEBONE AND DANOUT DIAGRAM %
+\begin{figure} % ACTIVATIONS DIAGRAM %
     \centering
     \subcaptionbox{explain cosmic activations\label{fig:explain_cosmic_activations}}{%
         \includegraphics[height=16cm]{diagrams/6-cvn/chipsnet/explain_cosmic_activations.pdf}%
@@ -1720,33 +1734,36 @@ creates tight widely seperated clusters.
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Go through a few key interesting alternative implementations...
 
-- Fore completeness!
-
-As a nice sidenote I can then just mention a few things such as the input sample type, different
-architectures and different input representations that where tested to get to this final baseline
-implementation. Noting this interesting things and trying to explain why they may be physically.
+The work outlined in this chapter is the result of extensive testing and optimisation of many
+differing approaches to applying CNNs to \chips. Here we highlight some interesting findings from
+this process to both provide completeness, but also to hopefully inform future work on this topic.
 
 \subsubsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+There are many possible event representations that can be used as input to the CNNs in this work.
+Three different approaches are explored in this work!
 
 - New ideas with x+ x- mapping in Ref.~\cite{berns2020}
 - Fraction of deposited charge in endcaps = 0.4769380479133997
 
-\begin{equation} % ONE-HOT EQUATION %
+\begin{equation} % ISO CASE EQUATION %
     X_{\pm}=
     \begin{cases}
         1-\chi_{\mp} & (z \geq 0) \\
         \chi_{\pm}   & (z < 0)
     \end{cases}
+    \label{eq:iso_case}
 \end{equation}
 
-\begin{equation} % ONE-HOT EQUATION %
+\begin{equation} % ISO MAIN EQUATION %
     \chi_{\pm}=W(\rho,z)\frac{\pi\pm\phi}{2\pi}
+    \label{eq:iso_main}
 \end{equation}
 
-\begin{equation}
-    W(\rho,z)=\sqrt{\frac{\rho^{2}-2R\abs{z}+RH}{R^{2}+RH}}
+\begin{equation} % ISO PART EQUATION %
+    W(\rho,z)=\sqrt{\frac{\rho^{2}-2R|z|+RH}{R^{2}+RH}}
+    \label{eq:iso_part}
 \end{equation}
 
 - where R and Z are the radius and height of the detector cylinder and W is chosen for constant
@@ -1758,171 +1775,150 @@ important thing!!!
 taken a few Approaches to generating the input image representation.
 - Projecting onto a 2d surface "outside" the detector
 
-- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
-- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
-- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
-
-- Nuel-> ROC-AUC: 0.82178, PRC-AUC: 0.67486, S-Eff: 0.87439, S-Pur: 0.29114
-- FOM1-> 0.42202, 0.95500, 50.65626, 10.27209, 15.82963, 0.63948, 0.65995
-- FOM2-> 12.53864, 0.99000, 29.40728, 1.75353, 3.74706, 0.37123, 0.84243
-
-- Nuel-> ROC-AUC: 0.82116, PRC-AUC: 0.66987, S-Eff: 0.86660, S-Pur: 0.29764
-- FOM1-> 0.41895, 0.94500, 50.97483, 10.86474, 16.45768, 0.64350, 0.65104
-- FOM2-> 12.22739, 0.99000, 28.43808, 1.74364, 3.66555, 0.35900, 0.84019
+\begin{table}
+    \begin{tabular}{cccc}
+        Metric                   & Vertex View & Origin Raw View & Origin Iso View \\
+        \midrule
+        Maximum FOM              & 0.461       & 0.422           & 0.419           \\
+        Highest Score Efficiency & 0.878       & 0.874           & 0.867           \\
+        Highest Score Purity     & 0.354       & 0.291           & 0.298           \\
+        ROC Integral             & 0.825       & 0.822           & 0.821           \\
+        PRC Integral             & 0.707       & 0.675           & 0.670           \\
+    \end{tabular}
+    \caption[Comparison of performance metrics for three input image representations.]
+    {Comparison of performance metrics for the three input image representations considered. The
+        highest score selection uses the highest scoring output neuron for classification. The ROC
+        and PRC integrals are taken from the curves shown in
+        Fig.~\ref{fig:repr_nuel_comp_curves}.}
+    \label{tab:repr}
+\end{table}
 
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_eff_curves.pdf}
-    \caption[repr nuel eff curves short]
-    {v=solid, o=dashed, i=dotted}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations.]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+        values of CC $\nu_{e}$ score selection for the three input image representations
+        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
+            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
+        lines.}
     \label{fig:repr_nuel_eff_curves}
 \end{figure}
 
 \begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_comp_curves.pdf}
-    \caption[repr nuel comp curves short]
-    {v=solid, o=dashed, i=dotted}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/repr_nuel_comp_curves.pdf}
+    \caption[Comparison curves for the three input image representations considered.]
+    {Comparison curves for the three input image representations considered. Signal vs background
+        selection efficiencies as the CC $\nu_{e}$ score selection is varied (left). Signal CC
+        $\nu_{e}$ purity vs efficiency as the CC $\nu_{e}$ score selection is varied (right). The
+        \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
+        by the dashed lines, and the \emph{origin dotted} curves by the dotted lines. The left
+        plot contains what are commonly referred to as receiver-operator curves (ROC), while the
+        right plot contains precision-recall (PRC) curves.}
     \label{fig:repr_nuel_comp_curves}
 \end{figure}
 
-WHICH CHANNELS TO USE!!!
-- Nuel-> ROC-AUC: 0.82377, PRC-AUC: 0.68935, S-Eff: 0.86860, S-Pur: 0.35681
-- FOM1-> 0.43601, 0.91000, 53.71070, 12.22704, 17.60798, 0.67821, 0.64289
-- FOM2-> 12.70378, 0.99000, 20.73912, 0.76294, 1.90217, 0.26187, 0.88613
+\begin{table}
+    \begin{tabular}{cccc}
+        Metric                   & Charge & Charge+Time & Charge+Time+Hough \\
+        \midrule
+        Maximum FOM              & 0.436  & 0.461       & 0.465             \\
+        Highest Score Efficiency & 0.869  & 0.878       & 0.877             \\
+        Highest Score Purity     & 0.357  & 0.354       & 0.369             \\
+        ROC Integral             & 0.824  & 0.825       & 0.826             \\
+        PRC Integral             & 0.689  & 0.707       & 0.712             \\
+    \end{tabular}
+    \caption[Comparison of performance metrics for each additional input image map.]
+    {Comparison of performance metrics for each additional input image map. The highest score
+        selection uses the highest scoring output neuron for classification.}
+    \label{tab:chan}
+\end{table}
 
-- Nuel-> ROC-AUC: 0.82509, PRC-AUC: 0.70686, S-Eff: 0.87786, S-Pur: 0.35433
-- FOM1-> 0.46118, 0.93000, 52.98765, 8.61419, 15.27335, 0.66908, 0.68927
-- FOM2-> 13.26595, 0.98500, 29.74203, 1.43964, 3.58684, 0.37556, 0.85543
+\subsubsection*{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
-- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
-- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/sample_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for the different training samples.]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+        values of CC $\nu_{e}$ score selection for the different training samples considered. The
+        \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
+        by the dashed lines, and the \emph{origin dotted} surves by the dotted lines.}
+    \label{fig:sample_nuel_eff_curves}
+\end{figure}
 
-- Nuel-> ROC-AUC: 0.82521, PRC-AUC: 0.70198, S-Eff: 0.87180, S-Pur: 0.38254
-- FOM1-> 0.45819, 0.91500, 55.18628, 11.56662, 17.17741, 0.69684, 0.65753
-- FOM2-> 12.66558, 0.99000, 24.37959, 1.35104, 2.35408, 0.30784, 0.86807
+\begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/sample_nuel_comp_curves.pdf}
+    \caption[Comparison curves for the different training samples considered.]
+    {Comparison curves for the different training samples considered. Signal vs background
+        selection efficiencies as the CC $\nu_{e}$ score selection is varied (left). Signal CC
+        $\nu_{e}$ purity vs efficiency as the CC $\nu_{e}$ score selection is varied (right). The
+        \emph{flux+uniform} curves are shown by the solid lines, the \emph{flux} curves by the
+        dashed lines, and the \emph{uniform} curves by the dotted lines. The left plot contains
+        what are commonly referred to as receiver-operator curves (ROC), while the right plot
+        contains precision-recall (PRC) curves.}
+    \label{fig:sample_nuel_comp_curves}
+\end{figure}
+
+\begin{table}
+    \begin{tabular}{cccc}
+        Metric                   & Flux  & Uniform & Flux+Uniform \\
+        \midrule
+        Maximum FOM              & 0.465 & 0.339   & 0.386        \\
+        Highest Score Efficiency & 0.877 & 0.799   & 0.834        \\
+        Highest Score Purity     & 0.369 & 0.347   & 0.368        \\
+        ROC Integral             & 0.826 & 0.815   & 0.820        \\
+        PRC Integral             & 0.712 & 0.568   & 0.634        \\
+    \end{tabular}
+    \caption[Comparison of performance metrics for the different training samples considered.]
+    {Comparison of performance metrics for the different training samples considered. The highest
+        score selection uses the highest scoring output neuron for classification.}
+    \label{tab:sample}
+\end{table}
 
 \subsubsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - truncated versions of the other networks so they have approximately the same number of
 parameters to train for making a good comparison.
 
-vgg: 17,225,296 (88ms)
-- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
-- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
-- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
+\begin{table}
+    \begin{tabular}{ccccc}
+        Metric                   & VGG        & Inception  & ResNet     & Inception-ResNet \\
+        \midrule
+        Number of parameters     & 17,225,296 & 16,893,216 & 16,526,288 & 17,145,238       \\
+        Iteration time (ms)      & 88         & 192        & 112        & 209              \\
+        Maximum FOM              & 0.465      & 0.459      & 0.445      & 0.444            \\
+        Highest Score Efficiency & 0.877      & 0.870      & 0.869      & 0.874            \\
+        Highest Score Purity     & 0.369      & 0.373      & 0.374      & 0.349            \\
+        ROC Integral             & 0.825      & 0.825      & 0.824      & 0.824            \\
+        PRC Integral             & 0.712      & 0.706      & 0.688      & 0.699            \\
+    \end{tabular}
+    \caption[Comparison of performance metrics for the different network architectures considered.]
+    {Comparison of performance metrics the different network architectures considered. The highest
+        score selection uses the highest scoring output neuron for classification.}
+    \label{tab:arch}
+\end{table}
 
-inception: 16,893,216 (192ms)
-- Nuel-> ROC-AUC: 0.82519, PRC-AUC: 0.70632, S-Eff: 0.86992, S-Pur: 0.37332
-- FOM1-> 0.45910, 0.91500, 53.20954, 9.73154, 14.92970, 0.67188, 0.68331
-- FOM2-> 13.47965, 0.98500, 28.04995, 1.43802, 2.89217, 0.35419, 0.86627
+\subsubsection*{Alternative beam categorisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-resnet: 16,526,288 (112ms)
-- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.68789, S-Eff: 0.86926, S-Pur: 0.37417
-- FOM1-> 0.44511, 0.91000, 54.46409, 11.50537, 18.18029, 0.68772, 0.64723
-- FOM2-> 12.22026, 0.98000, 32.56108, 2.77151, 4.32813, 0.41115, 0.82099
+- The choice of categorisation can matter
+- All categories CC QE, Res, DIS, Coh, MEC, and other for both $\nu_{e}$ and $\nu_{\mu}$, plus NC
+Res, DIS, Coh, and other, for a total of 16 categories. You can then sum the scores as Nova have
+done etc.... to get the combined categories
+- Fully combined, you may think would work better as it just focuses on what we want to optimise.
+This is CC $\nu_{e}$, CC $\nu_{\mu}$, and NC.
+- Combined plus the CC and NC cats that are masked like in this work described above.
 
-inception-resnet: 17,145,238 (209ms)
-- Nuel-> ROC-AUC: 0.82444, PRC-AUC: 0.69946, S-Eff: 0.87369, S-Pur: 0.34882
-- FOM1-> 0.44448, 0.90500, 52.61119, 10.90981, 15.11323, 0.66433, 0.66906
-- FOM2-> 13.48962, 0.98500, 23.98040, 0.96809, 2.19211, 0.30280, 0.88356
-
-\subsubsection*{Cosmic rejection escapes} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- The use of the escapes
-- Out of full 352768 sample of cosmic events
-- 5 passed for just tcosmiccat
-- 0 passed for ["tcosmiccat", "tescapes"] simple
-- 2 passed for ["tcosmiccat", "tescapes"] learnt
-- Of the 5 and 2 that did pass they where all then classified as muons by beam classification
-- Escapes is very useful for getting rid of particles for which we don't have a good energy
-estimation.
-
-\subsubsection*{Beam classification categorisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-SPECIFIC INTEREST
-- The categorisation chosen matters
-- Here we choose the one that gives the best primary goal performance, taken from DUNE idea
-- DUNE tried counting exclusive final state particles (protons, chargedpions, neutral pions)
-- As the different final states will have different energy resolutions and sytematic
-uncertainties, it may be possible for a future analysis to improve the oscillation paramter
-sensitivity by indentifying subsamples with specific topologies.
-- Primary partile scores can be combined to give compounded scores for the exclusive final state
-selections.
-
-tallcat
-- Nuel-> ROC-AUC: 0.82559, PRC-AUC: 0.71155, S-Eff: 0.87661, S-Pur: 0.36928
-- FOM1-> 0.46510, 0.93000, 53.44422, 8.34671, 15.75487, 0.67485, 0.68920
-- FOM2-> 13.44645, 0.98500, 31.21664, 1.57028, 3.81933, 0.39418, 0.85277
-tnccombcat
-- Nuel-> ROC-AUC: 0.82572, PRC-AUC: 0.71436, S-Eff: 0.87689, S-Pur: 0.37236
-- FOM1-> 0.46493, 0.92000, 54.42203, 10.22693, 15.79040, 0.68719, 0.67656
-- FOM2-> 13.67173, 0.98500, 30.95016, 1.48142, 3.64341, 0.39081, 0.85794
-tcombcat
-- Nuel-> ROC-AUC: 0.82453, PRC-AUC: 0.69204, S-Eff: 0.87133, S-Pur: 0.35901
-- FOM1-> 0.45090, 0.91000, 53.90466, 10.23814, 17.22991, 0.68066, 0.66244
-- FOM2-> 12.48458, 0.98500, 27.91115, 1.34561, 3.65252, 0.35244, 0.84812
-splitcat
-- Nuel-> ROC-AUC: 0.82540, PRC-AUC: 0.71240, S-Eff: 0.87908, S-Pur: 0.35757
-- FOM1-> 0.46121, 0.93000, 53.32085, 9.15477, 15.36325, 0.67329, 0.68502
-- FOM2-> 13.86816, 0.99000, 24.32034, 0.80781, 2.26759, 0.30710, 0.88774
-splitcatlearn
-- Nuel-> ROC-AUC: 0.82578, PRC-AUC: 0.71645, S-Eff: 0.87190, S-Pur: 0.39323
-- FOM1-> 0.47189, 0.92500, 54.78695, 9.24055, 16.29189, 0.69180, 0.68211
-- FOM2-> 13.51890, 0.99000, 25.59982, 1.11573, 2.47011, 0.32325, 0.87714
-
-splitcatlearn
-- Nuel-> ROC-AUC: 0.82578, PRC-AUC: 0.71645, S-Eff: 0.87190, S-Pur: 0.39323
-- FOM1-> 0.47189, 0.92500, 54.78695, 9.24055, 16.29189, 0.69180, 0.68211
-- FOM2-> 13.51890, 0.99000, 25.59982, 1.11573, 2.47011, 0.32325, 0.87714
-splitcat+prim
-- Nuel-> ROC-AUC: 0.82605, PRC-AUC: 0.71910, S-Eff: 0.87147, S-Pur: 0.39157
-- FOM1-> 0.47744, 0.91500, 54.62613, 9.09373, 15.20058, 0.68977, 0.69217
-- FOM2-> 13.97009, 0.98500, 31.53940, 1.42745, 3.66948, 0.39825, 0.86088
-splitcat+primlearn
-- Nuel-> ROC-AUC: 0.82534, PRC-AUC: 0.71344, S-Eff: 0.86417, S-Pur: 0.39286
-- FOM1-> 0.46606, 0.89500, 55.07889, 8.83758, 18.27654, 0.69549, 0.67012
-- FOM2-> 14.07606, 0.99000, 23.35039, 0.47031, 2.28155, 0.29485, 0.89457
-
-\subsubsection*{Multi-task energy estimation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{figure} % ENERGY CHAN DISTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_dist.pdf}
-    \caption[energy chan frac dist short]
-    {energy chan frac dist long}
-    \label{fig:energy_chan_frac_dist}
-\end{figure}
-
-\begin{figure} % ENERGY CHAN FRAC VS E DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_chan_frac_vs_e.pdf}
-    \caption[energy chan frac vs e short]
-    {energy chan frac vs e long}
-    \label{fig:energy_chan_frac_vs_e}
-\end{figure}
-
-\begin{figure} % ENERGY PAR DISTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_par_frac_dist.pdf}
-    \caption[energy par frac dist short]
-    {energy par frac dist long}
-    \label{fig:energy_par_frac_dist}
-\end{figure}
-
-\begin{figure} % ENERGY PAR FRAC VS E DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/energy_par_frac_vs_e.pdf}
-    \caption[energy par frac vs e short]
-    {energy par frac vs e long}
-    \label{fig:energy_par_frac_vs_e}
-\end{figure}
-
-\begin{figure} % ENERGY SPLIT NUEL DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_energy_split_nuel_frac_vs_e.pdf}
-    \caption[final energy split nuel frac vs e short]
-    {final energy split nuel frac vs e long}
-    \label{fig:final_energy_split_nuel_frac_vs_e}
-\end{figure}
-
-\begin{figure} % ENERGY SPLIT NUMU DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_energy_split_numu_frac_vs_e.pdf}
-    \caption[final energy split numu frac vs e short]
-    {final energy split numu frac vs e long}
-    \label{fig:final_energy_split_numu_frac_vs_e}
-\end{figure}
+\begin{table}
+    \begin{tabular}{cccc}
+        Metric                   & All   & Full-Comb & Multi (learnt) \\
+        \midrule
+        Maximum FOM              & 0.465 & 0.451     & 0.471          \\
+        Highest Score Efficiency & 0.877 & 0.871     & 0.872          \\
+        Highest Score Purity     & 0.369 & 0.359     & 0.392          \\
+        ROC Integral             & 0.826 & 0.825     & 0.826          \\
+        PRC Integral             & 0.712 & 0.692     & 0.716          \\
+    \end{tabular}
+    \caption[Comparison of performance metrics for the different beam categorisations considered.]
+    {Comparison of performance metrics for the different beam categorisations considered. The highest
+        score selection uses the highest scoring output neuron for classification.}
+    \label{tab:cat}
+\end{table}
