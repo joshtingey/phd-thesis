@@ -818,8 +818,8 @@ Section.~\ref{sec:cvn_previous} and detailed in Ref.~\cite{simonyan2014} there a
 differences from the literature defined network, discussed below.
 
 \begin{figure} % CHIPSNET DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet.pdf}emph
-    \caption[chipsnet short]
+    \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet.pdf}
+    \caption[Illustrative diagram of the baseline chipsnet architecture.]
     {Illustrative diagram of the baseline chipsnet architecture. The three input event maps are
         separately passed through two VGG blocks each before their outputs are combined and passed
         through a further three VGG blocks. Both the number of convolutional units and kernels is
@@ -1365,7 +1365,7 @@ $\nu_{e}$ events by the beam classification, detailed in the following section.
 In summary, this generous cosmic estimation predicts a 10\% contamination of the beam CC
 $\nu_{\mu}$ selection and a negligible contamination for the beam CC $\nu_{e}$ selection. In
 reality, with a tighter cut, both are likely to be much lower. This is comparable to the
-approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen by
+approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen in
 NoVA~\cite{acero2019}. Due to the constraints of the evaluation sample outlined above, we do not
 consider cosmic events within the beam classification and energy estimation results.
 
@@ -1399,10 +1399,9 @@ both appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections are presented.
 
 The distribution of CC $\nu_{e}$ scores for the different event categories is shown in
 Fig.~\ref{fig:final_beam_nuel_outputs}. Strong separation between appeared CC $\nu_{e}$ signal and
-both CC $\nu_{\mu}$ and NC background events is achieved, especially given the large discrepancy
-in sample size. As no attempt is made to separate the appeared CC $\nu_{e}$ signal component from
-the intrinsic beam CC $\nu_{e}$ background, both are clustered with scores close to one as
-expected.
+both CC $\nu_{\mu}$ and NC background events is achieved, especially given the large difference in
+sample size. As no attempt is made to separate the appeared CC $\nu_{e}$ signal component from the
+intrinsic beam CC $\nu_{e}$ background, both are clustered with scores close to one as expected.
 
 \begin{figure} % BEAM OUTPUTS NUEL DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_beam_nuel_outputs.pdf}
@@ -1416,14 +1415,14 @@ expected.
 \end{figure}
 
 The efficiency, purity, and their product (the figure-of-merit) for CC $\nu_{e}$ events (both
-appeared and beam) as a function of selecting events above a certain CC $\nu_{e}$ score is shown
+appeared and beam) as a function of selecting events above a certain CC $\nu_{e}$ score are shown
 in Fig.~\ref{fig:final_nuel_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised
-by selecting events with a CC $\nu_{e}$ score above 0.8, achieving a value of 0.519. The
+by selecting events with a CC $\nu_{e}$ score above $0.8$, achieving a value of $0.519$. The
 corresponding number and efficiency of selected events for each event category, as well as the
-signal purity, is shown in Table.~\ref{tab:nuel_selection}. Note that
-$\mathrm{efficiency}\times\mathrm{purity}$ is optimised considering both appeared and beam CC
-$\nu_{e}$ components as signal. Due to their indistinguishable nature, this is the only reasonable
-approach to generate cut values.
+appeared and beam component CC $\nu_{e}$ purity, and signal purity, is shown in
+Table.~\ref{tab:nuel_selection}. Note that $\mathrm{efficiency}\times\mathrm{purity}$ is optimised
+considering both appeared and beam CC $\nu_{e}$ components as signal. Due to their
+indistinguishable nature, this is the only reasonable approach to generate cut values.
 
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_eff_curves.pdf}
@@ -1440,12 +1439,12 @@ approach to generate cut values.
         Cuts & 40.8(0.92)       & 818.0(0.40)    & 33.0(0.94)        & 231.0(0.66) & 0.066               & 0.036      \\
         FOM  & 31.3(0.71)       & 6.1(0.01)      & 26.7(0.76)        & 17.6(0.05)  & 0.710               & 0.383      \\
     \end{tabular}
-    \caption[Table showing CC $\nu_{e}$ selected event numbers.]
-    {Table showing CC $\nu_{e}$ selected event numbers and efficiencies in brackets for the
-        various event categories as well as associated all $\nu_{e}$ (appeared and beam) and
-        signal purity. Shown are the post preselection, \emph{cosmic score} cut, and \emph{escapes
-            score} cut numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$
-        optimised (FOM) selection.}
+    \caption[Table showing CC $\nu_{e}$ selected event numbers, efficiencies and signal purity.]
+    {Table showing CC $\nu_{e}$ selected event numbers(efficiencies) for the various event
+        categories as well as associated all $\nu_{e}$ (appeared and beam) purity and signal
+        purity. Shown are the post preselection, \emph{cosmic score} cut, and \emph{escapes score}
+        cut numbers (cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
+        (FOM) selection.}
     \label{tab:nuel_selection}
 \end{table}
 
@@ -1455,32 +1454,37 @@ From low neutrino energies, both CC $\nu_{e}$ category selection efficiencies ri
 plateau of approximately 80\% beginning at \unit{4}{GeV}. This is expected as low energy CC
 $\nu_{e}$ events typically do not have well-defined electron Cherenkov rings, leading to their
 rejection. Due to the abundance of selected intrinsic beam CC $\nu_{e}$ events at higher energies,
-the appeared CC $\nu_{e}$ purity is observed to peak at approximately \unit{2.5}{\GeV} before
-declining. The NC efficiency is seen to slowly increase approaching 15\% for hadronic system
-energies above \unit{5}{\GeV}; this is likely due to high energy pions or protons being
-misidentified as electrons. Importantly, however, within the key signal region from 2 to
-\unit{4}{\GeV}, NC selection efficiency remains low.
+the appeared CC $\nu_{e}$ purity is observed to peak at approximately \unit{2.5}{\GeV} (close to
+the oscillation maximum) before declining. The NC efficiency is seen to slowly increase
+approaching 15\% for hadronic system energies above \unit{5}{\GeV}; this is likely due to
+misidentification of high energy pions or protons as electrons. Importantly, however, within the
+key signal region from 2 to \unit{4}{\GeV}, NC selection efficiency remains low.
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_hists.pdf}
     \caption[Efficiency of CC $\nu_{e}$ selection as a function of energy.]
     {Efficiency of CC $\nu_{e}$ selection for the different event categories as well as appeared
-        CC $\nu_{e}$ purity as a function of neutrino energy. The true appeared CC $\nu_{e}$
-        neutrino energy distribution is shown in the green. All CC categories are shown in terms
-        of neutrino energy, while NC events are shown in terms of the hadronic energy.}
+        CC $\nu_{e}$ purity as a function of energy. All CC categories are shown in terms of
+        neutrino energy, while NC events are shown in terms of the hadronic system energy. The
+        survived CC $\nu_{\mu}$ efficiency is so low it is barely visible near zero. For
+        reference, the true appeared CC $\nu_{e}$ neutrino energy distribution is shown in the
+        green.}
     \label{fig:final_nuel_hists}
 \end{figure}
 
 The best way to understand the relative performance of the CNN CC $\nu_{e}$ classification is by
-comparison with the standard selection presented in Section.~\ref{sec:cvn_old_pid}. The
-distribution of output scores for both neural networks used in the standard selection is shown in
+comparison with the standard event selection presented in Section.~\ref{sec:cvn_old_pid}. The
+distribution of output scores from both neural networks used in the standard selection is shown in
 Fig.~\ref{fig:final_old_pid_outputs}. By optimising the selection values for both networks, 0.91
 and 0.78 respectively, to maximise $\mathrm{efficiency}\times\mathrm{purity}$, the standard CC
-$\nu_{e}$ selection sample is found. A maximum $\mathrm{efficiency}\times\mathrm{purity}$ of
-0.132 is achieved; only 25\% of the value reached by the CNN approach. Although a similar signal
-purity (39\%) is achieved, this is associated with a signal efficiency of 34\% compared to the
-71\% achieved by the trained CNN. It is clear, therefore, that the new approach provides
-considerable improvements to beam classification performance.
+$\nu_{e}$ selection sample is found.
+
+A maximum $\mathrm{efficiency}\times\mathrm{purity}$ of 0.132 is achieved; only 25\% the value
+reached by the CNN approach. Both the signal efficiency of 34\% compared to 71\% and appeared and
+beam CC $\nu_{e}$ purity 39\% compared to 71\% are considerably lower than that provided by the
+new CNN classification. Furthermore, the results presented here compare well to the 62\%
+efficiency and 57-78\% purity (depending on oscillation parameters) achieved by the NoVA appeared
+$\nu_{e}$ selection~\cite{acero2019}.
 
 \begin{figure} % FINAL OLD PID OUTPUTS DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_old_pid_outputs.pdf}
@@ -1488,12 +1492,13 @@ considerable improvements to beam classification performance.
     {Distributions of CC $\nu_{e}$ vs CC $\nu_{\mu}$ (left) and CC $\nu_{e}$ vs NC (right) output
         scores from the two standard event selection neural networks for the different event
         categories. A score close to one signifies a CC $\nu_{e}$ like event in both cases. Each
-        plot shows events which have passed both a simple preselection and the optimised cut from
-        the other network. Selected CC $\nu_{e}$ events are shown by the arrows. The y-axis for
-        the CC $\nu_{e}$ vs CC $\nu_{\mu}$ distributions has been truncated so that the CC
-        $\nu_{\mu}$ component is not fully visible in order to better show the distribution of
-        signal CC $\nu_{e}$ events. Due to the long reconstruction time required, a smaller but
-        comparable evaluation sample is used here.}
+        plot shows events which have passed both the preselection and the optimised cut from the
+        other network. This is done to better show the events which the network in question
+        rejects. Selected CC $\nu_{e}$ events are shown by the arrows. The y-axis for the CC
+        $\nu_{e}$ vs CC $\nu_{\mu}$ distributions has been truncated so that the CC $\nu_{\mu}$
+        component is not fully visible in order to better show the distribution of signal CC
+        $\nu_{e}$ events. Due to the long reconstruction time required, a smaller but comparable
+        evaluation sample is used here.}
     \label{fig:final_old_pid_outputs}
 \end{figure}
 
@@ -1517,13 +1522,14 @@ magnitude.
 The efficiency, purity, and their product (the figure-of-merit) for CC $\nu_{\mu}$ events as a
 function of selecting events above a certain CC $\nu_{\mu}$ score is shown in
 Fig.~\ref{fig:final_numu_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised by
-selecting events with a CC $\nu_{\mu}$ score above 0.315, achieving a value of 0.365. The
-corresponding number of selected events for each event category, as well as the signal efficiency
-and purity, is shown in Table.~\ref{tab:numu_selection}. Although the final selection efficiency
-is low for both figure-of-merit optimisations, this is desirable to ensure events are fully
-contained for energy estimation. When considering just the CC $\nu_{\mu}$ events for which the
-primary charged muon is contained, an 87\% selection efficiency for the first figure-of-merit is
-achieved.
+selecting events with a CC $\nu_{\mu}$ score above $0.315$, achieving a value of $0.365$. The
+corresponding number and efficiency of selected events for each event category, as well as the
+signal purity, is shown in Table.~\ref{tab:numu_selection}. Although the final signal efficiency
+is low for the figure-of-merit selection, this is desirable to ensure events are fully contained
+for energy estimation. When considering just CC $\nu_{\mu}$ events for which the primary charged
+muon is contained, an 87\% selection efficiency for the figure-of-merit selection is achieved. As
+in the CC $\nu_{e}$ case, these results compare well to the 31.2\% signal efficiency and 98.6\%
+purity of the NoVA CC $\nu_{\mu}$ selection~\cite{acero2019}.
 
 \begin{figure} % FINAL NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_eff_curves.pdf}
@@ -1534,18 +1540,17 @@ achieved.
 \end{figure}
 
 \begin{table}
-    \begin{tabular}{ccccccc}
-        Selection                        & CC $\nu_{\mu}$ & Appeared CC $\nu_{e}$ & Beam CC $\nu_{e}$ & NC    & Efficiency & Purity \\
+    \begin{tabular}{cccccc}
+             & CC $\nu_{\mu}$ & Appeared CC $\nu_{e}$ & Beam CC $\nu_{e}$ & NC          & Sig Purity \\
         \midrule
-        Pre+cos+esc                      & 818.0          & 40.8                  & 33.0              & 231.0 & 0.400      & 0.729  \\
-        $\mathrm{eff}\times\mathrm{pur}$ & 777.9          & 1.32                  & 1.37              & 29.3  & 0.380      & 0.961  \\
+        Cuts & 818.0(0.40)    & 40.8(0.92)            & 33.0(0.94)        & 231.0(0.66) & 0.729      \\
+        FOM  & 777.9(0.38)    & 1.32(0.03)            & 1.37(0.04)        & 29.3(0.08)  & 0.961      \\
     \end{tabular}
-    \caption[Table showing CC $\nu_{\mu}$ selected event numbers.]
-    {Table showing CC $\nu_{\mu}$ selected event numbers for the various event categories as well
-        as associated appeared CC $\nu_{\mu}$ efficiency and purity. Shown are the post
-        preselection (pre), \emph{cosmic score} cut (cos), and \emph{escapes score} cut (esc)
-        numbers in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
-        selection.}
+    \caption[Table showing CC $\nu_{\mu}$ selected event numbers, efficiencies and signal purity.]
+    {Table showing CC $\nu_{\mu}$ selected event numbers(efficiencies) for the various event
+        categories as well as associated signal purity. Shown are the post preselection,
+        \emph{cosmic score} cut, and \emph{escapes score} cut numbers (cuts) in addition to the
+        $\mathrm{efficiency}\times\mathrm{purity}$ optimised (FOM) selection.}
     \label{tab:numu_selection}
 \end{table}
 
@@ -1553,18 +1558,20 @@ The $\mathrm{efficiency}\times\mathrm{purity}$ optimised CC $\nu_{\mu}$ selectio
 function of energy for the different event categories is shown in Fig.~\ref{fig:final_numu_hists}.
 Survived CC $\nu_{\mu}$ selection efficiency peaks just below \unit{2}{\GeV} before slowly
 declining, this is entirely explained by higher energy events being less likely to have their
-primary charged muon fully contained within the detector. The signal purity is observed to remain
-very high (>95\%) across the main signal energy region. As in the CC $\nu_{e}$ selection case the
-NC efficiency is seen to rise with energy, again likely due to misidentification of energetic
-protons and pions.
+primary charged muon fully contained within the detector. Of interest is the expected dip in the
+otherwise very high (>90\%) CC $\nu_{\mu}$ purity at approximately \unit{1.5}{\GeV} corresponding
+to the oscillation maximum as shown in Fig.~\ref{fig:osc_cp_probs}. As in the CC $\nu_{e}$
+selection case the NC efficiency is seen to rise with energy, again likely due to
+misidentification of energetic protons and pions.
 
 \begin{figure} % FINAL NUMU HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_hists.pdf}
     \caption[Efficiency of CC $\nu_{\mu}$ selection as a function of energy.]
     {Efficiency of CC $\nu_{\mu}$ selection for the different event categories as well as survived
-        CC $\nu_{\mu}$ purity as a function of neutrino energy. The true survived CC $\nu_{\mu}$
-        neutrino energy distribution is shown in the blue. All CC categories are shown in terms of
-        neutrino energy, while NC events are shown in terms of the hadronic energy.}
+        CC $\nu_{\mu}$ purity as a function of neutrino energy. All CC categories are shown in
+        terms of neutrino energy, while NC events are shown in terms of the hadronic system
+        energy. For reference, the true survived CC $\nu_{\mu}$ neutrino energy distribution is
+        shown in the blue.}
     \label{fig:final_numu_hists}
 \end{figure}
 
@@ -1574,7 +1581,8 @@ Using the \emph{CC category} output of the trained beam classification network, 
 type (used in the following energy estimation section) for both CC $\nu_{e}$ and CC $\nu_{\mu}$
 selected events can be determined. As in the \emph{combined category} output case, the
 highest-scoring neuron can be used for classification, resulting in the matrix shown in
-Fig.~\ref{fig:final_cc_cat_confusion}.
+Fig.~\ref{fig:final_cc_cat_confusion}. Note that only events which are selected by either the CC
+$\nu_{e}$ or CC $\nu_{\mu}$ selection are shown.
 
 \begin{figure} % FINAL CC CAT CONFUSION DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_cc_cat_confusion.pdf}
@@ -1587,13 +1595,13 @@ Fig.~\ref{fig:final_cc_cat_confusion}.
     \label{fig:final_cc_cat_confusion}
 \end{figure}
 
-Reasonable classification efficiency greater than 60\% is achieved across the three dominant
+Reasonable classification accuracy greater than 60\% is achieved across the three dominant
 interaction types CC-QEL, CC-Res, and CC-DIS. The less common CC-Coh and CC-MEC types are found to
-be commonly misidentified as CC-Res and CC-QEL respectively, most likely due to the imbalanced
-training dataset and their corresponding topological similarities. Background NC events which pass
-either CC $\nu_{e}$ or CC $\nu_{\mu}$ selection (commonly high in energy) are found to be
-typically classified as CC-DIS in nature; this is expected as they commonly contain multiple
-visible particles in the final state as do CC-DIS events.
+be commonly misidentified as CC-Res and CC-QEL respectively, likely due to the imbalanced training
+dataset and their corresponding topological similarities. Background NC events which pass either
+CC $\nu_{e}$ or CC $\nu_{\mu}$ selection (commonly high in energy) are found to be typically
+classified as CC-DIS in nature; this is expected as they commonly contain multiple visible
+particles in the final state as do CC-DIS events.
 
 For completeness, the \emph{NC category} classification matrix is shown in
 Fig.~\ref{fig:final_nc_cat_confusion} for events that are neither classified as CC $\nu_{e}$ or CC
@@ -1617,15 +1625,15 @@ determined no clear charged lepton.
 \label{sec:cvn_results_energy} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 By using the CC interaction type classification just presented, the differences between CC
-interaction types can be exploited to improve neutrino energy, charged lepton, and interaction
-vertex position and time estimation. For events classified as either CC $\nu_{e}$ or CC
-$\nu_{\mu}$ with an associated \emph{CC category} interaction type, the corresponding bespoke
-trained network outlined in Section.~\ref{sec:cvn_specific_energy} is used for estimation.
+interaction types can be exploited to improve neutrino energy, charged lepton energy, and
+interaction vertex position and time estimation. For events classified as either CC $\nu_{e}$ or
+CC $\nu_{\mu}$ with an associated \emph{CC category} interaction type, the corresponding bespoke
+trained network outlined in Section.~\ref{sec:cvn_specific_energy} is used.
 
 Only three networks for each neutrino type are trained, one for each of the dominant interaction
-types CC-QEL(CC-MEC), CC-Res, or CC-DIS. For events not classified by \emph{CC category} to belong
-to one of these categories, such as CC-Coh or CC-Other, the CC-Res network is used, due to it
-being the most topologically similar interaction type.
+types CC-QEL(CC-MEC), CC-Res, or CC-DIS. For events not classified by \emph{CC category} as one of
+these categories, such as CC-Coh or CC-Other, the CC-Res network is used as it is the most
+topologically similar interaction type.
 
 The distributions of CNN estimated (\emph{neutrino energy} output) and true $\nu_{e}$ and
 $\nu_{\mu}$ neutrino energies for true CC $\nu_{e}$ and CC $\nu_{\mu}$ events respectively that
@@ -1643,19 +1651,18 @@ where the exact truth distribution shape is not fully captured.
     \label{fig:final_energy_dists}
 \end{figure}
 
-As the training samples contain a spectra of events typical of the beam, it is important to check
-that the CNN neutrino energy predictions are not simply predicting an energy close to the expected
-peak beam energy. The probabilities of a CNN estimated neutrino energy given the true neutrino
-energy are shown in Fig.~\ref{fig:final_energy_2d} for both CC $\nu_{e}$ and CC $\nu_{\mu}$
-events. CNN estimated energy is found to be roughly equal to true energy across the full range of
+As the training samples contain a spectrum of events typical of the beam, it is important to check
+that the CNN neutrino energy estimation is not simply predicting an energy close to the expected
+peak beam energy. The probability of a CNN estimated neutrino energy given a true neutrino energy
+is shown in Fig.~\ref{fig:final_energy_2d} for both CC $\nu_{e}$ and CC $\nu_{\mu}$ events. CNN
+estimated energy is found to be roughly equivalent to true energy across the full range of
 expected \chipsfive beam energies, proving the desired trained network response.
 
 \begin{figure} % FINAL 2D ENERGY DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_2d.pdf}
-    \caption[CNN estimated vs true neutrino energy.]
-    {CNN estimated vs true neutrino energy for CC $\nu_{e}$ (left) and CC $\nu_{\mu}$ (right) beam
-        events, with their equality shown in blue. Each true neutrino energy column has been
-        normalised to better show the regions outside dominant 2 to \unit{4}{\GeV} range. Only
+    \caption[Probability of CNN estimated neutrino energy given a true neutrino energy.]
+    {Probability of CNN estimated neutrino energy given a true neutrino energy for CC $\nu_{e}$
+        (left) and CC $\nu_{\mu}$ (right) beam events, with their equality shown in blue. Only
         true CC $\nu_{e}$ and CC $\nu_{\mu}$ events that are also selected by the CC $\nu_{e}$ and
         CC $\nu_{\mu}$ selections respectively are shown.}
     \label{fig:final_energy_2d}
@@ -1665,29 +1672,26 @@ To fully understand CNN energy estimation performance, histograms of ratios of d
 CNN estimated (reco) and true neutrino energy to true neutrino energy for both CC $\nu_{e}$ and CC
 $\nu_{\mu}$ beam events are shown in Fig.~\ref{fig:final_energy_frac}. Distributions are shown for
 both \emph{all} selected events and just the true \emph{signal} component within the corresponding
-beam selection, detailed in the previous section. Similar distributions splitting the
-\emph{signal} component by interaction type are shown in Fig.~\ref{fig:final_energy_frac_split}.
-Furthermore, a summary of the neutrino energy resolutions achieved for both CC $\nu_{e}$ and CC
-$\nu_{\mu}$ events is shown in Tab.~\ref{tab:energy_resolutions}.
+beam selection. Similar distributions splitting the \emph{signal} component by interaction type
+are shown in Fig.~\ref{fig:final_energy_frac_split}. Furthermore, a summary of the neutrino energy
+resolutions achieved for both CC $\nu_{e}$ and CC $\nu_{\mu}$ events is shown in
+Tab.~\ref{tab:energy_resolutions}.
 
 \begin{figure} % FINAL ENERGY FRAC DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_frac.pdf}
-    \caption[Distributions of (reco-true)/true neutrino energies for CC $\nu_{e}$ and CC
-        $\nu_{\mu}$ events.] {Distributions of (reco-true)/true neutrino energies for both CC
-        $\nu_{e}$ (left) and CC $\nu_{\mu}$ (right) beam events. Distributions for both \emph{all}
-        respectively selected events and just the \emph{signal} component of each selection are
-        shown.}
+    \caption[Distributions of (reco-true)/true neutrino energies.]
+    {Distributions of (reco-true)/true neutrino energies for both CC $\nu_{e}$ (left) and CC
+        $\nu_{\mu}$ (right) beam events. Distributions for both \emph{all} respectively selected
+        events and just the \emph{signal} component of each selection are shown.}
     \label{fig:final_energy_frac}
 \end{figure}
 
 \begin{figure} % FINAL ENERGY FRAC SPLIT DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_frac_split.pdf}
-    \caption[Distributions of ratios of differences between CNN estimated and true neutrino energy
-        to true neutrino energy for different interaction types.] {Distributions of ratios of
-        differences between CNN estimated (reco) and true neutrino energy to true neutrino energy
-        for CC $\nu_{e}$ (left) and CC $\nu_{\mu}$ (right) beam events and different interaction
-        types. The relative number of events between interaction types has been scaled for easier
-        comparison.}
+    \caption[Distributions of (reco-true)/true neutrino energies by interaction type.]
+    {Distributions of (reco-true)/true neutrino energies for both CC $\nu_{e}$ (left) and CC
+        $\nu_{\mu}$ (right) signal beam events by interaction types. The relative number of events
+        between interaction types has been scaled for clearer comparison.}
     \label{fig:final_energy_frac_split}
 \end{figure}
 
@@ -1710,64 +1714,62 @@ $\nu_{\mu}$ events is shown in Tab.~\ref{tab:energy_resolutions}.
 
 The tail of negative values for the \emph{all} selected CC $\nu_{e}$ distribution in
 Fig.~\ref{fig:final_energy_frac} indicates that wrongly classified CC $\nu_{e}$ events, mainly NC
-in nature, are typically estimated with a neutrino energy lower than their truth value. This is
-expected given the missing energy of the final state neutrino. The final neutrino energy
-resolutions are comparable to the 7\% signal neutrino energy resolution achieved by
-NoVA~\cite{jiang2019}. Additionally, the resolutions follow the expected pattern for the different
-interaction types, with the simple to reconstruct single charged lepton QEL interactions achieving
-a much better resolution that multi particle DIS events.
+in nature, are typically estimated with neutrino energy lower than their actual value. This is
+expected given the missing energy of the final state neutrino. Additionally, the interaction type
+resolutions follow the expected pattern, with simple to reconstruct single charged lepton QEL
+interactions achieving an improved resolution compared to multi-particle DIS events. Furthermore,
+these results are very similar to the selected signal energy resolutions obtained by NoVA of
+10.7\% for CC $\nu_{e}$ events and 9.1\% for CC $\nu_{\mu}$ events~\cite{acero2019}.
 
-The means and standard deviations of gaussian fits made to histograms of ratios of differences
-between CNN estimated (reco) and true neutrino energy to true neutrino energy for both CC
-$\nu_{e}$ and CC $\nu_{\mu}$ beam events in \unit{1}{GeV} wide bins are shown in
-Fig.~\ref{fig:final_energy_nuel} and Fig.~\ref{fig:final_energy_numu} respectively, split by
-interaction type.
+By making gaussian fits to the (reco-true)/true signal neutrino energy distributions shown in
+Fig.~\ref{fig:final_energy_frac} in \unit{1}{GeV} wide true neutrino energy bins, how the
+resolution changes with energy can be explored. The means and standard deviations of these fits
+are shown in Fig.~\ref{fig:final_energy_nuel} and Fig.~\ref{fig:final_energy_numu} for CC
+$\nu_{e}$ and CC $\nu_{\mu}$ events respectively, split by interaction type.
 
 A reasonably significant bias in the means is observed with respect to the true neutrino energy
 for both $\nu_{e}$ and CC $\nu_{\mu}$ events. This is particularly true of DIS events, but still
-significant for Res and QEL events. This is most likely due to the use of a peaked flux
-distribution of training events rather than a flat flux as explored in Ref.~\cite{baldi2019}. The
-standard deviation is seen to decrease for all neutrino and interaction types with true neutrino
-energy, except for energies above the main flux peak, again likely due to the training sample
-used.
+significant for Res and QEL events. As a (peaked) flux distribution of events is used for training
+as opposed to a flat flux, this is expected. As a consequence, any future energy estimation work
+should consider the flat flux approach, as explored in Ref.~\cite{baldi2019}. The standard
+deviation is seen to decrease with true neutrino energy for all interaction types, except for
+energies above the main flux peak. Again, this is likely due to the spectrum of events in the
+training sample.
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_nuel.pdf}
     \caption[Means and standard deviations of fits to $\nu_{e}$ energy distributions.]
-    {Means (left) and standard deviations (right) of fits made to distributions of ratios of
-        differences between CNN estimated (reco) and true neutrino energy to true neutrino energy
-        for CC $\nu_{e}$ events across a range of energy bins and split by interaction type. The
-        true distribution of CC $\nu_{e}$ events is shown in green.}
+    {Means (left) and standard deviations (right) of fits made to distributions of
+        (reco-true)/true neutrino energy for CC $\nu_{e}$ events across a range of \unit{1}{GeV}
+        wide true neutrino energy bins and split by interaction type. The true distribution of CC
+        $\nu_{e}$ events is shown in green.}
     \label{fig:final_energy_nuel}
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_numu.pdf}
     \caption[Means and standard deviations of fits to $\nu_{\mu}$ energy distributions.]
-    {Means (left) and standard deviations (right) of fits made to distributions of ratios of
-        differences between CNN estimated (reco) and true neutrino energy to true neutrino energy
-        for CC $\nu_{\mu}$ events across a range of energy bins and split by interaction type. The
-        true distribution of survived CC $\nu_{\mu}$ events is shown in green.}
+    {Means (left) and standard deviations (right) of fits made to distributions of
+        (reco-true)/true neutrino energy for CC $\nu_{\mu}$ events across a range of \unit{1}{GeV}
+        wide true neutrino energy bins and split by interaction type. The true distribution of CC
+        $\nu_{\mu}$ events is shown in blue.}
     \label{fig:final_energy_numu}
 \end{figure}
 
 As in the CC $\nu_{e}$ selection case the best way to understand the relative performance of the
 energy estimation is by comparison with the standard reconstruction presented in
-Section.~\ref{sec:cvn_old_reco}. Although the standard reconstruction makes no attempt to estimate
-the neutrino energy, the energy of the primary charged lepton in each event is estimated, which
+Section.~\ref{sec:cvn_old_reco}. Although the standard reconstruction does not attempt to estimate
+the neutrino energy, the energy of the primary charged lepton in each CC event is predicted, which
 can be compared to the \emph{charged lepton energy} output of the energy estimation networks.
 Histograms of ratios of differences between CNN estimated (reco) and true charged lepton energy to
-true charged lepton energy for both CC $\nu_{e}$ and CC $\nu_{\mu}$ beam events are shown in
+true charged lepton energy for both CC $\nu_{e}$ and CC $\nu_{\mu}$ beam QEL events are shown in
 Fig.~\ref{fig:final_frac_e_comparison}.
 
-An energy resolution 32\% and 40\% the size of the standard reconstruction resolution is seen for
-CNN estimation for CC $\nu_{e}$ and CC $\nu_{\mu}$ QEL events respectively. A very significant
-improvement. The charged lepton energy resolutions achieved by the CNN approach are reasonable
-close to those achieved by the fiTQun algorithm used by Super-Kamiokande which achieves
-approximately 2.5\% resolution for both CC $\nu_{e}$ and CC $\nu_{\mu}$ QEL
-events~\cite{jiang2019}. Importantly, the CNN approach works well across a wide range of energies
-and event types, while the standard approach only works well mainly for simple QEL events without
-multiple particles in the final state.
+A significant improvement is made using the new CNN approach. An energy resolution 32\%(40\%) the
+size of the standard reconstruction resolution for CC $\nu_{e}$($\nu_{\mu}$) QEL events is
+achieved, at 4.5\%(4.0\%). When compared to the approximately 2.5\% CC QEL charged lepton energy
+resolution reached by the fiTQun algorithm for Super-Kamiokande~\cite{jiang2019}, the performance
+presented here is impressive, given the significant differences in detector design. Perhaps more
 
 \begin{figure} % FINAL FRAC E COMPARISON DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_frac_e_comparison.pdf}
@@ -1780,15 +1782,29 @@ multiple particles in the final state.
     \label{fig:final_frac_e_comparison}
 \end{figure}
 
-The energy estimation networks also output the interaction vertex position and time. The CNN
-estimated (reco) minus truth distributions are shown for CC $\nu_{e}$ and CC $\nu_{\mu}$ QEL
-events in Fig.~\ref{fig:final_vertex_nuel_res_comparison} and
+The \emph{interaction vertex x-position}, \emph{interaction vertex y-position}, \emph{interaction
+    vertex z-position}, and \emph{interaction time} outputs from the energy estimation networks can
+also be used. Although not employed in this work, future analyses may require accurate fiducial
+volume cuts or separation of events in time, therefore, strong performance is desirable. The CNN
+estimated (reco) minus truth distributions are shown for selected signal CC $\nu_{e}$ and CC
+$\nu_{\mu}$ QEL events in Fig.~\ref{fig:final_vertex_nuel_res_comparison} and
 Fig.~\ref{fig:final_vertex_numu_res_comparison} respectively, with the standard reconstruction
-method distributions alo shown. Similar performance when compared to the standard methods is seen
-across all parameters. The Super-Kamiokande fiTQun algorithm achieves a \unit{20}{\mathrm{cm}}
-position resolution for CC $\nu_{e}$ QEL events and a \unit{20}{\mathrm{cm}} resolution for CC
-$\nu_{\mu}$ QEL events, compared to the approximately \unit{50}{\mathrm{cm}} and
-\unit{70}{\mathrm{cm}} resolution achieved here.
+method distributions additionally shown for comparison.
+
+Comparable resolutions are achieved for CC $\nu_{e}$ events, while CC $\nu_{\mu}$ events display
+considerable improvements in interaction vertex z-position and time. The Super-Kamiokande fiTQun
+algorithm reaches an interaction vertex position resolution of \unit{20}{\mathrm{cm}} for CC
+$\nu_{e}$ and \unit{15}{\mathrm{cm}} for CC $\nu_{\mu}$ events~\cite{jiang2019}, compared to the
+approximately \unit{50}{\mathrm{cm}} and \unit{70}{\mathrm{cm}} resolutions in this work. Again, a
+reasonable difference in performance, given the significant detector differences.
+
+The charged lepton energy, interaction vertex position, and interaction vertex time resolutions
+also display a clear advantage of the CNN approach. Long tails and mean biases are common in
+distributions associated with the standard reconstruction when compared to the generally symmetric
+distributions of the CNN approach. Commonly even more prevalent for non QEL events containing
+multiple particles. This highlights how the multiple complex (human-influenced) inputs to the
+standard reconstruction can both easily bias the outputs and not generalise well to all event
+types.
 
 \begin{figure} % FINAL VTX RES NUEL COMPARISON DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_vertex_nuel_res_comparison.pdf}
@@ -1811,13 +1827,12 @@ $\nu_{\mu}$ QEL events, compared to the approximately \unit{50}{\mathrm{cm}} and
 \subsection{Combined performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-By combining the CC $\nu_{e}$ and CC $\nu_{\mu}$ selections with the corresponding energy
-estimation, the final selected spectrum of events for each within \chipsfive running for a year
-can be estimated. These are shown in Fig.~\ref{fig:final_nuel_passed_energy_dist} and
-Fig.~\ref{fig:final_numu_passed_energy_dist} for CC $\nu_{e}$ and CC $\nu_{\mu}$ selections
-respectively. Although, a detailed \chipsfive sensitivity analysis is not included in this work,
-the expected curves for different values of $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for
-interest.
+By combining CC $\nu_{e}$ and CC $\nu_{\mu}$ selections with energy estimation, the final selected
+spectrum of events within \chipsfive running for a year can be estimated for both. These are shown
+in Fig.~\ref{fig:final_nuel_passed_energy_dist} and Fig.~\ref{fig:final_numu_passed_energy_dist}
+for CC $\nu_{e}$ and CC $\nu_{\mu}$ selections respectively. Although, a detailed \chipsfive
+sensitivity analysis is not included in this work, the expected curves for different values of
+$\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
 
 \begin{figure} % FINAL NUEL ENERGY DIST DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_passed_energy_dist.pdf}
@@ -1843,52 +1858,75 @@ interest.
 \section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A major concern with deep neural networks is that they become a black box which is not fully
-understood. This has significant implications for detailed physics analyses that require a full
-understanding to accurately gauge amongst other things systematic uncertainties to provide
-confidence in the final results. Here we detail a sample of efforts to \emph{explain} the inner
-workings of the trained CNNs.
+A common and justified concern with deep neural networks is their tendency to be used as a black
+box (inputs in, outputs out) with no understanding of their inner working. For detailed physics
+analyses, this can have significant implications for confidence in final results. Although
+difficult quantitatively, qualitative assessments of the trained networks can go a long way to
+proving they behave as desired. Here a sample of efforts to \emph{explain} the inner workings of
+the trained CNNs presented in this work are described.
 
-- Initial CNN visualisation paper in Ref.~\cite{zeiler2013}
+Visualisations of the output feature maps from the first, second, and third VGG blocks for each of
+the trained networks (cosmic rejection, beam classification, and energy estimation) are shown in
+Fig.~\ref{fig:cvn_visualisations} using the event shown in Fig.~\ref{fig:explain_example_event} as
+input. Learnt Cherenkov ring features are observed, with different features activating different
+feature maps differently. Ring edges, ring holes, outlying hits, Hough peaks, and a myriad of
+combinations are observed proving each network learns features found to be important for its
+outputs (tasks). Additionally, there are clear differences between the networks, with different
+ring features proving important for different tasks.
 
 \begin{figure} % EXPLAIN EXAMPLE EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explain_example_event.pdf}
     \caption[Example CC quasi-elastic $\nu_{e}$ event for explainability.]
-    {Three map representation of a CC quasi-elastic $\nu_{e}$ event. Initiated by a $\nu_{e}$
-        of energy \unit{2.4}{\GeV} with a final state $e^{-}$ of energy \unit{1.6}{\GeV}.}
+    {Three map representation of a CC quasi-elastic $\nu_{e}$ event. Initiated by a $\nu_{e}$ of
+        energy \unit{2.4}{\GeV} with a final state $e^{-}$ of energy \unit{1.6}{\GeV}.}
     \label{fig:explain_example_event}
 \end{figure}
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
     \centering
-    \subcaptionbox{explain cosmic activations\label{fig:explain_cosmic_activations}}{%
+    \subcaptionbox{Cosmic rejection\label{fig:explain_cosmic_activations}}{%
         \includegraphics[height=14cm]{diagrams/6-cvn/chipsnet/explain_cosmic_activations.pdf}%
     }
     \quad
-    \subcaptionbox{explain beam activations\label{fig:explain_beam_activations}}{%
+    \subcaptionbox{Beam classification\label{fig:explain_beam_activations}}{%
         \includegraphics[height=14cm]{diagrams/6-cvn/chipsnet/explain_beam_activations.pdf}%
     }
     \quad
-    \subcaptionbox{explain energy activations\label{fig:explain_energy_activations}}{%
+    \subcaptionbox{Energy estimation\label{fig:explain_energy_activations}}{%
         \includegraphics[height=14cm]{diagrams/6-cvn/chipsnet/explain_energy_activations.pdf}%
     }
     \caption[The caption]
     {Visualisations of the feature map outputs using as input the event shown in
         Fig.~\ref{fig:explain_example_event}. Shown are the activated outputs from the first
-        (top), second (middle), and third (bottom) VGG blocks for a chipsnet architecture network
-        with only a single branch and all three input event maps stacked into a single three
-        channel input image. }
+        (top), the second (middle), and the third (bottom) VGG blocks for each of the trained
+        network types. A chipsnet architecture with only a single branch and all three input event
+        maps stacked into a single three-channel input image is used for simplicity.}
+    \label{fig:cvn_visualisations}
 \end{figure}
 
-- Simple PCA REF was also tried, but t-SNE was found to work much better as expected.
-- Look at the classifier features it has learnt in the final fully-connected layer.
-- Original t-SNE paper in Ref.~\cite{maaten2008}
-- t-Distributed Stochastic Neighbour embedding, an unsupervised learning technique to visualise
-the high dimensional network feature-space (in this case the final fully-connected layer) in two
-dimensions.
-- Shows how the features the network has learnt are able to discriminate between categories.
-Events with similar learnt features are clustered together close in the two dimensional t-SNE
-space. Can see how well the different categories have been separated.
+Another technique to analyse trained CNNs is t-Distributed Stochastic Neighbour embedding
+(t-SNE)~\cite{maaten2008}. The t-SNE procedure is an unsupervised learning algorithm to visualise
+the learnt high-dimensional feature-space of a trained network in two dimensions. It accomplishes
+this by clustering events with similar features nearby in two-dimensional space and separating
+events with dissimilar features. Here, the last fully connected layer before the network outputs
+(512 dimensions) are used as input as they provide the best representation of the learnt network
+features.
+
+Visualisations of the t-SNE algorithm applied to both the trained cosmic rejection and beam
+classification networks are shown in Fig.~\ref{fig:final_cosmic_tsne} and
+Fig.~\ref{fig:final_beam_tsne} respectively. The very strong cosmic like to beam like separation
+presented in the previous chapter is clear from the cosmic rejection visualisation. For the beam
+classification network, as expected, the separation is weaker, with major overlap between
+categories, especially CC $\nu_{e}$ and NC events.
+
+For the beam classification network, three events, highlighted in t-SNE space, are shown in
+Fig.~\ref{fig:final_beam_tsne_events}. Each event is highly representative of the corresponding
+category achieving a high respective `combined category' score. Both the CC $\nu_{e}$ and NC
+events shown are typical of that expected. However, the CC $\nu_{\mu}$ event clearly contains a
+primary charged that escapes the detector (identified by the central peak). This suggests that
+strongly classified CC $\nu_{\mu}$ are identified by this `escaping' feature rather than the shape
+of the muon ring. Future work, therefore, should explore using only fully contained events during
+beam classification training.
 
 \begin{figure} % COSMIC t-SNE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/final_cosmic_tsne.pdf}
@@ -1903,8 +1941,8 @@ space. Can see how well the different categories have been separated.
     \caption[Beam classification network t-SNE space.]
     {Two dimensional probability space of different beam events generated using the t-SNE
         procedure on the final fully-connected layer of the trained beam classification network.
-        The most CC $\nu_{e}$ like, CC $\nu_{\mu}$ like, and NC like events are highlighted and
-        shown in Fig.~\ref{fig:final_beam_tsne_events}.}
+        Three events, one highly CC $\nu_{e}$ like, one highly CC $\nu_{\mu}$ like, and one highly
+        NC like are highlighted and shown in Fig.~\ref{fig:final_beam_tsne_events}.}
     \label{fig:final_beam_tsne}
 \end{figure}
 
