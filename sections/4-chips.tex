@@ -3,134 +3,198 @@
 
 In pursuit of answers to the open questions outlined in the previous chapter, neutrino experiments
 are becoming increasingly, and possibly prohibitively, expensive and impractical. This is
-particularly true of the next generation long baseline experiments (DUNE and Hyper-Kamiokande),
-with cost estimates reaching billions of dollars and construction times of more than half a
-decade. It is also telling that only two future projects receive the vast majority of global
-research effort, such is their complexity, cost, and lead time.
+particularly true of the next generation of long baseline experiments (DUNE and Hyper-Kamiokande),
+with cost estimates reaching billions of dollars and construction times greater than half a decade
+long. It is also telling that predominantly two future experimental neutrino projects receive the
+vast majority of global research effort, such is their complexity, cost, and lead time.
 
 It is clear that for detectors to remain practical and affordable into the future, a novel
-approach to neutrino detector design is required. This is particularly true is megaton scale
+approach to neutrino detector design is desirable. This is especially the case if megaton scale
 detectors are ever to become a reality. While instrumentation will continue to improve with time,
 the statistics of low event counts will always limit neutrino experiments until vastly larger
-detectors can be built. Therefore, R\&D efforts must focus on such detectors while attempting to
-complement the current and upcoming generation of experiments.
+detectors can be built. Therefore, current R\&D efforts must focus on such detectors while also
+attempting to complement the current and upcoming generation of experiments.
 
 The \chips R\&D project~\cite{adamson2013} aims to develop novel strategies and technologies for
 very large yet `cheap as chips' water Cherenkov detectors. Primarily aimed for deployment in long
 baseline accelerator scenarios, \chips aims to lower the construction cost per kt of fiducial mass
-to between \$200k-\$300k. For comparison, the Super-Kamiokande detector cost approximately \$4
-million/kt to build. As physics sensitivity depends on more than just fiducial volume, this
-comparison is not entirely rigorous; however, it highlights the scale of cost savings possible.
+to between \$200k-\$300k. For comparison, the Super-Kamiokande detector reached a cost of
+approximately \$4 million/kt to build. As physics sensitivity depends on more than just fiducial
+volume, this comparison is not entirely rigorous; however, it highlights the scale of cost savings
+possible.
 
-The \chips concept is to construct cylindrical water Cherenkov detectors that can then be sunk to
-the bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs and flooded
-mine pits. The water above the detectors provides a modest overburden from cosmic rays, while the
+This chapter aims to describe the fundamental aspects of the \chips R\&D project in detail.
+Firstly, the \chips concept will be outlined along with neutrino beam and Cherenkov detector
+physics for context. The design, construction, deployment, and status of the \chipsfive detector
+will then follow. Finally, the Monte Carlo event generation and detector simulation framework will
+be discussed, to aid work presented in later Chapters of this work.
+
+\section{\chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The \chips concept is to construct cylindrical water Cherenkov detectors that can be sunk to the
+bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs and flooded mine
+pits. The water above the sunken detector provides a modest overburden from cosmic rays, while the
 surrounding water provides support for a lightweight detector structure. By removing the need for
 underground excavation and expensive structural support, the cost of construction can be
 dramatically reduced.
 
-Additionally, the common practice of building bespoke components for the majority of the detector
-is replaced with using modern commercially available components wherever possible. The number of
-expensive components, such as photomultiplier tubes is also reduced by only considering
-accelerator beam neutrino events, such that full detector instrumentation is not required.
+Additionally, the common practice of building majority bespoke components is replaced by using
+modern commercially available components wherever possible. The number of expensive elements, such
+as photomultiplier tubes is also reduced by only considering accelerator beam neutrino events,
+such that full high-density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap but practical. Easy to build,
-quick to deploy, and upgradable one operational, multiple detector modules can be flexibly
-combined depending on available resources. Compared to DUNE and Hyper-Kamiokande that require a
-large upfront budget and years to construct, \chips detector modules can be flexibly deployed in
-under a year.
+quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
+combined depending on available resources. Compared to DUNE and Hyper-Kamiokande requiring a large
+upfront budget and many years to construct, cheap \chips detector modules can be flexibly deployed
+in under a year.
 
-\subsubsection*{R\&D effort} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The \chips project consists of multiple R\&D streams outlined below, each with the primary goal of
-proving a key component of the \chips concept is viable.
+To date, \chips R\&D efforts have been based in the USA to exploit the NuMI beam before the end of
+its lifetime. Future plans are focused on scaling \chips detectors for the deployment of multiple
+modules within the LBNF beam once operational. Collaborators from primarily University College
+London, The University of Wisconsin Madison and Nikhef in the Netherlands are focused on multiple
+R\&D efforts outlined below, each is aiming to prove a vital component of the \chips concept is
+viable.
 
 \begin{itemize}
-    \item \textbf{Detector construction:} Detailed in Section.~\ref{sec:chips_detector} this
-          stream aims to prove that construction and deployment of a \chips detector is possible.
-          Two prototype detectors have so far been deployed. Firstly, the very small \chipsm
-          detector~\cite{perch2015, pfutznerProto2017, pfutzner2017} deployed into a flooded mine
-          pit in northern Minnesota in the summer of 2014. Additionally, the much larger 5kt,
-          \chipsfive detector deployed into the same pit in the summer of 2019.
+    \item \textbf{Detector construction:} This effort aims to prove that the construction and
+          deployment of \chips concept detectors are possible. Two prototype detectors have so far
+          been deployed. Firstly, the small \chipsm detector~\cite{perch2015, pfutznerProto2017,
+              pfutzner2017}, deployed into a flooded mine pit located in northern Minnesota during the
+          summer of 2014, as shown in Fig.~\ref{fig:chips_m}. Secondly, the much larger
+          \unit{5}{\mathrm{kt}} \chipsfive detector, deployed into the same pit during the summer
+          of 2019 and detailed in Section.~\ref{sec:chips_detector}.
 
-    \item \textbf{Water filtration:} This stream aims to prove that adequate water purity can be
+    \item \textbf{Water filtration:} This effort aims to prove that adequate water purity can be
           achieved using cheap, commercially available filtration. Extensive
           studies~\cite{amat2017, campbell2020} have proven that by filtering water directly from
-          the flooded mine pit using cheap filtration an adequate attenuation length of greater
-          than \unit{50}{\mathrm{m}} is possible. This is not discussed further in this work.
+          bodies of water on the Earth's surface (flooded mine pits) adequate photon attenuation
+          lengths, greater than \unit{50}{\mathrm{m}} are possible.
 
-    \item \textbf{Detector sensitivity:} This stream aims to prove that \chips detectors can
-          provide significant physics contributions alongside the current and next generation of
-          experiments. Single detectors in the NuMI beam and multiple detectors in the future LBNF
-          beam have been considered in multiple studies~\cite{pfutzner2017, adde2016, lang2015}.
-          This is not discussed further in this work.
+    \item \textbf{Detector sensitivity:} This effort aims to prove that \chips concept detectors
+          (even the prototypes) can provide significant physics contributions alone or alongside
+          the current and next generation of experiments. Single detectors in the current NuMI
+          beam (discussed in Section.~\ref{sec:chips_concept_beam}) and multiple detectors in the
+          future LBNF beam have been considered in multiple studies~\cite{pfutzner2017, adde2016,
+              lang2015}.
 
-    \item \textbf{Data acquisition:} Outlined in Chapter.~\ref{chap:daq} this stream aims to prove
-          that a cheap data acquisition system using commercially available components in
-          viable~\cite{eijk2018}. \chips implements a novel use of cheap single-board computers to
-          collect data from multiple PMTs.
+    \item \textbf{Data acquisition:} This effort aims to prove that a cheap data acquisition
+          system for \chips using commercially available components and software is
+          viable~\cite{eijk2018}. Outlined in Chapter.~\ref{chap:daq}, \chips implements a novel
+          use of cheap single-board computers to collect photomultiplier tube data.
 
-    \item \textbf{Event reconstruction and identification:} Detailed in Chapter.~\ref{chap:cvn}
-          this stream aims to prove that modern machine learning techniques can be applied to
-          water Cherenkov detectors such as \chips. This work both feeds into the detector
-          sensitivity work mentioned above and also allows to detector optimisation studies to be
-          carried out.
+    \item \textbf{Event reconstruction and identification:} This effort aims to prove that modern
+          machine learning techniques can be successfully applied to large water Cherenkov
+          detector concepts such as \chips. Outlined as the primary contribution of this thesis in
+          Chapter.~\ref{chap:cvn}, this work feeds into both the detector sensitivity work
+          mentioned above and allows for detailed detector optimisation studies to be conducted.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
     \caption[Picture of the \chipsm detector.]
-    {Picture of the \chipsm detector just before deployment. The umbilical cord, carrying cables
-        and water pipes is visible, attached to the bottom of the detector.}
+    {Picture of the \chipsm detector just before deployment. The temporary floatation bags are
+        visibly attached to the top rim of the detector. Additionally, the umbilical cord,
+        carrying data, power and water is visible, attached to the bottom of the detector.}
     \label{fig:chips_m}
 \end{figure}
 
-So far, \chips efforts have been based in the USA to exploit the NuMI beam before the end of its
-lifetime. Future plans are focused on the scaling of \chips detectors and the deployment of
-multiple modules in the LBNF beam once it becomes operational.
-
-\subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The neutrino beam and off-axis alignment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- CHIPS will use a neutrino beam to measure,
-- These can be measured using four data sample, two for neutrino and two for antineutrinos.
-- These sample are produced by "Forward Horn current" FHC and "Reverse Horn current" RHC,
-producing predominetetly neutrinos and anti-neutrinos respectively.
-- Neutrino oscillation probabilities can then be inferred by comparisons of the observed neutrino
-spectra and the near and far detectors.
-- Primarily muon neutrinos can be produced by using a particle accelerator to direct a proton beam
-at a target. By focusing the pions and kaons this produces, a neutrino beam created from the
-downstream decays, creates the muon neutrino beam.
-- Better to think of \chips applying to any Beam
-- Here we will talk about the NuMI beam as the prime example as that is the one used for the
-current generation of \chips prototype.
-- Possible future \chips in LBNF which is primarily being built for DUNE
-- The \numi beam big paper~\cite{adamson2016}
-- How will LBNF be different from NuMI, upgrades etc...
+\chips detectors will primarily study the appearance of $\nu_{e}$ oscillating from $\nu_{\mu}$
+over a long baseline. In order to generate a sufficient number of GeV scale $\nu_{\mu}$, a
+high-intensity beam is required. Currently, only two such beams exist, the J-PARC based beam in
+Japan used by the T2K experiment and the \numi beam in the USA used by \nova. Here we describe the
+\numi~\cite{adamson2016} (Neutrinos at the Main Injection) beam as it is directly relevant to
+current \chips efforts. However, it is essential to note that \chips is designed to be used in any
+neutrino beam, including the future \numi replacement, LBNF.
+
+The \numi beam is a muon neutrino beam produced at Fermilab near Chicago in the USA. Initially
+beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to provide a
+higher intensity and energy, principally to achieve peak energy near the oscillation maximum at
+\unit{2}{\GeV} for \nova. Currently the \numi beam achieves an intensity above
+\unit{700}{\mathrm{kW}} (\unit{740}{\mathrm{kW}} peak) making it the most powerful beam in the
+world. A schematic of the \numi beamline configuration is shown in Fig.~\ref{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
     \caption[Schematic of the \numi beam.]
     {Schematic of the main components of the \numi beam (not to scale) shown with their
-        dimensions. The horns control if the beam is in neutrino or anti-neutrino mode. Figure
-        taken from Ref.~\cite{adamson2016}.}
+        corresponding dimensions. Figure taken from Ref.~\cite{adamson2016}.}
     \label{fig:numi_beam}
 \end{figure}
 
+Every \unit{1.33}{\mathrm{seconds}} a \unit{10}{\mu\mathrm{s}} long spill of protons accelerated
+to \unit{120}{\GeV} by the Main Injector are directed towards a stationary graphite target. The
+resulting interactions within the target create a shower of secondary hadrons containing
+predominantly pions and kaons. The hadrons are passed through a focusing system of two magnetic
+horns tuned principally to focus charged pions along the beamline while rejecting other particles.
+After focusing, the surviving hadrons are allowed to decay in flight to a beam of muon neutrinos
+in a \unit{675}{\mathrm{m}} long decay pipe via the processes,
+\begin{align} % NUMI DECAY EQUATIONS %
+    \pi^{+} & \rightarrow\mu^{+}+\nu_{\mu}  \\
+    K^{+}   & \rightarrow\mu^{+}+\nu_{\mu}. \\
+    \label{eq:numi_decays}
+\end{align}
+The resulting muons also decay such that $\mu^{+}\rightarrow e^{+}+\nu_{e}+\bar{\nu}_{\mu}$
+producing an intrinsic $\nu_{e}$ background (alongside other decays) as well as wrong sign
+$\nu_{\mu}$ contamination. Alternatively, the polarity of the horns can be used to switch the
+dominant sign of the hadrons focused, allowing \numi to operate as either a neutrino or
+antineutrino beam. These two modes of operation are called \emph{forward horn current} and
+\emph{reverse horn current} for primarily a neutrino or antineutrino beam composition
+respectively. Any remaining hadrons, alongside electrons, muons and surviving primary protons are
+absorbed in rock downstream of the decay pipe, leaving just the neutrino components of the beam.
+
+Long baseline neutrino experiments typically consist of a \emph{near detector} to measure the beam
+neutrino composition at source and a much larger \emph{far detector} to measure the oscillated
+composition after a long baseline. The \numi beamline contains three detectors just downstream of
+\unit{300}{\mathrm{m}} of absorption rock: The spectrometer MINERvA, the near detector for MINOS
+(now used by MINERvA), and the near detector for \nova. \chips prototypes within the \numi beam
+will not have a dedicated near detector; therefore, data from the above detectors will be crucial
+for any physics measurements in order to contain the beam composition and flux.
+
+The \numi neutrino beam passes through the Earth's crust until it finally emerges in northern
+Minnesota. This is where the MINOS, \nova, and prototype \chips far detectors are located (used to
+be located in the MINOS case), as shown in Fig.~\ref{fig:numi_map}. The Minnesota state nickname
+`land of 10,000 lakes' is not an overstatement, there are a huge number of potential lakes for
+\chips detector deployment in this region. Additionally, large iron ore mining activity on the
+`Iron Range' means there are also many suitable disused, and now flooded mine pits. The exact
+\chipsfive detector location is discussed in greater detail in Section.~\ref{sec:chips_detector}.
+
+\begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.png}
+    \caption[Map of detector locations in the \numi beam.]
+    {Map of the MINOS, \nova and \chips locations in the \numi beam showing the expected neutrino
+        event rate assuming no oscillations. Lines of constant L/E are shown by the contours.
+        Image taken from Ref.\cite{adamson2013}. The western extent of Lake Superior can be seen
+        in the lower right of the map.}
+    \label{fig:numi_map}
+\end{figure}
+
+Due to the kinematics of pion decay, whether the far detector is placed directly on the beam axis
+or not can have a significant impact on the observed energy spectrum of beam neutrinos as shown in
+Fig.~\ref{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong energy
+dependence on the parent pion energy. However, as the angle off-axis increases, the neutrino
+energy is much less dependent on the parent pion energy and becomes restricted to a narrowing
+range of decreasing energies. This effect known as the \emph{off-axis effect} is used by both
+\nova and T2K to create a narrower energy spectrum focused on the $\nu_{\mu}\rightarrow\nu_{e}$
+oscillation maximum. Additionally, by reducing the tail of higher-energy neutrinos, the number of
+background NC events can be greatly reduced.
+
 \begin{figure} % OFF-AXIS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.png}
-    \caption[Neutrino flux for different detectors in the \numi beam.]
-    {Neutrino flux for different detectors in the \numi beam.
-        The difference is caused by the changing off-axis angle.
-        Figure taken from Ref.~\cite{adamson2013}.}
+    \caption[Muon neutrino flux for different \numi detectors at different off-axis angles.]
+    {Muon neutrino flux for different \numi detectors at different off-axis angles. Shown are the
+        neutrino energy spectrum for MINOS (on-axis), \nova (\unit{14}{\mathrm{mrad}} off-axis), and
+        \chipsfive (\unit{7}{\mathrm{mrad}} off-axis). Figure taken from Ref.~\cite{adamson2013}.}
     \label{fig:numi_axis}
 \end{figure}
 
-\subsection{Water Cherenkov events} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Water Cherenkov detectors} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Dissapearence channels sensitive to %abs(delta31^2), and sin^2(2theta23).
-- Apperence channels sensitive to all four parameters including sign of %delta32^2.
 - The "signal" in all cases are CC interactions, therefore selection of nuel, anuel, numu and
 anumu CC is the goal.
 - Main background in CC numu selections are NC with charged pions.
@@ -156,6 +220,8 @@ coherent shock wave of light to be emitted.
 radiation.
 0 As the particle is faster than speed on light in medium the wavefront is in the shape of a cone
 simlar to the wake behind a boat.
+
+- REFERENCE PDG passage of particles through matter
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
@@ -237,6 +303,7 @@ Cherenkov radiation from a single particle over a period of time.
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Disused Taconite mine pit!!!
 - The chips-5 detector is the first of these units, at 25m in diameter and 12m tall.
 - This leads to a fiducial volume of ~5kton
 - Will be initially deployed into the Wentworth Pit 2W in northen minnesota, which is 7 mrad
@@ -259,7 +326,7 @@ rainy season.
 external pit water and isolate the detector volume.
 - This detector will act as a proff of concept that the R\&D has been a success and the provide
 possible improvements for future iterations.
-- CHIPS will not initially have a near detector, however the use of NOVA one is possible if
+- CHIPS will not initially have a near detector, however the use of \nova one is possible if
 required, but not important for now.
 - You would really need a water cherenkov near detector, so it as simiar as possible as the far
 detector.
@@ -293,6 +360,13 @@ INFO: detector module
     \label{fig:sunrise}
 \end{figure}
 
+\begin{figure} % CHIPS RAMP DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/ramp.jpg}
+    \caption[ramp.]
+    {ramp.}
+    \label{fig:ramp}
+\end{figure}
+
 \begin{figure} % CHIPS FROM THE SKY DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/from_the_sky.jpg}
     \caption[Picture of the \chips detector from the air.]
@@ -317,15 +391,6 @@ INFO: detector module
         with the central areas of the pit having a depth of 50m. Image taken from
         Ref.\cite{adamson2013}.}
     \label{fig:contour_map}
-\end{figure}
-
-\begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_map.png}
-    \caption[Map of detector locations in the \numi beam.]
-    {Map of the \chips, NoVA and MINOS locations in the \numi beam showing the expected
-        neutrino event rates, assuming no oscillations. Lines of constant L/E are shown by the
-        contours. Image taken from Ref.\cite{adamson2013}.}
-    \label{fig:numi_map}
 \end{figure}
 
 \subsection{Structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -417,7 +482,7 @@ DIAGRAM: Deployment diagram
 
 Cosmic event rate in \cite{son2013}
 
-- We take full advantage of the MINOS, NOVA extensive simulations of the \numi beam for use in
+- We take full advantage of the MINOS, \nova extensive simulations of the \numi beam for use in
 CHIPS.
 - The tau neutrino component is negligible and not predicted by the simulation
 INFO: expected number of events per year etc...
@@ -427,6 +492,10 @@ INFO: expected number of events per year etc...
 
 DIAGRAM: expected cosmic rate at different height plot
 DIAGRAM: Cosmic rate given the water overburden diagram
+
+- These short spills are essential for \chips and other experiments in rejecting the massive
+cosmic ray background. As all events outside the expected beam spill window at the detector can be
+rejected.
 
 \begin{figure} % COSMICS AROUND DETECTOR DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/cosmics.png}
