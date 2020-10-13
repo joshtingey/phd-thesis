@@ -3,22 +3,22 @@
 
 In pursuit of answers to the open questions outlined in the previous chapter, neutrino experiments
 are becoming increasingly, and possibly prohibitively, expensive and impractical. This is
-particularly true of the next generation of long baseline experiments (DUNE and Hyper-Kamiokande),
+particularly true of the next generation of long baseline experiments, DUNE and Hyper-Kamiokande,
 with cost estimates reaching billions of dollars and construction times greater than half a decade
-long. It is also telling that predominantly two future experimental neutrino projects receive the
-vast majority of global research effort, such is their complexity, cost, and lead time.
+long. It is also telling that these two future experimental neutrino projects receive the vast
+majority of global research effort, such is their complexity, cost, and lead time.
 
 It is clear that for detectors to remain practical and affordable into the future, a novel
-approach to neutrino detector design is desirable. This is especially the case if megaton scale
-detectors are ever to become a reality. While instrumentation will continue to improve with time,
-the statistics of low event counts will always limit neutrino experiments until vastly larger
-detectors can be built. Therefore, current R\&D efforts must focus on such detectors while also
-attempting to complement the current and upcoming generation of experiments.
+approach to neutrino detector design is highly desirable. This is especially the case if megaton
+scale detectors are ever to become a reality. While instrumentation will continue to improve with
+time, the statistics of low event counts will always limit neutrino experiments until vastly
+larger detectors can be built. Therefore, current R\&D efforts must focus on such detectors while
+also attempting to complement the current and upcoming generation of experiments.
 
 The \chips R\&D project~\cite{adamson2013} aims to develop novel strategies and technologies for
 very large yet `cheap as chips' water Cherenkov detectors. Primarily aimed for deployment in long
-baseline accelerator scenarios, \chips aims to lower the construction cost per kt of fiducial mass
-to between \$200k-\$300k. For comparison, the Super-Kamiokande detector reached a cost of
+baseline accelerator beam scenarios, \chips aims to lower the construction cost per kt of fiducial
+mass to between \$200k-\$300k. For comparison, the Super-Kamiokande detector reached a cost of
 approximately \$4 million/kt to build. As physics sensitivity depends on more than just fiducial
 volume, this comparison is not entirely rigorous; however, it highlights the scale of cost savings
 possible.
@@ -27,7 +27,7 @@ This chapter aims to describe the fundamental aspects of the \chips R\&D project
 Firstly, the \chips concept will be outlined along with neutrino beam and Cherenkov detector
 physics for context. The design, construction, deployment, and status of the \chipsfive detector
 will then follow. Finally, the Monte Carlo event generation and detector simulation framework will
-be discussed, to aid work presented in later Chapters of this work.
+be discussed to aid the discussion of work presented in later chapters of this thesis.
 
 \section{\chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,20 +42,20 @@ dramatically reduced.
 Additionally, the common practice of building majority bespoke components is replaced by using
 modern commercially available components wherever possible. The number of expensive elements, such
 as photomultiplier tubes is also reduced by only considering accelerator beam neutrino events,
-such that full high-density detector instrumentation is not required.
+such that full coverage high-density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
-combined depending on available resources. Compared to DUNE and Hyper-Kamiokande requiring a large
-upfront budget and many years to construct, cheap \chips detector modules can be flexibly deployed
-in under a year.
+combined depending on available resources. When compared to DUNE and Hyper-Kamiokande both
+requiring a large upfront budget and many years to construct, cheap \chips detector modules can be
+flexibly deployed in under a year by a relatively small team.
 
 To date, \chips R\&D efforts have been based in the USA to exploit the NuMI beam before the end of
-its lifetime. Future plans are focused on scaling \chips detectors for the deployment of multiple
-modules within the LBNF beam once operational. Collaborators from primarily University College
-London, The University of Wisconsin Madison and Nikhef in the Netherlands are focused on multiple
-R\&D efforts outlined below, each is aiming to prove a vital component of the \chips concept is
-viable.
+its lifetime. Future plans are focused on the scaling \chips detectors for the deployment of
+multiple modules within the LBNF beam once operational. Collaborators from primarily University
+College London, The University of Wisconsin Madison and Nikhef are focused on multiple R\&D
+efforts outlined below, each aiming to prove the viability of a crucial component of the \chips
+concept.
 
 \begin{itemize}
     \item \textbf{Detector construction:} This effort aims to prove that the construction and
@@ -69,34 +69,34 @@ viable.
     \item \textbf{Water filtration:} This effort aims to prove that adequate water purity can be
           achieved using cheap, commercially available filtration. Extensive
           studies~\cite{amat2017, campbell2020} have proven that by filtering water directly from
-          bodies of water on the Earth's surface (flooded mine pits) adequate photon attenuation
-          lengths, greater than \unit{50}{\mathrm{m}} are possible.
+          bodies of water on the Earth's surface (including flooded mine pits), adequate photon
+          attenuation lengths, greater than \unit{50}{\mathrm{m}} are achievable.
 
     \item \textbf{Detector sensitivity:} This effort aims to prove that \chips concept detectors
-          (even the prototypes) can provide significant physics contributions alone or alongside
-          the current and next generation of experiments. Single detectors in the current NuMI
-          beam (discussed in Section.~\ref{sec:chips_concept_beam}) and multiple detectors in the
+          (even prototypes) can provide significant physics contributions alone or alongside the
+          current and next generation of experiments. Single detectors in the current NuMI beam
+          (discussed in Section.~\ref{sec:chips_concept_beam}) and multiple detectors in the
           future LBNF beam have been considered in multiple studies~\cite{pfutzner2017, adde2016,
               lang2015}.
 
     \item \textbf{Data acquisition:} This effort aims to prove that a cheap data acquisition
-          system for \chips using commercially available components and software is
-          viable~\cite{eijk2018}. Outlined in Chapter.~\ref{chap:daq}, \chips implements a novel
-          use of cheap single-board computers to collect photomultiplier tube data.
+          system using commercially available components and software is viable~\cite{eijk2018}.
+          Outlined in Chapter.~\ref{chap:daq}, \chips implements a novel use of cheap single-board
+          computers to collect photomultiplier tube data.
 
-    \item \textbf{Event reconstruction and identification:} This effort aims to prove that modern
+    \item \textbf{Event reconstruction and classification:} This effort aims to prove that modern
           machine learning techniques can be successfully applied to large water Cherenkov
           detector concepts such as \chips. Outlined as the primary contribution of this thesis in
-          Chapter.~\ref{chap:cvn}, this work feeds into both the detector sensitivity work
-          mentioned above and allows for detailed detector optimisation studies to be conducted.
+          Chapter.~\ref{chap:cvn}, this work feeds directly into both the detector sensitivity
+          work mentioned above and detailed detector optimisation studies.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
     \caption[Picture of the \chipsm detector.]
     {Picture of the \chipsm detector just before deployment. The temporary floatation bags are
-        visibly attached to the top rim of the detector. Additionally, the umbilical cord,
-        carrying data, power and water is visible, attached to the bottom of the detector.}
+        visibly attached to the top rim of the detector. Additionally, the umbilical cord carrying
+        data, power, and water is attached to the bottom of the detector.}
     \label{fig:chips_m}
 \end{figure}
 
@@ -105,24 +105,25 @@ viable.
 
 \chips detectors will primarily study the appearance of $\nu_{e}$ oscillating from $\nu_{\mu}$
 over a long baseline. In order to generate a sufficient number of GeV scale $\nu_{\mu}$, a
-high-intensity beam is required. Currently, only two such beams exist, the J-PARC based beam in
-Japan used by the T2K experiment and the \numi beam in the USA used by \nova. Here we describe the
-\numi~\cite{adamson2016} (Neutrinos at the Main Injection) beam as it is directly relevant to
-current \chips efforts. However, it is essential to note that \chips is designed to be used in any
-neutrino beam, including the future \numi replacement, LBNF.
+high-intensity accelerator beam is required. Currently, only two such beams exist, the J-PARC
+based beam in Japan used by the T2K experiment and the \numi beam in the USA used by \nova. Here
+we describe the \numi~\cite{adamson2016} (Neutrinos at the Main Injection) beam as it is directly
+relevant to current \chips efforts. However, it is essential to note that \chips is designed to be
+used in any neutrino beam, including the future \numi replacement, LBNF.
 
-The \numi beam is a muon neutrino beam produced at Fermilab near Chicago in the USA. Initially
-beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to provide a
-higher intensity and energy, principally to achieve peak energy near the oscillation maximum at
-\unit{2}{\GeV} for \nova. Currently the \numi beam achieves an intensity above
+The \numi beam is an accelerator muon neutrino beam produced at Fermilab near Chicago in the USA.
+Initially beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to
+provide a higher intensity and energy, principally to achieve peak energy near the \unit{2}{\GeV}
+oscillation maximum for \nova. Currently the \numi beam achieves an intensity above
 \unit{700}{\mathrm{kW}} (\unit{740}{\mathrm{kW}} peak) making it the most powerful beam in the
 world. A schematic of the \numi beamline configuration is shown in Fig.~\ref{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
-    \caption[Schematic of the \numi beam.]
-    {Schematic of the main components of the \numi beam (not to scale) shown with their
-        corresponding dimensions. Figure taken from Ref.~\cite{adamson2016}.}
+    \caption[Schematic of the main components of the \numi beam.]
+    {Schematic of the main components of the \numi beam (not to scale) shown with dimensions.
+        Figure taken from Ref.~\cite{adamson2016}. The MINOS and \nova near detectors and the
+        MINERvA experiment are located just to the right of what is shown.}
     \label{fig:numi_beam}
 \end{figure}
 
@@ -149,133 +150,129 @@ absorbed in rock downstream of the decay pipe, leaving just the neutrino compone
 
 Long baseline neutrino experiments typically consist of a \emph{near detector} to measure the beam
 neutrino composition at source and a much larger \emph{far detector} to measure the oscillated
-composition after a long baseline. The \numi beamline contains three detectors just downstream of
-\unit{300}{\mathrm{m}} of absorption rock: The spectrometer MINERvA, the near detector for MINOS
-(now used by MINERvA), and the near detector for \nova. \chips prototypes within the \numi beam
-will not have a dedicated near detector; therefore, data from the above detectors will be crucial
-for any physics measurements in order to contain the beam composition and flux.
+composition after a long distance. The \numi beamline contains three detectors just downstream of
+\unit{300}{\mathrm{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the near detector
+for MINOS (now used by MINERvA), and the near detector for \nova. \chips prototypes within the
+\numi beam will not have a dedicated near detector; therefore, data from the above detectors will
+be crucial for physics analysis in order to constrain the beam composition and flux.
 
 The \numi neutrino beam passes through the Earth's crust until it finally emerges in northern
 Minnesota. This is where the MINOS, \nova, and prototype \chips far detectors are located (used to
 be located in the MINOS case), as shown in Fig.~\ref{fig:numi_map}. The Minnesota state nickname
 `land of 10,000 lakes' is not an overstatement, there are a huge number of potential lakes for
-\chips detector deployment in this region. Additionally, large iron ore mining activity on the
-`Iron Range' means there are also many suitable disused, and now flooded mine pits. The exact
-\chipsfive detector location is discussed in greater detail in Section.~\ref{sec:chips_detector}.
+\chips detector deployment in this region. Additionally, intense iron ore mining activity on the
+`Iron Range' provides many suitable disused (and now flooded) mine pits. The exact \chipsfive
+prototype detector location is discussed in greater detail in Section.~\ref{sec:chips_detector}.
 
 \begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.png}
     \caption[Map of detector locations in the \numi beam.]
-    {Map of the MINOS, \nova and \chips locations in the \numi beam showing the expected neutrino
-        event rate assuming no oscillations. Lines of constant L/E are shown by the contours.
-        Image taken from Ref.\cite{adamson2013}. The western extent of Lake Superior can be seen
-        in the lower right of the map.}
+    {Map of the MINOS, \nova and \chips locations in the \numi beam as it surfaces in northern
+        Minnesota. Shown is the expected neutrino event rate assuming no oscillations, with lines
+        of constant L/E indicated by contours. The western extent of Lake Superior can be seen in
+        the lower right of the map. Image taken from Ref.\cite{adamson2013}.}
     \label{fig:numi_map}
 \end{figure}
 
 Due to the kinematics of pion decay, whether the far detector is placed directly on the beam axis
 or not can have a significant impact on the observed energy spectrum of beam neutrinos as shown in
 Fig.~\ref{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong energy
-dependence on the parent pion energy. However, as the angle off-axis increases, the neutrino
-energy is much less dependent on the parent pion energy and becomes restricted to a narrowing
-range of decreasing energies. This effect known as the \emph{off-axis effect} is used by both
-\nova and T2K to create a narrower energy spectrum focused on the $\nu_{\mu}\rightarrow\nu_{e}$
-oscillation maximum. Additionally, by reducing the tail of higher-energy neutrinos, the number of
-background NC events can be greatly reduced.
+dependence on the parent pion energy. However, as the off-axis angle increases, the neutrino
+energy is less dependent on the parent pion energy and becomes restricted to a narrowing range of
+decreasing energies. This effect known as the \emph{off-axis effect} is used by both \nova and T2K
+to create a narrower energy spectrum focused on the $\nu_{\mu}\rightarrow\nu_{e}$ oscillation
+maximum. Additionally, by reducing the tail of higher-energy neutrinos, the number of background
+NC events can be greatly reduced, as is the case for the \unit{7}{\mathrm{mrad}} off-axis
+\chipsfive detector.
 
 \begin{figure} % OFF-AXIS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.png}
     \caption[Muon neutrino flux for different \numi detectors at different off-axis angles.]
     {Muon neutrino flux for different \numi detectors at different off-axis angles. Shown are the
-        neutrino energy spectrum for MINOS (on-axis), \nova (\unit{14}{\mathrm{mrad}} off-axis), and
-        \chipsfive (\unit{7}{\mathrm{mrad}} off-axis). Figure taken from Ref.~\cite{adamson2013}.}
+        neutrino energy spectrum for MINOS (on-axis), \nova (\unit{14}{\mathrm{mrad}} off-axis),
+        and \chipsfive (\unit{7}{\mathrm{mrad}} off-axis). Figure taken from
+        Ref.~\cite{adamson2013}.}
     \label{fig:numi_axis}
 \end{figure}
 
 \subsection{Water Cherenkov detectors} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- The "signal" in all cases are CC interactions, therefore selection of nuel, anuel, numu and
-anumu CC is the goal.
-- Main background in CC numu selections are NC with charged pions.
-- Main background in CC nuel selections is pi-zero NC, which can mimic the chracteristic EM
-shower, due to its near certain decay into two photons.
-- You get a small number of nuel intrinsic to the beam, they are just a background as they are
-indistinguishabe from the nuel appreaence neutrinos.
-- Once you have collected samples in all four cases, a fit is performed to the reconstructed
-neutrino energy distributions to extract the four neutrino oscillation parameters.
+The \chips detector concept is based upon the water Cherenkov technique for neutrino detection,
+which has been successfully used many times by neutrino experiments. A large body of target water
+is instrumented with photomultiplier tubes (PMTs) to record the Cherenkov radiation produced by
+sufficiently relativistic charged particles resulting from neutrino interactions. By using readily
+available water as the target material and only instrumenting the volume surface, water Cherenkov
+detectors provide the best methodology for maximising volume and reducing cost.
 
-- CHERENKOV RADIATION -> PMTS -> TYPES OF EVENT (main problem ones etc...)
-
-- Operate on the fact that charged particles travelling faster than the local speed of light in a
-dielectric medium will emit photons due to the Cherenkov effect.
-- Therefore water Cherenkov detectors consist of a large body of water instrumented with
-photomultiplier tubes.
-- A neutrino interacts with nucleon in thw water emitting a charged particle such as an electron or
-muon.
-- If particle is sufficiently relativistic it will emit Cherenkov radiation.
-- The induced polarisation of the water molecules in the wake of the charged particle causes a
-coherent shock wave of light to be emitted.
-- Excite electron and atoms in its path which then must return to the ground state by emitting
-radiation.
-0 As the particle is faster than speed on light in medium the wavefront is in the shape of a cone
-simlar to the wake behind a boat.
-
-- REFERENCE PDG passage of particles through matter
+Cherenkov radiation is emitted by all electrically charged particles travelling faster than the
+local phase velocity of light in a dielectric medium. Similar to the sonic boom created by a
+supersonic aircraft, Cherenkov radiation forms a shock wave of coherent light, as shown in
+Fig.~\ref{fig:cherenkov}, typically with wavelengths in the ultraviolet and optical range. When
+projected onto the detector wall, the resulting cone of radiation generates a distinctive ring
+shape. The cone opening angle (the angle at which light is emitted) $\theta_{c}$ is given
+by~\cite{particle2020}:
+\begin{equation}
+    \cos\theta_{c} = \frac{1}{\beta n(\lambda)},
+    \label{eq:cherenkov_angle}
+\end{equation}
+where $\beta=v/c$ and $n$ is the refractive index of the medium. Note that $n$ is a function of
+the wavelength of emission $\lambda$, and so is the opening angle. As the refractive index of
+water is approximately $1.33$ for typical wavelengths of emission, and using the ultrarelativistic
+limit $\beta\approx 1$ the opening angle is found to be $\theta_{c}\approx 41^{\circ}$.
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
-    \caption[Diagram of Cherenkov radiation.]
+    \caption[Diagram of Cherenkov radiation emission.]
     {Diagram of Cherenkov radiation emission and wavefront angles. The angles $\theta_{c}$ and
-        $\eta$ are not equal in a dispersive medium. Figure taken from Ref.~\cite{particle2020}
-    }
+        $\eta$ are not equal in a dispersive medium. Figure taken from Ref.~\cite{particle2020}}
     \label{fig:cherenkov}
 \end{figure}
 
-- Charged particle emit Cherenkov radiation if their velocity is greater than the local phase
-velocity of light in the medium through which they are travelling.
-- The angle at which the Cherenkov radiation is emmited relative to the particles direction of
-travel is given by Ref.~\cite{particle2020}
+There is no Cherenkov emission when $\cos\theta_{c} > 1$ in Eq.~\ref{eq:cherenkov_angle}, which is
+the case when $\beta n(\lambda)<1$. Therefore, there exists a Cherenkov energy threshold $E_{t}$
+for every particle, which when expressed in terms of the particle mass $m$ is given by:
 \begin{equation}
-    cos\theta_{c} = \frac{1}{n\beta}
-    \label{eq:cherenkov_angle}
+    E_{t} = \gamma m = \frac{m}{\sqrt{1-(1/n)^{2}}}.
+    \label{eq:cherenkov_threshold}
 \end{equation}
-- Where n is the refractive index of the medium and $\beta=v/c$
-- n is actually a function of the light wavelength $\lambda$
-- The refractive index of water is very close to 1.33 in the relevant wavelength range, which for
-ultrarelativistic particles with $\beta\approx 1$ gives a value of $\theta_{c}\approx 41^{\circ}$
-- The threshold velocity for Cherenkov emmision is $\beta_{t}=1/n$
+Again using $n\approx1.33$ this gives a typical threshold energy of approximately $1.5m$.
 
-- Cherenkov emission per unit wavelength per centimetre travelled by the particle is\dots
+The number of Cherenkov photons emitted by a particle of charge $ze$ per unit wavelength per unit
+path length is given by~\cite{particle2020}:
 \begin{equation}
-    \frac{d^{2}N}{d\lambda dx}=\frac{2\pi\alpha^{2}}{\lambda^{2}}
-    (1-\frac{1}{1-\beta^{2}n^{2}(\lambda)})
+    \frac{d^{2}N}{d\lambda dx}=\frac{2\pi\alpha z^{2}}{\lambda^{2}}
+    \left(1-\frac{1}{1-\beta^{2}n^{2}(\lambda)}\right),
     \label{eq:cherenkov_emission}
 \end{equation}
+where $\alpha$ is the fine structure constant. Integrating over the range of wavelengths for which
+PMTs are typically sensitive \unit{350}{\mathrm{nm}} to \unit{650}{\mathrm{nm}}, and using the
+$\beta\approx 1$ and $n\approx1.33$ gives approximately $240$ per cm travelled.
 
-- By reconstructing the Cherenkov cone of light deposited in the detector PMTs info about the
-interaction can be determined.
-- Muons will be a single well-defined cone, electron will produce EM shower, results in all the
-shower particle cherenkov ones overapping, so a distincttly `fuzzy cone' is produced.
-- THis allows these two or events with multiple rings to be told apart.
+By analysing the Cherenkov cone (or cones) of light recorded by the PMTs on the walls of the
+detector, information about the underlying neutrino interaction can be determined. For example,
+the basic shape of a Cherenkov ring can be used to tell which charged particle created it. As
+electrons initiate an electromagnetic shower almost immediately, the resulting cone is actually
+the sum of all the cones from the individual electrons and positrons within the shower. When
+compared to the ring produced from a long track muon, whose ring is the result of emission from a
+single particle, electron rings are wider and characteristically fuzzy. As can be seen in
+Fig.~\ref{fig:emission distance}. The muon ring produces a plateau or constant radiation across
+the ring with sharper edges within the whole and on the outside.
 
 \begin{figure} % EMISSION DISTANCE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
     \caption[Fraction of Cherenkov photons emitted as a function of distance.]
     {The fraction of the total number of photons emitted as a function of the distance from the
-        interaction vertex for both electrons and muons. Note how the muon travels much further
-        emitted an approximately constant amount of Cherenkov radiation as it does so.}
+        interaction vertex for both electrons and muons with an energy of \unit{2.5}{\GeV}. Note
+        how the muon travels much further emitted an approximately constant amount of Cherenkov
+        radiation as it does so.}
     \label{fig:emission distance}
 \end{figure}
 
-\begin{figure} % EMISSION PROFILE DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/4-chips/emission_profile.pdf}
-    \caption[Emission profiles for both electrons and muons]
-    {Emission profiles for both electrons (left) and muons (right). They show the fraction of the
-        total number of emitted photons as a function of both the distance travelled from the
-        interaction vertex and the angle of emission for each photon.}
-    \label{fig:emission_profile}
-\end{figure}
+The situation becomes more difficult when there are many charged particle above threshold within
+an event. In this case multiple rings can overlap and reconstruction becomes much more difficult.
+Particularly of concern for water cherenkov detectors is the case when rings overlap to such a
+degree that you can not tell them apart
 
 - The interaction of primary concern are NC interactions that produce a pi-zero
 - They decay to a pair of photons with a branching ratio of 98.82\% reference
@@ -290,18 +287,18 @@ of the two photons respectively.
 Therefore for a pi-zero decaying to two 1000 MeV photons gives a separation angle of
 $\approx 8^{\circ}$. This creates two overlapping rings of hits picked up by the detector pmts
 which can prove difficult to separate.
-
-- TALK ABOUT THE DIFFERENT TYPE OF INTERACTIONS AT HOW THEY MANIFEST DUE TO CHERENKOV RADIATION!!!
-
 - If one photon has a much lower energy than the other, or they are very closely overlapped,
 they are commonly misidentified as a single electron.
 - The shape of the ring can then be used for particle identification
 - Muon rings tend to be sharper and exhibit a `plateau' shape as they emit a constant amount of
 Cherenkov radiation from a single particle over a period of time.
-- Electron rings are more diffuse due to their production being from a electromagnetic shower.
+- Electron rings are more diffuse due to their production being from a electromagnetic shower
 
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Will use this prototype detector to explain all the main detailed principles of a \chips
+detector module.
 
 - Disused Taconite mine pit!!!
 - The chips-5 detector is the first of these units, at 25m in diameter and 12m tall.
@@ -531,3 +528,13 @@ rejected.
         of photons incident on a PMT.}
     \label{fig:digitisation}
 \end{figure}
+
+- The "signal" in all cases are CC interactions, therefore selection of nuel, anuel, numu and
+anumu CC is the goal.
+- Main background in CC numu selections are NC with charged pions.
+- Main background in CC nuel selections is pi-zero NC, which can mimic the chracteristic EM
+shower, due to its near certain decay into two photons.
+- You get a small number of nuel intrinsic to the beam, they are just a background as they are
+indistinguishabe from the nuel appreaence neutrinos.
+- Once you have collected samples in all four cases, a fit is performed to the reconstructed
+neutrino energy distributions to extract the four neutrino oscillation parameters.

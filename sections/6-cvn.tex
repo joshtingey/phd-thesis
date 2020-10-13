@@ -1,19 +1,20 @@
 \chapter{Convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:cvn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-For the majority of HEP experiments, event analysis has two primary aims. The separation of signal
-events from background events, and the estimation of particle energies. The same is true for
-\chips, with the primary aims being the selection of CC $\nu_{e}$ signal events from a sizeable
-background and estimation of the associated neutrino energy.
+For the majority of HEP experiments, event analysis aims to separate signal from background,
+identify particles types, discover kinematic properties and estimate energies. The same is true
+for \chips, with the primary aims being the selection of CC $\nu_{e}$ signal events from a
+sizeable background and estimation of the associated neutrino energy.
 
 For this purpose, the \chips project has so far relied on a human implemented reconstruction
 algorithm and a classification neural network driven by hand-engineered features. Both of which
 are prone to human error and restricted in scope to what has been implemented in software.
 
 The work outlined in this chapter presents a replacement event analysis methodology for \chips.
-Three \emph{Convolutional Neural Networks} (CNNs) a type of \emph{deep learning} neural network
-has been implemented, primarily to achieve the goals outlined above. One for cosmic rejection, one
-for beam classification, and one for neutrino energy estimation.
+Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep
+    learning}~\cite{goodfellow2016} neural network have been implemented, primarily to achieve the
+goals outlined above. One for cosmic rejection, one for beam classification, and one for neutrino
+energy estimation.
 
 After covering previous deep learning implementations for neutrino experiments, a brief
 description of the current techniques to be replaced is made. The theoretical background to CNNs
@@ -44,12 +45,13 @@ architecture~\cite{szegedy2015}, discussed in section \ref{sec:cvn_theory_conv}.
 iteration has since been applied to both the classification of individual energy deposit
 clusters~\cite{psihas2019} and $\nu_{e}$ and $e^{-}$ energy reconstruction~\cite{baldi2019}.
 
-CNNs have also been applied to liquid argon time-projection chambers. The MicroBooNE experiment
-has shown that in addition to classification tasks, the localisation of single particles within
-events is possible~\cite{acciarri2017}. Furthermore, the DUNE collaboration has designed a network
-to output both the interaction class and counts of different particle types in an
-event~\cite{collaboration2020, abi2020}. This approach is called \emph{multi-task} learning and is
-discussed in detail within Section.~\ref{sec:cvn_baseline_outputs}.
+CNNs have also been applied to liquid argon time-projection chambers. The MicroBooNE
+experiment~\cite{acciarri2017_ref} has shown that in addition to classification tasks, the
+localisation of single particles within events is possible~\cite{acciarri2017}. Furthermore, the
+DUNE collaboration has designed a network to output both the interaction class and counts of
+different particle types in an event~\cite{collaboration2020, abi2020}. This approach is called
+\emph{multi-task} learning and is discussed in detail within
+Section.~\ref{sec:cvn_baseline_outputs}.
 
 Applications to water Cherenkov detectors have also been made, by both the Daya Bay reactor
 experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
@@ -155,12 +157,12 @@ components which can then be dealt with separately computationally. In the actua
 calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the
 probability of an unhit PMT is treated as a PMT with observed charge equal to zero.
 
-The Minuit2 algorithm contained within ROOT~\cite{brun1997} is used for the minimisation process.
-At each iteration, the charge and hit time predictions are made, and the negative logarithm of the
-likelihood is calculated. The track parameters are then varied to minimise the likelihood before
-the next iteration. Through a series of stages, fixing and freeing specific parameters, the
-minimisation process converges to the best-fit parameters for the given hypothesis. This process
-typically takes two minutes on a standard batch farm computing node.
+The Minuit2 algorithm contained within ROOT software package~\cite{brun1997} is used for the
+minimisation process. At each iteration, the charge and hit time predictions are made, and the
+negative logarithm of the likelihood is calculated. The track parameters are then varied to
+minimise the likelihood before the next iteration. Through a series of stages, fixing and freeing
+specific parameters, the minimisation process converges to the best-fit parameters for the given
+hypothesis. This process typically takes two minutes on a standard batch farm computing node.
 
 \subsubsection*{Downsides} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -181,22 +183,21 @@ Examples of these inputs include the following:
           (derived from a reversal of the simulation digitisation methodology).
 \end{itemize}
 The first three are combined into \emph{emission profiles} generated from large samples of the
-Monte Carlo simulation, one representation of which is very similar to those shown in
-Fig.~\ref{fig:emission_profile}. Additionally, the last listed input is comparable to that shown
-in Fig.~\ref{fig:digitisation}.
+Monte Carlo simulation. The last listed input is comparable to that shown in
+Fig.~\ref{fig:digitisation}.
 
 The list above demonstrates a fundamental problem with the likelihood-based approach. It is
 heavily reliant on the accuracy of low-level inputs and their associated use in human implemented
-software. If a physical process is not dealt with appropriately or overlooked, then the prediction
-accuracy of charges and hit times for the PMTs is affected, impacting the performance of finding
-accurate best-fit parameters.
+software. If a physical process is not dealt with appropriately or overlooked (the hadronic
+component of events), then the prediction accuracy of charges and hit times for the PMTs is
+affected, impacting the performance of finding accurate best-fit parameters.
 
 The other fundamental flaw of the likelihood-based approach is the requirement of a predefined
 track hypothesis. Real events expected within \chips are rarely simple single particle or even
 two-particle events. In reality, the majority of events contain multiple final state particles of
 various types and in various topologies. The predefinition of a track hypothesis makes the
 implementation of a generalised approach to event reconstruction where all possible event types
-are considered impossible.
+are considered, impossible.
 
 \subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -255,8 +256,8 @@ are well suited to this paradigm.
 Here we discuss the application of neural networks for \emph{supervised learning}, one of two
 broad machine learning categories that is concerned with using labelled example data to train
 algorithms. The other category of \emph{unsupervised learning}, where the properties of the
-dataset are inferred without example data is not discussed, however, will be used
-Section.~\ref{sec:cvn_explain}.
+dataset are inferred without example data is not discussed, however, will be used for
+\emph{explainability} in Section.~\ref{sec:cvn_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1223,15 +1224,15 @@ shown in Fig.~\ref{fig:explore_stacked_int_types}.
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
     \caption[Weighted spectrum of evaluation sample events.]
     {Weighted spectrum of events contained within the evaluation sample. The weighting is designed
-        to mimic the expected event spectrum of the \chipsfive detector. Beam events are weighted
-        by combining the expected unoscillated flux with cross-sections and standard oscillation
-        probabilities, while cosmic events are weighted using the expected cosmic rate and
-        overburden. Shown in blue, green and olive are the surviving CC $\nu_{\mu}$, appearing CC
-        $\nu_{e}$ and the intrinsic beam CC $\nu_{e}$ spectra respectively, binned in terms of
-        their neutrino energy. Additionally, shown in red is the NC event spectra binned in terms
-        of the energy of the hadronic system (excluding the outgoing neutrino energy) to represent
-        more accurately the energy visible to the detector. Finally, shown in black is the cosmic
-        muon event spectra binned in terms of the muon energy.}
+        to mimic the expected event spectrum of the \chipsfive detector. Beam events are weighted by
+        combining the expected unoscillated flux with cross-sections and standard oscillation
+        probabilities, while cosmic events are weighted using the expected cosmic rate and overburden.
+        Shown in blue, green and olive are the surviving CC $\nu_{\mu}$, appearing CC $\nu_{e}$ and
+        the intrinsic beam CC $\nu_{e}$ spectra respectively, binned in terms of their neutrino
+        energy. Additionally, shown in red is the NC event spectra binned in terms of the energy of
+        the hadronic component (excluding the outgoing neutrino energy) to represent more accurately
+        the energy visible to the detector. Finally, shown in black is the cosmic muon event spectra
+        binned in terms of the muon energy.}
     \label{fig:explore_osc_fluxes}
 \end{figure}
 
@@ -1239,8 +1240,8 @@ shown in Fig.~\ref{fig:explore_stacked_int_types}.
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_stacked_int_types.pdf}
     \caption[Weighted spectrum of interaction types within the evaluation sample.]
     {Weighted spectrum of $\nu_{\mu}$ and $\nu_{e}$ beam events contained within the evaluation
-        sample separated by interaction type. CC events are binned in terms of neutrino energy
-        while NC events are binned in terms of the hadronic system energy.}
+        sample separated by interaction type. CC events are binned in terms of neutrino energy while
+        NC events are binned in terms of the hadronic component energy.}
     \label{fig:explore_stacked_int_types}
 \end{figure}
 
@@ -1443,7 +1444,7 @@ indistinguishable nature, this is the only reasonable approach to generate cut v
     {Table showing CC $\nu_{e}$ selected event numbers(efficiencies) for the various event
         categories as well as associated all $\nu_{e}$ (appeared and beam) purity and signal
         purity. Shown are the post preselection, \emph{cosmic score} cut, and \emph{escapes score}
-        cut numbers (cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
+        cut numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
         (FOM) selection.}
     \label{tab:nuel_selection}
 \end{table}
@@ -1456,19 +1457,18 @@ $\nu_{e}$ events typically do not have well-defined electron Cherenkov rings, le
 rejection. Due to the abundance of selected intrinsic beam CC $\nu_{e}$ events at higher energies,
 the appeared CC $\nu_{e}$ purity is observed to peak at approximately \unit{2.5}{\GeV} (close to
 the oscillation maximum) before declining. The NC efficiency is seen to slowly increase
-approaching 15\% for hadronic system energies above \unit{5}{\GeV}; this is likely due to
+approaching 15\% for hadronic component energies above \unit{5}{\GeV}; this is likely due to
 misidentification of high energy pions or protons as electrons. Importantly, however, within the
 key signal region from 2 to \unit{4}{\GeV}, NC selection efficiency remains low.
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_hists.pdf}
     \caption[Efficiency of CC $\nu_{e}$ selection as a function of energy.]
-    {Efficiency of CC $\nu_{e}$ selection for the different event categories as well as appeared
-        CC $\nu_{e}$ purity as a function of energy. All CC categories are shown in terms of
-        neutrino energy, while NC events are shown in terms of the hadronic system energy. The
-        survived CC $\nu_{\mu}$ efficiency is so low it is barely visible near zero. For
-        reference, the true appeared CC $\nu_{e}$ neutrino energy distribution is shown in the
-        green.}
+    {Efficiency of CC $\nu_{e}$ selection for the different event categories as well as appeared CC
+        $\nu_{e}$ purity as a function of energy. All CC categories are shown in terms of neutrino
+        energy, while NC events are shown in terms of the hadronic component energy. The survived CC
+        $\nu_{\mu}$ efficiency is so low it is barely visible near zero. For reference, the true
+        appeared CC $\nu_{e}$ neutrino energy distribution is shown in the green.}
     \label{fig:final_nuel_hists}
 \end{figure}
 
@@ -1549,7 +1549,7 @@ purity of the \nova CC $\nu_{\mu}$ selection~\cite{acero2019}.
     \caption[Table showing CC $\nu_{\mu}$ selected event numbers, efficiencies and signal purity.]
     {Table showing CC $\nu_{\mu}$ selected event numbers(efficiencies) for the various event
         categories as well as associated signal purity. Shown are the post preselection,
-        \emph{cosmic score} cut, and \emph{escapes score} cut numbers (cuts) in addition to the
+        \emph{cosmic score} cut, and \emph{escapes score} cut numbers (Cuts) in addition to the
         $\mathrm{efficiency}\times\mathrm{purity}$ optimised (FOM) selection.}
     \label{tab:numu_selection}
 \end{table}
@@ -1568,10 +1568,10 @@ misidentification of energetic protons and pions.
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_hists.pdf}
     \caption[Efficiency of CC $\nu_{\mu}$ selection as a function of energy.]
     {Efficiency of CC $\nu_{\mu}$ selection for the different event categories as well as survived
-        CC $\nu_{\mu}$ purity as a function of neutrino energy. All CC categories are shown in
-        terms of neutrino energy, while NC events are shown in terms of the hadronic system
-        energy. For reference, the true survived CC $\nu_{\mu}$ neutrino energy distribution is
-        shown in the blue.}
+        CC $\nu_{\mu}$ purity as a function of neutrino energy. All CC categories are shown in terms
+        of neutrino energy, while NC events are shown in terms of the hadronic component energy. For
+        reference, the true survived CC $\nu_{\mu}$ neutrino energy distribution is shown in the
+        blue.}
     \label{fig:final_numu_hists}
 \end{figure}
 
@@ -1769,16 +1769,16 @@ A significant improvement is made using the new CNN approach. An energy resoluti
 size of the standard reconstruction resolution for CC $\nu_{e}$($\nu_{\mu}$) QEL events is
 achieved, at 4.5\%(4.0\%). When compared to the approximately 2.5\% CC QEL charged lepton energy
 resolution reached by the fiTQun algorithm for Super-Kamiokande~\cite{jiang2019}, the performance
-presented here is impressive, given the significant differences in detector design. Perhaps more
+presented here is impressive, given the significant differences in detector design.
 
 \begin{figure} % FINAL FRAC E COMPARISON DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_frac_e_comparison.pdf}
     \caption[Distributions of (reco-true)/true primary charged lepton energies for the CNN and standard methods.]
     {Distributions of (reco-true)/true primary charged lepton energies for both CC $\nu_{e}$
-        (left) and CC $\nu_{\mu}$ (right) beam events for both the new CNN approach and standard (old)
-        methods. Only QEL events are shown for clearer comparison with the standard reconstruction
-        methods. The standard deviation of a gaussian fit made to each distribution is shown in the
-        corresponding brackets.}
+        (left) and CC $\nu_{\mu}$ (right) beam events for both the new CNN approach and standard
+        (old) methods. Only QEL events are shown for clearer comparison with the standard
+        reconstruction methods. The standard deviation of a gaussian fit made to each distribution
+        is shown in the corresponding brackets.}
     \label{fig:final_frac_e_comparison}
 \end{figure}
 
