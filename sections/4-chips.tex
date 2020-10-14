@@ -104,19 +104,20 @@ concept.
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chips detectors will primarily study the appearance of $\nu_{e}$ oscillating from $\nu_{\mu}$
-over a long baseline. In order to generate a sufficient number of GeV scale $\nu_{\mu}$, a
-high-intensity accelerator beam is required. Currently, only two such beams exist, the J-PARC
-based beam in Japan used by the T2K experiment and the \numi beam in the USA used by \nova. Here
-we describe the \numi~\cite{adamson2016} (Neutrinos at the Main Injection) beam as it is directly
-relevant to current \chips efforts. However, it is essential to note that \chips is designed to be
+over a long baseline. To generate a sufficient number of GeV scale $\nu_{\mu}$, a high-intensity
+accelerator beam is required. Currently, only two such beams exist, the J-PARC based beam in Japan
+used by the T2K experiment and the \numi beam in the USA used by \nova. Here we describe the
+\numi~\cite{adamson2016} (Neutrinos at the Main Injection) beam as it is directly relevant to
+current \chips efforts. However, it is essential to note that \chips detectors are designed to be
 used in any neutrino beam, including the future \numi replacement, LBNF.
 
 The \numi beam is an accelerator muon neutrino beam produced at Fermilab near Chicago in the USA.
-Initially beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to
-provide a higher intensity and energy, principally to achieve peak energy near the \unit{2}{\GeV}
-oscillation maximum for \nova. Currently the \numi beam achieves an intensity above
-\unit{700}{\mathrm{kW}} (\unit{740}{\mathrm{kW}} peak) making it the most powerful beam in the
-world. A schematic of the \numi beamline configuration is shown in Fig.~\ref{fig:numi_beam}.
+Beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to provide a
+higher intensity and energy, principally to achieve peak energy near the $\sim$\unit{1.5}{\GeV}
+$\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum for \nova. Currently the \numi beam achieves an
+intensity above \unit{700}{\mathrm{kW}} (\unit{740}{\mathrm{kW}} peak) making it the most powerful
+beam in the world. A schematic of the \numi beamline configuration is shown in
+Fig.~\ref{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
@@ -135,7 +136,7 @@ horns tuned principally to focus charged pions along the beamline while rejectin
 After focusing, the surviving hadrons are allowed to decay in flight to a beam of muon neutrinos
 in a \unit{675}{\mathrm{m}} long decay pipe via the processes,
 \begin{align} % NUMI DECAY EQUATIONS %
-    \pi^{+} & \rightarrow\mu^{+}+\nu_{\mu}  \\
+    \pi^{+} & \rightarrow\mu^{+}+\nu_{\mu}, \\
     K^{+}   & \rightarrow\mu^{+}+\nu_{\mu}. \\
     \label{eq:numi_decays}
 \end{align}
@@ -146,7 +147,7 @@ dominant sign of the hadrons focused, allowing \numi to operate as either a neut
 antineutrino beam. These two modes of operation are called \emph{forward horn current} and
 \emph{reverse horn current} for primarily a neutrino or antineutrino beam composition
 respectively. Any remaining hadrons, alongside electrons, muons and surviving primary protons are
-absorbed in rock downstream of the decay pipe, leaving just the neutrino components of the beam.
+absorbed by rock downstream of the decay pipe, leaving just the neutrino components of the beam.
 
 Long baseline neutrino experiments typically consist of a \emph{near detector} to measure the beam
 neutrino composition at source and a much larger \emph{far detector} to measure the oscillated
@@ -154,12 +155,14 @@ composition after a long distance. The \numi beamline contains three detectors j
 \unit{300}{\mathrm{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the near detector
 for MINOS (now used by MINERvA), and the near detector for \nova. \chips prototypes within the
 \numi beam will not have a dedicated near detector; therefore, data from the above detectors will
-be crucial for physics analysis in order to constrain the beam composition and flux.
+be crucial for physics analysis in order to constrain the beam composition and flux. However, any
+future near detector for \chips, possible in the LBNF beam should also be a water Cherenkov
+detector, so that detector induced systematic uncertainties can cancel.
 
 The \numi neutrino beam passes through the Earth's crust until it finally emerges in northern
 Minnesota. This is where the MINOS, \nova, and prototype \chips far detectors are located (used to
 be located in the MINOS case), as shown in Fig.~\ref{fig:numi_map}. The Minnesota state nickname
-`land of 10,000 lakes' is not an overstatement, there are a huge number of potential lakes for
+`land of 10,000 lakes' is not an overstatement, there are a large number of potential lakes for
 \chips detector deployment in this region. Additionally, intense iron ore mining activity on the
 `Iron Range' provides many suitable disused (and now flooded) mine pits. The exact \chipsfive
 prototype detector location is discussed in greater detail in Section.~\ref{sec:chips_detector}.
@@ -199,27 +202,26 @@ NC events can be greatly reduced, as is the case for the \unit{7}{\mathrm{mrad}}
 \label{sec:chips_concept_cherenkov} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The \chips detector concept is based upon the water Cherenkov technique for neutrino detection,
-which has been successfully used many times by neutrino experiments. A large body of target water
+which has successfully been used many times by neutrino experiments. A large body of target water
 is instrumented with photomultiplier tubes (PMTs) to record the Cherenkov radiation produced by
 sufficiently relativistic charged particles resulting from neutrino interactions. By using readily
 available water as the target material and only instrumenting the volume surface, water Cherenkov
-detectors provide the best methodology for maximising volume and reducing cost.
+detectors provide the best detection methodology for maximising volume and reducing cost.
 
 Cherenkov radiation is emitted by all electrically charged particles travelling faster than the
 local phase velocity of light in a dielectric medium. Similar to the sonic boom created by a
 supersonic aircraft, Cherenkov radiation forms a shock wave of coherent light, as shown in
 Fig.~\ref{fig:cherenkov}, typically with wavelengths in the ultraviolet and optical range. When
 projected onto the detector wall, the resulting cone of radiation generates a distinctive ring
-shape. The cone opening angle (the angle at which light is emitted) $\theta_{c}$ is given
-by~\cite{particle2020}:
+shape. The cone opening angle (the angle at which light is emitted) $\theta_{c}$ is given by:
 \begin{equation}
     \cos\theta_{c} = \frac{1}{\beta n(\lambda)},
     \label{eq:cherenkov_angle}
 \end{equation}
-where $\beta=v/c$ and $n$ is the refractive index of the medium. Note that $n$ is a function of
-the wavelength of emission $\lambda$, and so is the opening angle. As the refractive index of
-water is approximately $1.33$ for typical wavelengths of emission, and using the ultrarelativistic
-limit $\beta\approx 1$ the opening angle is found to be $\theta_{c}\approx 41^{\circ}$.
+where $\beta=v/c$ and $n$ is the refractive index of the medium~\cite{particle2020}. Note that $n$
+is a function of the wavelength of emission $\lambda$, and so is the opening angle. As the
+refractive index of water is $\sim 1.33$ for typical wavelengths of emission, and using the
+ultrarelativistic limit $\beta\sim 1$ the opening angle is found to be $\sim41^{\circ}$.
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
@@ -236,28 +238,36 @@ for every particle, which when expressed in terms of the particle mass $m$ is gi
     E_{t} = \gamma m = \frac{m}{\sqrt{1-(1/n)^{2}}}.
     \label{eq:cherenkov_threshold}
 \end{equation}
-Again using $n\approx1.33$ this gives a typical threshold energy of approximately $1.5m$.
+Again using $n\sim 1.33$ this gives a typical threshold energy of $\sim1.5m$.
 
 The number of Cherenkov photons emitted by a particle of charge $ze$ per unit wavelength per unit
-path length is given by~\cite{particle2020}:
+path length is given by:
 \begin{equation}
     \frac{d^{2}N}{d\lambda dx}=\frac{2\pi\alpha z^{2}}{\lambda^{2}}
     \left(1-\frac{1}{1-\beta^{2}n^{2}(\lambda)}\right),
     \label{eq:cherenkov_emission}
 \end{equation}
-where $\alpha$ is the fine structure constant. Integrating over the range of wavelengths for which
-PMTs are typically sensitive \unit{350}{\mathrm{nm}} to \unit{650}{\mathrm{nm}}, and using the
-$\beta\approx 1$ and $n\approx1.33$ gives approximately $240$ per cm travelled.
+where $\alpha$ is the fine structure constant~\cite{particle2020}. Integrating over the range of
+wavelengths for which PMTs are typically sensitive, \unit{350}{\mathrm{nm}} to
+\unit{650}{\mathrm{nm}}, and using $\beta\sim 1$ and $n\sim 1.33$ gives approximately $240$
+photons emitted per cm travelled by the charged particle~\cite{perch2017}.
 
-By analysing the Cherenkov cone (or cones) of light recorded by the PMTs on the walls of the
-detector, information about the underlying neutrino interaction can be determined. For example,
-the basic shape of a Cherenkov ring can be used to tell which charged particle created it. As
-electrons initiate an electromagnetic shower almost immediately, the resulting cone is actually
-the sum of all the cones from the individual electrons and positrons within the shower. When
-compared to the ring produced from a long track muon, whose ring is the result of emission from a
-single particle, electron rings are wider and characteristically fuzzy. As can be seen in
-Fig.~\ref{fig:emission distance}. The muon ring produces a plateau or constant radiation across
-the ring with sharper edges within the whole and on the outside.
+By analysing the Cherenkov ring (or rings) of light recorded by the PMTs on the walls of the
+detector, information about the charged particle (particles) within an event can be determined.
+The underlying neutrino interaction can then be understood indirectly. The primary challenge for
+accelerator beam water Cherenkov detectors is the identification and reconstruction of an electron
+or muon ring likely to have been produced initially from a beam neutrino and not a cosmic ray.
+This indicates a beam CC $\nu_{e}$ or CC $\nu_{\mu}$ event respectively, rejecting NC events.
+
+The basic shape of a Cherenkov ring can be used to tell which charged particle created it
+(particle identification). Muons are long-lived and typically travel many metres within the
+detector, producing a clean ring with sharp edges. Conversely, electrons almost immediately
+initiate an electromagnetic shower; therefore, the observed ring is the sum of all the rings
+produced from the individual electrons and positrons within the shower. As a consequence, when
+compared to a muon ring, electron rings are commonly wider and characteristically fuzzy and less
+sharp. This difference can somewhat be seen in Fig.~\ref{fig:emission distance} which shows how
+the total amount of Cherenkov radiation is emitted for both electrons and muons as a function of
+distance from the interaction vertex.
 
 \begin{figure} % EMISSION DISTANCE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
@@ -269,109 +279,48 @@ the ring with sharper edges within the whole and on the outside.
     \label{fig:emission distance}
 \end{figure}
 
-The situation becomes more difficult when there are many charged particle above threshold within
-an event. In this case multiple rings can overlap and reconstruction becomes much more difficult.
-Particularly of concern for water cherenkov detectors is the case when rings overlap to such a
-degree that you can not tell them apart
+The situation becomes more complicated when many charged particles above the Cherenkov threshold
+are involved, which is typical at higher energies. In this case, multiple rings are observed,
+which usually overlap, making reconstruction difficult. The worst-case scenario, however, is when
+two rings entirely overlap, removing any ability to tell them apart. This is commonly the case for
+NC interactions producing a $\pi^{0}$ in the final state, the primary background for CC $\nu_{e}$
+appearance analyses after CC $\nu_{\mu}$ rejection.
 
-- The interaction of primary concern are NC interactions that produce a pi-zero
-- They decay to a pair of photons with a branching ratio of 98.82\% reference
-- And these will then pair-produce forming e-plus, e-minus pairs, each producing an EM shower
-leading to two electron like rings.
-- For a boosted pi-zero the separation angle, $\theta_{ij}$ between the rings is given by
+With a 98.82\% branching ratio $\pi^{0}$ particles decay to a pair of photons~\cite{particle2020}.
+Both photons like electrons almost immediately initiate an electromagnetic shower, leading to two
+electron like rings. The separation angle between the ring is given by:
 \begin{equation}
-    (1-\cos\theta_{ij})=\frac{m_{\pi}^2}{2E_{i}E_{k}}
+    (1-\cos\theta_{ij})=\frac{m_{\pi}^2}{2E_{i}E_{k}},
 \end{equation}
-Where $m_{\pi}$ is the invariant mass of the $\pi^{0}$ and $E_{i}$ and $E_{j}$ are the energies
-of the two photons respectively.
-Therefore for a pi-zero decaying to two 1000 MeV photons gives a separation angle of
-$\approx 8^{\circ}$. This creates two overlapping rings of hits picked up by the detector pmts
-which can prove difficult to separate.
-- If one photon has a much lower energy than the other, or they are very closely overlapped,
-they are commonly misidentified as a single electron.
-- The shape of the ring can then be used for particle identification
-- Muon rings tend to be sharper and exhibit a `plateau' shape as they emit a constant amount of
-Cherenkov radiation from a single particle over a period of time.
-- Electron rings are more diffuse due to their production being from a electromagnetic shower
+where $m_{\pi}$ is the invariant mass of the $\pi^{0}$ and $E_{i}$ and $E_{j}$ are the energies of
+the two photons respectively. Therefore, for a $\pi^{0}$ decaying to two \unit{1}{\GeV} photons,
+there is just $\sim 8^{\circ}$ of separation between the rings, making them incredibly hard to
+tell apart, especially when electron like rings are usually fuzzy. Additionally, if the two
+photons have an unequal energy distribution, such that one is much more energetic, the dominant
+photon ring can dominate and drown out the other, again leading to what looks like a single
+electron ring.
 
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - Will use this prototype detector to explain all the main detailed principles of a \chips
-detector module.
+detector module. The chips-5 detector is the first of these units, at 25m in diameter and 12m
+tall, leads to a fiducial volume of ~5kton. This detector will act as a proof of concept that the
+R\&D has been a success and the provide possible improvements for future iterations.
 
-- Disused Taconite mine pit!!!
-- The chips-5 detector is the first of these units, at 25m in diameter and 12m tall.
-- This leads to a fiducial volume of ~5kton
-- Will be initially deployed into the Wentworth Pit 2W in northen minnesota, which is 7 mrad
-off-axis of the \numi beam.
-- Also deep enough to allow for ~50m of everburden of water to reduce the cosmic background.
+- Wentworth Pit 2W in northern minnesota, disused and flooded surface Taconite ore (a type of iron
+ore) mining pit, owned by Cliffs natural resources. 7 mrad off-axis of the \numi beam. Located at
+a latitude of 47.58N and longitude of 92.13W. at a baseline of 712 km. Deep enough for ~50m of
+overburden to reduce cosmic background. Advantages of heavy infrastructure for heavy industry,
+power and roads. Polymet building less than mile from pit deployment site, can use as laboratory
+for building and testing components. Water is drained from the pit in the spring to ensure it does
+not overflow during the summer rainy season. Therefore, fluctuations of +-3m are expected over the
+course of a year.
+
 - Not at the ideal location (baseline) to measure the mass hierarchy in the \numi beam.
 - Can help to constrain delta-cp by measuring electron neutrino appearance.
 - Physics capabilities have been studied using GLoBES, should ask Tom for a nice plot and brief
 description of how it all works.
-- Wentworth 2W is a disused surface iron pit (taconite ore) owned by Cliffs natural resources.
-- Has advantages of having the infastrucutre in place for heavy industry, such as power and roads.
-- The main Polymet mining building is less than a mile from the deployment site which was used as
-a laboratory environment for building detector compoenents on site.
-- located at a latitude of 47.58N and longitude of 92.13W. It is 7 mrad off the centralaxis of the
-\numi beam at a baseline of 712 km
-- Water is drained from the pit in the spring to ensure it does not overflow during the summer
-rainy season.
-- Therefore, fluctutationsof +-3m are expected over the course of a year.
-- A lighttight liner a polymer membrance is used to seperate the clean detector water from the
-external pit water and isolate the detector volume.
-- This detector will act as a proff of concept that the R\&D has been a success and the provide
-possible improvements for future iterations.
-- CHIPS will not initially have a near detector, however the use of \nova one is possible if
-required, but not important for now.
-- You would really need a water cherenkov near detector, so it as simiar as possible as the far
-detector.
-- This allows the same event reco and PID minimising systematic uncertainties in the predicted
-background at the far detector.
-- Is prefered as it has the same neutrino interaction traget (water) ensuring efficiencies are
-similar in both detector.
-- However, it should be noted that a water cherenkov detector has never been proven in high
-intensity environmenets such as the \numi beam (WTF is t2k then)
-
-INFO: detector module
-- Dimensions
-- Inner surface area
-- PMT diameter
-- photocathode coverage in different regions
-- No of PMTs
-- overburden
-- CR muon rate
-- In-spill CR occupancy
-- CR event dead time
-- Veto dimensions
-- Veto num PMTs
-- veto photocathode coverage
-- veto pmt diameter
-
-\begin{figure} % CHIPS SUNRISE DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/sunrise.jpeg}
-    \caption[Sunrise over the \chips detector.]
-    {Sunrise over the \chips detector structure. The perfectly calm pit water
-        produces the mirror effect.}
-    \label{fig:sunrise}
-\end{figure}
-
-\begin{figure} % CHIPS RAMP DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/4-chips/ramp.jpg}
-    \caption[ramp.]
-    {ramp.}
-    \label{fig:ramp}
-\end{figure}
-
-\begin{figure} % CHIPS FROM THE SKY DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/from_the_sky.jpg}
-    \caption[Picture of the \chips detector from the air.]
-    {Picture of the \chips detector taken from an airplane. The Wentworth 2W pit is in the lower
-        half of the image, with the half built detector, huts and construction containers
-        visable.}
-    \label{fig:from_the_sky}
-\end{figure}
 
 \begin{figure} % PIT DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/location.png}
@@ -390,8 +339,50 @@ INFO: detector module
     \label{fig:contour_map}
 \end{figure}
 
+- A light tight liner a polymer membrane is used to separate the clean detector water from the
+external pit water and isolate the detector volume.
+
+INFO: detector module
+- Dimensions
+- Inner surface area
+- PMT diameter
+- photocathode coverage in different regions
+- No of PMTs
+- overburden
+- CR muon rate
+- In-spill CR occupancy
+- CR event dead time
+- Veto dimensions
+- Veto num PMTs
+- veto photocathode coverage
+- veto pmt diameter
+
+\begin{figure} % CHIPS RAMP DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/ramp.jpg}
+    \caption[ramp.]
+    {ramp.}
+    \label{fig:ramp}
+\end{figure}
+
+\begin{figure} % CHIPS FROM THE SKY DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/from_the_sky.jpg}
+    \caption[Picture of the \chips detector from the air.]
+    {Picture of the \chips detector taken from an airplane. The Wentworth 2W pit is in the lower
+        half of the image, with the half built detector, huts and construction containers
+        visable.}
+    \label{fig:from_the_sky}
+\end{figure}
+
 \subsection{Structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % CHIPS SUNRISE DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/sunrise_short.jpeg}
+    \caption[Sunrise over the \chips detector.]
+    {Sunrise over the \chips detector structure. The perfectly calm pit water
+        produces the mirror effect.}
+    \label{fig:sunrise}
+\end{figure}
 
 \begin{figure} % CHIPS RENDER 1 DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_1.png}
@@ -438,7 +429,7 @@ generation to calibrate final PMT positions and time resolutuions.
 \end{figure}
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/4-chips/single_plane.jpg}
+    \includegraphics[width=\textwidth]{diagrams/4-chips/single_plane.jpg}
     \caption[Picture of a single `Nikhef' plane.]
     {Picture of a single `Nikhef' high density top endcap plane. Both the inward facing and veto
         PMTs can be seen as well as the planes umbilical with the green tape attached.}
@@ -450,7 +441,6 @@ generation to calibrate final PMT positions and time resolutuions.
 
 - Though remarkably clear the Wentworth pit water is not clean enough for the detector volume
 where we require ~30m attenuation length.
-- CHIPS attenuation length paper~\cite{amat2017}
 
 \subsection{Deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -469,7 +459,7 @@ DIAGRAM: Deployment diagram
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/flux.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/4-chips/flux.pdf}
     \caption[\numi neutrino flux at CHIPS.]
     {The \numi beam neutrino flux with cross-sections applied at the CHIPS detector location. Shown
         are the seperate contributions from the different neutrino types and sign. No oscillations
@@ -477,7 +467,7 @@ DIAGRAM: Deployment diagram
     \label{fig:flux}
 \end{figure}
 
-Cosmic event rate in \cite{son2013}
+- Cosmic event rate in \cite{son2013}
 
 - We take full advantage of the MINOS, \nova extensive simulations of the \numi beam for use in
 CHIPS.

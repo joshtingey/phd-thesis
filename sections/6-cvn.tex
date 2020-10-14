@@ -1,10 +1,10 @@
 \chapter{Convolutional neural networks for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:cvn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-For the majority of HEP experiments, event analysis aims to separate signal from background,
-identify particles types, discover kinematic properties and estimate energies. The same is true
-for \chips, with the primary aims being the selection of CC $\nu_{e}$ signal events from a
-sizeable background and estimation of the associated neutrino energy.
+For the majority of HEP experiments, event analysis entails the separation of signal from
+background, identification of particles, discovery of kinematic properties and estimation of
+energies. The same is true for \chips, with the primary aims being the selection of CC $\nu_{e}$
+signal events from a sizeable background and estimation of the associated neutrino energy.
 
 For this purpose, the \chips project has so far relied on a human implemented reconstruction
 algorithm and a classification neural network driven by hand-engineered features. Both of which
@@ -182,8 +182,8 @@ Examples of these inputs include the following:
     \item The probability of a measured charge given the predicted number of photoelectrons
           (derived from a reversal of the simulation digitisation methodology).
 \end{itemize}
-The first three are combined into \emph{emission profiles} generated from large samples of the
-Monte Carlo simulation. The last listed input is comparable to that shown in
+The first three are combined into \emph{emission profiles} generated from a large Monte Carlo
+simulation sample, while the last listed input is comparable to that shown in
 Fig.~\ref{fig:digitisation}.
 
 The list above demonstrates a fundamental problem with the likelihood-based approach. It is
@@ -256,8 +256,8 @@ are well suited to this paradigm.
 Here we discuss the application of neural networks for \emph{supervised learning}, one of two
 broad machine learning categories that is concerned with using labelled example data to train
 algorithms. The other category of \emph{unsupervised learning}, where the properties of the
-dataset are inferred without example data is not discussed, however, will be used for
-\emph{explainability} in Section.~\ref{sec:cvn_explain}.
+dataset are inferred without example data is not discussed, however, will be used for trained
+network \emph{explainability} in Section.~\ref{sec:cvn_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -711,6 +711,8 @@ Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is commonly estimated cl
 downstream wall of the detector than reality, however, as the $y$ and $z$ components perpendicular
 to the beam primarily drive event distortions, the impact on event topology is small.
 
+Using the standard reconstruction seeding procedure also removes
+
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cvn/chipsnet/explore_true_reco_vtx.pdf}
     \caption[Seed interaction vertex resolutions.]
@@ -922,10 +924,10 @@ overfitting.
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
 optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
-used. The exact training sample sizes are given in Section.~\ref{sec:cvn_specific} but for all
-networks a 95\% training to 5\% validation data split is employed allowing for the implementation
-of early stopping. The learning rate for each epoch $\eta_{e}$ is set to decrease throughout
-training according to
+used. The exact training sample size and composition for each network are given in
+Section.~\ref{sec:cvn_specific} but for all networks a 95\% training to 5\% validation data split
+is employed allowing for the implementation of early stopping. The learning rate for each epoch
+$\eta_{e}$ is set to decrease throughout training according to
 \begin{equation}
     \eta_{e}=\frac{\eta_{0}}{1+c_{d}(e-1)},
 \end{equation}
@@ -977,8 +979,10 @@ The network is trained on a sample of 3.15 million simulated events, roughly $1/
 $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events. The
 counts of which are shown in Fig.~\ref{fig:cosmic_training_sample}. All beam events (both
 $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy spectrum to
-closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. The full
-sample is split 95\% to 5\% for training and validation, respectively.
+closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events
+are used for training with no preselection applied as this is found to be the best for cosmic
+rejection performance. The full sample is split 95\% to 5\% for training and validation,
+respectively.
 
 \begin{figure} % COSMIC TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_cosmic_training_sample.pdf}
@@ -1033,13 +1037,18 @@ classification additional classification and particle counting tasks outlined be
 to improve performance. Note that the particle counting tasks are not used in this work for
 anything but increasing the primary classification performance. Future work, however, could
 exploit any ability to separate exclusive final states deduced from these particle counts, to
-reduce both energy resolution and systematic errors.
+reduce both energy resolution and systematic errors. As an example of a method already in use,
+\nova use their ability to accurately determine the hadronic energy of an event to split their CC
+$\nu_{\mu}$ sample into populations of different energy resolution. Each population can then be
+treated separately in the analysis before combination to increase performance~\cite{acero2018}.
 
 The network is trained on a sample of 1.67 million simulated events, roughly half $\nu_{\mu}$ beam
 events, and half $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All
 events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
 spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
-The full sample is split 95\% to 5\% for training and validation, respectively.
+All events are used for training with no preselection applied as this is found to be the best for
+beam classification performance, especially NC rejection. The full sample is split 95\% to 5\% for
+training and validation, respectively.
 
 \begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_beam_training_sample.pdf}
@@ -1130,13 +1139,13 @@ from the instrumented wall can impact the number of deposited photoelectrons, th
 as to why these additional tasks are also helpful.
 
 Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$ and
-$\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. Only events for
-which the primary charged lepton is fully contained within the detector volume are considered. All
-events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
-spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
-Each sample is split 95\% to 5\% for training and validation, respectively. Note that CC-QE and
-CC-MEC neutrino energy estimation is combined as both have incredibly similar final state
-topologies.
+$\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. All events (both
+$\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy spectrum to
+closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. Only events
+for which the primary charged lepton is fully contained within the detector volume are used for
+training. Each sample is split 95\% to 5\% for training and validation, respectively. Note that
+CC-QE and CC-MEC neutrino energy estimation is combined as both have incredibly similar final
+state topologies.
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}
@@ -1209,10 +1218,10 @@ expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ component
 well as events generated to mimic the appeared $\nu_{e}$ component. In this work, only the
 neutrino mode (forward horn current) of NuMI beam operation is considered for simplicity.
 
-All evaluation events are weighted to match the expected spectrum in the 5 kton \chipsfive
-detector, using the expected unoscillated flux, cross-sections, and oscillation probabilities.
-Additional weighting also scales events to match data taking in the NuMI beam for a year,
-corresponding to $6\times 10^{20}$ protons on target (POT). For cosmic events, a rate of
+All evaluation events are weighted to match the expected spectrum in the \unit{5}{\mathrm{kton}}
+\chipsfive detector, using the expected unoscillated flux, cross-sections, and oscillation
+probabilities. Additional weighting also scales events to match data taking in the NuMI beam for a
+year, corresponding to $6\times 10^{20}$ protons on target (POT). For cosmic events, a rate of
 \unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of overburden is assumed, rejecting events
 that fall outside the NuMI beam spill window. For simplicity, the neutrino and antineutrino
 components of the beam are also combined as they are impossible to tell apart in practice. The
@@ -1314,6 +1323,11 @@ which the primary charged lepton is contained within(escapes) the detector are c
 correctly, resulting in a 95\% purity for the surviving CC $\nu_{\mu}$ sample. As expected, the
 vast majority of CC $\nu_{e}$ and NC events are selected.
 
+TODO: Explain how this effectively works as a fiducial volume cut which is very common. But it
+does not really work on the entry side, mention upstream interacting neutrinos. Hope some are
+rejected by cosmics, but future work should consider these as they are not included in the
+training or testing samples from the beam.
+
 \begin{figure} % ESCAPES OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_escapes_outputs.pdf}
     \caption[Distribution of escapes score output values.]
@@ -1331,6 +1345,9 @@ categories are selected with an efficiency greater than 90\%, while CC $\nu_{\mu
 intentionally reduced to 40\% efficiency to ensure they are fully contained. Furthermore, NC
 events are found to be primarily rejected by the preselection, while cosmic events are heavily
 rejected by both the preselection and \emph{cosmic score} cuts.
+
+TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
+better to be more explicit and directly quote error estimate especially for the efficiency.
 
 \begin{table}
     \begin{tabular}{lccccc}
@@ -1362,6 +1379,11 @@ events, we consider the more statistically significant number that passes a loos
 when weighted corresponds to 180 events per year. This corresponding to a rejection factor of
 $1.5\times10^{-4}$. Of these events, 95 would be selected as CC $\nu_{\mu}$ events and zero as CC
 $\nu_{e}$ events by the beam classification, detailed in the following section.
+
+TODO: Look at the cosmic score output values with preselection and escapes applied, is it any
+different? Then be more quantitative and assume a flat distribution below 0.9 to get an actual
+number and error passing a tighter cut. More quantitative to highlight the achievement. Make it
+clearer with the preselection and escapes as well.
 
 In summary, this generous cosmic estimation predicts a 10\% contamination of the beam CC
 $\nu_{\mu}$ selection and a negligible contamination for the beam CC $\nu_{e}$ selection. In
@@ -1433,6 +1455,9 @@ indistinguishable nature, this is the only reasonable approach to generate cut v
     \label{fig:final_nuel_eff_curves}
 \end{figure}
 
+TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
+better to be more explicit and directly quote error estimate especially for the efficiency.
+
 \begin{table}
     \begin{tabular}{ccccccc}
              & Sig CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC          & CC $\nu_{e}$ Purity & Sig Purity \\
@@ -1477,14 +1502,22 @@ comparison with the standard event selection presented in Section.~\ref{sec:cvn_
 distribution of output scores from both neural networks used in the standard selection is shown in
 Fig.~\ref{fig:final_old_pid_outputs}. By optimising the selection values for both networks, 0.91
 and 0.78 respectively, to maximise $\mathrm{efficiency}\times\mathrm{purity}$, the standard CC
-$\nu_{e}$ selection sample is found.
+$\nu_{e}$ selection sample is found. All events that pass the preselection, not just those shown
+in Fig.~\ref{fig:final_old_pid_outputs} are used in this optimisation.
 
 A maximum $\mathrm{efficiency}\times\mathrm{purity}$ of 0.132 is achieved; only 25\% the value
-reached by the CNN approach. Both the signal efficiency of 34\% compared to 71\% and appeared and
-beam CC $\nu_{e}$ purity 39\% compared to 71\% are considerably lower than that provided by the
-new CNN classification. Furthermore, the results presented here compare well to the 62\%
-efficiency and 57-78\% purity (depending on oscillation parameters) achieved by the \nova appeared
-$\nu_{e}$ selection~\cite{acero2019}.
+reached by the CNN approach. Both the signal efficiency of 34\% compared to 71\% and combined
+appeared and beam CC $\nu_{e}$ purity of 39\% compared to 71\% are considerably lower than that
+provided by the new CNN classification. Furthermore, the signal efficiency of 71\% compares well
+to the 62\%(64\%) achieved by the \nova(T2K) selection. However, the purity is significantly lower
+at 38\% compared to the 78\%(80\%) reached by \nova(T2K)~\cite{acero2019, abe2015}.
+
+A large proportion of this difference can be explained by the lower neutrino energies close the
+$\sim$\unit{1.5}{\GeV} $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum at which these
+experiments operate. Firstly, this increases the proportion of easy to identify CC QEL events that
+these experiments see. Secondly, the indistinguishable intrinsic beam CC $\nu_{e}$ component that
+these experiments see is also lower. However, some of the difference will be due to the `cheap as
+chips' philosophy.
 
 \begin{figure} % FINAL OLD PID OUTPUTS DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_old_pid_outputs.pdf}
@@ -1520,16 +1553,16 @@ magnitude.
 \end{figure}
 
 The efficiency, purity, and their product (the figure-of-merit) for CC $\nu_{\mu}$ events as a
-function of selecting events above a certain CC $\nu_{\mu}$ score is shown in
+function of selecting events above a particular CC $\nu_{\mu}$ score is shown in
 Fig.~\ref{fig:final_numu_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised by
 selecting events with a CC $\nu_{\mu}$ score above $0.315$, achieving a value of $0.365$. The
 corresponding number and efficiency of selected events for each event category, as well as the
-signal purity, is shown in Table.~\ref{tab:numu_selection}. Although the final signal efficiency
-is low for the figure-of-merit selection, this is desirable to ensure events are fully contained
-for energy estimation. When considering just CC $\nu_{\mu}$ events for which the primary charged
-muon is contained, an 87\% selection efficiency for the figure-of-merit selection is achieved. As
-in the CC $\nu_{e}$ case, these results compare well to the 31.2\% signal efficiency and 98.6\%
-purity of the \nova CC $\nu_{\mu}$ selection~\cite{acero2019}.
+signal purity, is shown in Table.~\ref{tab:numu_selection}. The results compare well to the
+31.2\%(36\%) signal efficiency and 98.6\%(94\%) purity of the \nova(T2K) $\nu_{\mu}$
+selection~\cite{acero2019, abe2015}.Although the final signal efficiency is low for the
+figure-of-merit selection, this is desirable to ensure events are fully contained for energy
+estimation. When considering just CC $\nu_{\mu}$ events for which the primary charged muon is
+contained, an 87\% selection efficiency for the figure-of-merit selection is achieved.
 
 \begin{figure} % FINAL NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_numu_eff_curves.pdf}
@@ -1538,6 +1571,9 @@ purity of the \nova CC $\nu_{\mu}$ selection~\cite{acero2019}.
         different values of CC $\nu_{\mu}$ score selection.}
     \label{fig:final_numu_eff_curves}
 \end{figure}
+
+TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
+better to be more explicit and directly quote error estimate especially for the efficiency.
 
 \begin{table}
     \begin{tabular}{cccccc}
@@ -1727,14 +1763,15 @@ resolution changes with energy can be explored. The means and standard deviation
 are shown in Fig.~\ref{fig:final_energy_nuel} and Fig.~\ref{fig:final_energy_numu} for CC
 $\nu_{e}$ and CC $\nu_{\mu}$ events respectively, split by interaction type.
 
-A reasonably significant bias in the means is observed with respect to the true neutrino energy
-for both $\nu_{e}$ and CC $\nu_{\mu}$ events. This is particularly true of DIS events, but still
+Reasonably significant bias in the means is observed with respect to the true neutrino energy for
+both $\nu_{e}$ and CC $\nu_{\mu}$ events. This is particularly true of DIS events, but still
 significant for Res and QEL events. As a (peaked) flux distribution of events is used for training
 as opposed to a flat flux, this is expected. As a consequence, any future energy estimation work
 should consider the flat flux approach, as explored in Ref.~\cite{baldi2019}. The standard
 deviation is seen to decrease with true neutrino energy for all interaction types, except for
-energies above the main flux peak. Again, this is likely due to the spectrum of events in the
-training sample.
+energies above the main flux peak. Again, this is most likely due to the spectrum of events in the
+training sample. A contributing factor, however, will be due to the inability of PMTs to
+distinguish between numbers of incident photons at higher counts, more likely at higher energies.
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cvn/chipsnet/final_energy_nuel.pdf}
@@ -1953,3 +1990,5 @@ beam classification training.
         Fig.~\ref{fig:final_beam_tsne}.}
     \label{fig:final_beam_tsne_events}
 \end{figure}
+
+TODO: Add a wrap-up summary section for the end of the chapter!
