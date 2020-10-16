@@ -306,28 +306,35 @@ single electron ring.
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Will use this prototype detector to explain all the main detailed principles of a \chips
-detector module. The chips-5 detector is the first of these units, at 25m in diameter and 12m
-tall, leads to a fiducial volume of ~5kton. This detector will act as a proof of concept that the
-R\&D has been a success and the provide possible improvements for future iterations. All the main
-\chips concepts are explored with this detector. Pretty accurate to what a final \chips detector
-module should look like, first prototype to scale. Cylinder as this is significantly easier to
-construct and engineer, also allows for additional planes to be installed growing the detector in
-vertical layers. Staging approach to construction allows multiple seasons of deployment.
+The \chipsfive detector is the first large scale prototype module for the \chips project. A
+cylindrical detector \unit{25}{\mathrm{m}} in diameter and \unit{12}{\mathrm{m}} high, \chipsfive
+has a total inner surface area of \unit{1924}{\mathrm{m}^2} and a total target mass of
+\unit{5.9}{\mathrm{kton}}. Via the process of design, construction, deployment, and data
+acquisition, the primary \chipsfive aim is to refine the \chips concept for future full-scale
+($\sim$\unit{15}{\mathrm{kton}}) modules. The \chipsfive detector is designed to be fully
+characteristic of what a full-sized \chips module is envisioned to be; therefore, the details
+outlined here are representative of what to expect for such a module.
 
 \subsection{Location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Wentworth Pit 2W, northern Minnesota, disused and flooded surface Taconite ore (a type of iron)
-ore mine pit, owned by Cliffs natural resources. Centre located \unit{7}{\mathrm{mrad}} or \numi
-axis at a distance of \unit{712}{\mathrm{km}} from beam target, at a latitude of 47.58N and
-longitude of 92.13W, approximately \unit{60}{\mathrm{m}} maximum depth much deeper than standard
-lake, $0.8\mathrm{km}\times0.8\mathrm{km}$ in size, heavy infrastructure for heavy industry with
-power and roads, Polymet mining administration build is $\sim$\unit{712}{\mathrm{km}} from pit
-deployment site, can use as laboratory for building/testing components, pit devoid of fish and
-other life, water level goes up and down throughout year as water is pumped in and out, $\pm
-    3\mathrm{m}$ or fluctuations in year, freezes solid in winter from end of October to end of April,
-can only work in summer months. Just outside the town of Hoyt Lakes!
+\chipsfive is located at the Wentworth 2W pit in northern Minnesota, USA, near the small town of
+Hoyt Lakes. A disused and flooded surface Taconite ore (a type of iron ore) mine pit, the centre
+of Wentworth 2W is located \unit{7}{\mathrm{mrad}} off the \numi beam axis at a distance of
+\unit{712}{\mathrm{km}} from the beam target. Roughly $0.8\mathrm{km}\times1.2\mathrm{km}$ in size
+with a maximum depth of \unit{60}{\mathrm{m}} ($\pm3\mathrm{m}$ throughout the year), the pit
+entirely freezes over in winter, allowing for work to only take place during the summer months
+(May to October).
+
+The \chipsfive detector module is first constructed on land and then deployed into the pit, as
+discussed further in Section.~\ref{sec:chips_detector_deployment}. For this purpose, a large earth
+ramp on the south side of the Wentworth 2W pit is used for construction. Due to the heavy
+infrastructure in place for mining, the construction site is easily accessible by road (except for
+the last \unit{200}{\mathrm{m}}) and is well connected to power. Additionally, the nearby PolyMet
+mining administration building is used as a laboratory environment for construction and testing of
+individual components before installation within the detector. A labelled satellite view of
+Wentworth 2W is given in Fig.~\ref{fig:pit} for context, with a picture of the construction site
+shown in Fig.~\ref{fig:from_the_sky}.
 
 \begin{figure} % PIT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pit.pdf}
@@ -345,47 +352,54 @@ can only work in summer months. Just outside the town of Hoyt Lakes!
     {Picture of the \chipsfive construction site from the air facing south. The Wentworth 2W pit
         is in the lower half of the image, with the part built \chipsfive detector visible at the
         bottom of the construction ramp. The two white shore huts can just be seen halfway up the
-        construction ramp.}
+        ramp.}
     \label{fig:from_the_sky}
 \end{figure}
 
 \subsection{Structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- \unit{12.5}{\mathrm{m}} radius, \unit{25}{\mathrm{m}} diameter, \unit{12}{\mathrm{m}} tall,
-\unit{1924}{\mathrm{m}^2} surface area, \unit{5.9}{\mathrm{kton}} total volume,
-\unit{50}{\mathrm{m}} of overburden,
+The structure of the \chipsfive detector module consists primarily of two \unit{26}{\mathrm{m}}
+diameter and \unit{1.2}{\mathrm{m}} high lightweight stainless steel \emph{endcaps} that form the
+top and bottom of the cylindrical shape. During construction the conveniently named \emph{top-cap}
+is held above the \emph{bottom-cap} by \unit{1.5}{\mathrm{m}} steel struts as shown in
+Fig.~\ref{fig:frame}, allowing for the endcap instrumentation to be installed as detailed in
+Section.~\ref{sec:chips_detector_instrumentation}.
 
-- Lightweight stainless steel frame forms the top and bottom endcaps, Two stainless steel endcaps
-with Dyneema cables connecting them. Due to the air within the steel both endcaps are nearly
-buoyant, the bottom cap is left this way, while the top can has extra buoyancy installed in the
-form of large 16 inch (CHECK) diameter PVC sealed pipe sections to make it buoyant, this then
-keeps the Dyneema cables taught when deployed. During construction they are held apart with steel
-struts to enable the bottom and top cap planes to be installed. Connected with Syneema
-ropes/cables around the perimeter, buoyant top cap anchored to the bottom one, which when fully
-deployed will rest on the bottom of the pit.
+During construction on land the top-cap and bottom-cap are connected by 28 \unit{12}{\mathrm{m}}
+long Dyneema cables around their perimeter. With the addition of forty \unit{16}{\mathrm{inch}}
+diameter air-filled and sealed PVC pipes crisscrossing the top-cap frame, the top-cap is made
+buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, holding the
+Dyneema cable taut, and forming the final detector shape, as shown in Fig.~\ref{fig:chips_render}.
 
-- Sealed plastic liner preventing light and water for entering or leaving the container. Light and
-watertight plastic liner. Commercially available in long rolls that are welded together on sight
-to form the top, bottom and sides. Keeps the water clean and prevents light leaks. Geomembrane a
-reinforced flexible polymer membrane. Differences in water density and pressure will be
-negligible. A light tight liner a polymer membrane is used to separate the clean detector water
-from the external pit water and isolate the detector volume.
+This highlights one of the clear advantages of the \chips concept, no structure on the vertical
+cylindrically wall of the detector is required. In addition to the deployment advantages discussed
+in Section~\ref{sec:chips_detector_deployment}, and the significantly easier engineering, this is
+the key reason as to why a cylindrical detector is chosen over a spherical one.
+
+Also during construction on land, a light and watertight liner is installed. Designed to isolate
+the clean internal detector water from the external pit water and to prevent non Cherenkov light
+from reaching the PMTs, the liner is made from geomembrane, a flexible reinforced polymer
+membrane. Commercially available in large rolls the liner is welded together during construction
+to form the top, bottom, and sides. Note that the sides are installed onshore with enough loose so
+that when deployed they are held nearly taut (the Dyneema takes the strain).
 
 \begin{figure} % CHIPS FRAME DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/frame.jpeg}
     \caption[Picture of the \chipsfive detector structure.]
     {Picture of the complete \chipsfive detector structural frame. The top and bottom endcaps can
-        be clearly seen separated by steel struts.}
+        be clearly seen separated by steel struts. The liner (installed before frame construction)
+        attached to the bottom cap is also visible above water around the frame edge.}
     \label{fig:frame}
 \end{figure}
 
 \begin{figure} % CHIPS RENDER DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_1.png}
     \caption[Graphical rendering of the \chipsfive detector.]
-    {Graphical rendering of the \chipsfive detector with a section of the liner cutaway. The
-        bottom endcap and wall planes are visible, as well as the top endcap structure and
-        floatation.}
+    {Graphical rendering of the fully deployed \chipsfive detector module with a section of the
+        liner cutaway. The bottom endcap and wall planes are visible, as well as the top endcap
+        structure and floatation. The green lines indicate how the many Dyneema cables hold the
+        top-cap and bottom-cap together.}
     \label{fig:chips_render}
 \end{figure}
 
@@ -397,6 +411,8 @@ connectors and glue are commercially available. They are tiled together within t
 attached directly to stainless steel stringers on the endcaps or the Dyneema cables running down
 the sides. Called Planar Optical Modules (POMs) or planes, Two types of planes, different readout
 electronics.
+
+- Needs to able to cope with 4 degrees at bottom!
 
 - PMTs angle at \unit{45}{^\circ} to the beam, inward facing PMTs, 88 mm HZC PMTs with electronics
 from the KM3NeT experiment and 3 inch Hamamatsu R6091 provided by the NEMO3 experiment with
@@ -468,11 +484,14 @@ bacterial growth and remove particulates which are present in the water to begin
 umbilical resting on the pit floor will contain 2 fibres, 2 power cables and 2 flexible pipes for
 filtering the internal water on shore. All connected to two shore huts, one for filtering and one
 for data acquisition.
+- Any pressure differences on the liner are negligible, but a small positive pressure is kept
+inside the detector to prevent particulates coming in via and leaks etc...
 
 \subsection{Deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- How it can grow if needed
+- How it can grow if needed - buoyant top cap anchored to the bottom one, which when fully
+deployed will rest on the bottom of the pit.
 
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -519,7 +538,7 @@ INFO: expected number of events per year etc...
 
 DIAGRAM: expected cosmic rate at different height plot
 DIAGRAM: Cosmic rate given the water overburden diagram
-
+- \unit{50}{\mathrm{m}} of overburden,
 - CR muon rate
 - In-spill CR occupancy
 - CR event dead time
