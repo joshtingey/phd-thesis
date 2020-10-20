@@ -1215,7 +1215,7 @@ A statistically independent sample of events is used to evaluate the combined pe
 trained CNNs. The evaluation sample consists of 400000 beam and 350000 cosmic muon events,
 generated in the same way as the training and validation events. The beam events include the
 expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the beam as
-well as events generated to mimic the appeared $\nu_{e}$ component. In this work, only the
+well as events generated to mimic the appeared(App) $\nu_{e}$ component. In this work, only the
 neutrino mode (forward horn current) of NuMI beam operation is considered for simplicity.
 
 All evaluation events are weighted to match the expected spectrum in the \unit{5}{\mathrm{kton}}
@@ -1290,7 +1290,8 @@ instead allows five cosmic events to pass preselection and the cut above.
     \caption[Distribution of cosmic score output values.]
     {Distribution of \emph{cosmic score} output values from the trained cosmic rejection network
         for the different event categories. A score close to one signifies a cosmic like event,
-        while a score close to zero corresponds to a beam like event.}
+        while a score close to zero corresponds to a beam like event. Only preselected events are
+        shown to better highlight the events this output aims to classify.}
     \label{fig:cosmic_outputs}
 \end{figure}
 
@@ -1323,10 +1324,12 @@ which the primary charged lepton is contained within(escapes) the detector are c
 correctly, resulting in a 95\% purity for the surviving CC $\nu_{\mu}$ sample. As expected, the
 vast majority of CC $\nu_{e}$ and NC events are selected.
 
-TODO: Explain how this effectively works as a fiducial volume cut which is very common. But it
-does not really work on the entry side, mention upstream interacting neutrinos. Hope some are
-rejected by cosmics, but future work should consider these as they are not included in the
-training or testing samples from the beam.
+For comparison with other experiments, the escapes cut effectively works as a quasi fiducial
+volume cut, but just for an energy-dependent region near the downstream wall of the detector.
+Fiducial volume cuts are common in neutrino experiments, to remove events whose activity is close
+to the detector walls and, therefore, can not be reconstructed well. Future work, should explore
+how a fully implemented fiducial cut using the reconstructed interaction vertex position impacts
+the final performance.
 
 \begin{figure} % ESCAPES OUTPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_escapes_outputs.pdf}
@@ -1346,19 +1349,16 @@ intentionally reduced to 40\% efficiency to ensure they are fully contained. Fur
 events are found to be primarily rejected by the preselection, while cosmic events are heavily
 rejected by both the preselection and \emph{cosmic score} cuts.
 
-TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
-better to be more explicit and directly quote error estimate especially for the efficiency.
-
 \begin{table}
     \begin{tabular}{lccccc}
-                           & Appeared CC $\nu_{e}$ & Survived CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC    & Cosmic  \\
+                       & App CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC             & Cosmic                 \\
         \midrule
-        Total events       & 44.2                  & 2045.9                  & 35.1              & 348.7 & 1211000 \\
-        After preselection & 41.2                  & 1889.5                  & 33.5              & 239.6 & 249260  \\
-        After cosmic cut   & 41.1                  & 1874.4                  & 33.4              & 238.0 & 0.0     \\
-        After escapes cut  & 40.8                  & 818.0                   & 33.0              & 231.0 & 0.0     \\
+        Total events   & 44.2             & 2045.9         & 35.1              & 348.7          & 1211000                \\
+        + preselection & 41.2             & 1889.5         & 33.5              & 239.6          & 249260                 \\
+        + cosmic cut   & 41.1             & 1874.4         & 33.4              & 238.0          & 0.13                   \\
+        + escapes cut  & 40.8             & 818.0          & 33.0              & 231.0          & 0.02                   \\
         \midrule
-        Efficiency         & 0.923                 & 0.400                   & 0.940             & 0.662 & 0.000   \\
+        Efficiency     & $92.4\pm0.4\%$   & $40.0\pm0.2\%$ & $94.2\pm0.4\%$    & $66.3\pm0.7\%$ & $\sim1.5\times10^{-8}$ \\
     \end{tabular}
     \caption[Number of events passing basic cuts for each event category.]
     {The total number of events and the number that pass successive selection cuts for the
@@ -1374,23 +1374,21 @@ resources and time required.
 
 Therefore, to more accurately gauge the number of cosmic events likely to be classified as beam
 events, we consider the more statistically significant number that passes a loose \emph{cosmic
-    score} cut below a value of 0.9. In this case, when combined with preselection and the
-\emph{escapes score} cut, 38 out of 350000 evaluation sample cosmic events are selected, which
-when weighted corresponds to 180 events per year. This corresponding to a rejection factor of
-$1.5\times10^{-4}$. Of these events, 95 would be selected as CC $\nu_{\mu}$ events and zero as CC
-$\nu_{e}$ events by the beam classification, detailed in the following section.
+    score} cut below a value of $0.9$. In this case, when combined with the preselection and
+\emph{escapes score} cut, $38$ out of $350000$ evaluation sample cosmic events are selected, which
+when weighted gives to $181$ events per year. Assuming a flat distribution of events between a
+\emph{cosmic score} of zero and $0.9$, and using the actual $0.0001$ cut value, $0.02$ events are
+expected to be selected. This corresponds to an excellent combined rejection factor for cosmic
+muon events of $\sim1.5\times10^{-8}$.
 
-TODO: Look at the cosmic score output values with preselection and escapes applied, is it any
-different? Then be more quantitative and assume a flat distribution below 0.9 to get an actual
-number and error passing a tighter cut. More quantitative to highlight the achievement. Make it
-clearer with the preselection and escapes as well.
-
-In summary, this generous cosmic estimation predicts a 10\% contamination of the beam CC
-$\nu_{\mu}$ selection and a negligible contamination for the beam CC $\nu_{e}$ selection. In
-reality, with a tighter cut, both are likely to be much lower. This is comparable to the
-approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen in
-\nova~\cite{acero2019}. Due to the constraints of the evaluation sample outlined above, we do not
-consider cosmic events within the beam classification and energy estimation results.
+Additionally, of the $181$ events under a \emph{cosmic score} value of $0.9$, 95 would be selected
+as CC $\nu_{\mu}$ and zero as CC $\nu_{e}$ by the beam classification detailed in the following
+subsection. This gives high confidence that even if a tiny number of cosmic events are selected,
+they would be classified as CC $\nu_{\mu}$ and not contaminate the principle CC $\nu_{e}$
+selection. In summary, the expected cosmic muon contamination of the final beam selections is
+expected to be negligible and ignored for the rest of this results section. When compared to the
+approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen by
+\nova~\cite{acero2019}, the performance is apparent.
 
 \subsection{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cvn_results_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1440,12 +1438,16 @@ intrinsic beam CC $\nu_{e}$ background, both are clustered with scores close to 
 The efficiency, purity, and their product (the figure-of-merit) for CC $\nu_{e}$ events (both
 appeared and beam) as a function of selecting events above a certain CC $\nu_{e}$ score are shown
 in Fig.~\ref{fig:final_nuel_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised
-by selecting events with a CC $\nu_{e}$ score above $0.8$, achieving a value of $0.519$. The
-corresponding number and efficiency of selected events for each event category, as well as the
-appeared and beam component CC $\nu_{e}$ purity, and signal purity, is shown in
-Table.~\ref{tab:nuel_selection}. Note that $\mathrm{efficiency}\times\mathrm{purity}$ is optimised
-considering both appeared and beam CC $\nu_{e}$ components as signal. Due to their
-indistinguishable nature, this is the only reasonable approach to generate cut values.
+by selecting events with a CC $\nu_{e}$ score above $0.8$, achieving a value of $0.519$. Note that
+$\mathrm{efficiency}\times\mathrm{purity}$ is optimised considering both appeared and beam CC
+$\nu_{e}$ components as signal. Due to their indistinguishable nature, this is the only reasonable
+approach to generate cut values.
+
+The corresponding number and efficiency of selected events for each event category, as well as the
+appeared signal CC $\nu_{e}$ purity, is shown in Table.~\ref{tab:nuel_selection}. The final FOM
+selected signal purity of $38.3\pm0.5\%$ may appear low, but this is mainly due to the
+indistinguishable intrinsic beam CC $\nu_{e}$ contamination. When both CC $\nu_{e}$ components are
+considered signal the selection purity becomes $71.0\pm0.6\%$.
 
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/final_nuel_eff_curves.pdf}
@@ -1455,22 +1457,21 @@ indistinguishable nature, this is the only reasonable approach to generate cut v
     \label{fig:final_nuel_eff_curves}
 \end{figure}
 
-TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
-better to be more explicit and directly quote error estimate especially for the efficiency.
-
 \begin{table}
     \begin{tabular}{ccccccc}
-             & Sig CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC          & CC $\nu_{e}$ Purity & Sig Purity \\
+                 & CC $\nu_{e}$ sig & Beam CC $\nu_{\mu}$ bkg & CC $\nu_{e}$ bkg & NC bkg        & Sig Purity     \\
         \midrule
-        Cuts & 40.8(0.92)       & 818.0(0.40)    & 33.0(0.94)        & 231.0(0.66) & 0.066               & 0.036      \\
-        FOM  & 31.3(0.71)       & 6.1(0.01)      & 26.7(0.76)        & 17.6(0.05)  & 0.710               & 0.383      \\
+        Cuts Num & 40.8             & 818.0                   & 33.0             & 231.0         & $3.6\pm0.1\%$  \\
+        FOM Num  & 31.3             & 6.1                     & 26.7             & 17.6          & $38.3\pm0.5\%$ \\
+        \midrule
+        FOM Eff  & $70.9\pm0.4\%$   & $0.3\pm0.02\%$          & $76.3\pm0.3\%$   & $5.1\pm0.2\%$ & -              \\
     \end{tabular}
     \caption[Table showing CC $\nu_{e}$ selected event numbers, efficiencies and signal purity.]
-    {Table showing CC $\nu_{e}$ selected event numbers(efficiencies) for the various event
-        categories as well as associated all $\nu_{e}$ (appeared and beam) purity and signal
-        purity. Shown are the post preselection, \emph{cosmic score} cut, and \emph{escapes score}
-        cut numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
-        (FOM) selection.}
+    {Table showing CC $\nu_{e}$ selected event numbers and corresponding efficiencies for the
+        various event categories as well as the associated signal purity. Shown are the numbers
+        for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
+        numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
+        (FOM) selection for which the efficiency is shown.}
     \label{tab:nuel_selection}
 \end{table}
 
@@ -1572,21 +1573,21 @@ contained, an 87\% selection efficiency for the figure-of-merit selection is ach
     \label{fig:final_numu_eff_curves}
 \end{figure}
 
-TODO: Stefano says sig fig here is probably indication of error on these values, but it would be
-better to be more explicit and directly quote error estimate especially for the efficiency.
-
 \begin{table}
     \begin{tabular}{cccccc}
-             & CC $\nu_{\mu}$ & Appeared CC $\nu_{e}$ & Beam CC $\nu_{e}$ & NC          & Sig Purity \\
+                 & CC $\nu_{\mu}$ sig & App CC $\nu_{e}$ bkg & Beam CC $\nu_{e}$ bkg & NC bkg        & Sig Purity     \\
         \midrule
-        Cuts & 818.0(0.40)    & 40.8(0.92)            & 33.0(0.94)        & 231.0(0.66) & 0.729      \\
-        FOM  & 777.9(0.38)    & 1.32(0.03)            & 1.37(0.04)        & 29.3(0.08)  & 0.961      \\
+        Cuts Num & 818.0              & 40.8                 & 33.0                  & 231.0         & $72.9\pm0.5\%$ \\
+        FOM Num  & 777.9              & 1.32                 & 1.37                  & 29.3          & $96.1\pm0.6\%$ \\
+        \midrule
+        FOM Eff  & $38.0\pm0.2\%$     & $3.0\pm0.1\%$        & $4.0\pm0.1\%$         & $8.4\pm0.2\%$ & -              \\
     \end{tabular}
     \caption[Table showing CC $\nu_{\mu}$ selected event numbers, efficiencies and signal purity.]
-    {Table showing CC $\nu_{\mu}$ selected event numbers(efficiencies) for the various event
-        categories as well as associated signal purity. Shown are the post preselection,
-        \emph{cosmic score} cut, and \emph{escapes score} cut numbers (Cuts) in addition to the
-        $\mathrm{efficiency}\times\mathrm{purity}$ optimised (FOM) selection.}
+    {Table showing CC $\nu_{\mu}$ selected event numbers and corresponding efficiencies for the
+        various event categories as well as the associated signal purity. Shown are the numbers
+        for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
+        numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ optimised
+        (FOM) selection for which the efficiency is shown.}
     \label{tab:numu_selection}
 \end{table}
 

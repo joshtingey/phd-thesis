@@ -33,17 +33,17 @@ thesis.
 \section{\chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The \chips concept is to construct cylindrical water Cherenkov detectors that can be sunk to the
-bottom of deep bodies of water on the Earth's surface, such as lakes, reservoirs and flooded mine
-pits. The water above the sunken detector provides a modest overburden from cosmic rays, as the
-surrounding water provides support for a lightweight detector structure. By removing the need for
-underground excavation and expensive structural support, the cost of construction can be
-dramatically reduced.
+The \chips concept is to deploy cylindrical water Cherenkov detector modules into deep bodies of
+water on the Earth's surface such as lakes, reservoirs and flooded mine pits. Initially
+constructed on land \chips detectors can be floated into position before being sunk. The water
+above the sunken detector provides a modest overburden from cosmic rays, while the surrounding
+water provides support for a lightweight detector structure. By removing the need for underground
+excavation and expensive structural support, the cost of construction can be dramatically reduced.
 
 Additionally, the common practice of building majority bespoke components is replaced by using
 modern commercially available components wherever possible. The number of expensive elements, such
-as photomultiplier tubes is also reduced by only considering accelerator beam neutrino events,
-such that full coverage high-density detector instrumentation is not required.
+as photomultiplier tubes is also reduced by only considering multi \GeV accelerator beam neutrino
+events, such that full coverage high-density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
@@ -81,7 +81,7 @@ concept.
           LBNF beam have been considered in multiple studies~\cite{pfutzner2017, adde2016,
               lang2015}.
 
-    \item \textbf{Data acquisition:} This effort aims to prove that a cheap data acquisition
+    \item \textbf{Data acquisition:} This effort aims to prove that a cheap data acquisition (DAQ)
           system using commercially available components and software is viable~\cite{eijk2018}.
           Outlined in Chapter.~\ref{chap:daq}, \chips implements a novel use of cheap single-board
           computers to collect photomultiplier tube data.
@@ -306,41 +306,41 @@ single electron ring.
 \section{The \chipsfive detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The \chipsfive detector is the first large scale prototype module for the \chips project. A
-cylindrical detector \unit{25}{\mathrm{m}} in diameter and \unit{12}{\mathrm{m}} high, \chipsfive
-has a total inner surface area of \unit{1924}{\mathrm{m}^2} and a total target mass of
-\unit{5.9}{\mathrm{kton}}. Via the process of design, construction, deployment, and data
-acquisition, the primary \chipsfive aim is to refine the \chips concept for future full-scale
-($\sim$\unit{15}{\mathrm{kton}}) modules. The \chipsfive detector is designed to be fully
-characteristic of what a full-sized \chips module is envisioned to be; therefore, the details
-outlined here are representative of what to expect for such a module.
+\chipsfive is the first large scale prototype detector module for the \chips project. A
+\unit{25}{\mathrm{m}} wide and \unit{12}{\mathrm{m}} high cylinder once fully deployed, \chipsfive
+has an inner surface area of \unit{1924}{\mathrm{m}^2} and a total target mass
+\unit{5.9}{\mathrm{kton}}. Via the process of design, construction, deployment, and data taking,
+\chipsfive primarily aims to refine the \chips concept for future full-scale
+($\sim$\unit{15}{\mathrm{kton}}) modules. With this in mind \chipsfive is designed such that the
+details outlined in this section are fully characteristic of what a full-sized \chips module is
+envisioned to be. Here, the location, structure, instrumentation, water filtration, deployment,
+and current status are presented. The full electronics and DAQ details are instead outlined in
+Chapter.~\ref{chap:daq}.
 
 \subsection{Location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chipsfive is located at the Wentworth 2W pit in northern Minnesota, USA, near the small town of
-Hoyt Lakes. A disused and flooded surface Taconite ore (a type of iron ore) mine pit, the centre
-of Wentworth 2W is located \unit{7}{\mathrm{mrad}} off the \numi beam axis at a distance of
-\unit{712}{\mathrm{km}} from the beam target. Roughly $0.8\mathrm{km}\times1.2\mathrm{km}$ in size
-with a maximum depth of \unit{60}{\mathrm{m}} ($\pm3\mathrm{m}$ throughout the year), the pit
-entirely freezes over in winter, allowing for work to only take place during the summer months
-(May to October).
+Hoyt Lakes. A disused and flooded surface Taconite ore (a type of iron ore) mine pit, Wentworth 2W
+is located \unit{7}{\mathrm{mrad}} off the \numi beam axis at a distance of
+\unit{712}{\mathrm{km}} from the beam target. Roughly
+\unit{0.8}{\mathrm{km}}$\times$\unit{1.2}{\mathrm{km}} in size with a maximum depth of
+\unit{60}{\mathrm{m}} ($\pm3\mathrm{m}$ throughout the year), the pit freezes over during winter,
+allowing for work to only take place during the summer months of May to October.
 
-The \chipsfive detector module is first constructed on land and then deployed into the pit, as
-discussed further in Section.~\ref{sec:chips_detector_deployment}. For this purpose, a large earth
-ramp on the south side of the Wentworth 2W pit is used for construction. Due to the heavy
-infrastructure in place for mining, the construction site is easily accessible by road (except for
-the last \unit{200}{\mathrm{m}}) and is well connected to power. Additionally, the nearby PolyMet
-mining administration building is used as a laboratory environment for construction and testing of
-individual components before installation within the detector. A labelled satellite view of
-Wentworth 2W is given in Fig.~\ref{fig:pit} for context, with a picture of the construction site
-shown in Fig.~\ref{fig:from_the_sky}.
+A large earthen ramp on the south side of the Wentworth 2W pit is used for construction on land.
+The construction site is easily accessible by road and well connected to power, due to the heavy
+infrastructure in place for mining. Additionally, the nearby PolyMet mining administration
+building is used as a laboratory environment for construction and testing of individual components
+before installation within the detector. A labelled satellite view of Wentworth 2W is given in
+Fig.~\ref{fig:pit} for context, with a picture of the construction site shown in
+Fig.~\ref{fig:from_the_sky}.
 
 \begin{figure} % PIT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pit.pdf}
     \caption[Satellite view of the Wentworth 2W mine pit, with key locations.]
     {Satellite view of the Wentworth 2W flooded mine pit in northern Minnesota, showing key
-        \chipsfive locations. The PolyMet building, shore hut, construction site and deployment
+        \chipsfive locations. The PolyMet building, shore huts, construction site and deployment
         location are shown. For both the construction site and deployment location the red circle
         shows the \chipsfive detector size to scale.}
     \label{fig:pit}
@@ -351,8 +351,8 @@ shown in Fig.~\ref{fig:from_the_sky}.
     \caption[Picture of the \chipsfive construction site from the air.]
     {Picture of the \chipsfive construction site from the air facing south. The Wentworth 2W pit
         is in the lower half of the image, with the part built \chipsfive detector visible at the
-        bottom of the construction ramp. The two white shore huts can just be seen halfway up the
-        ramp.}
+        bottom of the earthen construction ramp. The two white shore huts can just be seen halfway
+        up the ramp.}
     \label{fig:from_the_sky}
 \end{figure}
 
@@ -360,123 +360,166 @@ shown in Fig.~\ref{fig:from_the_sky}.
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The structure of the \chipsfive detector module consists primarily of two \unit{26}{\mathrm{m}}
-diameter and \unit{1.2}{\mathrm{m}} high lightweight stainless steel \emph{endcaps} that form the
-top and bottom of the cylindrical shape. During construction the conveniently named \emph{top-cap}
-is held above the \emph{bottom-cap} by \unit{1.5}{\mathrm{m}} steel struts as shown in
-Fig.~\ref{fig:frame}, allowing for the endcap instrumentation to be installed as detailed in
-Section.~\ref{sec:chips_detector_instrumentation}.
-
-During construction on land the top-cap and bottom-cap are connected by 28 \unit{12}{\mathrm{m}}
-long Dyneema cables around their perimeter. With the addition of forty \unit{16}{\mathrm{inch}}
-diameter air-filled and sealed PVC pipes crisscrossing the top-cap frame, the top-cap is made
-buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, holding the
-Dyneema cable taut, and forming the final detector shape, as shown in Fig.~\ref{fig:chips_render}.
-
-This highlights one of the clear advantages of the \chips concept, no structure on the vertical
-cylindrically wall of the detector is required. In addition to the deployment advantages discussed
-in Section~\ref{sec:chips_detector_deployment}, and the significantly easier engineering, this is
-the key reason as to why a cylindrical detector is chosen over a spherical one.
-
-Also during construction on land, a light and watertight liner is installed. Designed to isolate
-the clean internal detector water from the external pit water and to prevent non Cherenkov light
-from reaching the PMTs, the liner is made from geomembrane, a flexible reinforced polymer
-membrane. Commercially available in large rolls the liner is welded together during construction
-to form the top, bottom, and sides. Note that the sides are installed onshore with enough loose so
-that when deployed they are held nearly taut (the Dyneema takes the strain).
+diameter and \unit{1.5}{\mathrm{m}} high lightweight stainless steel circular \emph{endcaps} that
+form the top and bottom of the cylinder. During construction on land the conveniently named
+\emph{top-cap} is held above the \emph{bottom-cap} by \unit{1.5}{\mathrm{m}} long steel struts as
+shown in Fig.~\ref{fig:frame}. This configuration allows for the endcap instrumentation, detailed
+in Section.~\ref{sec:chips_detector_instrumentation}, to be easily installed.
 
 \begin{figure} % CHIPS FRAME DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/frame.jpeg}
-    \caption[Picture of the \chipsfive detector structure.]
-    {Picture of the complete \chipsfive detector structural frame. The top and bottom endcaps can
-        be clearly seen separated by steel struts. The liner (installed before frame construction)
-        attached to the bottom cap is also visible above water around the frame edge.}
+    \caption[Picture of the \chipsfive structural frame.]
+    {Picture of the \chipsfive structural frame, with humans for scale. The top and bottom endcaps
+        can be clearly seen separated by steel struts. Rows of stainless steel \emph{stringers}
+        are attached to the inside of each endcap to mount the instrumentation.}
     \label{fig:frame}
 \end{figure}
+
+The two endcaps are connected by 28 \unit{12}{\mathrm{m}} long Dyneema cables around their
+perimeter. Additionally, 48 \unit{16}{\mathrm{inch}} diameter air-filled PVC pipes are attached to
+the frame of the top-cap making it buoyant. Therefore, once deployed into the pit, the bottom-cap
+sinks while the top-cap floats, this pulls the Dyneema cable taut, forming the final expanded
+detector shape, as shown in Fig.~\ref{fig:chips_render}.
 
 \begin{figure} % CHIPS RENDER DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_1.png}
     \caption[Graphical rendering of the \chipsfive detector.]
-    {Graphical rendering of the fully deployed \chipsfive detector module with a section of the
-        liner cutaway. The bottom endcap and wall planes are visible, as well as the top endcap
-        structure and floatation. The green lines indicate how the many Dyneema cables hold the
-        top-cap and bottom-cap together.}
+    {Graphical rendering of the fully deployed and expanded \chipsfive detector module with a
+        section of the liner cutaway. The bottom endcap and wall planes are visible, as well as
+        the top endcap structure and floatation. The green lines indicate the Dyneema cables
+        holding the top-cap and bottom-cap together.}
     \label{fig:chips_render}
 \end{figure}
 
 \subsection{Instrumentation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_instrumentation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- PVC planes, holding 15 or 30 PMTs depending on density location in detector, PVC pipe,
-connectors and glue are commercially available. They are tiled together within the detector
-attached directly to stainless steel stringers on the endcaps or the Dyneema cables running down
-the sides. Called Planar Optical Modules (POMs) or planes, Two types of planes, different readout
-electronics.
+The \chipsfive detector is instrumented with PMTs arranged within distinct plane like structures
+called Planar Optical Modules (POMs), which take inspiration from the Digital Optical Modules
+(DOMs) used by IceCube and KM3NeT~\cite{hanson2006, eijk2015}. Each POM is a roughly
+\unit{2}{\mathrm{m}}$\times$\unit{3}{\mathrm{m}} array of watertight PVC tubing equipped with
+anywhere between $15$ to $30$ PMTs, in addition to the lowest level of DAQ electronics and power
+distribution. Standard commercially available schedule $40$ PVC piping and connectors are used to
+form the structure of each plane, bound together with standard PVC primer and cement.
 
-- Needs to able to cope with 4 degrees at bottom!
+There are two types of POM used within \chipsfive, differentiated by the PMTs and the data
+acquisition electronics they use. Firstly, \emph{Nikhef} POMs use \unit{88}{\mathrm{mm}} HZC PMTs
+with electronics developed by the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly,
+\emph{Madison} POMs use \unit{3}{\mathrm{inch}} Hamamatsu R6091 PMTs donated from the NEMO3
+experiment~\cite{arnold2005} with novel electronics developed by \chips in collaboration with the
+Wisconsin IceCube Particle Astrophysics Centre (WIPAC) in Madison, Wisconsin. The
+\unit{88}{\mathrm{mm}} HZC PMTs have a high ratio of output electrons to incident photons (quantum
+efficiency) of 24.4\% at a wavelength of \unit{400}{\mathrm{nm}}, compared to the low 12.0\% ratio
+achieved by the R6091 PMTs.
 
-- PMTs angle at \unit{45}{^\circ} to the beam, inward facing PMTs, 88 mm HZC PMTs with electronics
-from the KM3NeT experiment and 3 inch Hamamatsu R6091 provided by the NEMO3 experiment with
-electronics developed by \chips in collaboration with Icecube in Madison. R6091 PMTs use a
-Cockroft-Walton board that generates a positive voltage, to hold the anode at a positive charged
-and keep the cathode grounded. This is done as the PMTs make direct contact with the water within
-the detector volume which can attract electrons within the PMT to the glass causing glass
-scintillation and significant noise. It has been found that we don't need as high coverage as
-Super-Kamiokande for example as we are looking at higher energy events, due to the higher light
-yield from each event. Just looking at forward-going beam events so can have different coverage
-throughout the detector. Smaller PMTs compared to 20 inch SUper-Kamiokande, time resolution is
-better and they are no more expensive per photocathode area. All 88 mm HZC PMTs are instrumented
-with light cones, circular reflector at \unit{45}{^\circ} to the PMT direction that increase the
-amount of light gathered. Reflective disks attached to plastic cones that connect to the PMT
-insert. Potted PMTs within transparent plastic, transparent potting material. High quantum
-efficiency and low quantum efficiency, max 24.4\% vs 12.0\% at \unit{400}{\mathrm{nm}}
+A total of $6114$ \unit{88}{\mathrm{mm}} HZC and $450$ Hamamatsu R6091 PMTs are arranged into
+$226$ Nikhef and $30$ Madison POMs. Every PMT is housed in an assembly as shown in
+Fig.~\ref{fig:pmt_assembly} for the Nikhef case, which is glued directly into the POM PVC
+structure. Importantly, to increase the level of light collection, each Nikhef PMT is equipped
+with a \emph{light-cone} consisting of a circular reflective surface at \unit{45}{^\circ} to the
+PMT normal. The Madison assembly is similar but has no PMT cover or light cone. For POMs attached
+to either endcap their PMTs are angled at \unit{45}{^\circ} facing the direction of the beam to
+furthermore to increase light collection.
 
-- PMTs are not distributed uniformly there are three regions of interest, a high-density region
-downstream where the vast majority of beam events hit, a low-density region, and a region for
-Madison planes used to help reject cosmics NC events which are less along the beamline. There is
-also a veto volume with PMTs pointing upward for the top endcap planes. light-tight sheet
-seperates the inner volume from the top veto volume of the detector. For calibration "flashers"
-are built into the detector to allow for known location light generation to calibrate final PMT
-positions and time resolutuions.
-
-- Data Acquisition PMT readout and everything like that is discussed in the next chapter.
+All PMTs within a POM are connected to the lowest level of DAQ electronics contained within a
+dedicated electronics box. Either an aluminium or PVC cylinder in the Nikhef or Madison case
+respectively. A flexible PVC \emph{pigtail} is attached to each POM electronics box containing the
+connections to the higher level DAQ system and power supply. A \emph{water-block} within the
+pigtail ensures that even if the outside connection is flooded the POM is capable of withstanding
+the \unit{6}{\mathrm{atm}} of pressure at the bottom of the pit. A fully assembled and installed
+Nikhef POM is shown in Fig.~\ref{fig:single_plane} for reference. The POMs are tiled next to each
+other on the detector walls, attached to either the stainless steel \emph{stringers} on the
+top-cap and bottom-cap, or clipped to the Dyneema cables on the vertical walls.
 
 \begin{figure} % PMT ASSEMBLY DIAGRAM %
     \centering
-    \subcaptionbox{Disassembled\label{fig:pmt_disassembled}}{%
+    \subcaptionbox{Disassembled}{%
         \includegraphics[height=5.5cm]{diagrams/4-chips/pmt_disassembled.jpg}%
     }
     \quad
-    \subcaptionbox{Assembled\label{fig:pmt_assembled}}{%
+    \subcaptionbox{Assembled}{%
         \includegraphics[height=5.5cm]{diagrams/4-chips/pmt_assembled.jpg}%
     }
     \caption[Disassembled and assembled Nikhef PMT housing components.]
-    {Disassembled (a) and assembled (b) Nikhef PMT housing components. The insert, PMT,
-        transparent cover and light cone make up the complete PMT assembly.}
+    {Disassembled (a) and assembled (b) Nikhef PMT assembly components. The assembly comprises of
+        a black PVC insert, a \unit{88}{\mathrm{mm}} HZC PMT, a transparent acrylic cover, and a
+        reflective light cone. The PMT is first glued to the inside surface of the cover using a
+        silicone based optical gel before a watertight seal is made between the insert and cover
+        using an O-ring. The reflective light cone is simply clipped to the front of the cover
+        before the whole assembly is glued into the POM PVC structure.}
+    \label{fig:pmt_assembly}
 \end{figure}
 
 \begin{figure} % NIKHEF POM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/single_plane.jpg}
     \caption[Picture of a Nikhef POM.]
-    {Picture of a single Nikhef high density top endcap POM. Both the inward facing and veto PMTs
-        are visible as well as the planes umbilical and electronics container.}
+    {Picture of a single Nikhef full density POM installed on the top-cap of the \chipsfive
+        detector. Both the inward facing and veto PMTs are visible as well as the planes pigtail
+        and aluminium electronics container.}
     \label{fig:single_plane}
 \end{figure}
 
-INFO: detector module
-- photocathode coverage in different regions
-- No of PMTs
-- Veto dimensions
-- Veto num PMTs
-- veto photocathode coverage
+As mentioned previously, full coverage high-density detector instrumentation is not required for
+\chips detector modules. This is due to two main reasons. Firstly, only highly directional
+accelerator beam events entering the detector from one side are to be studied. Therefore, the vast
+majority of neutrino interaction Cherenkov radiation is deposited on a relatively small downstream
+region of the detector walls. Secondly, as beam neutrinos predominantly have multi-\GeV energies,
+the Cherenkov light their interactions yield is relatively large when compared to the sub-\GeV
+neutrinos studied by other detectors such as Super-Kamiokande. Therefore, a lower number of PMTs
+is required to capture adequate Cherenkov radiation from an interaction. Consequently, the
+distribution of the percentage of the detector walls covered by sensitive PMT surface area
+(\emph{photocathode coverage}) is optimised, to reduce the total number of PMTs used.
 
-- km3net ref \cite{katz2009, adrian2016}
-- Icecube DOM paper \cite{hanson2006}
-- Icecube ref \cite{karle2003}
-- NEMO 3 ref \cite{arnold2005}
-- km3net DOM paper \cite{eijk2015}
+The \chipsfive detector is split into three distinct regions of PMT photocathode coverage whose
+boundaries are roughly defined by their azimuth angle $\phi$ from the centre of the downstream
+wall (at $\phi=0^{\circ}$). Firstly, a \emph{full-density} Nikhef POM region in the most
+downstream $\phi=\pm75^{\circ}$ region of the detector (both endcaps and vertical walls) with a
+$\sim3\%$ photocathode coverage. Secondly, a \emph{half-density} Nihkef POM region covering the
+$\phi=\pm75^{\circ}$ to $\phi=\pm180^{\circ}$ region of the endcaps and the $\phi=\pm75^{\circ}$
+to $\phi=\pm140^{\circ}$ region of the vertical walls with a $\sim1.5\%$ photocathode coverage.
+Finally, a \emph{half-density} Madison POM region covering the $\phi=\pm140^{\circ}$ to
+$\phi=\pm180^{\circ}$ region of the vertical walls with a $\sim0.8\%$ photocathode coverage.
 
-\subsection{Water clarity} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Extensive studies have shown that the \chipsfive layout and photocathode coverage does not
+drastically reduce performance while vastly reducing the number of required PMTs~\cite{blake2016}.
+The Nikhef light cones go some way to increasing the `sensitive' surface area to an (admittedly
+not as effective) $\sim9.5\%$ and $\sim4.7\%$ for full-density and half-density respectively. This
+is still a very small coverage when compared to the $\sim40\%$ uniform photocathode coverage of
+Super-Kamiokande and highlights how much more expensive general purpose experiments such as this
+are because of this.
+
+One possibility for PMT distribution is not to put any in the upstream regions of the detector,
+however, these are found to be very useful for rejecting cosmic muon and NC events. Furthermore,
+for this purpose \chipsfive is equipped with veto PMTs attached to the top-cap Nikhef planes but
+facing directly upwards. The veto contains a total of $324$ \unit{88}{\mathrm{mm}} HZC PMTs for a
+photocathode coverage of $\sim0.6\%$. Separated by a liner made from the same geomembrane material
+as for the outer liner, the area between the POMs and the top liner within the top-cap structure
+becomes the veto region, so about \unit{1.5}{\mathrm{m}}. A graphical rendering of all the top-cap
+POMs is shown in Fig.~\ref{fig:top_cap}.
+
+\begin{figure} % TOP CAP RENDER DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/top_cap.png}
+    \caption[Graphical rendering of the top-cap POMs.]
+    {Graphical rendering of the top-cap POMs. Both the different photocathode coverage regions and
+        the veto PMTs are clearly visible.}
+    \label{fig:top_cap}
+\end{figure}
+
+\subsection{Filtration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Also, while still on land, a lightproof and watertight liner is installed. Designed to isolate the
+clean internal detector water from the external pit water and to prevent non-Cherenkov light from
+reaching the PMTs, the liner is made from geomembrane, a flexible reinforced polymer membrane.
+Commercially available in large rolls the liner is welded together during construction to form the
+top, bottom, and sides. Note that the liner for the top-cap and vertical walls is not joined until
+
+Also, while still on land, a lightproof and watertight liner is installed. Designed to isolate the
+clean internal detector water from the external pit water and to prevent non-Cherenkov light from
+reaching the PMTs, the liner is made from geomembrane, a flexible reinforced polymer membrane.
+Commercially available in large rolls the liner is welded together during construction to form the
+top, bottom, and sides. Note that while on land, the vertical wall liner is very loose, however,
+once the detector expands during deployment is held nearly taut (the Dyneema takes the strain).
 
 - Though remarkably clear the Wentworth pit water is not clean enough for the detector volume
 where we require ~30m attenuation length. Need to pump water, to prevent algae blooms and
@@ -487,7 +530,7 @@ for data acquisition.
 - Any pressure differences on the liner are negligible, but a small positive pressure is kept
 inside the detector to prevent particulates coming in via and leaks etc...
 
-\subsection{Deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Construction and deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - How it can grow if needed - buoyant top cap anchored to the bottom one, which when fully
@@ -495,6 +538,29 @@ deployed will rest on the bottom of the pit.
 
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- No liner between veto and main volume!
+- In the summer of 2018 and 2019 work on deploying \chips proceeded. Unforeseen hehe!!
+
+This highlights one of the clear advantages of the \chips concept. No physical structure is
+required on the vertical walls of the detector. Alongside the easier deployment discussed in
+Section~\ref{sec:chips_detector_deployment} and the significantly simplified engineering, this is
+the key reason as to why the \chips concept uses cylindrical rather than spherical detector
+modules.
+
+\begin{figure} % WORK DIAGRAM %
+    \centering
+    \subcaptionbox{gwgw}{%
+        \includegraphics[height=5.5cm]{diagrams/4-chips/work1.jpeg}%
+    }
+    \quad
+    \subcaptionbox{asgag}{%
+        \includegraphics[height=5.5cm]{diagrams/4-chips/work2.jpeg}%
+    }
+    \caption[afaga]
+    {afag}
+    \label{fig:work}
+\end{figure}
 
 \begin{figure} % PANORAMA DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pan_1.jpeg}
