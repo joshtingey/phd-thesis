@@ -1220,14 +1220,15 @@ neutrino mode (forward horn current) of NuMI beam operation is considered for si
 
 All evaluation events are weighted to match the expected spectrum in the \unit{5}{\mathrm{kton}}
 \chipsfive detector, using the expected unoscillated flux, cross-sections, and oscillation
-probabilities. Additional weighting also scales events to match data taking in the NuMI beam for a
-year, corresponding to $6\times 10^{20}$ protons on target (POT). For cosmic events, a rate of
-\unit{5.1}{\mathrm{kHz}} with \unit{50}{\mathrm{m}} of overburden is assumed, rejecting events
-that fall outside the NuMI beam spill window. For simplicity, the neutrino and antineutrino
-components of the beam are also combined as they are impossible to tell apart in practice. The
-final weighted spectrum of events is shown in Fig.~\ref{fig:explore_osc_fluxes}. Furthermore, the
-evaluation sample contains the expected combination of underlying neutrino interaction types, as
-shown in Fig.~\ref{fig:explore_stacked_int_types}.
+probabilities (including the MSW effect). Additional weighting also scales events to match data
+taking in the NuMI beam for a year, corresponding to $6\times 10^{20}$ protons on target (POT).
+Cosmic muon events are weighted according to the \unit{11.8}{\mathrm{kHz}} and
+\unit{48}{\mathrm{m}} of overburden outlined in Section.~\ref{sec:chips_monte_carlo_cosmic}. For
+simplicity, the neutrino and antineutrino components of the beam are also combined as they are
+impossible to tell apart in practice. The final weighted spectrum of events is shown in
+Fig.~\ref{fig:explore_osc_fluxes}. Furthermore, the evaluation sample contains the expected
+combination of underlying neutrino interaction types, as shown in
+Fig.~\ref{fig:explore_stacked_int_types}.
 
 \begin{figure} % OSC FLUXES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cvn/chipsnet/explore_osc_fluxes.pdf}
@@ -1367,27 +1368,27 @@ rejected by both the preselection and \emph{cosmic score} cuts.
     \label{tab:selection}
 \end{table}
 
-When compared to the approximately 1.2 million expected cosmic events per year, the zero selected
+When compared to the approximately 2.1 million expected cosmic events per year, the zero selected
 out of 350000 evaluation events is not statistically significant. However, the generation of a
 sufficiently sized cosmic evaluation sample is deemed infeasible due to the vast computational
 resources and time required.
 
 Therefore, to more accurately gauge the number of cosmic events likely to be classified as beam
 events, we consider the more statistically significant number that passes a loose \emph{cosmic
-    score} cut below a value of $0.9$. In this case, when combined with the preselection and
+score} cut below a value of $0.9$. In this case, when combined with the preselection and
 \emph{escapes score} cut, $38$ out of $350000$ evaluation sample cosmic events are selected, which
-when weighted gives to $181$ events per year. Assuming a flat distribution of events between a
-\emph{cosmic score} of zero and $0.9$, and using the actual $0.0001$ cut value, $0.02$ events are
+when weighted gives to $317$ events per year. Assuming a flat distribution of events between a
+\emph{cosmic score} of zero and $0.9$, and using the actual $0.0001$ cut value, $0.035$ events are
 expected to be selected. This corresponds to an excellent combined rejection factor for cosmic
 muon events of $\sim1.5\times10^{-8}$.
 
-Additionally, of the $181$ events under a \emph{cosmic score} value of $0.9$, 95 would be selected
-as CC $\nu_{\mu}$ and zero as CC $\nu_{e}$ by the beam classification detailed in the following
-subsection. This gives high confidence that even if a tiny number of cosmic events are selected,
-they would be classified as CC $\nu_{\mu}$ and not contaminate the principle CC $\nu_{e}$
-selection. In summary, the expected cosmic muon contamination of the final beam selections is
-expected to be negligible and ignored for the rest of this results section. When compared to the
-approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen by
+Additionally, of the $317$ events under a \emph{cosmic score} value of $0.9$, $167$ would be
+selected as CC $\nu_{\mu}$ and zero as CC $\nu_{e}$ by the beam classification detailed in the
+following subsection. This gives high confidence that even if a tiny number of cosmic events are
+selected, they would be classified as CC $\nu_{\mu}$ and not contaminate the principle CC
+$\nu_{e}$ selection. In summary, the expected cosmic muon contamination of the final beam
+selections is expected to be negligible and ignored for the rest of this results section. When
+compared to the approximately $2\%$ cosmic contamination of the CC $\nu_{\mu}$ sample seen by
 \nova~\cite{acero2019}, the performance is apparent.
 
 \subsection{Beam classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
