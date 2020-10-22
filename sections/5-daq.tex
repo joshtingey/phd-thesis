@@ -22,6 +22,10 @@ SOFTWARE
 - Detector and data quality monitoring
 \end{comment}
 
+- Need to get across what makes this DAQ implementation special and novel, what are the
+interesting unique bits of it? Limited resources but great performance! Use of existing hardware
+and software! Modern approaches to doing things, good part of small collaboration!
+
 - Needs to able to cope with 4 degrees at bottom!
 - R6091 PMTs use a Cockroft-Walton board that generates a positive voltage, to hold the anode at a
 positive charged and keep the cathode grounded. This is done as the PMTs make direct contact with
@@ -33,7 +37,7 @@ causing glass scintillation and significant noise.
 \section{The White Rabbit timing system} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- WHite-rabbit ref in~\cite{lipinski2011}
+- White-rabbit ref in~\cite{lipinski2011}
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
@@ -111,6 +115,8 @@ with the white rabbit.
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - Daan short ref in~\cite{eijk2018}
+- Seven Solutions WR-LEN ref in~\cite{wrlen2020}
+- Beaglebone ref in~\cite{beagle2020}
 
 \begin{figure} % MADISON BOX DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/madison_box.pdf}
@@ -129,6 +135,10 @@ with the white rabbit.
 
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- White rabbit switch ref in~\cite{wrswitch2020}
+- Multiplexer allows for 16 different channels using wavelengths between 1310nm and 1550nm with
+corresponding SFPs (Small Form-Factor Pluggable Transceiver)
 
 \begin{figure} % MANIFOLD DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.jpg}
@@ -152,10 +162,27 @@ with the white rabbit.
     \label{fig:hut_daq}
 \end{figure}
 
-\section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data flow and software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 DIAGRAM: Software diagram + finite state machine
+
+- An `all-data-to-shore' approach as done in KM3NeT
+- Data is sent in UDP packets (not TCP so some will go missing)
+- microDAQ software repository with fh-library (field-hub) novel communication library
+in~\cite{microdaq2020}. Most of Madison code is written in c!
+- Mainly written in C++, full asynchronous using the BOOST Asio library in~\cite{boost2020} which
+is a library for network and low-level I/O programming using an asynchronous model.
+- Taking inspiration from the KM3NeT DAQ Java software
+- The detector is configured using a single human readable configuration file that defines all the
+POM types, MAC addresses, IP addresses, types, relay channels, which channels should be active and
+their associate high voltage setting, threshold and electronic ID.
+- Typical ethernet frame has a maximum transmission unit (MTU) size of 1500 bytes, we use Jumbo
+frames that allow for an MTU of 9000 bytes, this means we have a lot less small frames with only a
+limited number of recorded hits, which proved to be taxing to the switches and lead to an increase
+in the number of dropped frames.
+- 1Gb links between WR switches, 10Gb link between FS switch and main DAQ machine. Provides
+sufficient bandwidth, DO A SMALL CALCULATION!
 
 \subsection{The beam spill} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_spill} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,7 +193,26 @@ DIAGRAM: Software diagram + finite state machine
 \subsection{Detector and data quality monitoring} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_monitor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-REF: Elasticsearch paper
+- Elasticsearch ref in~\cite{elastic2020}
+- An open source RESTful, JSON-based, search engine and noSQL database.
+- Data is stored in \emph{indices} in individual \emph{documents}
+- Get to leverage an enormous amount of online support and the community
+- daqlog: Uses for DAQ application logging with a severity
+- daqstate: Used to report the current state of various DAQ applications
+- monpom: Used for reporting general POM monitoring information, such as temp, humidity, status
+- monchannel: Used for reporting individual channel monitoring, such as rate, veto
+- A series of altering rules are also setup constantly monitoring the status of the monitoring
+data contained within the elasticsearch database to alert via slack or email individuals if something goes wrong.
+- We index asynchronously to not block data taking, all data is backed up easily.
+- Use the Kibana user interface which is accessible through a browser, means that no special
+equipment, or GUIs are used, anyone on any machine has access to the full monitoring stack from
+their browser. A series of dashboards ar setup to monitor everything within the detector.
+- A series of indices are setup to store data which is sent via standard REST messages to the
+database, the special indexing allows for quick `searching' over any time period etc... for
+monitoring.
+- Also means that anyone can quikcly/easily look at any part of the data and make plots etc...
+without needing to write an additional part of a monitoring program.
+
 
 \begin{figure} % MONITORING DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.png}
