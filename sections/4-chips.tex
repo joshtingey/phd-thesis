@@ -323,10 +323,10 @@ Chapter.~\ref{chap:daq}.
 Hoyt Lakes. A disused and flooded surface Taconite ore (a type of iron ore) mine pit, Wentworth 2W
 is located \unit{7}{\mathrm{mrad}} off the \numi axis at a distance of \unit{712}{\mathrm{km}}
 from the beam target. Roughly \unit{0.8}{\mathrm{km}}$\times$\unit{1.2}{\mathrm{km}} in size with
-a maximum depth of \unit{60}{\mathrm{m}} ($\pm3\mathrm{m}$ throughout the year), the pit allows
-for an overburden of approximately \unit{50}{\mathrm{m}} with \chipsfive resting at the bottom.
-With an average daily low temperate of $-24^{\circ}\mathrm{C}$ in January, the pit freezes over
-during the winter months, therefore, work is only possible during the summer months of May to
+a maximum depth of \unit{60}{\mathrm{m}} ($\pm$\unit{3}{\mathrm{m}} throughout the year), the pit
+allows for an overburden of approximately \unit{50}{\mathrm{m}} with \chipsfive resting at the
+bottom. With an average daily low temperate of $-24^{\circ}\mathrm{C}$ in January, the pit freezes
+over during the winter months, therefore, work is only possible during the summer months of May to
 October.
 
 A sizeable earthen ramp on the south side of the Wentworth 2W pit is used for construction on
@@ -348,7 +348,7 @@ Fig.~\ref{fig:from_the_sky}.
 \end{figure}
 
 \begin{figure} % CHIPS FROM THE SKY DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/4-chips/from_the_sky.jpg}
+    \includegraphics[width=\textwidth]{diagrams/4-chips/from_the_air.jpeg}
     \caption[Picture of the \chipsfive construction site from the air.]
     {Picture of the \chipsfive construction site from the air facing south. The Wentworth 2W pit
         is in the lower half of the image, with the part built \chipsfive detector visible at the
@@ -419,7 +419,7 @@ with novel electronics developed by \chips in collaboration with the Wisconsin I
 Astrophysics Centre (WIPAC) in Madison, Wisconsin. The \unit{88}{\mathrm{mm}} HZC PMTs have a high
 ratio of output electrons to incident photons (quantum efficiency) of 24.4\% at a wavelength of
 \unit{400}{\mathrm{nm}}, compared to the low 12.0\% ratio achieved by the R6091 PMTs. Furthermore,
-the first photon time resolution is $\sim2\mathrm{ns}$ and $\sim5\mathrm{ns}$ for
+the first photon time resolution is $\sim2\mathrm{ns}$ and $\sim$\unit{5}{\mathrm{ns}} for
 \unit{88}{\mathrm{mm}} HZC and R6091 PMTs respectively.
 
 In total $6114$ \unit{88}{\mathrm{mm}} HZC and $450$ Hamamatsu R6091 PMTs are arranged into $226$
@@ -469,8 +469,8 @@ Nikhef POM is shown in Fig.~\ref{fig:single_plane} for reference.
     }
     \caption[Madison POM PMT assembly.]
     {A Hamamatsu R6091 Madison POM PMT outside (a) and inside its insert (b). The PMT is
-        \emph{potted} inside its black PVC insert creating a watertight seal that can withstand the
-        \unit{6}{\mathrm{atm}} of water pressure at the bottom of the pit.}
+        \emph{potted} inside its black PVC insert creating a watertight seal that can withstand
+        the \unit{6}{\mathrm{atm}} of water pressure at the bottom of the pit.}
     \label{fig:madison_pmt_assembly}
 \end{figure}
 
@@ -528,21 +528,24 @@ Fig.~\ref{fig:top_cap}.
     \label{fig:top_cap}
 \end{figure}
 
+The detector instrumentation receives power and is connected to the highest level DAQ systems
+through a \unit{500}{\mathrm{m}} long flexible PVC umbilical resting on the pit floor. The
+umbilical contains two optical fibres for data and two shielded gauge 14 cables for power. One end
+of the umbilical is attached to the bottom-cap of the detector while the other enters a hut on
+shore containing the power supply and highest level DAQ equipment.
+
 \subsection{Filtration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Though surprisingly clear the Wentworth 2W pit water still requires filtration to reach the
-required $\sim$\unit{30}{\mathrm{m}} attenuation length of light.
-
-- Though remarkably clear the Wentworth pit water is not clean enough for the detector volume
-where we require ~30m attenuation length. Need to pump water, to prevent algae blooms and
-bacterial growth and remove particulates which are present in the water to begin with. An
-umbilical resting on the pit floor will contain 2 fibres, 2 power cables and 2 flexible pipes for
-filtering the internal water on shore. All connected to two shore huts, one for filtering and one
-for data acquisition.
-
-- A small positive pressure is kept inside the detector to prevent particulates coming in via and
-leaks etc...
+Through surprisingly clear, in order to reach the desired $\sim$\unit{30}{\mathrm{m}} attenuation
+length of light, the Wentworth 2W pit water still requires filtration to remove particulates and
+bacteria. Therefore 2 (one to, one from) flexible umbilical tubes run from the detector to a hut
+on shore containing filtration equipment. A pump passes the full detector water volume through a
+series of $n$ carbon? commercially available filters every \unit{10}{days}. Studies have
+shown~\cite{campbell2020} that this simple procedure allows for the desired attenuation length to
+be reached after $n$ months of initial filtration. Additionally, the water within \chipsfive is
+kept at a small positive pressure relative to the external pit water to prevent the entry of
+particulates and bacteria though any small gaps in the liner.
 
 \subsection{Construction and deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -552,6 +555,12 @@ deployed will rest on the bottom of the pit.
 
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+During the summers of 2018 and 2019 extensive construction work for the \chipsfive detector was
+carried out by a team of approximately 15 collaborators at any one time. By late summer 2019 is
+became apparent that deployment of a fully instrumented \chipsfive detector before the freezing of
+the lake in October would not be possible. Therefore, the decision was taken to only partly
+instrument the top-cap and bottom-cap
 
 - No liner between veto and main volume!
 - In the summer of 2018 and 2019 work on deploying \chips proceeded. Unforeseen hehe!!
@@ -564,48 +573,65 @@ modules.
 
 \begin{figure} % WORK DIAGRAM %
     \centering
-    \subcaptionbox{gwgw}{%
-        \includegraphics[height=5.5cm]{diagrams/4-chips/work1.jpeg}%
+    \subcaptionbox{Testing connections}{%
+        \includegraphics[height=6.5cm]{diagrams/4-chips/work1.jpeg}%
     }
     \quad
-    \subcaptionbox{asgag}{%
-        \includegraphics[height=5.5cm]{diagrams/4-chips/work2.jpeg}%
+    \subcaptionbox{Making floatation}{%
+        \includegraphics[height=6.5cm]{diagrams/4-chips/work3.jpg}%
     }
     \caption[afaga]
-    {afag}
-    \label{fig:work}
+    {Construction work on the \chipsfive detector.}
+    \label{fig:work1}
+\end{figure}
+
+\begin{figure} % WORK DIAGRAM %
+    \centering
+    \subcaptionbox{Installing a POM}{%
+        \includegraphics[height=5.6cm]{diagrams/4-chips/work4.jpg}%
+    }
+    \quad
+    \subcaptionbox{Fixing a POM}{%
+        \includegraphics[height=5.6cm]{diagrams/4-chips/work2.jpeg}%
+    }
+    \caption[afaga]
+    {Construction work on the \chipsfive detector.}
+    \label{fig:work2}
 \end{figure}
 
 \begin{figure} % PANORAMA DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pan_1.jpeg}
     \caption[Panorama of the inside of \chipsfive just before deployment.]
     {Panorama of the inside of \chipsfive just before deployment. The six deployed Madison POMs
-        are visible in the foreground on the bottom endcap. Additionally, the flexible tube manifolds
-        can be seen connecting each POM to the higher level DAQ electronics.}
+        are visible in the foreground on the bottom endcap. Additionally, the flexible tube
+        manifolds can be seen connecting each POM to the higher level DAQ electronics.}
     \label{fig:pan_1}
 \end{figure}
 
-\section{Monte Carlo event generation and simulation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Event generation and detector simulation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Indispensable tool in particle physics, during the design and data analysis stages. Allows for
-optimisation studies, testing of event reconstruction techniques and the study of potential
-physics sensitivity.
-- Useful MC simulation will provide output matching observables in a real detector. For full
-analysis simulations need to be validated fully to make sure they approximate reality well enough.
+Monte carlo event generation and detector simulation methods are an indispensable tool within high
+energy particle physics. This is particularly true during the design and prototyping phase of an
+experimental project when no real world data is available, as is the case with \chips. By matching
+the observables of a real world detector as closely as possible, these methods allow for the
+optimisation of designs, the testing of reconstruction techniques and the study of physics
+sensitivities. Here, the beam and cosmic event generation procedures and a description of the
+detector simulation used by \chips are described. All are used extensively for work presented in
+later chapters of this thesis.
 
 \subsection{Beam event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The expected energy spectrum (flux) of neutrinos at the \chipsfive detector location is generated
-using the existing beam simulation written for the \numi beam experiments, and shown in
-Fig.~\ref{fig:flux}. As the $\nu_{\tau}$ component is negligible, it is not predicted by the beam
-simulation and ignored. Using the generated fluxes as input the GENIE neutrino event generator
-(version 3.0.6)~\cite{andreopoulos2009, andreopoulos2015} is used to generate beam neutrino
-events. Default cross-sections on water provided by GENIE are used. All initial, intermediate, and
-final state particle tracks for each event are stored as output in a NUANCE formatted file for use
-in the detector simulation. Note that unoscillated fluxes are used such that analyses samples must
-be weighted to match the desired oscillated neutrino composition.
+The expected flux of beam neutrinos at the \chipsfive detector location is generated using the
+existing beam simulation written for the \numi experiments, and shown in Fig.~\ref{fig:flux}. As
+the $\nu_{\tau}$ component is negligible, it is not predicted by the beam simulation and ignored.
+Using the generated fluxes as input the GENIE neutrino event generator (version
+3.0.6)~\cite{andreopoulos2009, andreopoulos2015} is used to generate beam neutrino events. Default
+cross-sections on water provided by GENIE are used. All initial, intermediate, and final state
+particle tracks for each event are stored as output in a NUANCE formatted file for use in the
+detector simulation. Note that unoscillated fluxes are used such that analyses samples must be
+weighted to match the desired oscillated neutrino composition.
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/flux.pdf}
@@ -622,33 +648,36 @@ be weighted to match the desired oscillated neutrino composition.
 The Cosmic-Ray Shower Library (CRY)~\cite{hagmann2012_1, hagmann2012_2} is used for cosmic ray
 event generation. Both the solar cycle and Earth's geomagnetic field are taken into account, with
 the \chipsfive latitude and deployment date (1st November 2019) used as input. Single muons are
-generated at \emph{sea level} by CRY within a
-\unit{1000}{\mathrm{m}}$\times$\unit{1000}{\mathrm{m}} area, with the detector at the centre.
+generated at sea level by CRY within a \unit{1}{\mathrm{km}}$\times$\unit{1}{\mathrm{km}} area,
+with the detector at it's centre. Note that only single muon events (the dominant cosmic
+component) are considered for simplicity.
 
 Assuming a \chipsfive overburden of \unit{50}{\mathrm{m}} and a \unit{2.2}{\MeV/\mathrm{cm}^{2}}
-muon energy loss in water as suggested in Ref.~\cite{klimushin2001} the muon parameters are
+muon energy loss in water as suggested by Ref.~\cite{klimushin2001} the muon parameters are
 updated to estimate their values \unit{1}{\mathrm{m}} above the top of the detector. All muons
-whose path does not cross the detector volume or do not have sufficient energy are discarded. All
-accepted muon tracks are stored as output in a NUANCE formatted file for use in the detector
-simulation~\cite{chipsgen2020}.
+whose path does not cross the detector volume or do not have sufficient energy to reach the
+detector are discarded~\cite{chipsgen2020}. All accepted muon tracks are stored as output in a
+NUANCE formatted file for use in the detector simulation.
 
-Extensive studies have looked at the likely cosmic rate for \chips detector modules at different
-water overburden depths~\cite{son2013}. In this work, the fits shown in Fig.~\ref{fig:cosmic_rate}
-for a cylindrical detector of both height and diameter \unit{24}{\mathrm{m}} are used to estimate
-a cosmic muon rate of \unit{11.8}{\mathrm{KHz}} at \unit{50}{\mathrm{m}} of overburden for
-\chipsfive. For the \unit{10}{\mu\mathrm{s}} long \numi beam spill occurring every
-\unit{1.33}{\mathrm{s}} this gives an in spill cosmic rate of $\sim2.1$ million events per year
-and an in spill occupancy of 9\%. Considering a typical event takes $\sim100\mathrm{ns}$ to
-unfold, there is approximately a 0.3\% chance that any beam event overlaps with a cosmic muon.
-This low coincidence shows just how powerful using a short beam spill is at reducing the cosmic
-background.
+In order to use generated cosmic events in analysis, studies have looked at the likely cosmic rate
+for \chips detector modules at different water overburden depths~\cite{son2013}. In this work, the
+fits shown in Fig.~\ref{fig:cosmic_rate} for a cylindrical detector of both height and diameter
+\unit{24}{\mathrm{m}} are used to estimate a \chipsfive cosmic muon rate of
+\unit{11.8}{\mathrm{KHz}} with \unit{50}{\mathrm{m}} of overburden.
+
+Given the \unit{10}{\mu\mathrm{s}} long \numi beam spill occurring every \unit{1.33}{\mathrm{s}}
+this gives an in spill cosmic rate of $\sim2.1$ million events per year and an in spill occupancy
+of 9\%. Considering a typical event takes $\sim$\unit{100}{\mathrm{ns}} to unfold, there is
+approximately a 0.3\% chance that any beam event overlaps with a cosmic muon. This low coincidence
+shows just how powerful a short beam spill can be at reducing the significant cosmic background.
 
 \begin{figure} % COSMIC RATE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cosmic_rate.png}
     \caption[Expected \chipsfive cosmic muon rate as a function of depth.]
     {Expected cosmic muon rate as a function of water overburden depth for a \unit{24}{\mathrm{m}}
-        high and \unit{24}{\mathrm{m}} wide \chips detector module. Shown are fits made to the work
-        originally conducted in Ref.~\cite{bugaev1998}. Figure taken from Ref.~\cite{son2013}.}
+        high and \unit{24}{\mathrm{m}} wide \chips detector module. Shown are fits made to the
+        work originally conducted in Ref.~\cite{bugaev1998}. Figure taken from
+        Ref.~\cite{son2013}.}
     \label{fig:cosmic_rate}
 \end{figure}
 
@@ -658,11 +687,10 @@ background.
 The detector simulation uses the WCSim water Cherenkov simulation package~\cite{wcsim2020} built
 on top of the Geant4 simulation framework~\cite{agostinelli2003, allison2006, Allison2016}.
 Originally developed to simulate possible water Cherenkov detectors in the LBNE beam (now LBNF),
-WCSim is now used more widely in the field for generic water Cherenkov detectors. WCSim has been
-heavily modified for the \chips project to allow for generic water Cherenkov detector geometries
-to be easily loaded at runtime via a series of simple XML configuration files. These changes allow
-for a broad range of detector geometries to be quickly considered without recompilation of the
-code.
+WCSim is now used more widely in the field. WCSim has been heavily modified for the \chips project
+to allow for generic water Cherenkov detector geometries to be easily loaded at runtime via a
+series of simple XML configuration files. These changes allow for a broad range of detector
+geometries to be quickly considered without recompilation of the code.
 
 To represent \chips detector modules, the simulation builds an n-sided, regular polygonal prism
 consisting of two endcaps separated by a barrel. The prism is filled with water and lined with a
@@ -674,9 +702,9 @@ in Fig.~\ref{fig:sim_geom}.
 The unit cell defines a pattern of any number of PMTs, as well as their relative positions and in
 which direction they face. The final geometry is built by tiling each of the defined regions with
 their respective unit cell scaled to match the required regional photocathode coverage. Note that
-although exact PMT positions are not used in this procedure, a given configuration always
-generates the same geometry (it is deterministic). In this work the \chipsfive geometry is
-generated with 28 sides regions matching the angles and photocathode coverage outlined in
+although exact PMT positions are not used in this procedure, a given configuration will always
+generate the same geometry (it is deterministic). In this work the \chipsfive geometry is
+generated with 28 sides and regions matching the angles and photocathode coverage detailed in
 Section.~\ref{sec:chips_detector_instrumentation}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
@@ -701,27 +729,26 @@ be 4\% and the PMT glass reflectivity 24\%.
 A veto volume can also be defined. The veto is built as either a concentric shell around the whole
 inner volume with a given thickness or solely above the top-cap with a given height. Any PMTs
 defined as facing outwards within a unit cell look into the veto volume instead of the inner
-volume.
+volume. In this work the \chipsfive geometry is given a top-cap veto of height
+\unit{1.3}{\mathrm{m}}.
 
 Once the full generation of the runtime Geant4 geometry is complete, the final state tracks for
 each successive event to be simulated are loaded from either the beam or cosmic event generator
 NUANCE files. Beam event vertices are randomly placed within the inner detector volume, while
 cosmic vertices are kept at \unit{1}{\mathrm{m}} above the detector volume. WCSim then simulates
-the passage of all particles through the detector materials, with interactions, decays, and
-Cherenkov emission also considered.
+the passage of all particles through the detector materials, additionally interactions, decays,
+and Cherenkov emission are also considered.
 
 Whenever a photon is calculated to have hit the photocathode of a PMT an angular dependent
-acceptance efficiency is applied to see if it it is recorded. If accepted all hits within
-\unit{200}{\mathrm{ns}} windows are grouped together to output a single `recorded' PMT hit, with
-the smeared first photon hit time used as the recorded hit time. 
-
-Whenever a photon is calculated to have hit the photocathode of a PMT a digitisation simulation is
-used to convert the true photon hits into a `recorded' charge in photoelectrons. All hits within
-\unit{200}{\mathrm{ns}} windows are grouped together for each recorded hit, with the first smeared
-photon hit time used. A method similar the that used in the Super-Kamiokande simulation is used to
-calculate the overall charge. For each photon a single photoelectron charge distribution is probed
-and the combined sum returned. By sampling this procedure many times the probability distribution
-given a number of input photons is given in Fig.~\ref{fig:digitisation}.
+acceptance efficiency is applied to see if it is recorded. If accepted all hits within
+\unit{200}{\mathrm{ns}} windows are grouped together to form a single recorded hit, with the
+smeared first hit time used as the recorded time. A method similar to that used in the
+Super-Kamiokande simulation determines the total output charged of the hit given the number of
+incident photons. A single photoelectron charge distribution is probed for each photon and the
+combined sum returned. By sampling this procedure multiple times, the output charge probability
+distribution given the number of incident photons is shown in Fig.~\ref{fig:digitisation}. The
+figure also shows the reverse \emph{likelihood} function (lower is more likely) of an actual
+number of incident photons given a measured digitised charge.
 
 \begin{figure} % DIGI DIAGRAM %
     \centering
@@ -735,16 +762,17 @@ given a number of input photons is given in Fig.~\ref{fig:digitisation}.
     \caption[Detector simulation PMT digitisation function.]
     {The detector simulation digitisation probability function (a) used for the Nikhef
 
-        (a) Digitisation probability function used within the simulation to convert incident photons
-        to a measured digitised charge. (b) Likelihood of a measured digitised charge being caused
-        by a number of photons incident on a PMT.}
+        (a) Digitisation probability function used within the simulation to convert incident
+        photons to a measured digitised charge. (b) Likelihood of a measured digitised charge
+        being caused by a number of photons incident on a PMT.}
     \label{fig:digitisation}
 \end{figure}
 
-- Angular efficiency
-- default Geant4 physics list is used (QGSP\_BIC\_HP).
-- The digitisation function could definitely be improved.
-- All hits are recorded as output!!!
+All fully simulated PMT hits for each event are stored in an output ROOT file. Additionally,
+important truth information about the neutrino interaction and keys tracks is included. A full
+event takes approximately \unit{3}{\mathrm{seconds}} to simulate on a standard batch farm
+computing node. An example output event display for a CC $\nu_{\mu}$ event is shown in
+Fig.~\ref{fig:sim_event}.
 
 \begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/sim_event.png}
@@ -757,10 +785,3 @@ given a number of input photons is given in Fig.~\ref{fig:digitisation}.
         interaction vertex.}
     \label{fig:sim_event}
 \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-- These short spills are essential for \chips and other experiments in rejecting the massive
-cosmic ray background. As all events outside the expected beam spill window at the detector can be
-rejected.
-- Only single cosmic muons are considered for simplicity, future work should also consider
-electrons, pions and multiple cosmic muons at the same time.
