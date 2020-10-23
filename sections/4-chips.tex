@@ -312,8 +312,9 @@ has an inner surface area of \unit{1924}{\mathrm{m}^2} and a total target mass
 \chipsfive primarily aims to refine the \chips concept for future full-scale
 ($\sim$\unit{15}{\mathrm{kton}}) modules. Consequently, \chipsfive is designed such that the
 details outlined in this section are fully characteristic of what a full-sized \chips module is
-envisioned to be. Here, the location, structure, instrumentation, water filtration, deployment,
-and current status are presented. The full electronics and DAQ details are outlined in
+envisioned to be. Here, the location, structure, instrumentation and water filtration are detailed
+for the complete detector, before the construction and deployment procedure is discussed. The
+current status of \chipsfive is also outlined. The full electronics and DAQ details are given in
 Chapter.~\ref{chap:daq}.
 
 \subsection{Location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -537,74 +538,117 @@ shore containing the power supply and highest level DAQ equipment.
 \subsection{Filtration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Through surprisingly clear, in order to reach the desired $\sim$\unit{30}{\mathrm{m}} attenuation
-length of light, the Wentworth 2W pit water still requires filtration to remove particulates and
-bacteria. Therefore 2 (one to, one from) flexible umbilical tubes run from the detector to a hut
-on shore containing filtration equipment. A pump passes the full detector water volume through a
-series of $n$ carbon? commercially available filters every \unit{10}{days}. Studies have
-shown~\cite{campbell2020} that this simple procedure allows for the desired attenuation length to
-be reached after $n$ months of initial filtration. Additionally, the water within \chipsfive is
-kept at a small positive pressure relative to the external pit water to prevent the entry of
-particulates and bacteria though any small gaps in the liner.
+Though surprisingly clear, in order to reach the minimum required attenuation length of
+\unit{30}{\mathrm{m}}, the Wentworth 2W pit water still requires filtration, primarily to remove
+particulates and bacteria. A pump constantly pulls water from the detector volume through a
+\unit{500}{\mathrm{m}} long flexible HDPE pipe to a filtration hut on shore, before returning it
+through a second such pipe. Within the hut, ten parallel sets of filters are installed for
+sufficient flow rate, allowing the full detector volume to be filtered every ten days. Each filter
+set consists of a 20 inch \unit{10}{\mu\mathrm{m}} carbon block filter followed by a 20 inch
+\unit{0.5}{\mu\mathrm{m}} polypropylene filter, as shown in fig.~\ref{fig:filtration}. This
+configuration is found to reach a $133\pm2~m$ attenuation length of light, after a few months, and
+under laboratory conditions~\cite{campbell2020}.
+
+\begin{figure} % SIMULATION GEOM DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/filtration.jpg}
+    \caption[Picture of the \chipsfive filtration system.]
+    {Picture of the \chipsfive filtration system within one of the shore huts. The pipes to and
+        from the detector can be seen entering the hit on the back wall.}
+    \label{fig:filtration}
+\end{figure}
 
 \subsection{Construction and deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_deployment} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- How it can grow if needed - buoyant top cap anchored to the bottom one, which when fully
-deployed will rest on the bottom of the pit.
+- How it can grow if needed
+
+\begin{enumerate}
+    \item An earthen berm is constructed to act as a barrier separating the main body of Wentworth
+          2W from the construction area. As the pit water level rises during the summer, this acts as a
+          dam preventing the construction area from flooding.
+    \item The bottom-cap liner is welded together before the endcap structural frames are
+          constructed above, resulting in that shown by Fig.~\ref{fig:frame}.
+    \item The pre-assembled and tested endcap POMs are installed along with their associated power
+          and data connections.
+    \item the
+
+
+    \item The barrel liner is part constructed starting from the detector base. Using a vertical
+          liner roll for each of the 28 sides, the liner is welded up to the height of the top-cap.
+    \item A strongly buoyant circular \emph{floating-dock} is constructed surrounding the
+          detector made from steel. The bottom of the
+
+
+    \item The barrel liner is part constructed starting from the detector base using a vertical
+          liner roll for each of the 28 sides.  until welded up to the height of the top-cap. The Dyneema cables
+          are installed o
+
+
+    \item Lowered till it rests on the bottom of the pit.
+\end{enumerate}
+
+\begin{figure} % CHIPS WITH LINER DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/chips_with_liner_sun.jpeg}
+    \caption[dfsdg]
+    {\chipsfive}
+    \label{fig:chips_with_liner}
+\end{figure}
+
+- Removal of the steel struts
 
 \subsection{Current status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_status} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-During the summers of 2018 and 2019 extensive construction work for the \chipsfive detector was
-carried out by a team of approximately 15 collaborators at any one time. By late summer 2019 is
-became apparent that deployment of a fully instrumented \chipsfive detector before the freezing of
-the lake in October would not be possible. Therefore, the decision was taken to only partly
-instrument the top-cap and bottom-cap
+During the summer months of both 2018 and 2019 extensive \chipsfive construction work was carried
+out by a team of approximately 10-15 collaborators at any one time. Given the novel nature of the
+project every task, some of which are pictured in Fig.~\ref{fig:work1} and Fig.~\ref{fig:work2},
+proved challenging. An ability to derive pleasure from having permanently wet feet was found to be
+particularly invaluable for personal morale.
 
-- No liner between veto and main volume!
-- In the summer of 2018 and 2019 work on deploying \chips proceeded. Unforeseen hehe!!
-
-This highlights one of the clear advantages of the \chips concept. No physical structure is
-required on the barrel of the detector. Alongside the easier deployment discussed in
-Section~\ref{sec:chips_detector_deployment} and the significantly simplified engineering, this is
-the key reason as to why the \chips concept uses cylindrical rather than spherical detector
-modules.
-
-\begin{figure} % WORK DIAGRAM %
+\begin{figure} % WORK DIAGRAM 1 %
     \centering
-    \subcaptionbox{Testing connections}{%
-        \includegraphics[height=6.5cm]{diagrams/4-chips/work1.jpeg}%
+    \subcaptionbox{Cornerstone placement.}{%
+        \includegraphics[height=6.5cm]{diagrams/4-chips/cornerstone.jpg}%
     }
     \quad
-    \subcaptionbox{Making floatation}{%
+    \subcaptionbox{Floatation production.}{%
         \includegraphics[height=6.5cm]{diagrams/4-chips/work3.jpg}%
     }
-    \caption[afaga]
-    {Construction work on the \chipsfive detector.}
+    \caption[Some \chipsfive construction work.]
+    {\chipsfive construction work.}
     \label{fig:work1}
 \end{figure}
 
-\begin{figure} % WORK DIAGRAM %
+\begin{figure} % WORK DIAGRAM 2 %
     \centering
-    \subcaptionbox{Installing a POM}{%
-        \includegraphics[height=5.6cm]{diagrams/4-chips/work4.jpg}%
+    \subcaptionbox{Connection testing.}{%
+        \includegraphics[height=5.6cm]{diagrams/4-chips/work1.jpeg}%
     }
     \quad
-    \subcaptionbox{Fixing a POM}{%
-        \includegraphics[height=5.6cm]{diagrams/4-chips/work2.jpeg}%
+    \subcaptionbox{POM installation.}{%
+        \includegraphics[height=5.6cm]{diagrams/4-chips/work4.jpg}%
     }
-    \caption[afaga]
-    {Construction work on the \chipsfive detector.}
+    \caption[More \chipsfive construction work.]
+    {\chipsfive construction work.}
     \label{fig:work2}
 \end{figure}
+
+By late summer 2019 it became apparent that deployment of a fully instrumented detector would be
+impossible before the pit started to freeze over in October. Therefore, the decision was taken to
+only partly instrument the endcaps and leave the barrel walls bare, with the total detector height
+also reduced to \unit{8}{\mathrm{m}}. In October 2019 \chipsfive (shown just before deployment in
+Fig.~\ref{fig:pan_1}) was deployed into Wentworth 2W with DAQ tests commencing shortly after.
+Given the outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over the summer of
+2020 were suspended, including important repairs and POM instrumentation of the barrel walls.
+Plans for the summer of 2021 are currently under review.
 
 \begin{figure} % PANORAMA DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pan_1.jpeg}
     \caption[Panorama of the inside of \chipsfive just before deployment.]
-    {Panorama of the inside of \chipsfive just before deployment. The six deployed Madison POMs
-        are visible in the foreground on the bottom endcap. Additionally, the flexible tube
-        manifolds can be seen connecting each POM to the higher level DAQ electronics.}
+    {Panorama of the inside of \chipsfive just before deployment. Six total Madison POMs were
+        deployed for testing visible in the foreground on the bottom-cap. Additionally, the
+        flexible tube \emph{manifolds} can be seen connecting each POM to the higher level DAQ
+        electronics and power supply.}
     \label{fig:pan_1}
 \end{figure}
 
@@ -708,7 +752,7 @@ generated with 28 sides and regions matching the angles and photocathode coverag
 Section.~\ref{sec:chips_detector_instrumentation}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
-    \includegraphics[width=0.6\textwidth]{diagrams/4-chips/sim_geom.png}
+    \includegraphics[width=0.5\textwidth]{diagrams/4-chips/sim_geom.png}
     \caption[Illustrative diagram of a WCSim detector geometry.]
     {Illustrative diagram of a WCSim detector geometry, showing the shape, endcap and barrel
         regions, tiled unit cells and PMTs within a unit cell. Figure taken from
@@ -785,3 +829,11 @@ Fig.~\ref{fig:sim_event}.
         interaction vertex.}
     \label{fig:sim_event}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+This highlights one of the clear advantages of the \chips concept. No physical structure is
+required on the barrel of the detector. Alongside the easier deployment discussed in
+Section~\ref{sec:chips_detector_deployment} and the significantly simplified engineering, this is
+the key reason as to why the \chips concept uses cylindrical rather than spherical detector
+modules.
