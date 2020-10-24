@@ -45,11 +45,11 @@ as photomultiplier tubes is also reduced by only considering multi-$\GeV$ accele
 neutrino events, such that full high density and high coverage detector instrumentation is not
 required.
 
-Furthermore, \chips detectors are not only designed to be cheap but practical. Easy to build,
+Furthermore, \chips detectors are not only designed to be cheap, but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
-combined depending on available resources. When compared to DUNE and Hyper-Kamiokande both
-requiring a large upfront budget and many years to construct, cheap \chips detector modules can be
-deployed as needed in under a year by a relatively small team.
+combined depending on available resources and funding. When compared to DUNE and Hyper-Kamiokande
+both which require a large upfront budget and many years to construct, cheap \chips detector
+modules can be deployed as needed in under a year by a relatively small team.
 
 To date, \chips R\&D efforts have been based in the USA to exploit the NuMI beam before the end of
 its lifetime. Plans are focused on the scaling of \chips detectors for the deployment of multiple
@@ -69,7 +69,7 @@ outlined below, each aiming to prove the viability of a crucial component of the
     \item \textbf{Water filtration:} Aiming to prove that adequate water purity can be achieved
           using cheap, commercially available filtration. Extensive studies have proven that by
           filtering water directly from bodies of water on the Earth's surface (including flooded
-          mine pits), adequate photon attenuation lengths greater than \unit{50}{\mathrm{m}} are
+          mine pits), adequate photon attenuation lengths greater than \unit{100}{\mathrm{m}} are
           achievable~\cite{amat2017, campbell2020}.
 
     \item \textbf{Physics sensitivity:} Aiming to prove that \chips concept detectors (even the
@@ -85,18 +85,17 @@ outlined below, each aiming to prove the viability of a crucial component of the
 
     \item \textbf{Event reconstruction and classification:} Aiming to prove that modern machine
           learning techniques can be successfully applied to large water Cherenkov concepts such
-          as \chips. The primary contribution of this theis, detailed in Chapter.~\ref{chap:cvn},
-          this work feeds directly into both physics sensitivity studies mentioned above and
-          detector module optimisation studies.
+          as \chips. The primary contribution of this thesis (detailed in
+          Chapter.~\ref{chap:cvn}), this work feeds directly into both the physics sensitivity
+          studies mentioned above and design optimisation work.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
     \caption[Picture of the \chipsm detector.]
-    {Picture of the \unit{3.3}{\mathrm{m}} high \chipsm detector just before deployment. The
-        temporary floatation bags are visibly attached to the top rim of the detector.
-        Additionally, the umbilical cord carrying data, power, and filtered water is attached to
-        the bottom of the detector.}
+    {Picture of the \unit{3.3}{\mathrm{m}} high \chipsm detector just before deployment. Temporary
+        floatation bags are attached to the top rim of the detector, while the umbilical cord
+        carrying data, power, and filtered water is attached at the base.}
     \label{fig:chips_m}
 \end{figure}
 
@@ -122,25 +121,25 @@ configuration is shown in Fig.~\ref{fig:numi_beam}.
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
     \caption[Schematic of the main components of the \numi beam.]
-    {Schematic of the main components of the \numi beam (not to scale) shown with dimensions. The
-        MINOS and \nova near detectors and the MINERvA experiment are located just to the right
-        of what is shown. Figure taken from Ref.~\cite{adamson2016}.}
+    {Schematic of the main components of the \numi beamline shown with dimensions. The MINOS and
+        \nova near detectors and the MINERvA experiment are located just to the right of what is
+        shown. Figure taken from Ref.~\cite{adamson2016}.}
     \label{fig:numi_beam}
 \end{figure}
 
 Every \unit{1.33}{\mathrm{seconds}} a \unit{10}{\mu\mathrm{s}} long spill of protons accelerated
 to \unit{120}{\GeV} by the Main Injector ring are directed towards a stationary graphite target.
-The resulting interactions within the target create a shower of secondary hadrons containing
-predominantly pions and kaons. The hadrons are passed through a focusing system of two magnetic
-horns tuned principally to focus charged pions along the beamline while rejecting other particles.
-After focusing, the surviving hadrons are allowed to decay in flight to a beam of muon neutrinos
-in a \unit{675}{\mathrm{m}} long decay pipe via the processes,
+The resulting interactions create a shower of hadrons containing predominantly pions and kaons.
+The hadrons are passed through a focusing system of two magnetic horns tuned principally to focus
+charged pions along the beamline while rejecting other particles. After focusing, any surviving
+hadrons are allowed to decay in flight to a beam of muon neutrinos in a \unit{675}{\mathrm{m}}
+long decay pipe via the processes,
 \begin{align} % NUMI DECAY EQUATIONS %
     \pi^{+} & \rightarrow\mu^{+}+\nu_{\mu}, \label{eq:pi_decays}   \\
     K^{+}   & \rightarrow\mu^{+}+\nu_{\mu}. \label{eq:kaon_decays}
 \end{align}
 The resulting muons also decay such that $\mu^{+}\rightarrow e^{+}+\nu_{e}+\bar{\nu}_{\mu}$
-producing an intrinsic $\nu_{e}$ background as well as wrong sign $\nu_{\mu}$ contamination.
+producing an intrinsic $\nu_{e}$ component as well as wrong sign $\nu_{\mu}$ contamination.
 
 Alternatively, the polarity of the horns can be used to switch the dominant sign of the hadrons
 focused, allowing \numi to operate as either a neutrino or antineutrino beam. These two modes of
@@ -149,8 +148,8 @@ neutrino or antineutrino beam composition respectively. Any remaining hadrons, a
 electrons, muons and surviving primary protons are absorbed by rock downstream of the decay pipe,
 leaving just the neutrino components of the beam.
 
-Long-baseline neutrino experiments typically consist of a \emph{near detector} to measure the beam
-neutrino composition at source and a much larger \emph{far detector} to measure the oscillated
+Long-baseline neutrino experiments typically consist of a \emph{near} detector to measure the beam
+neutrino composition at source and a much larger \emph{far} detector to measure the oscillated
 composition at many hundreds of kilometres. The \numi beamline contains three detectors just
 downstream of \unit{300}{\mathrm{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the
 near detector for MINOS (now used by MINERvA), and the near detector for \nova. \chips prototypes
@@ -164,7 +163,7 @@ be located in the MINOS case), as shown in Fig.~\ref{fig:numi_map}. The Minnesot
 `land of 10,000 lakes' is not an overstatement, with a vast number of potential lakes for \chips
 detector deployment. Additionally, intense iron ore mining on the `Iron Range' provides many
 suitable disused (and now flooded) mine pits. The exact \chipsfive prototype detector location is
-discussed in greater detail in Section.~\ref{sec:chips_detector}.
+discussed in greater detail within Section.~\ref{sec:chips_detector}.
 
 \begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.png}
@@ -181,8 +180,8 @@ or not can have a significant impact on the observed energy spectrum of beam neu
 Fig.~\ref{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong energy
 dependence on the parent pion energy from Eq.~\ref{eq:pi_decays}. However, as the off-axis angle
 increases, the neutrino energy becomes less dependent on the parent pion energy and is restricted
-to a narrowing range of decreasing energies. This effect known as the \emph{off-axis effect} is
-used by both \nova and T2K to create a narrower energy spectrum focused on the
+to a narrowing range of decreasing energies. Known as the \emph{off-axis effect} this is used by
+both \nova and T2K to create a narrower energy spectrum focused on the
 $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum. Additionally, by reducing the tail of
 higher-energy neutrinos, the number of background NC events can be greatly reduced, as is the case
 for the \unit{7}{\mathrm{mrad}} off-axis \chipsfive prototype detector.
