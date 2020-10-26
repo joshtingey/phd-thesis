@@ -34,39 +34,65 @@ causing glass scintillation and significant noise.
 - Talk about expected data through put, what we can cope with
 - Jumbo frames etc
 
-\section{The White Rabbit timing system} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{White Rabbit timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- White-rabbit ref in~\cite{lipinski2011}
+- White-rabbit (WR) ref in~\cite{lipinski2011}, ethernet based, sub-nanosecond time
+synchronisation accuracy, time distribution network, over 1000s of nodes and 10s of kilometres.
+Open source hardware and software, primarily developed at CERN, uses the \emph{Precision Time
+    Protocol} (PTP) to achieved sub-nanosecond accuracy, a two-way exchanged of white rabbit messages
+allows precise adjustment of the clock phase and offset, commercially available hardware from many
+vendors. Provides sub-nanosecond synchronisation of nodes over 1Gb ethernet networks. Extension to
+the ethernet protocol. Bi-directional optical fibres are used to connect all DAQ component, must
+be used to achieve WR timing accuracy. Using Small Form-Factor Pluggable Transceiver (SFPs)
+employing the wavelengths 1310 nm and 1550 nm, allowing up to 1Gb bandwidth per connection.
+
+- Every white rabbit network has a GrandMaster node which holds the master clock which all other
+nodes synchronise to. As input it receives a Pulse Per Second PPS and 10MHz signal from a GPS
+disciplined oscillator, which in conjunction with a connection to a Network Time Protocol (NTP)
+server allows it to provide an accurate clock for others to synchronise to. Especially important
+as we need to know we are synced to the accelerator clock at Fermilab, in order know when the 10
+microsecond spill crosses the detector.
+
+- For \chipsfive we use both a compact version of the WR switch~\cite{wrswitch2020} developed at
+Nikhef~\cite{wrchromium2020}. And also a WR Lite Embedded Node (LEN) from Seven
+Solutions~\cite{wrswitch2020} which allows for the PPS and 10MHz signals to be outputted to
+Madison electronics for timing. Both are shown in Fig.~\ref{fig:wr_electronics}
+
+The \chips project uses the White-Rabbit timing system in order to synchronise a clok across all
+DAQ devices within the detector. This system enables sub-nanosecond synchronisation between all
+devices, in order to correctly timestamp PMt hits within the detector.
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
-    \subcaptionbox{White Rabbit switch\label{fig:nikhef_pmt}}{%
+    \subcaptionbox{White Rabbit switch}{%
         \includegraphics[height=6cm]{diagrams/5-daq/wr_switch.jpg}%
     }
     \quad
-    \subcaptionbox{White Rabbit LEN\label{fig:clb}}{%
+    \subcaptionbox{White Rabbit LEN}{%
         \includegraphics[height=6cm]{diagrams/5-daq/wr_len.jpg}%
     }
     \caption[Pictures of the White Rabbit timing hardware used within \chipsfive.]
-    {Pictures of the White Rabbit timing hardware used within \chipsfive. A \emph{backplane-20SFP}
-        version of a White rabbit switch, specially designed for \chips and KM3NeT is shown in
-        (a), while the White Rabbit Lite Embedded Node (LEN) from Seven Solutions is shown in
-        (b).}
+    {Pictures of the White Rabbit timing hardware used within \chipsfive. The compact White rabbit
+        switch specially designed for \chips is shown in (a), while the White Rabbit Lite Embedded
+        Node (LEN) from Seven Solutions is shown in (b).}
+    \label{fig:wr_electronics}
 \end{figure}
 
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/5-daq/sync.jpg}
+    \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.jpg}
     \caption[Picture of White Rabbit timing synchronisation seen in \chips.]
-    {Picture of of oscilloscope measuring the \unit{10}{\mathrm{MHz}} White Rabbit signal of two
-        switches shown in pink and yellow at either end of a \unit{500}{\mathrm{m}} long fibre.
-        The vertical ticks are in nanoseconds showing the sub-nanosecond synchronisation possible
-        with the White Rabbit timing system}
+    {Picture of an oscilloscope measuring the PPS output signal of two WR switches shown in pink
+        and yellow at either end of a \unit{500}{\mathrm{m}} long optical fibre. The vertical
+        ticks are in nanoseconds showing the sub-nanosecond synchronisation possible with the WR
+        timing system.}
     \label{fig:sync}
 \end{figure}
 
 \section{Hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Will discuss Nikhef and Madison separately for for clarity.
 
 - Start from the bottom and work our way up!
 - The task is to take TOT recorded hits, that are timestamped using the white-rabbit stuff and get
@@ -104,6 +130,21 @@ with the white rabbit.
 
 - km3net daq ref in~\cite{biagi2015, adrian2016, eijk2015}
 
+Starting from the lowest level (nearest the PMTs) going upwards the DAQ system is as follows. For
+Nikhef planes the electronics box contains a Central Logic Board developed for KM3NeT which has an
+onboard White-Rabbit controller, so the CLB itself contains a synchronised clock for timestamping
+hits. PMT are attached to two calimares boards directly attached to the CLB via standard Category
+5 cables using RJ45 connectors. The CLB receives a single fibre input and a direct power supply,
+with a power supply
+
+Multiple CLBs (POMs) are connected to a single Nikfef container, for which there are only five
+within chipsfive. Each container, contains two White Rabbit switches for networking (two to
+provide enough ports) and a relay board for controlling the power to all attached POMs. A media
+converter converts a fibre connection to a standard copper cable connection to control the relay,
+which is a network device. Both switches are also reachable on the network mainly for monitoring.
+2 ac/ds converters provide power for each of the switches while a third powers the relay control
+electronics and media converter. The relay outputs are connected directly to the input AC supply.
+
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/nikhef_plane.pdf}
     \caption[nikhef plane short]
@@ -115,8 +156,27 @@ with the white rabbit.
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - Daan short ref in~\cite{eijk2018}
-- Seven Solutions WR-LEN ref in~\cite{wrlen2020}
 - Beaglebone ref in~\cite{beagle2020}
+
+Each individual Madison R6091 PMT has an attached Cockroft Walton board and also a microDAQ, this
+is a small microcontroller, that allows for all signal processing and timestamping to occur
+directly at the PMT level unlike in the Nikhef case where it is done on the CLB. Each microDAQ
+receives power, a half-duplex network connection and the two signals required for timestamping the
+PPs and the 10Mhz. The Badger Board is a simple routing and fanout board to route the higher level
+PPS and 10MhZ signals to each microDAQ while also providing them all with power. It also has an
+mesinine beaglebone attached that provdes the actual on board logic. As the beaglebone is a full
+linux machine at a low level lots of processing can occur close to the PMTs. It controls the power
+and networking on the microDAQ, receives their hits before forwarding further up the chain.
+
+The madison box contains what is shown in fig, it has a WR-LEN which is synchronised to the rest
+of the WR network and outputs its PPS and 10MgHz singlas to the Danout board which is another
+fanout, routing board for power, networking and the two signals, liek the badger board it has a
+meanine beaglebone for logic which is connected to the netowkr and controls the powering of each
+prt. A switch connection is made to each output port in order to connect each POM to the network.
+THe router allows for the forwarding of traffic after the WR connectiong to the WR. This is done
+via port forwarding to keep the Madision stuff as  a separate network.
+
+GET THE COSTS OF THE WHOLE MADISON VS NIKHEF SYSTEM PER PLANE
 
 \begin{figure} % MADISON BOX DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/madison_box.pdf}
@@ -136,9 +196,33 @@ with the white rabbit.
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- White rabbit switch ref in~\cite{wrswitch2020}
 - Multiplexer allows for 16 different channels using wavelengths between 1310nm and 1550nm with
 corresponding SFPs (Small Form-Factor Pluggable Transceiver)
+
+The Junction box contains connections to each container and their power supply relays. The two
+input power connections from shore are distributed to via two copper plates to all the relay
+connections throughout the box. Two standard network contolled logic relays control "trip" gates
+that stop the power supply to any/ section of the detector is a power surge is detected. THis is
+espcecially important for CHIPS given the water that is everywher :p. One relay controls a pusing
+and one just opens the channels. The trip gates are opening via a short pulse of current. Tye
+multipleer contains 18 channels each a different wavelenght of light allowing a huge volume of
+data to be sent up a single fibre to shore. Eahc WR swithc or WR LEN in the madison case has the
+corresponding receiver SFP as the ones o shore.
+
+Within the shore hut all netwoking comes in through the multiplexer and is split back out into its
+individual wavelenght channels via the multiplexer these go into multiple ports on two white
+rabbit switches. This is mainly for data flow such that each can be segmented via a VLAN with the
+coresponding ports on the oppsitie side and then the higher level standard networking switch to
+provide DO THE CALCULATION HERE lots of data bandwidth up to the main DAQ machines. One of the WR
+sitches is the GrandMaster for the WR network and recievs the PPS and 10MhZ input from the GPs
+disciplines ocillator anwhich is connected to a GPS antenna to receive its signals. Again both
+switches are also on the DAQ network for monitoring and control.
+
+The standard switch acts as the switch for condensing traffic onto single 10Gb connections to each
+individual DAQ machine. This is also on the netwokr via a control port for monitoring. Only a
+single DAQ machine is used for data taking which another is used for monitoring and control as
+etailed inSection... The standard network switch is also connected to the wider CHIPS network at
+the pit the polymet building and then the wider internet for data transfer to fermilab!
 
 \begin{figure} % MANIFOLD DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.jpg}
@@ -147,16 +231,8 @@ corresponding SFPs (Small Form-Factor Pluggable Transceiver)
     \label{fig:manifold}
 \end{figure}
 
-
-\begin{figure} % JELLY DIAGRAM %
-    \includegraphics[width=0.5\textwidth]{diagrams/5-daq/jelly.jpeg}
-    \caption[jelly short]
-    {jelly long}
-    \label{fig:jelly}
-\end{figure}
-
 \begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/hut_daq.jpg}
+    \includegraphics[width=\textwidth]{diagrams/5-daq/hut_daq.pdf}
     \caption[hut daq short]
     {hut daq long}
     \label{fig:hut_daq}
@@ -166,6 +242,8 @@ corresponding SFPs (Small Form-Factor Pluggable Transceiver)
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 DIAGRAM: Software diagram + finite state machine
+
+- Separated into slow-control, data collection, and
 
 - An `all-data-to-shore' approach as done in KM3NeT
 - Data is sent in UDP packets (not TCP so some will go missing)
