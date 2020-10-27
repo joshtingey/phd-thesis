@@ -22,46 +22,54 @@ SOFTWARE
 - Detector and data quality monitoring
 \end{comment}
 
-- Need to get across what makes this DAQ implementation special and novel, what are the
-interesting unique bits of it? Limited resources but great performance! Use of existing hardware
-and software! Modern approaches to doing things, good part of small collaboration!
+The primary task of any Data Acquisition (DAQ) system is the processing of low-level signals
+measuring real-world physics and their transfer to permanent storage for further analysis.
+Commonly, this procedure also includes decision making as to whether the signal is deemed
+interesting enough to record, known as a \emph{trigger}. DAQ systems can quickly become incredibly
+complex, especially when considering that it must be done in an efficient and resilient manner for
+vast amounts of data in real-time, while also providing detector control and monitoring.
 
-- Needs to able to cope with 4 degrees at bottom!
-- R6091 PMTs use a Cockroft-Walton board that generates a positive voltage, to hold the anode at a
-positive charged and keep the cathode grounded. This is done as the PMTs make direct contact with
-the water within the detector volume which can attract electrons within the PMT to the glass
-causing glass scintillation and significant noise.
-- Talk about expected data through put, what we can cope with
-- Jumbo frames etc
+In the context of the \chips project, the DAQ system records all PMT hits, timestamps them using a
+common clock, and then transfers them out of the detector to a central processing node. This node
+then applies a trigger to only select hits that fall within the interesting beam spill. All
+selected hits are then be sliced into \emph{events} and moved to permanent storage for further
+analysis. Alongside these processes, the DAQ also configures all the PMTs within the detector and
+provides data quality and detector component monitoring.
+
+Although relatively simple when compared to the complex and time-pressured DAQ systems of the LHC
+experiments, the DAQ system developed for the \chips project introduces novel approaches to solve
+the unique constraints of \chips. Namely, deployment within a body of water and a limited budget.
+In this chapter, the DAQ implementation for \chips as applied to the \chipsfive prototype detector
+module is described.
 
 \section{White Rabbit timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- White-rabbit (WR) ref in~\cite{lipinski2011}, ethernet based, sub-nanosecond time
-synchronisation accuracy, time distribution network, over 1000s of nodes and 10s of kilometres.
-Open source hardware and software, primarily developed at CERN, uses the \emph{Precision Time
-    Protocol} (PTP) to achieved sub-nanosecond accuracy, a two-way exchanged of white rabbit messages
-allows precise adjustment of the clock phase and offset, commercially available hardware from many
-vendors. Provides sub-nanosecond synchronisation of nodes over 1Gb ethernet networks. Extension to
-the ethernet protocol. Bi-directional optical fibres are used to connect all DAQ component, must
-be used to achieve WR timing accuracy. Using Small Form-Factor Pluggable Transceiver (SFPs)
-employing the wavelengths 1310 nm and 1550 nm, allowing up to 1Gb bandwidth per connection.
+To ensure PMT hit times are synchronised throughout \chips detectors, a common clock must be
+shared across all timestamping electronics. For this purpose \chips employs a \emph{White Rabbit}
+(WR) network~\cite{lipinski2011}. Initially developed at CERN, the open-source WR project provides
+an ethernet-based time distribution network with sub-nanosecond synchronisation accuracy between
+nodes. By using a two-way exchange of WR messages, precise adjustment of individual clock phases
+and offsets is possible across thousands of nodes, separated by tens of kilometres. All of this is
+achieved in parallel with a standard data transfer network capable of \unit{1}{\mathrm{Gb}}
+speeds.
 
-- Every white rabbit network has a GrandMaster node which holds the master clock which all other
-nodes synchronise to. As input it receives a Pulse Per Second PPS and 10MHz signal from a GPS
-disciplined oscillator, which in conjunction with a connection to a Network Time Protocol (NTP)
-server allows it to provide an accurate clock for others to synchronise to. Especially important
-as we need to know we are synced to the accelerator clock at Fermilab, in order know when the 10
-microsecond spill crosses the detector.
+All nodes are synchronised to the clock of a \emph{GrandMaster} node which is typically a WR
+\emph{switch}, the most common WR hardware component. This switch receives as input a Pulse Per
+Second (PPS) and \unit{10}{\mathrm{MHz}} signal from a GPS disciplined oscillator. When used in
+conjunction with a Network Time Protocol (NTP) server connection, these inputs allow for the WR
+network to be synchronised to International Atomic Time (TAI). This is particularly important for
+\chips detector modules which require synchronisation to accelerator beam clocks (such as the
+Fermilab Main Injector clock in the \chipsfive case) in order to determine the arrival of beam
+spills accurately.
 
-- For \chipsfive we use both a compact version of the WR switch~\cite{wrswitch2020} developed at
-Nikhef~\cite{wrchromium2020}. And also a WR Lite Embedded Node (LEN) from Seven
-Solutions~\cite{wrswitch2020} which allows for the PPS and 10MHz signals to be outputted to
-Madison electronics for timing. Both are shown in Fig.~\ref{fig:wr_electronics}
-
-The \chips project uses the White-Rabbit timing system in order to synchronise a clok across all
-DAQ devices within the detector. This system enables sub-nanosecond synchronisation between all
-devices, in order to correctly timestamp PMt hits within the detector.
+WR hardware is commercially available from many vendors. Within \chipsfive two WR devices are used
+for time synchronisation and data transfer, both shown in Fig.~\ref{fig:wr_electronics}. Firstly,
+a compact version of the standard WR switch~\cite{wrswitch2020}, specially developed for the
+\chips project at Nikhef~\cite{wrchromium2020}. Secondly, a WR Lite Embedded Node (LEN) from Seven
+Solutions~\cite{wrlen2020}. All WR components within \chipsfive are connected using
+\unit{1}{\mathrm{Gb}} bi-directional optical fibre connections using the \unit{1310}{\mathrm{nm}}
+and \unit{1550}{\mathrm{nm}} wavelengths via Small Form-Factor Pluggable Transceivers (SFPs).
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
@@ -79,18 +87,27 @@ devices, in order to correctly timestamp PMt hits within the detector.
     \label{fig:wr_electronics}
 \end{figure}
 
+Fig.~\ref{fig:sync} shows the resulting WR synchronised PPS clock signals from two WR switches
+used within \chipsfive and separated by \unit{500}{\mathrm{m}} of fibre. With the vertical ticks
+representing nanoseconds, the sub-nanosecond time synchronisation accuracy is observed.
+
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.jpg}
     \caption[Picture of White Rabbit timing synchronisation seen in \chips.]
     {Picture of an oscilloscope measuring the PPS output signal of two WR switches shown in pink
         and yellow at either end of a \unit{500}{\mathrm{m}} long optical fibre. The vertical
         ticks are in nanoseconds showing the sub-nanosecond synchronisation possible with the WR
-        timing system.}
+        timing network.}
     \label{fig:sync}
 \end{figure}
 
 \section{Hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The primary task of the DAQ system is to transfer timestamped
+
+
+Power and data flow
 
 Will discuss Nikhef and Madison separately for for clarity.
 
@@ -99,6 +116,10 @@ Will discuss Nikhef and Madison separately for for clarity.
 them to storage at Fermilab, all sorted, without losses, in a timely manner.
 - Talk about general time resolution of the PMTs etc in the context of the overall time resolution
 with the white rabbit.
+
+Regardless of being either Nikhef or Madison all PMT electronics records the time-over-threshold
+for hits. Instead of the more common ADC, this is mainly because the electronics is simpler and
+therefore cheaper.
 
 \begin{figure} % TOT DIAGRAM DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/tot.pdf}
@@ -115,14 +136,6 @@ with the white rabbit.
     \caption[Diagram of the \chipsfive data acquisition and power distribution system.]
     {Diagram of the \chipsfive DAQ and power distribution system.}
     \label{fig:daq}
-\end{figure}
-
-\begin{figure} % FULL SETUP DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
-    %\includegraphics[angle=90,origin=c,width=0.8\textwidth]{diagrams/5-daq/full_setup.pdf}
-    \caption[full set up short]
-    {Picture of the full \chipsfive DAQ system}
-    \label{fig:full_setup}
 \end{figure}
 
 \subsection{Km3NET hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,6 +170,9 @@ electronics and media converter. The relay outputs are connected directly to the
 
 - Daan short ref in~\cite{eijk2018}
 - Beaglebone ref in~\cite{beagle2020}
+
+- THIS IS WHAT ALL FUTURE CHIPS DETECTOR SHOULD USE FULLY!!!
+- This is the novel stuff that is much cheaper!
 
 Each individual Madison R6091 PMT has an attached Cockroft Walton board and also a microDAQ, this
 is a small microcontroller, that allows for all signal processing and timestamping to occur
@@ -224,6 +240,14 @@ single DAQ machine is used for data taking which another is used for monitoring 
 etailed inSection... The standard network switch is also connected to the wider CHIPS network at
 the pit the polymet building and then the wider internet for data transfer to fermilab!
 
+\begin{figure} % FULL SETUP DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
+    %\includegraphics[angle=90,origin=c,width=0.8\textwidth]{diagrams/5-daq/full_setup.pdf}
+    \caption[full set up short]
+    {Picture of the full \chipsfive DAQ system}
+    \label{fig:full_setup}
+\end{figure}
+
 \begin{figure} % MANIFOLD DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.jpg}
     \caption[manifold short]
@@ -244,6 +268,13 @@ the pit the polymet building and then the wider internet for data transfer to fe
 DIAGRAM: Software diagram + finite state machine
 
 - Separated into slow-control, data collection, and
+
+- Need to get across what makes this DAQ implementation special and novel, what are the
+interesting unique bits of it? Limited resources but great performance! Use of existing hardware
+and software! Modern approaches to doing things, good part of small collaboration!
+- Needs to able to cope with 4 degrees at bottom!
+- Talk about expected data through put, what we can cope with
+- Jumbo frames etc
 
 - An `all-data-to-shore' approach as done in KM3NeT
 - Data is sent in UDP packets (not TCP so some will go missing)
