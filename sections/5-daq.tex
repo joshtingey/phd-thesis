@@ -1,46 +1,27 @@
 \chapter{Data acquisition for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:daq} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{comment} % PLAN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-- What makes this implementation special
-- Limited resource, but brilliant capabilities
-- Use existing software when possible
-
-- Need to talk about what is novel, new and exciting!
-- Not so much about the hardcore electronics details, more high level
-- FINITE STATE MACHINE!!!
-
-HARDWARE
-- The White Rabbit timing system
-- Km3NET hardware
-- Madison hardware (novel)
-- Combined systems
-
-SOFTWARE
-- The beam spill
-- Hit acquisition and handling
-- Detector and data quality monitoring
-\end{comment}
-
 The primary task of any Data Acquisition (DAQ) system is the processing of low-level signals
 measuring real-world physics and their transfer to permanent storage for further analysis.
 Commonly, this procedure also includes decision making as to whether the signal is deemed
-interesting enough to record, known as a \emph{trigger}. DAQ systems can quickly become incredibly
-complex, especially when considering that it must be done in an efficient and resilient manner for
-vast amounts of data in real-time, while also providing detector control and monitoring.
+interesting enough to record, known as a \emph{trigger}. Both these tasks can make DAQ systems
+incredibly complex, especially when they must be conducted in an efficient and resilient manner
+for vast amounts of data in real-time, while also providing detector control and monitoring.
 
 In the context of the \chips project, the DAQ system records all PMT hits, timestamps them using a
-common clock, and then transfers them out of the detector to a central processing node. This node
-then applies a trigger to only select hits that fall within the interesting beam spill. All
-selected hits are then be sliced into \emph{events} and moved to permanent storage for further
-analysis. Alongside these processes, the DAQ also configures all the PMTs within the detector and
-provides data quality and detector component monitoring.
+common clock, and transfers them out of the detector to a central processing node. This node then
+applies a trigger to select hits that fall within the interesting beam spill time window. All
+selected hits are sliced into \emph{events} and moved to permanent storage for further analysis.
+Alongside these processes, the DAQ also configures the full detector and provides data quality and
+detector component monitoring.
 
 Although relatively simple when compared to the complex and time-pressured DAQ systems of the LHC
-experiments, the DAQ system developed for the \chips project introduces novel approaches to solve
-the unique constraints of \chips. Namely, deployment within a body of water and a limited budget.
-In this chapter, the DAQ implementation for \chips as applied to the \chipsfive prototype detector
-module is described.
+experiments, the DAQ system developed for the \chips project introduces some novel approaches to
+solve the unique constraints of \chips. Namely, deployment within a body of water and a limited
+resource budget. In this chapter, the DAQ implementation for \chips as applied to the \chipsfive
+prototype detector module is described alongside highlighting these approaches. The description
+presented in two broad categories, hardware and software, with a short description of the timing
+system beforehand.
 
 \section{White Rabbit timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,19 +30,19 @@ To ensure PMT hit times are synchronised throughout \chips detectors, a common c
 shared across all timestamping electronics. For this purpose \chips employs a \emph{White Rabbit}
 (WR) network~\cite{lipinski2011}. Initially developed at CERN, the open-source WR project provides
 an ethernet-based time distribution network with sub-nanosecond synchronisation accuracy between
-nodes. By using a two-way exchange of WR messages, precise adjustment of individual clock phases
-and offsets is possible across thousands of nodes, separated by tens of kilometres. All of this is
-achieved in parallel with a standard data transfer network capable of \unit{1}{\mathrm{Gb}}
-speeds.
+nodes. By using many two-way exchanges of WR messages, precise adjustment of individual clock
+phases and offsets is possible across thousands of nodes, separated by tens of kilometres. All of
+this is achieved in parallel with a standard data transfer network capable of
+\unit{1}{\mathrm{Gb}} speeds.
 
 All nodes are synchronised to the clock of a \emph{GrandMaster} node which is typically a WR
-\emph{switch}, the most common WR hardware component. This switch receives as input a Pulse Per
+\emph{switch}, the most common WR hardware component. As input, this switch receives a Pulse Per
 Second (PPS) and \unit{10}{\mathrm{MHz}} signal from a GPS disciplined oscillator. When used in
 conjunction with a Network Time Protocol (NTP) server connection, these inputs allow for the WR
-network to be synchronised to International Atomic Time (TAI). This is particularly important for
-\chips detector modules which require synchronisation to accelerator beam clocks (such as the
-Fermilab Main Injector clock in the \chipsfive case) in order to determine the arrival of beam
-spills accurately.
+network to be synchronised to International Atomic Time (TAI). This timing is particularly
+important for \chips detector modules which require synchronisation to accelerator beam clocks
+(such as the Fermilab Main Injector clock in the \chipsfive case) in order to determine the
+arrival of beam spills accurately.
 
 WR hardware is commercially available from many vendors. Within \chipsfive two WR devices are used
 for time synchronisation and data transfer, both shown in Fig.~\ref{fig:wr_electronics}. Firstly,
@@ -87,9 +68,9 @@ and \unit{1550}{\mathrm{nm}} wavelengths via Small Form-Factor Pluggable Transce
     \label{fig:wr_electronics}
 \end{figure}
 
-Fig.~\ref{fig:sync} shows the resulting WR synchronised PPS clock signals from two WR switches
-used within \chipsfive and separated by \unit{500}{\mathrm{m}} of fibre. With the vertical ticks
-representing nanoseconds, the sub-nanosecond time synchronisation accuracy is observed.
+Fig.~\ref{fig:sync} shows the WR synchronised PPS clock rising edges for two WR switches used
+within \chipsfive separated by \unit{500}{\mathrm{m}} of fibre. With the vertical ticks
+representing single nanoseconds, sub-nanosecond time synchronisation accuracy is observed.
 
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.jpg}
@@ -104,32 +85,18 @@ representing nanoseconds, the sub-nanosecond time synchronisation accuracy is ob
 \section{Hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The primary task of the DAQ system is to transfer timestamped
+The hardware of the \chipsfive DAQ system is split into two distinct implementations for its lower
+levels (closest to the PMTs) corresponding to the Nikhef and Madison POM types. \chips R\&D
+efforts have focused on developing the novel Madison implementation with the view of exclusively
+using this hardware within detector modules. However, as a safe stepping stone, while development
+and testing are still ongoing, \chipsfive mainly contains proven Nikhef hardware principally
+developed for the KM3NeT experiment~\cite{adrian2016}.
 
-
-Power and data flow
-
-Will discuss Nikhef and Madison separately for for clarity.
-
-- Start from the bottom and work our way up!
-- The task is to take TOT recorded hits, that are timestamped using the white-rabbit stuff and get
-them to storage at Fermilab, all sorted, without losses, in a timely manner.
-- Talk about general time resolution of the PMTs etc in the context of the overall time resolution
-with the white rabbit.
-
-Regardless of being either Nikhef or Madison all PMT electronics records the time-over-threshold
-for hits. Instead of the more common ADC, this is mainly because the electronics is simpler and
-therefore cheaper.
-
-\begin{figure} % TOT DIAGRAM DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/5-daq/tot.pdf}
-    \caption[Illustrative diagram showing how time-over-threshold is measured.]
-    {Illustrative diagram showing how time-over-threshold is measured. As soon as the rising edge
-        of the charge pulse from a photon cascade passes a threshold a time is recorded, when the
-        falling edge passes the threshold again a second time is recorded. The difference in time
-        is output by the electronics as the time-over-threshold value.}
-    \label{fig:tot}
-\end{figure}
+The complete DAQ and power distribution system for \chipsfive is shown in Fig.~\ref{fig:daq}. The
+following subsections describe each component starting from the lowest level and working upwards.
+The Nikhef and Madison descriptions are separated for clarity as well as the high-level combined
+hardware systems, part of which is not located within the detector but onshore in an electronics
+hut.
 
 \begin{figure} % DAQ DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/daq.pdf}
@@ -138,76 +105,126 @@ therefore cheaper.
     \label{fig:daq}
 \end{figure}
 
-\subsection{Km3NET hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:daq_hard_km3net} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Common to both low-level hardware implementations is the use of the Time over Threshold (ToT)
+method for PMT signal digitisation. Each analogue PMT pulse is fed to a ToT discriminator coupled
+with a Time to Digital Converter (TDC) in order to generate a digitised recorded hit, as
+illustratively shown in Fig.~\ref{fig:tot}. This technique is used rather than the more common
+Analogue to Digital Converter (ADC) implementation as the electronics is simpler and notably
+cheaper.
 
-- km3net daq ref in~\cite{biagi2015, adrian2016, eijk2015}
+\begin{figure} % TOT DIAGRAM DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/5-daq/tot.pdf}
+    \caption[Illustrative diagram showing how Time over Threshold is measured.]
+    {Illustrative diagram showing how ToT is measured. As soon as the rising edge of a PMT charge
+        pulse rises above a given threshold a time is recorded $t_{1}$, when the falling edge
+        later falls below the threshold a second time is recorded $t_{2}$. The difference in time
+        between $t_{1}$ and $t_{2}$ is output by the electronics as a digitised ToT value.}
+    \label{fig:tot}
+\end{figure}
 
-Starting from the lowest level (nearest the PMTs) going upwards the DAQ system is as follows. For
-Nikhef planes the electronics box contains a Central Logic Board developed for KM3NeT which has an
-onboard White-Rabbit controller, so the CLB itself contains a synchronised clock for timestamping
-hits. PMT are attached to two calimares boards directly attached to the CLB via standard Category
-5 cables using RJ45 connectors. The CLB receives a single fibre input and a direct power supply,
-with a power supply
+\subsection{Nikhef hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_hard_Nikhed} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Multiple CLBs (POMs) are connected to a single Nikfef container, for which there are only five
-within chipsfive. Each container, contains two White Rabbit switches for networking (two to
-provide enough ports) and a relay board for controlling the power to all attached POMs. A media
-converter converts a fibre connection to a standard copper cable connection to control the relay,
-which is a network device. Both switches are also reachable on the network mainly for monitoring.
-2 ac/ds converters provide power for each of the switches while a third powers the relay control
-electronics and media converter. The relay outputs are connected directly to the input AC supply.
+All Nikhef \unit{88}{\mathrm{mm}} HZC PMTs are attached directly to a simple readout board
+containing a high-voltage generating Cockcroft-Walton circuit. Up to 30 PMTs are attached to two
+\emph{Calamares} boards within the Nikhef POM electronics box via standard category 5 cables with
+RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares boards are directly
+attached to a Central Logic Board (CLB)~\cite{biagi2015, eijk2015}. The CLB contains multiple ToT
+discriminators and TDCs used to digitise the recorded PMT signals as well as electronics to
+synchronise to the WR network clock for timestamping. Each Nikhef POM electronics box also
+contains an AC to DC converter whose output is fed into the CLB for power.
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/nikhef_plane.pdf}
-    \caption[nikhef plane short]
-    {nikhef plane long}
+    \caption[Labelled picture of the Nikhef POM electronics box.]
+    {Labelled picture of the Nikhef POM electronics box. Both ends of the PMT cables can be seen,
+        either at the PMT mounting points, or entering the electronics box and not yet plugged
+        into the Calamares boards.}
     \label{fig:nikhef_plane}
 \end{figure}
+
+Every Nikhef POM is connected via a single fibre and a power connection to a \emph{Nikhef
+    container}, the contents of which are shown in the bottom half of Fig.~\ref{fig:full_setup}. total
+of five Nikhef containers are present within \chipsfive. Two white rabbit switches are used to
+provide enough networking ports, each whose management port is also networked. A connection
+between each switch ensures that if one connection from the higher-level DAQ fails the other can
+still transfer data.
+
+\begin{figure} % FULL SETUP DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
+    %\includegraphics[angle=90,origin=c,width=0.8\textwidth]{diagrams/5-daq/full_setup.pdf}
+    \caption[full set up short]
+    {Picture of the full \chipsfive DAQ system}
+    \label{fig:full_setup}
+\end{figure}
+
+Each container, contains two White Rabbit switches for networking (two to provide enough ports)
+and a relay board for controlling the power to all attached POMs. A media converter converts a
+fibre connection to a standard copper cable connection to control the relay, which is a network
+device. Both switches are also reachable on the network mainly for monitoring. 2 ac/ds converters
+provide power for each of the switches while a third powers the relay control electronics and
+media converter. The relay outputs are connected directly to the input AC supply.
 
 \subsection{Madison hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Daan short ref in~\cite{eijk2018}
-- Beaglebone ref in~\cite{beagle2020}
+Every Madison Hamamatsu R6091 PMT is directly attached to a high-voltage generating
+Cockcroft-Walton board followed by a signal processing \emph{$\mu$DAQ}, as shown in
+Fig.~\ref{fig:madison_pmt_assembly}. The $\mu$DAQ is a small microcontroller developed for both
+the IceCube experiment and \chips at WIPAC in Madison. Capable of timestamping and digitising
+signals directly at the PMT level, the $\mu$DAQ also sets the PMT operating voltage by controlling
+the Cockcroft-Walton board~\cite{eijk2018}.
 
-- THIS IS WHAT ALL FUTURE CHIPS DETECTOR SHOULD USE FULLY!!!
-- This is the novel stuff that is much cheaper!
-
-Each individual Madison R6091 PMT has an attached Cockroft Walton board and also a microDAQ, this
-is a small microcontroller, that allows for all signal processing and timestamping to occur
-directly at the PMT level unlike in the Nikhef case where it is done on the CLB. Each microDAQ
-receives power, a half-duplex network connection and the two signals required for timestamping the
-PPs and the 10Mhz. The Badger Board is a simple routing and fanout board to route the higher level
-PPS and 10MhZ signals to each microDAQ while also providing them all with power. It also has an
-mesinine beaglebone attached that provdes the actual on board logic. As the beaglebone is a full
-linux machine at a low level lots of processing can occur close to the PMTs. It controls the power
-and networking on the microDAQ, receives their hits before forwarding further up the chain.
-
-The madison box contains what is shown in fig, it has a WR-LEN which is synchronised to the rest
-of the WR network and outputs its PPS and 10MgHz singlas to the Danout board which is another
-fanout, routing board for power, networking and the two signals, liek the badger board it has a
-meanine beaglebone for logic which is connected to the netowkr and controls the powering of each
-prt. A switch connection is made to each output port in order to connect each POM to the network.
-THe router allows for the forwarding of traffic after the WR connectiong to the WR. This is done
-via port forwarding to keep the Madision stuff as  a separate network.
-
-GET THE COSTS OF THE WHOLE MADISON VS NIKHEF SYSTEM PER PLANE
-
-\begin{figure} % MADISON BOX DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/madison_box.pdf}
-    \caption[madison box short]
-    {madison box long}
-    \label{fig:madison_box}
-\end{figure}
+Up to 16 $\mu$DAQs receive power, networking, and PPS and \unit{10}{\mathrm{MHz}} timing signals
+from a \emph{badger-board}, as shown in Fig.~\ref{fig:madison_plane}. Standard category 5 cables
+with RJ45 connectors are used. The badger-board is located within the electronics box of each
+Madison POM and acts as a simple fanout and power control board. For logic, each badger-board has
+an attached mezzanine Beaglebone~\cite{beagle2020}. This single-board Linux machine (very similar
+to a Raspberry Pi) controls the power supply to and receives hits from the attached $\mu$DAQs.
 
 \begin{figure} % MADISON PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/madison_plane.pdf}
-    \caption[madison plane short]
-    {madison plane long}
-
+    \caption[Labelled picture of the components of the Madison POM electronics box.]
+    {Labelled picture of the components of the Madison POM electronics box.}
     \label{fig:madison_plane}
 \end{figure}
+
+Similarly up to 16 Madison POM badger-boards receive power, networking and PPS and
+\unit{10}{\mathrm{MHz}} timing signals from a \emph{danout-board} located within a single
+\emph{Madison container}. Again, standard category 5 cables with RJ45 connectors are used. The
+full contents of the Madison container are shown in Fig.~\ref{fig:madison_box}. Similar to the
+badger-board, the danout-board acts as a simple fanout and power control board with an attached
+mezzanine Beaglebone. However, in this case, the attached Beaglebone acts just to control the
+power provided by the danout-board.
+
+PMT hits and other packets are instead routed straight through the danout-board into a networking
+stack. Consisting of a WR LEN, a router (required due to the limited WR LEN routing table size),
+and a switch, the stack provides network connections to the higher-level DAQ via a single optical
+fibre and synchronisation with the WR clock. The synchronised PPS and \unit{10}{\mathrm{MHz}}
+timing signals are taken as an output from the WR LEN and sent to the danout-board for forwarding
+to the lower-level components. Additionally, two AC to DC converters provide power for the devices
+within the container and all lower-level components through connections with the danout-board.
+
+\begin{figure} % MADISON BOX DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/5-daq/madison_box.pdf}
+    \caption[Labelled picture of the Madison container components.]
+    {Labelled picture of the Madison container components. The blue and grey cables exiting the
+        left hand side of the image go to individual Madison POMs connecting to the I/O port shown
+        in fig.~\ref{fig:madison_plane}. An optical fibre connection into the left SFP port of the
+        WR LEN is used in reality rather than the copper connection shown here.}
+    \label{fig:madison_box}
+\end{figure}
+
+- Can reference the Nikhef stuff that I have already described - THIS IS WHAT ALL FUTURE CHIPS
+DETECTOR SHOULD USE FULLY!!! - This is the novel stuff that is much cheaper! NOVEL NOVEL NOVEL
+CHEAP CHEAP CHEAP SIMPLE SIMPLE SIMPLE COMMERCIAL COMMERCIAL COMMERCIAL CAPABLE CAPABLE CAPABLE
+LINUX LINUX LINUX Can configure at a later data as we have a full linux machine at a very low
+level of the DAQ system. Can do lots of processing close to where the DAQ inputs are created.
+unlike in the Nikhef case where it is done on the CLB. As the beaglebone is a full linux machine
+at a low level lots of processing can occur close to the PMTs. It controls the power and
+networking on the $\mu$DAQ, receives their hits before forwarding further up the chain. The
+$\mu$DAQ and beaglebone are novel approaches, CHEAP, more processing close to PMTs!!! commercially
+availiable!!
 
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -240,14 +257,6 @@ single DAQ machine is used for data taking which another is used for monitoring 
 etailed inSection... The standard network switch is also connected to the wider CHIPS network at
 the pit the polymet building and then the wider internet for data transfer to fermilab!
 
-\begin{figure} % FULL SETUP DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
-    %\includegraphics[angle=90,origin=c,width=0.8\textwidth]{diagrams/5-daq/full_setup.pdf}
-    \caption[full set up short]
-    {Picture of the full \chipsfive DAQ system}
-    \label{fig:full_setup}
-\end{figure}
-
 \begin{figure} % MANIFOLD DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.jpg}
     \caption[manifold short]
@@ -262,10 +271,28 @@ the pit the polymet building and then the wider internet for data transfer to fe
     \label{fig:hut_daq}
 \end{figure}
 
-\section{Data flow and software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+~\cite{chipsdaq2020}
+
+- What makes this implementation special
+- Limited resource, but brilliant capabilities
+- Use existing software when possible
+
+- Need to talk about what is novel, new and exciting!
+- Not so much about the hardcore electronics details, more high level
+- FINITE STATE MACHINE!!!
+
+SOFTWARE
+- The beam spill
+- Hit acquisition and handling
+- Detector and data quality monitoring
+
 DIAGRAM: Software diagram + finite state machine
+
+- INCLUDE DATA RATES IN SOFTWARE DIAGRAM
+- INCLUDE WHICH MACHINES THINGS RUN ON IN SOFTWARE DIAGRAM
 
 - Separated into slow-control, data collection, and
 
@@ -278,7 +305,7 @@ and software! Modern approaches to doing things, good part of small collaboratio
 
 - An `all-data-to-shore' approach as done in KM3NeT
 - Data is sent in UDP packets (not TCP so some will go missing)
-- microDAQ software repository with fh-library (field-hub) novel communication library
+- $\mu$DAQ software repository with fh-library (field-hub) novel communication library
 in~\cite{microdaq2020}. Most of Madison code is written in c!
 - Mainly written in C++, full asynchronous using the BOOST Asio library in~\cite{boost2020} which
 is a library for network and low-level I/O programming using an asynchronous model.
@@ -321,7 +348,6 @@ database, the special indexing allows for quick `searching' over any time period
 monitoring.
 - Also means that anyone can quikcly/easily look at any part of the data and make plots etc...
 without needing to write an additional part of a monitoring program.
-
 
 \begin{figure} % MONITORING DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.png}
