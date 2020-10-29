@@ -4,24 +4,24 @@
 The primary task of any Data Acquisition (DAQ) system is the processing of low-level signals
 measuring real-world physics and their transfer to permanent storage for further analysis.
 Commonly, this procedure also includes decision making as to whether the signal is deemed
-interesting enough to record, known as a \emph{trigger}. Both these tasks can make DAQ systems
-incredibly complex, especially when they must be conducted in an efficient and resilient manner
-for vast amounts of data in real-time, while also providing detector control and monitoring.
+interesting enough to record, known as a \emph{trigger}. These tasks can make DAQ systems
+incredibly complex, especially when they must operate in an efficient and resilient manner for
+vast amounts of data in real-time, while also providing detector control and monitoring.
 
 In the context of the \chips project, the DAQ system records all PMT hits, timestamps them using a
 common clock, and transfers them out of the detector to a central processing node. This node then
 applies a trigger to select hits that fall within the interesting beam spill time window. All
-selected hits are sliced into \emph{events} and moved to permanent storage for further analysis.
-Alongside these processes, the DAQ also configures the full detector and provides data quality and
+selected hits are sliced into events and moved to permanent storage for further analysis.
+Alongside these processes, the DAQ also configures the detector and provides data quality and
 detector component monitoring.
 
 Although relatively simple when compared to the complex and time-pressured DAQ systems of the LHC
 experiments, the DAQ system developed for the \chips project introduces some novel approaches to
-solve the unique constraints of \chips. Namely, deployment within a body of water and a limited
-resource budget. In this chapter, the DAQ implementation for \chips as applied to the \chipsfive
-prototype detector module is described alongside highlighting these approaches. The description
-presented in two broad categories, hardware and software, with a short description of the timing
-system beforehand.
+solve the unique constraints of the \chips concept. Namely, deployment within a body of water and
+a limited resource budget. In this chapter, the DAQ implementation for \chips as applied to the
+\chipsfive prototype detector module is described alongside highlighting these novel approaches.
+The description is presented in two broad categories, hardware and software, with a short
+description of the timing system to begin.
 
 \section{White Rabbit timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_timing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,17 +40,17 @@ All nodes are synchronised to the clock of a \emph{GrandMaster} node which is ty
 Second (PPS) and \unit{10}{\mathrm{MHz}} signal from a GPS disciplined oscillator. When used in
 conjunction with a Network Time Protocol (NTP) server connection, these inputs allow for the WR
 network to be synchronised to International Atomic Time (TAI). This timing is particularly
-important for \chips detector modules which require synchronisation to accelerator beam clocks
-(such as the Fermilab Main Injector clock in the \chipsfive case) in order to determine the
-arrival of beam spills accurately.
+important for \chips detector modules which require synchronisation to accelerator clocks many
+hundreds of kilometres away (such as the Fermilab Main Injector clock) in order to determine the
+arrival time of beam spills accurately.
 
 WR hardware is commercially available from many vendors. Within \chipsfive two WR devices are used
 for time synchronisation and data transfer, both shown in Fig.~\ref{fig:wr_electronics}. Firstly,
 a compact version of the standard WR switch~\cite{wrswitch2020}, specially developed for the
 \chips project at Nikhef~\cite{wrchromium2020}. Secondly, a WR Lite Embedded Node (LEN) from Seven
-Solutions~\cite{wrlen2020}. All WR components within \chipsfive are connected using
-\unit{1}{\mathrm{Gb}} bi-directional optical fibre connections using the \unit{1310}{\mathrm{nm}}
-and \unit{1550}{\mathrm{nm}} wavelengths via Small Form-Factor Pluggable Transceivers (SFPs).
+Solutions~\cite{wrlen2020}. All WR components are connected using \unit{1}{\mathrm{Gb}}
+bi-directional optical fibre connections using the \unit{1310}{\mathrm{nm}} and
+\unit{1550}{\mathrm{nm}} wavelengths via Small Form-Factor Pluggable Transceivers (SFPs).
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
@@ -70,7 +70,7 @@ and \unit{1550}{\mathrm{nm}} wavelengths via Small Form-Factor Pluggable Transce
 
 Fig.~\ref{fig:sync} shows the WR synchronised PPS clock rising edges for two WR switches used
 within \chipsfive separated by \unit{500}{\mathrm{m}} of fibre. With the vertical ticks
-representing single nanoseconds, sub-nanosecond time synchronisation accuracy is observed.
+representing single nanoseconds, sub-nanosecond time synchronisation accuracy is achieved.
 
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.jpg}
@@ -85,12 +85,12 @@ representing single nanoseconds, sub-nanosecond time synchronisation accuracy is
 \section{Hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The hardware of the \chipsfive DAQ system is split into two distinct implementations for its lower
-levels (closest to the PMTs) corresponding to the Nikhef and Madison POM types. \chips R\&D
-efforts have focused on developing the novel Madison implementation with the view of exclusively
-using this hardware within detector modules. However, as a safe stepping stone, while development
-and testing are still ongoing, \chipsfive mainly contains proven Nikhef hardware principally
-developed for the KM3NeT experiment~\cite{adrian2016}.
+The hardware of the \chipsfive DAQ system is split into two distinct implementations at its lower
+levels (closest to the PMTs), corresponding to the Nikhef and Madison POM types. \chips R\&D
+efforts have developed the novel Madison implementation with the view to use this hardware within
+detector modules exclusively. However, as a safe stepping stone, while development and testing are
+still ongoing, \chipsfive mainly contains proven Nikhef hardware developed for the KM3NeT
+experiment~\cite{adrian2016}.
 
 The complete DAQ and power distribution system for \chipsfive is shown in Fig.~\ref{fig:daq}. The
 following subsections describe each component starting from the lowest level and working upwards.
@@ -108,17 +108,18 @@ hut.
 Common to both low-level hardware implementations is the use of the Time over Threshold (ToT)
 method for PMT signal digitisation. Each analogue PMT pulse is fed to a ToT discriminator coupled
 with a Time to Digital Converter (TDC) in order to generate a digitised recorded hit, as
-illustratively shown in Fig.~\ref{fig:tot}. This technique is used rather than the more common
-Analogue to Digital Converter (ADC) implementation as the electronics is simpler and notably
-cheaper.
+illustratively shown in Fig.~\ref{fig:tot}. Even though ToT values are less accurate and do not
+scale linearly with deposited charge, they are used instead of the more common Analogue to Digital
+Converter (ADC) readout as the electronics are simpler and notably cheaper.
 
 \begin{figure} % TOT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/5-daq/tot.pdf}
     \caption[Illustrative diagram showing how Time over Threshold is measured.]
-    {Illustrative diagram showing how ToT is measured. As soon as the rising edge of a PMT charge
-        pulse rises above a given threshold a time is recorded $t_{1}$, when the falling edge
-        later falls below the threshold a second time is recorded $t_{2}$. The difference in time
-        between $t_{1}$ and $t_{2}$ is output by the electronics as a digitised ToT value.}
+    {Illustrative diagram showing how a ToT value is measured. As soon as the rising edge of a PMT
+        charge pulse rises above a given threshold (goes below in the negative charge case) a time
+        is recorded $t_{1}$, when the falling edge later falls below the threshold a second time
+        $t_{2}$ is recorded. The difference in time between $t_{1}$ and $t_{2}$ is output by the
+        electronics as a digitised ToT value.}
     \label{fig:tot}
 \end{figure}
 
@@ -126,13 +127,13 @@ cheaper.
 \label{sec:daq_hard_Nikhed} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 All Nikhef \unit{88}{\mathrm{mm}} HZC PMTs are attached directly to a simple readout board
-containing a high-voltage generating Cockcroft-Walton circuit. Up to 30 PMTs are attached to two
+containing a high-voltage generating Cockcroft-Walton circuit. Up to 30 PMTs are connected to two
 \emph{Calamares} boards within the Nikhef POM electronics box via standard category 5 cables with
 RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares boards are directly
-attached to a Central Logic Board (CLB)~\cite{biagi2015, eijk2015}. The CLB contains multiple ToT
-discriminators and TDCs used to digitise the recorded PMT signals as well as electronics to
-synchronise to the WR network clock for timestamping. Each Nikhef POM electronics box also
-contains an AC to DC converter whose output is fed into the CLB for power.
+attached to a Central Logic Board (CLB)~\cite{biagi2015, eijk2015}. The CLB contains ToT
+discriminators and TDCs to digitise the recorded PMT signals as well as electronics to synchronise
+to the WR network clock for timestamping. Each Nikhef POM electronics box also contains an AC to
+DC power converter whose output is fed into the CLB for distribution.
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/nikhef_plane.pdf}
@@ -144,11 +145,12 @@ contains an AC to DC converter whose output is fed into the CLB for power.
 \end{figure}
 
 Every Nikhef POM is connected via a single fibre and a power connection to a \emph{Nikhef
-    container}, the contents of which are shown in the bottom half of Fig.~\ref{fig:full_setup}. total
-of five Nikhef containers are present within \chipsfive. Two white rabbit switches are used to
-provide enough networking ports, each whose management port is also networked. A connection
-between each switch ensures that if one connection from the higher-level DAQ fails the other can
-still transfer data.
+    container}, the contents of which are shown in the bottom half of Fig.~\ref{fig:full_setup}. A
+total of five Nikhef containers are present within \chipsfive. Two WR switches are used within
+each container to provide sufficient networking ports. Both are powered by independent AC to
+DC converters and receive a single optical fibre connection each from the higher level DAQ
+systems. An additional connection between each switch ensures that if one connection fails the
+other can still be used to transfer data.
 
 \begin{figure} % FULL SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
@@ -274,6 +276,8 @@ the pit the polymet building and then the wider internet for data transfer to fe
 \section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+TODO: Write the software section of the DAQ chapter
+
 ~\cite{chipsdaq2020}
 
 - What makes this implementation special
@@ -289,7 +293,12 @@ SOFTWARE
 - Hit acquisition and handling
 - Detector and data quality monitoring
 
-DIAGRAM: Software diagram + finite state machine
+\begin{figure} % SOFTWARE DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/5-daq/daq_software.pdf}
+    \caption[daq software short]
+    {daq software long}
+    \label{fig:daq_software}
+\end{figure}
 
 - INCLUDE DATA RATES IN SOFTWARE DIAGRAM
 - INCLUDE WHICH MACHINES THINGS RUN ON IN SOFTWARE DIAGRAM

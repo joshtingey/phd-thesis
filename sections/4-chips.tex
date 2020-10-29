@@ -1,4 +1,4 @@
-\chapter{The \chips R\&D Project} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{The \chips R\&D project} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:chips}
 
 In pursuit of answers to the open questions presented in the previous chapter, neutrino
@@ -26,8 +26,7 @@ This chapter aims to describe the fundamental aspects of the \chips R\&D project
 Firstly, the \chips concept will be outlined along with both neutrino beam and Cherenkov detector
 physics for context. The design, construction, deployment, and status of the \chipsfive prototype
 detector will then follow. Finally, the Monte Carlo event generation and detector simulation
-framework will be introduced to aid the discussion of work presented in later chapters of this
-thesis.
+framework will be introduced to aid the discussion of work presented in this thesis.
 
 \section{\chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,13 +85,13 @@ outlined below, each aiming to prove the viability of a crucial component of the
     \item \textbf{Event reconstruction and classification:} Aiming to prove that modern machine
           learning techniques can be successfully applied to large water Cherenkov concepts such
           as \chips. The primary contribution of this thesis (detailed in
-          Chapter.~\ref{chap:cvn}), this work feeds directly into both the physics sensitivity
+          Chapter.~\ref{chap:cnn}), this work feeds directly into both the physics sensitivity
           studies mentioned above and design optimisation work.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.png}
-    \caption[Picture of the \chipsm detector.]
+    \caption[Picture of the \chipsm detector]
     {Picture of the \unit{3.3}{\mathrm{m}} high \chipsm detector just before deployment. Temporary
         floatation bags are attached to the top rim of the detector, while the umbilical cord
         carrying data, power, and filtered water is attached at the base.}
@@ -120,7 +119,7 @@ configuration is shown in Fig.~\ref{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.png}
-    \caption[Schematic of the main components of the \numi beam.]
+    \caption[Schematic of the main components of the \numi beam]
     {Schematic of the main components of the \numi beamline shown with dimensions. The MINOS and
         \nova near detectors and the MINERvA experiment are located just to the right of what is
         shown. Figure taken from Ref.~\cite{adamson2016}.}
@@ -167,7 +166,7 @@ discussed in greater detail within Section.~\ref{sec:chips_detector}.
 
 \begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.png}
-    \caption[Map of detector locations in the \numi beam.]
+    \caption[Map of detector locations in the \numi beam]
     {Map of the MINOS, \nova and \chips locations in the \numi beam as it surfaces in northern
         Minnesota. Shown is the expected neutrino event rate assuming no oscillations, with lines
         of constant L/E indicated by contours. The western extent of Lake Superior can be seen in
@@ -188,7 +187,7 @@ for the \unit{7}{\mathrm{mrad}} off-axis \chipsfive prototype detector.
 
 \begin{figure} % OFF-AXIS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.png}
-    \caption[Muon neutrino flux for different \numi detectors at different off-axis angles.]
+    \caption[Muon neutrino flux for different \numi detectors at different off-axis angles]
     {Muon neutrino flux for different \numi detectors at different off-axis angles. Shown are the
         neutrino energy spectrum for MINOS (on-axis), \nova (\unit{14}{\mathrm{mrad}} off-axis),
         and \chipsfive (\unit{7}{\mathrm{mrad}} off-axis). Figure taken from
@@ -224,7 +223,7 @@ ultrarelativistic limit $\beta\sim 1$ the opening angle is found to be $\sim41^{
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.png}
-    \caption[Diagram of Cherenkov radiation emission.]
+    \caption[Diagram of Cherenkov radiation emission]
     {Diagram of Cherenkov radiation emission and wavefront angles. The angles $\theta_{c}$ and
         $\eta$ are not equal in a dispersive medium. Figure taken from Ref.~\cite{particle2020}}
     \label{fig:cherenkov}
@@ -270,7 +269,7 @@ and muons as a function of distance from the interaction vertex.
 
 \begin{figure} % EMISSION DISTANCE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
-    \caption[Fraction of Cherenkov photons emitted as a function of distance.]
+    \caption[Fraction of Cherenkov photons emitted as a function of distance]
     {The fraction of the total number of photons emitted as a function of the distance from the
         interaction vertex for both electrons and muons with energy of \unit{2.5}{\GeV}. Multiple
         particles within the electron-induced electromagnetic shower emit their Cherenkov
@@ -328,8 +327,7 @@ from the beam target. Roughly \unit{0.8}{\mathrm{km}}$\times$\unit{1.2}{\mathrm{
 a maximum depth of \unit{60}{\mathrm{m}} ($\pm$\unit{3}{\mathrm{m}} throughout the year), the pit
 allows for an overburden of approximately \unit{50}{\mathrm{m}} with \chipsfive resting on the
 bottom. With an average daily low temperate of $-24^{\circ}\mathrm{C}$ in January, the pit freezes
-over during the winter months, therefore, work is only possible during the summer months of May to
-October.
+over during winter, therefore, work is only possible during the summer months of May to October.
 
 A sizeable earthen ramp on the south side of the Wentworth 2W pit is used for detector
 construction while on land. The construction site is easily accessible by road and well connected
@@ -341,7 +339,7 @@ construction site shown in Fig.~\ref{fig:from_the_sky}.
 
 \begin{figure} % PIT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pit.pdf}
-    \caption[Satellite view of the Wentworth 2W mine pit, with key locations.]
+    \caption[Satellite view of the Wentworth 2W mine pit in northern Minnesota]
     {Satellite view of the Wentworth 2W flooded mine pit in northern Minnesota, showing key
         \chipsfive locations. The PolyMet building, shore huts, construction site and deployment
         location are shown. For both the construction site and deployment location, the red circle
@@ -351,7 +349,7 @@ construction site shown in Fig.~\ref{fig:from_the_sky}.
 
 \begin{figure} % CHIPS FROM THE SKY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/from_the_air.jpeg}
-    \caption[Picture of the \chipsfive construction site from the air.]
+    \caption[Picture of the \chipsfive construction site from the air]
     {Picture of the \chipsfive construction site from the air facing south. The Wentworth 2W pit
         is in the lower half of the image, with the part built \chipsfive detector visible at the
         bottom of the earthen construction ramp. The two white shore huts can just be seen halfway
@@ -371,7 +369,7 @@ detailed in Section.~\ref{sec:chips_detector_instrumentation}, to be easily inst
 
 \begin{figure} % CHIPS FRAME DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/frame.jpeg}
-    \caption[Picture of the \chipsfive structural frame.]
+    \caption[Picture of the \chipsfive structural frame]
     {Picture of the \chipsfive structural frame with humans for scale. The endcaps can be seen
         separated by steel struts. Rows of stainless steel \emph{stringers} are attached to the
         inside of each endcap to mount the instrumentation too.}
@@ -386,7 +384,7 @@ expanded detector shape, as shown in Fig.~\ref{fig:chips_render}.
 
 \begin{figure} % CHIPS RENDER DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render_1.png}
-    \caption[Graphical rendering of the \chipsfive detector.]
+    \caption[Graphical rendering of the \chipsfive detector]
     {Graphical rendering of the fully deployed and expanded \chipsfive detector module with a
         section of the liner cutaway. The bottom endcap and wall POMs are visible, as well as the
         top endcap structure and floatation. The green lines indicate the Dyneema cables holding
@@ -450,7 +448,7 @@ assembled and installed Nikhef POM is shown in Fig.~\ref{fig:single_plane} for r
     \subcaptionbox{Assembled}{%
         \includegraphics[height=5.5cm]{diagrams/4-chips/pmt_assembled.jpg}%
     }
-    \caption[Disassembled and assembled Nikhef PMT housing components.]
+    \caption[Disassembled and assembled Nikhef PMT housing components]
     {Disassembled (a) and assembled (b) Nikhef PMT assembly components. The assembly comprises of
         a black PVC insert, a \unit{88}{\mathrm{mm}} HZC PMT, a transparent acrylic cover, and a
         reflective light cone. The PMT is glued to the inside surface of the cover using a
@@ -469,7 +467,7 @@ assembled and installed Nikhef POM is shown in Fig.~\ref{fig:single_plane} for r
     \subcaptionbox{Inside}{%
         \includegraphics[height=6cm]{diagrams/4-chips/madison_assembly.jpg}%
     }
-    \caption[Madison POM PMT assembly.]
+    \caption[Pictures of the Madison PMT assembly]
     {A Hamamatsu R6091 Madison POM PMT outside (a) and inside its insert (b). The PMT is
         \emph{potted} inside its black PVC insert creating a watertight seal that can withstand
         the \unit{6}{\mathrm{atm}} of water pressure at the bottom of the pit. A microDAQ detailed
@@ -479,12 +477,15 @@ assembled and installed Nikhef POM is shown in Fig.~\ref{fig:single_plane} for r
 
 \begin{figure} % NIKHEF POM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/single_plane.jpg}
-    \caption[Picture of a Nikhef POM.]
+    \caption[Picture of a Nikhef Planar Optical Module]
     {Picture of a single Nikhef full-density POM installed on the top-cap of the \chipsfive
         detector. Both the inward-facing and veto PMTs are visible as well as the aluminium
         electronics container and pigtail whose end is covered in green tape.}
     \label{fig:single_plane}
 \end{figure}
+
+TODO: Too much description without a plot to back it up. Jenny says we need a visual way to see
+how we chose the are of high and low density POMs!
 
 The POMs are tiled next to each other on the detector walls, attached to either the stainless
 steel \emph{stringers} on the top-cap and bottom-cap, or clipped to the Dyneema cables on the
@@ -525,7 +526,7 @@ veto PMTs, is shown in Fig.~\ref{fig:top_cap}.
 
 \begin{figure} % TOP CAP RENDER DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/top_cap.png}
-    \caption[Graphical rendering of the top-cap POMs.]
+    \caption[Graphical rendering of the top-cap Planar Optical Modules]
     {Graphical rendering of the top-cap POMs. Both the different photocathode coverage regions and
         the veto PMTs are visible.}
     \label{fig:top_cap}
@@ -555,7 +556,7 @@ constant filtering~\cite{campbell2020}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/filtration.jpg}
-    \caption[Picture of the \chipsfive filtration system.]
+    \caption[Picture of the \chipsfive filtration system]
     {Picture of the \chipsfive filtration system within one of the shore huts. The pipes to and
         from the detector can be seen entering the hit on the back wall.}
     \label{fig:filtration}
@@ -603,7 +604,7 @@ version of the \chipsfive construction and deployment procedure is outlined.
 
 \begin{figure} % CHIPS WITH LINER DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/chips_with_liner_sun.jpeg}
-    \caption[Picture of the \chipsfive detector module with liner.]
+    \caption[Picture of the \chipsfive detector module with liner]
     {Picture of the \chipsfive detector module with liner welded up to the height of the top-cap.
         A part of the floating-dock can also be seen in the foreground.}
     \label{fig:chips_with_liner}
@@ -627,8 +628,8 @@ for personal morale.
     \subcaptionbox{Floatation production.}{%
         \includegraphics[height=6.5cm]{diagrams/4-chips/work3.jpg}%
     }
-    \caption[Some \chipsfive construction work.]
-    {\chipsfive construction work.}
+    \caption[Some \chipsfive construction work]
+    {Some \chipsfive construction work.}
     \label{fig:work1}
 \end{figure}
 
@@ -641,8 +642,8 @@ for personal morale.
     \subcaptionbox{POM installation.}{%
         \includegraphics[height=5.6cm]{diagrams/4-chips/work4.jpg}%
     }
-    \caption[More \chipsfive construction work.]
-    {\chipsfive construction work.}
+    \caption[More \chipsfive construction work]
+    {More \chipsfive construction work.}
     \label{fig:work2}
 \end{figure}
 
@@ -655,9 +656,10 @@ Given the outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over
 2020 were suspended, including essential repairs and instrumentation of the barrel walls. Plans
 for summer 2021 are currently under review.
 
+TODO: Maybe replace with a clearer picture before deployment
 \begin{figure} % PANORAMA DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pan_1.jpeg}
-    \caption[Panorama of the inside of \chipsfive just before deployment.]
+    \caption[Panorama of the inside of \chipsfive just before deployment]
     {Panorama of the inside of \chipsfive just before deployment. Six total Madison POMs were
         deployed for testing visible in the foreground on the bottom-cap. Additionally, the
         flexible tube \emph{manifolds} can be seen connecting each POM to the higher level DAQ
@@ -668,14 +670,17 @@ for summer 2021 are currently under review.
 \section{Event generation and detector simulation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+TODO: Maybe put the simulation first and make it tie nicely into the previous detector
+description. Jenny says the switch from detector description to event generation is a bit jarring.
+
 Monte Carlo event generation and detector simulation methods are an indispensable tool within high
 energy particle physics. This is particularly true during the design and prototyping phase of an
 experimental project when no real-world data is available, as is the case with \chips. By matching
 the observables of a real-world detector as close as possible, these methods allow for the
 optimisation of designs, the testing of reconstruction techniques and the study of physics
 sensitivities. Here, the beam and cosmic event generation procedures and a description of the
-detector simulation used by \chips are described. All are employed extensively for work presented
-in later chapters of this thesis.
+detector simulation used by \chips are described. All are employed extensively for the work
+presented in Chapter.~\ref{chap:cnn} of this thesis.
 
 \subsection{Beam event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -692,7 +697,7 @@ samples must be later weighted to match the desired oscillated neutrino composit
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/flux.pdf}
-    \caption[\numi neutrino flux at CHIPS.]
+    \caption[\numi neutrino flux at at the \chipsfive detector location]
     {The neutrino mode (forward horn current) \numi beam neutrino energy spectrum at the
         \chipsfive detector module location. Shown are the individual contributions from the
         different neutrino types and signs. No cross-sections or oscillations have been applied.}
@@ -731,7 +736,7 @@ background.
 
 \begin{figure} % COSMIC RATE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cosmic_rate.png}
-    \caption[Expected \chipsfive cosmic muon rate as a function of depth.]
+    \caption[Expected \chipsfive cosmic muon rate as a function of water overburden depth]
     {Expected cosmic muon rate as a function of water overburden depth for a \unit{24}{\mathrm{m}}
         high and \unit{24}{\mathrm{m}} wide \chips detector module. Shown are fits made to the
         work originally conducted in Ref.~\cite{bugaev1998}. Figure taken from
@@ -766,7 +771,7 @@ Section.~\ref{sec:chips_detector_instrumentation}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/4-chips/sim_geom.png}
-    \caption[Illustrative diagram of a WCSim detector geometry.]
+    \caption[Illustrative diagram of a WCSim detector geometry]
     {Illustrative diagram of a WCSim detector geometry, showing the shape, endcap and barrel
         regions, tiled unit cells and PMTs within a unit cell. Figure taken from
         Ref.~\cite{blake2016}.}
@@ -816,7 +821,7 @@ actual number of incident photons given a measured digitised charge.
     \subcaptionbox{\label{fig:digi_likelihood}}{%
         \includegraphics[height=6cm]{diagrams/4-chips/digi_likelihood.pdf}%
     }
-    \caption[Detector simulation PMT digitisation function.]
+    \caption[Detector simulation PMT digitisation function]
     {(a) The probability function for the PMT photon digitisation process used in the simulation
         converting the number of incident photons to a measured charge. (b) Likelihood of a
         measured digitised charge being caused by a number of photons incident on a PMT.}
@@ -830,7 +835,7 @@ event display for a CC $\nu_{\mu}$ event is shown in Fig.~\ref{fig:sim_event}.
 
 \begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/sim_event.png}
-    \caption[sim event short]
+    \caption[Event display of a simulated beam CC $\nu_{\mu}$ \chipsfive event]
     {Event display of a simulated CC $\nu_{\mu}$ quasi-elastic event with a single muon in the
         final state of energy \unit{1.77}{\GeV}. The display shows both the unrolled barrel of the
         \chipsfive detector as well the two endcaps. Every coloured entry represents a hit PMT
