@@ -1065,7 +1065,7 @@ There are nine outputs to the beam classification network:
           The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
           used for training with a simple multi-task weight of $1$.
     \item \textbf{CC category (6 neurons):} Returns a classification probability score between
-          zero and one for each of CC-QE, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to
+          zero and one for each of CC-QEL, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to
           one). The categorical cross-entropy loss function in
           Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
           weight of $1$. NC events are masked (do not contribute to the loss) during training for
@@ -1138,14 +1138,14 @@ energies are related. As the interaction vertex position within the detector and
 from the instrumented wall can impact the number of deposited photoelectrons, there is motivation
 as to why these additional tasks are also helpful.
 
-Separate networks are trained for each of CC-QE(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$ and
-$\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. All events (both
-$\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy spectrum to
-closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. Only events
-for which the primary charged lepton is fully contained within the detector volume are used for
-training. Each sample is split 95\% to 5\% for training and validation, respectively. Note that
-CC-QE and CC-MEC neutrino energy estimation is combined as both have incredibly similar final
-state topologies.
+Separate networks are trained for each of CC-QEL(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$
+and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. All events
+(both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
+spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
+Only events for which the primary charged lepton is fully contained within the detector volume are
+used for training. Each sample is split 95\% to 5\% for training and validation, respectively.
+Note that CC-QEL and CC-MEC neutrino energy estimation is combined as both have incredibly similar
+final state topologies.
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}
@@ -1180,7 +1180,7 @@ Fig.~\ref{fig:final_energy_history}. Training each takes approximately 2 hours.
     \caption[Loss and mean absolute error throughout training for the beam classification network]
     {Total loss and \emph{neutrino energy} mean absolute error for both the training dataset
         (solid) and validation dataset (dashed) throughout training for the energy estimation
-        network trained on CC-QE and CC-MEC $\nu_{e}$ events. The final network weights are taken
+        network trained on CC-QEL and CC-MEC $\nu_{e}$ events. The final network weights are taken
         at epoch 16 as shown by the vertical black line.}
     \label{fig:final_energy_history}
 \end{figure}
