@@ -34,14 +34,14 @@ Fig.~\ref{fig:papers}.
     \caption[The number of artificial intelligence papers submitted to arXiv]
     {The number of artificial intelligence papers submitted to arXiv, broken down by sub-category.
         Note the particularly large increase in Computer Vision (CV) and pattern recognition
-        papers. Figure taken from Ref.\cite{perrault2019}.}
+        papers. Figure taken from Ref.~\cite{perrault2019}.}
     \label{fig:papers}
 \end{figure}
 
 In 2016 the \nova experiment applied a CNN to the task of classifying the interaction type of
 events within their sampling calorimeter detector~\cite{aurisano2016}. Two views of raw detector
 events were used as input to train a network based on the popular GoogLeNet
-architecture~\cite{szegedy2015}, discussed in section \ref{sec:cnn_theory_conv}. An improved
+architecture~\cite{szegedy2015} (discussed in Section.~\ref{sec:cnn_theory_conv}). An improved
 iteration has since been applied to both the classification of individual energy deposit
 clusters~\cite{psihas2019} and $\nu_{e}$ and $e^{-}$ energy reconstruction~\cite{baldi2019}.
 
@@ -480,7 +480,7 @@ work; the convolutional neural network (CNN).
 
 At their core, a CNN makes use of a mathematical operation called \emph{convolution}, which either
 entirely or in part replaces the simple vector multiplication seen in fully-connected networks as
-introduced in Section~\ref{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful
+introduced in Section.~\ref{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful
 for applications using grid-like input data such as computer vision tasks.
 
 Using standard CNN terminology, the discrete convolution between the \emph{input}, $x$ and the
@@ -542,7 +542,7 @@ information of the input via down-sampling to reduce the number of network param
     pooling} or \emph{average pooling} are the two common ways this is achieved. In both cases, the
 input is first divided into rectangular regions, and then either the maximum or average value of
 the region is used as output, for max and average pooling respectively. As illustrated in
-Fig.\ref{fig:pooling}.
+Fig.~\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/pooling.pdf}
@@ -587,7 +587,7 @@ layers preventing learning. To counter this problem ResNet~\cite{he2016_original
 introduced residual connections, skipping specific layers and allowing for a larger gradient to
 reach the affected lower layers during backpropagation. Recently the inception module and ResNet
 ideas have been combined~\cite{szegedy2016}, and there has been a significant push for efficient
-rather than just deeper networks~\cite{sandler2018,tan2019}. The repeating layout of layers that
+rather than just deeper networks~\cite{sandler2018, tan2019}. The repeating layout of layers that
 form the above networks, often referred to as \emph{blocks}, are shown in Fig.~\ref{fig:blocks}.
 
 \begin{figure} % BLOCKS DIAGRAM %
@@ -660,8 +660,8 @@ gradients but also reduces overfitting by using the stochasticity of the minibat
 
 \emph{Dropout} is another simple technique to reduce overfitting~\cite{hinton2012}. At each
 training iteration, each neuron has a probability $p_{d}$ to be \emph{dropped out} and ignored for
-that iterations calculation. This is illustrated in \ref{fig:dropout}. By ignoring a subset of the
-neurons at each iteration it is difficult for the network to form the particularly strong
+that iterations calculation. This is illustrated in Fig.~\ref{fig:dropout}. By ignoring a subset
+of the neurons at each iteration it is difficult for the network to form the particularly strong
 connections between neurons that are responsible for overfitting, leading to greater
 generalisation.
 
@@ -703,7 +703,7 @@ remove any detector shape effects and to focus on the underlying event topology 
 emission profiles.
 
 To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
-process introduced in Section~\ref{sec:cnn_old_reco} is used. This procedure, unlike the full
+process introduced in Section.~\ref{sec:cnn_old_reco} is used. This procedure, unlike the full
 likelihood fit, requires no track hypothesis and typically takes under
 \unit{0.1}{\mathrm{seconds}} per event on a standard batch farm computing node. The seed estimated
 vertex position resolutions for a sample of expected beam events are shown in
