@@ -2,32 +2,35 @@
 \label{chap:cnn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For the majority of HEP experiments, event analysis entails the separation of signal from
-background, identification of particles, discovery of kinematic properties and estimation of
-energies. The same is true for \chips, with the primary aims being the selection of CC $\nu_{e}$
-signal events from a sizeable background and estimation of the associated neutrino energy.
+background, the identification of particle types, the discovery of kinematic properties, and the
+estimation of energies. The same is true for \chips detectors, with the primary aims being the
+selection of CC $\nu_{e}$ signal events from a sizeable background and estimation of the
+associated neutrino energy.
 
 For this purpose, the \chips project has so far relied on a human implemented reconstruction
-algorithm and a classification neural network driven by hand-engineered features. Both of which
-are prone to human error and restricted in scope to what has been implemented in software.
+algorithm and a classification neural network driven by hand-engineered features. Both are prone
+to human error and restricted in scope to what has been implemented in software.
 
-The work outlined in this chapter presents a replacement event analysis methodology for \chips.
-Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep
-    learning}~\cite{goodfellow2016} neural network have been implemented, primarily to achieve the
-goals outlined above. One for cosmic rejection, one for beam classification, and one for neutrino
-energy estimation.
+The work outlined in this chapter presents a replacement event analysis methodology for \chips
+concept detector modules. Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982},
+a type of \emph{deep learning}~\cite{goodfellow2016} neural network have been implemented to
+achieve the primary aims outlined above. One for cosmic rejection, one for beam classification,
+and one for neutrino energy estimation. For evaluation purposes, only the implementation as
+applied to the \chipsfive detector module is considered in this work.
 
 After covering previous deep learning implementations for neutrino experiments, a brief
-description of the current techniques to be replaced is made. The theoretical background to CNNs
-is then outlined before the baseline implementation for \chips is described. Finally, the three
-separate networks are detailed, and their combined performance presented.
+description of the current (standard) techniques is made. The theoretical background of CNNs is
+then outlined before the baseline implementation for \chips is described. The specific
+implementations for each of the three networks are then discussed with their combined performance
+presented in the following chapter (Chapter.~\ref{chap:results}).
 
 \section{Previous applications of deep learning for neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Over the last few years, neutrino experiments have started to adopt deep learning techniques for a
-range of tasks. This trend has followed the general explosion of interest in the field amongst the
-global research community, especially within computer vision, as can be seen in
-Fig.~\ref{fig:papers}.
+range of event analysis tasks. This trend has closely followed the general explosion of interest
+in the field amongst the global research community, especially within computer vision, as can be
+seen in Fig.~\ref{fig:papers}.
 
 \begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/papers.png}
@@ -41,53 +44,53 @@ Fig.~\ref{fig:papers}.
 In 2016 the \nova experiment applied a CNN to the task of classifying the interaction type of
 events within their sampling calorimeter detector~\cite{aurisano2016}. Two views of raw detector
 events were used as input to train a network based on the popular GoogLeNet
-architecture~\cite{szegedy2015} (discussed in Section.~\ref{sec:cnn_theory_conv}). An improved
-iteration has since been applied to both the classification of individual energy deposit
+architecture~\cite{szegedy2015} (discussed in Section.~\ref{sec:cnn_theory_conv}). Further
+iterations have since been applied to both the classification of individual energy deposit
 clusters~\cite{psihas2019} and $\nu_{e}$ and $e^{-}$ energy reconstruction~\cite{baldi2019}.
 
 CNNs have also been applied to liquid argon time-projection chambers. The MicroBooNE
 experiment~\cite{acciarri2017_ref} has shown that in addition to classification tasks, the
 localisation of single particles within events is possible~\cite{acciarri2017}. Furthermore, the
 DUNE collaboration has designed a network to output both the interaction class and counts of
-different particle types in an event~\cite{collaboration2020, abi2020}. This approach is called
-\emph{multi-task} learning and is discussed in detail within
+different particle types within an event~\cite{collaboration2020, abi2020}. This approach take by
+DUNE is called \emph{multi-task} learning and is discussed in detail within
 Section.~\ref{sec:cnn_baseline_outputs}.
 
-Applications to water Cherenkov detectors have also been made, by both the Daya Bay reactor
+Applications to water Cherenkov detectors have also been made by both the Daya Bay reactor
 experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
-type of network known as a \emph{variational autoencoder} has been shown to approximate the
+type of CNN known as a \emph{variational autoencoder} has been shown to approximate the
 distribution of simulated water Cherenkov data~\cite{abhishek2019}. If further studies prove
 successful, this could allow for training on real data to reduce experimental uncertainties and
-increase the speed of simulated data generation by many orders of magnitude.
+vastly increase the speed of simulated data generation.
 
 \section{Standard event reconstruction and classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is essential to outline the standard event reconstruction and classification methods that have
-been used by the \chips project until now, for two main reasons. Firstly, to add context for
-comparison with the new CNN approach, as is done throughout Section.~\ref{sec:results_eval}.
-Secondly, to highlight the main weaknesses of these methods, motivating the new technique and
-making its advantages clear.
+been used by the \chips project until now, for two main reasons. Firstly, to add context when
+comparing their performance with the new CNN approach. Secondly, to highlight their main
+weaknesses, motivating the new technique and making its advantages clear.
 
 A \emph{maximum likelihood} method based on that implemented by MiniBooNE~\cite{patterson2009} is
 used for event reconstruction. Additionally, a simple neural network built using the TMVA
 package~\cite{hocker2007} and using outputs from the reconstruction is used for event
-classification. Both methods are very typical of the mainstream approach used by the majority of
-water Cherenkov neutrino experiments. A prime example is the fiTQun algorithm developed for the
-Super-Kamiokande detector, which is now used for both atmospheric~\cite{jiang2019} and
+classification. Both methods are typical of the mainstream approach used by the majority of water
+Cherenkov neutrino experiments. A prime example is the fiTQun algorithm developed for the
+Super-Kamiokande detector, which is used for both atmospheric~\cite{jiang2019} and
 T2K~\cite{missert2017} analyses.
 
 \subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The event reconstruction methodology is simple in theory: for a given set of hypothesised tracks,
-the number of photoelectrons and the time at which the first of these is recorded for each PMT in
-the detector is predicted. By comparing this prediction with the measured hit charges and times
-the likelihood that the given track hypothesis produced the measured signals can be calculated.
-The parameters that describe the hypothesised tracks are then varied until the negative logarithm
-of the likelihood is minimised. Identifying the best-fit parameters for the hypothesis. A brief
-description of the procedure is given below, however, for a full description see
-Ref.~\cite{blake2016} and in great detail Ref.~\cite{perch2017}.
+The event reconstruction methodology is simple in theory: for a given set of hypothesised charged
+particle tracks, the number of photoelectrons and the time at which the first of these is recorded
+for each PMT in the detector is predicted. By comparing this prediction with the measured hit
+charges and times the likelihood that the given track hypothesis produced the measured signals can
+be calculated. The parameters that describe the hypothesised tracks are then varied until the
+negative logarithm of the likelihood is minimised, identifying the best-fit parameters. A brief
+description of the full procedure is given below, however, for a detailed description see
+Ref.~\cite{blake2016} and Ref.~\cite{perch2017}. The full C++ software implementation can also be
+found at Ref.~\cite{chipsreco2020}.
 
 \subsubsection*{Seeding} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -97,8 +100,8 @@ minimisation, both to increase the efficiency of finding the optimal track param
 avoid a false local minimum from being returned.
 
 Firstly, the PMT hits are sliced in both space and time. Gaps in the time ordering of hits are
-used to separate the event into time slices. Each of these then undergoes basic filtering and
-clustering to remove outlying hits and ensure only the dominant collections of hits are
+used to separate the event into time slices. Each of these slices then undergoes basic filtering
+and clustering to remove outlying hits and ensure only the dominant collections of hits are
 considered. Each cleaned slice is then run through simple vertex finding algorithms to estimate
 the interaction position and time, as well and the initial track direction.
 
@@ -109,9 +112,9 @@ space, and a search for smaller peaks is carried out to indicate if multiple par
 to be involved. This process results in a list of seeds with a corresponding score related
 directly to the height of the associated peak in Hough transform space.
 
-\subsubsection*{Likelihood fit} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Likelihood fit} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each track in a fit hypothesis is made up of a vector of parameters $\vec{x}$, containing the
+Each track in a fit hypothesis comprises a vector of parameters $\vec{x}$, containing the
 following:
 \begin{itemize}
     \item The track vertex position ($x_{0}$, $y_{0}$, $z_{0}$) and interaction time $t_{0}$.
@@ -123,16 +126,17 @@ Additionally, for a photon hypothesis (identical to an electron hypothesis in re
 distance between the interaction vertex and the beginning of the electromagnetic shower is
 included as a parameter.
 
-The tracks in the hypothesis are then initialised using those found in the seeding procedure in
-descending order of Hough peak height score. As the seeding algorithms do not estimate the
+The hypothesis tracks are then initialised using the list of seeds found in the seeding procedure
+in descending order of Hough peak height score. As the seeding algorithms do not estimate the
 particle energy, a default value equal to the average particle energy observed in the Monte Carlo
-simulation is assigned. Additionally, constraints can be placed on multi-track fits before the
-minimisation process begins to reduce the number of free parameters.
+simulation is assigned. Additionally, constraints can be placed on a multi-track hypothesis before
+the minimisation process to reduce the number of free parameters.
 
-For example, in the NC $\pi^{0}$ case, a multi-track two-photon hypothesis is used. Firstly, the
-initial parameters for the two photons are assigned from the two highest-scoring seeds. Secondly,
-the vertex position for both tracks is constrained to remain the same, and the directions and
-energies are set to be constrained by the invariant mass of the $\pi^{0}$.
+As an example, considering the NC $\pi^{0}$ case, a multi-track two-photon hypothesis is used.
+Firstly, the initial parameters for the two photons are assigned from the two highest-scoring
+seeds from the seeding procedure. Secondly, the vertex position for both tracks is constrained to
+remain the same, and the directions and energies are set to be constrained by the invariant mass
+of the $\pi^{0}$.
 
 In it's simplest form the likelihood is a simple product of two terms:
 \begin{equation} % LIKELIHOOD EQUATION %
@@ -140,11 +144,11 @@ In it's simplest form the likelihood is a simple product of two terms:
     \prod_{unhit}P_{unhit}(\vec{x})\prod_{hit}P_{charge}(\vec{x})P_{time}(\vec{x}),
     \label{eq:likelihood}
 \end{equation}
-where the first ($unhit$) gives the likelihood that the hypothesis $\vec{x}$ will not predict a
-hit on the PMTs that do not have a measured hit, and the second ($hit$) gives the likelihood that
-$\vec{x}$ produces the observed photoelectrons and hit times on the hit PMTs. By considering the
-negative logarithm of the likelihood instead, the computation can be simplified into a sum of
-logarithms over the PMTs, such that
+where the first ($unhit$) term gives the likelihood that the hypothesis $\vec{x}$ will not predict
+a hit on the PMTs that do not have a measured hit, and the second ($hit$) term gives the
+likelihood that $\vec{x}$ produces the observed photoelectrons and hit times on the hit PMTs. By
+considering the negative logarithm of the likelihood the computation can be simplified into a sum
+of logarithms over the PMTs, such that
 \begin{equation} % LIKELIHOOD SUM PMTS EQUATION %
     -\log\mathcal{L}(\vec{x})=
     -\sum_{unhit}\log(P_{unhit}(\vec{x}))
@@ -152,27 +156,28 @@ logarithms over the PMTs, such that
     -\sum_{hit}\log(P_{time}(\vec{x})).
     \label{eq:likelihood_sum}
 \end{equation}
-This also has the effect of separating the charge (number of photoelectrons) and time prediction
-components which can then be dealt with separately computationally. In the actual likelihood
-calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the
-probability of an unhit PMT is treated as a PMT with observed charge equal to zero.
+This form also has the effect of separating the charge (number of photoelectrons) and time
+prediction components, which can then be dealt with separately computationally. In the actual
+likelihood calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined,
+where the probability of an unhit PMT is treated as a PMT with an observed charge equal to zero.
 
-The Minuit2 algorithm contained within ROOT software package~\cite{brun1997} is used for the
+The Minuit2 algorithm contained within the ROOT software package~\cite{brun1997} is used for the
 minimisation process. At each iteration, the charge and hit time predictions are made, and the
 negative logarithm of the likelihood is calculated. The track parameters are then varied to
-minimise the likelihood before the next iteration. Through a series of stages, fixing and freeing
-specific parameters, the minimisation process converges to the best-fit parameters for the given
-hypothesis. This process typically takes two minutes on a standard batch farm computing node.
+minimise the likelihood before the next iteration. Through a series of stages, each fixing and
+freeing specific parameters, the minimisation process converges to the best-fit parameters for the
+given hypothesis. This procedure typically takes two minutes on a standard batch farm computing
+node.
 
 \subsubsection*{Downsides} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The charge and hit time predictions and their associated likelihood contributions rely on many
-low-level inputs to the reconstruction. These generally describe how Cherenkov light is emitted
-from specific particles and then propagates through the detector to be detected by the PMTs.
-Examples of these inputs include the following:
+The charge and hit time predictions and their associated likelihood contributions depend on many
+low-level inputs to the reconstruction. These inputs generally describe how Cherenkov light is
+emitted from specific particles and then how it propagates through the detector to be detected by
+the PMTs. Examples of these inputs include:
 \begin{itemize}
-    \item The number of Cherenkov photons emitted by a particle of specific type and energy.
-    \item The fraction of Cherenkov light emitted at each step along a specific particles track
+    \item The number of Cherenkov photons emitted by a particle of a specific type and energy.
+    \item The fraction of Cherenkov light emitted at each step along a specific particle's track
           length.
     \item The angular distribution of Cherenkov photon emission for each type of particle.
     \item The survival probability of photons within the detector medium as a function of
@@ -183,44 +188,43 @@ Examples of these inputs include the following:
           (derived from a reversal of the simulation digitisation methodology).
 \end{itemize}
 The first three are combined into \emph{emission profiles} generated from a large Monte Carlo
-simulation sample, while the last listed input is comparable to that shown in
-Fig.~\ref{fig:digitisation}.
+simulation sample, while the last is comparable to that shown in Fig.~\ref{fig:digitisation}.
 
-The list above demonstrates a fundamental problem with the likelihood-based approach. It is
+The above list demonstrates a fundamental problem with the likelihood-based approach. It is
 heavily reliant on the accuracy of low-level inputs and their associated use in human implemented
-software. If a physical process is not dealt with appropriately or overlooked (the hadronic
-component of events), then the prediction accuracy of charges and hit times for the PMTs is
-affected, impacting the performance of finding accurate best-fit parameters.
+software. If a physical process is not dealt with appropriately or overlooked (such as the
+hadronic component of neutrino events), then the prediction accuracy of PMT charges and hit times
+is affected, impacting the performance of finding accurate best-fit parameters.
 
-The other fundamental flaw of the likelihood-based approach is the requirement of a predefined
-track hypothesis. Real events expected within \chips are rarely simple single particle or even
-two-particle events. In reality, the majority of events contain multiple final state particles of
-various types and in various topologies. The predefinition of a track hypothesis makes the
-implementation of a generalised approach to event reconstruction where all possible event types
-are considered, impossible.
+Additionally, the likelihood-based approach requires a predefined track hypothesis. Real events
+expected within \chips detector modules are rarely simple single particle or even two-particle
+events. In reality, the majority of events contain multiple final state particles of various types
+and in various topologies. The predefinition of a track hypothesis makes the implementation of a
+generalised approach to event reconstruction where all possible event types are considered
+incredibly challenging.
 
 \subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As the reconstruction is based on the calculation of a likelihood (analogous to a
+As the standard event reconstruction is based on the calculation of a likelihood (analogous to a
 \emph{goodness-of-fit}), the likelihood ratio between different hypotheses can be used for event
 classification tasks. It is also found that additional hand-engineered features derived from the
 reconstruction outputs have power in classifying the event type.
 
 Two simple neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$ separation and
-the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer, with the number
-of nodes equal to the number of input parameters plus five. Variables from both a single $e$
-track, and single $\mu$ track hypothesis fit to each event are used for both networks, with a full
+the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer with the number of
+nodes equal to the number of input parameters plus five. Variables from both a single electron
+track and single muon track hypothesis fit to each event are used for both networks, with a full
 list of inputs as follows:
 \begin{itemize}
     \item The $\Delta\log\mathcal{L}$ between $e$ and $\mu$ hypothesis for both time and charge
           components.
     \item The total number of hit PMTs ($N_{hits}$) and total collected charge.
     \item $\frac{\Delta\log\mathcal{L}_{charge}}{N_{hits}}$.
-    \item The fraction of hits inside, within, and outside the ring for both $e$ and $\mu$
+    \item The fraction of hits inside, within, and outside the ring for both the $e$ and $\mu$
           hypotheses.
-    \item The fraction of predicted charge outside the ring for both $e$ and $\mu$ hypotheses.
-    \item The ratio of the total predicted charged to the total measured charge for both $e$
+    \item The fraction of predicted charge outside the ring for both the $e$ and $\mu$ hypotheses.
+    \item The ratio of the total predicted charged to the total measured charge for both the $e$
           and $\mu$ hypothesis.
     \item The ratio of the reconstructed energy to the total measured charge.
     \item The reconstructed track direction under the $e$ hypothesis.
@@ -231,10 +235,10 @@ list of inputs as follows:
 \end{itemize}
 
 A sample of CC $\nu_{e}$ and CC $\nu_{\mu}$ beam events characteristic of those expected to be
-seen by \chips is used to train the first classifier, and a corresponding sample of CC $\nu_{e}$
-and NC events for the second. Both output values can then be used to select CC $\nu_{e}$ events
-from the backgrounds. Note that only this primary selection has been implemented, no CC
-$\nu_{\mu}$ selection has been developed.
+seen within \chipsfive are used to train the first classifier, and a corresponding sample of CC
+$\nu_{e}$ and NC events for the second. Both network output values can then be used to select CC
+$\nu_{e}$ events from the background. Note that only the selection of CC $\nu_{e}$ events has been
+implemented, no CC $\nu_{\mu}$ selection has been developed.
 
 The main limitation of this approach is that the input features are restricted to those that have
 been imagined (requiring extensive domain knowledge) and then implemented in software. The current
@@ -247,30 +251,30 @@ to incorrect categorisation of events.
 \label{sec:cnn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 There are many machine learning techniques: linear regression, logistic regression, k-nearest
-neighbours, decision trees, random forests, support vector machines, all of which learn to make
-predictions about data. However, none have been as successful, especially in recent years, as the
-deep neural network. As both the size of datasets and the amount of available computational power
-has increased, deep neural networks have proven the most powerful technique for many tasks as they
-are well suited to this paradigm.
+neighbours, decision trees, random forests, support vector machines, and others, all of which
+learn to make predictions about data. However, none have been as successful, especially in recent
+years, as the deep neural network. As both the size of datasets and the amount of available
+computing power has increased, deep neural networks have proved incredibly powerful for many
+tasks, as they are well suited to this paradigm.
 
 Here we discuss the application of neural networks for \emph{supervised learning}, one of two
-broad machine learning categories that is concerned with using labelled example data to train
-algorithms. The other category of \emph{unsupervised learning}, where the properties of the
-dataset are inferred without example data is not discussed, however, will be used for trained
-network \emph{explainability} in Section.~\ref{sec:results_explain}.
+broad machine learning categories and concerned with using labelled example data to train
+algorithms. The other broad category of \emph{unsupervised learning}, where the properties of the
+dataset are inferred without example data is not discussed, however, will be used for network
+\emph{explainability} in Section.~\ref{sec:results_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory_basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A neural network is a type of algorithm inspired by the repeating cell structure of neurons within
-our brains. The basic building block of a neural network is a \emph{neuron} which takes a vector
+our brains. The basic building block of a neural network is a \emph{neuron}, which takes a vector
 of $k$ inputs $\vec{x} = (x_{1}, x_{2},\dots,x_{k})$ and outputs a scalar $a(\vec{x})$. The
 neurons are arranged into layers, with the input of one layer being the output from the previous
 layer. The first layer is commonly referred to as the \emph{input layer}, the middle layers as
 \emph{hidden layers}, and the final layer as the \emph{output layer}, as illustrated in
 Fig.~\ref{fig:network}. In general, this simple neural network structure is referred to as
-\emph{fully-connected} as all the neurons in each layer have connections to all the neurons in the
-previous and following layers.
+\emph{fully-connected}, as all the neurons in each layer, have connections to all the neurons in
+the previous and following layers.
 
 \begin{figure} % BASIC NETWORK DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/network.pdf}
@@ -281,11 +285,11 @@ previous and following layers.
     \label{fig:network}
 \end{figure}
 
-Input variables (traditionally hand-engineered features extracted from the raw data) are passed
-into the network via the input layer. Any number of hidden layers containing any number of neurons
-can then follow. The neurons contained within these layers are trained so that collectively their
+Input variables (traditionally hand-engineered features extracted from raw data) are passed into
+the network via the input layer. Any number of hidden layers containing any number of neurons can
+then follow. The neurons contained within these layers are trained so that collectively their
 $a(\vec{x})$ functions solve the task at hand. For a \emph{regression} task, the output layer
-outputs a continuous decimal value. Otherwise, for a \emph{classification} task, a probability
+returns a continuous decimal value. Otherwise, for a \emph{classification} task, a probability
 value between zero and one is output for each class. The forward passing of information from one
 layer to the next is why neural networks can also be referred to as \emph{feed-forward graphs}.
 
@@ -310,12 +314,12 @@ gradient (only valid at $x=0$ for a step-function) is required for the practical
 neural networks. In fact, the choice of activation function can greatly affect how the network
 trains and performs.
 
-Therefore, common choices have been the \emph{hyperbolic tangent} and the \emph{sigmoid} function,
-primarily because they are bounded and differentiable at all points. Recently, the \emph{ReLU} and
-other similar functions have become popular, especially for CNNs. This is mainly due to them
+Therefore, common activation function choices have been the \emph{hyperbolic tangent} and the
+\emph{sigmoid} function, primarily because they are bounded and differentiable at all points.
+Recently, the \emph{ReLU} and other similar functions have become popular,  mainly due to them
 avoiding the problem of \emph{vanishing} gradients caused by the saturation of the tanh and
 sigmoid functions at large values of $x$. All of these functions are shown in
-Fig.~\ref{fig:activations}.
+Fig.~\ref{fig:activations} for reference.
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cnn/activations.pdf}
@@ -329,14 +333,14 @@ Fig.~\ref{fig:activations}.
 
 The process of supervised training of a neural network uses labelled data to iteratively find the
 optimal weights and biases (network parameters) that maximise the network performance. In order to
-quantify the performance, we must define a \emph{loss function} $E(\vec{w})$, where $\vec{w}$ is
-the vector of network parameters, describing the difference between the network output and the
-true label. For a given input data point $(\vec{x}_{i}, y_{i})$, where $\vec{x}_{i}$ are the input
-parameters and $y_{i}$ is the known truth label, the network generates an output
-$\hat{y}_{i}(\vec{w})$. Using this notation, we can then construct loss functions suitable for
+quantify the performance, we define a \emph{loss function} $E(\vec{w})$, describing the difference
+between the network output and the true label, where $\vec{w}$ is the vector of network
+parameters. For a given input data point $(\vec{x}_{i}, y_{i})$, with $\vec{x}_{i}$ being the
+input parameters and $y_{i}$ the known truth label, the network generates an output
+$\hat{y}_{i}(\vec{w})$. Using this notation, we can construct loss functions suitable for
 different tasks.
 
-In the case of a simple binary classification task, the most commonly used function is the
+In the case of a simple binary classification task the most commonly used function is the
 \emph{binary cross-entropy}:
 \begin{equation} % BINARY CROSS-ENTROPY EQUATION %
     E(\vec{w})=
@@ -372,9 +376,9 @@ most often used as the loss function:
 \end{equation}
 
 To find the optimal network parameters for the given task we can iteratively minimise the loss
-function until it converges to its minimum (or in reality a local minimum that performs well).
-This is done by updating the network parameters at each iteration $t$ to move in the direction of
-the gradient of the loss function using an update rule:
+function until it converges to a minimum (or in reality a local minimum that performs well). This
+is done by updating the network parameters at each iteration $t$ to move in the direction of the
+los function gradient, using the update rule
 \begin{equation} % UPDATE EQUATION %
     \vec{w}_{t+1}=\vec{w}_{t}-\eta_{t}\nabla_{\vec{w}}E(\vec{w}),
     \label{eq:update_rule}
@@ -394,9 +398,9 @@ Fig.~\ref{fig:gradient_descent}.
 Therefore, in order to use gradient descent, we require that the gradient of the loss function
 with respect to the parameters of the network can be calculated. Doing this for each parameter at
 every iteration would render neural networks impossible to train due to the vast computational
-requirements. Instead, an innovative application of the chain rule in an algorithm called
+requirements. Instead, an innovative application of the chain rule, in an algorithm called
 \emph{backpropagation} is used~\cite{werbos1974}. Here we follow the derivation of the four main
-equations of backpropagation from Ref.~\cite{mehta2019}.
+equations of backpropagation given in Ref.~\cite{mehta2019}.
 
 For a network containing $L$ layers, we can index the individual layers using $l=1,\dots,L$. The
 weight associated with the connection between the $k$-th neuron in layer $l-1$ and the $j$-th
@@ -409,7 +413,7 @@ the previous layer by
 \end{equation}
 
 The change in the loss function with respect to the linear weighted sum $z^{l}_{j}$ of the $j$-th
-neuron in the last layer $L$ can be used to define the error:
+neuron in the last layer $L$ can be used to define the error
 \begin{equation} % PREVIOUS LAYER EQUATION %
     \Delta^{L}_{j}=\frac{\partial E}{\partial z^{L}_{j}}.
 \end{equation}
@@ -421,7 +425,7 @@ Similarly the error on any neuron $j$ in any layer $l$ is given by
 \end{equation}
 with $\sigma '$ denoting the derivative of the non-linear activation function. As $\partial
     b^{l}_{j}/\partial z^{l}_{j}=1$, the error can also be viewed as the partial derivative of the
-loss function with respect to the bias:
+loss function with respect to the bias, such that
 \begin{equation} % BACKPROP EQUATION 2 %
     \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}
     =\frac{\partial E}{\partial b^{l}_{j}}\frac{\partial b^{l}_{j}}{\partial z^{l}_{j}}
@@ -464,8 +468,8 @@ The full backpropagation algorithm then proceeds as follows:
 \end{enumerate}
 As can be seen, a single activation finding \emph{forward pass} followed by a single error
 propagating \emph{backward pass}  is all that's required to calculate the gradients for all
-weights and biases within the network. This incredibly efficient procedure allows for the use of
-gradient descent to train neural networks.
+weights and biases within the network. This incredibly efficient procedure allows gradient descent
+to be used for the training of neural networks.
 
 \subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -475,11 +479,11 @@ application fields such as computer vision, speech recognition and natural langu
 stacking many layers on top of each other into a `deep' network, these methods offer increased
 problem-solving capacity by allowing higher-order non-linear functions to form. As a direct
 consequence, instead of requiring hand-engineered features as input, deep networks can learn to
-extract the most powerful features from raw data. Here we outline just the technique used in this
-work; the convolutional neural network (CNN).
+extract the most powerful features for a given task from raw data. Here we outline just the
+specific technique used in this work; the CNN.
 
 At their core, a CNN makes use of a mathematical operation called \emph{convolution}, which either
-entirely or in part replaces the simple vector multiplication seen in fully-connected networks as
+entirely or in part replaces the simple vector multiplication seen in the fully-connected networks
 introduced in Section.~\ref{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful
 for applications using grid-like input data such as computer vision tasks.
 
@@ -490,22 +494,22 @@ Using standard CNN terminology, the discrete convolution between the \emph{input
     \label{eq:convolution}
 \end{equation}
 where $f$ is commonly referred to as the \emph{feature map}. In typical applications, the input is
-a two-dimensional array $X$. Therefore, both the kernel, $W$ and the resulting feature map, $F$
+a two-dimensional array $X$. Therefore, both the kernel $W$, and the resulting feature map $F$,
 also become two-dimensional. In this case the convolution operation becomes
 \begin{equation}
     F_{i}=(X*W)_{i,j}=\sum_{m}\sum_{n}X_{i+m,j+n}W_{m,n},
     \label{eq:conv}
 \end{equation}
 where the infinite sum in Eq.~\ref{eq:convolution} has been replaced with a discrete sum over
-two-dimensional elements. Normally, the output feature map is then passed through a non-linear
-activation function. Analogous to the simple neural network weights $\vec{w}$ first described in
-Eq.~\ref{eq:network}, the elements of $W_{m,n}$ can be trained to maximise the network performance
-(minimise the loss).
+two-dimensional elements. Analogous to the simple neural network weights $\vec{w}$ first described
+in Eq.~\ref{eq:network}, the elements of $W_{m,n}$ can be trained to maximise the network
+performance (minimise the loss). Also like the simple case, the output feature maps are commonly
+passed through a non-linear activation function to produce the final output.
 
 To illustrate this operation Fig.~\ref{fig:conv_input} gives examples of a $4 \times 4$ input grid
 and a $3 \times 3$ kernel. The output feature map is generated by sliding the kernel across both
 dimensions of the input grid, summing the products of all associated elements at each step
-according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_operation}.
+according to Eq.~\ref{eq:conv}, as is shown in Fig.~\ref{fig:conv_operation}.
 
 \begin{figure} % CONV INPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/conv_input.pdf}
@@ -530,7 +534,7 @@ Two additional parameters that impact the output size of the feature map are als
 Fig.~\ref{fig:conv_operation}. The \emph{stride} and the \emph{padding}. The stride governs how
 far the kernel moves at each step while the padding decides how the input grid is padded with
 zeros around its border. If $L$ is the size of the input (both height and width) and $K$ is the
-kernel size, the output feature map size $O$ is given by
+kernel size, the output feature map size $O$, is given by
 \begin{equation}
     O=\frac{(L-K+2P)}{S}+1,
     \label{eq:conv_size}
@@ -541,7 +545,7 @@ The other key operation used in CNNs is pooling. Pooling layers coarse-grain the
 information of the input via down-sampling to reduce the number of network parameters. \emph{Max
     pooling} or \emph{average pooling} are the two common ways this is achieved. In both cases, the
 input is first divided into rectangular regions, and then either the maximum or average value of
-the region is used as output, for max and average pooling respectively. As illustrated in
+the region is used as the output, for max or average pooling respectively, as illustrated in
 Fig.~\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
@@ -560,11 +564,11 @@ exists, just that it exists.
 
 \subsubsection*{CNN architectures}
 
-In 2012 the AlexNet CNN lowered the error rate of the ubiquitous ImageNet classification
+In 2012 the AlexNet CNN lowered the error rate on the ubiquitous ImageNet classification
 task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
 standard CNN has adopted a similar architecture. Multiple convolutional layers are stacked on top
 of each other, periodically interspersed with pooling layers. Once the output feature map size no
-longer allows for additional pooling, one or more fully-connected layers are added before the
+longer allows for additional pooling, one or more fully-connected layers are appended before the
 final output layer, as shown in Fig.~\ref{fig:conv_diagram}.
 
 \begin{figure} % CONV DIAGRAM %
@@ -575,29 +579,29 @@ final output layer, as shown in Fig.~\ref{fig:conv_diagram}.
     \label{fig:conv_diagram}
 \end{figure}
 
-Led by research teams at the technology giants, improvements upon this standard architecture have
-been made. Initially, this involved the addition of extra convolutional layers to form a deeper
-network as VGG did in 2014~\cite{simonyan2014}. Separately, the \emph{inception module} introduced
-by GoogLeNet~\cite{szegedy2015} the same year allowed for different scales of features to be
-explored using the concept of a \emph{network-within-a-network}.
+Led primarily by research teams at the technology giants, improvements upon this standard
+architecture have been made. Initially, this involved the addition of extra convolutional layers
+to form a deeper network as VGG did in 2014~\cite{simonyan2014}. Separately, the \emph{inception
+    module} introduced by GoogLeNet~\cite{szegedy2015} the same year allowed for different scales of
+features to be explored using the concept of a \emph{network-within-a-network}.
 
 As the size of CNNs increased, it was found that the gradients on the lower layers of the network
-were found to decrease. This sometimes had the effect of the gradient \emph{vanishing} from these
-layers preventing learning. To counter this problem ResNet~\cite{he2016_original, he2016_improved}
-introduced residual connections, skipping specific layers and allowing for a larger gradient to
-reach the affected lower layers during backpropagation. Recently the inception module and ResNet
-ideas have been combined~\cite{szegedy2016}, and there has been a significant push for efficient
-rather than just deeper networks~\cite{sandler2018, tan2019}. The repeating layout of layers that
-form the above networks, often referred to as \emph{blocks}, are shown in Fig.~\ref{fig:blocks}.
+were also found to decrease, sometimes even vanishing, preventing further learning. To
+counter this problem ResNet~\cite{he2016_original, he2016_improved} introduced residual
+connections, skipping specific layers and allowing for a larger gradient to reach the affected
+lower layers during backpropagation. Recently, the inception module and ResNet ideas have been
+combined~\cite{szegedy2016}, and there has been a significant push for efficient rather than just
+deeper networks~\cite{sandler2018, tan2019}. The repeating layout of layers that form the above
+networks, often referred to as \emph{blocks}, are shown in Fig.~\ref{fig:blocks}.
 
 \begin{figure} % BLOCKS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cnn/blocks.pdf}
     \caption[Common Convolutional Neural Network architecture blocks]
     {Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
-        output through operations whose flow is described with the arrows. The blue and red boxes
-        represent convolutional (conv) and max pooling (m-pool) layers respectively, with the size
-        of the operation shown. The circular yellow $R$ indicates the use of the ReLU activation
-        function.}
+        output through operations whose forward pass is described with the arrows. The blue and
+        red boxes represent convolutional (conv) and max-pooling (m-pool) layers respectively,
+        with the size of the operation shown. The circular yellow $R$ indicates the use of the
+        ReLU activation function.}
     \label{fig:blocks}
 \end{figure}
 
@@ -605,37 +609,38 @@ form the above networks, often referred to as \emph{blocks}, are shown in Fig.~\
 \label{sec:cnn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A key challenge for supervised machine learning techniques is ensuring the algorithm can
-generalise to new, previously unseen datasets. This can be difficult when for a deep neural
-network containing millions of trainable parameters, it can become easy for the network to learn
-the specific features and noise of the training dataset. This process is called \emph{overfitting}
-and is very common when training CNNs. Methods used within this work to prevent this from
-happening are outlined below, all of which are commonly referred to as \emph{regularisation}
-techniques.
+generalise to new, previously unseen data, not within the training dataset. This generalisation
+can be difficult when for a deep neural network containing millions of trainable parameters, it
+can become easy for the network to learn the specific features and noise of the training data.
+This unwanted learning is named \emph{overfitting} and is very common when training CNNs. Methods
+used within this work to prevent overfitting are outlined below, all of which are commonly
+referred to as \emph{regularisation} techniques.
 
 \subsubsection*{Stochastic gradient descent} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The procedure outlined so far of updating the network weights at each training iteration using the
 gradient calculated over the full dataset is called \emph{batch training}. It is instead much more
-common to calculate an approximation to the gradient at each iteration using a \emph{minibatch} of
-the full dataset. This is done by considering just a subset of the training data with a size
-commonly referred to as the \emph{batch size} and typically equal to a power of two for
-computational reasons.
+common to calculate an approximation to the complete gradient at each iteration using a
+\emph{minibatch} of the full dataset. This is done by considering just a subset of the training
+data with a size commonly referred to as the \emph{batch size} and typically equal to a power of
+two for computational reasons.
 
-This modification to standard gradient descent is called \emph{stochastic gradient descent} as it
-introduces stochasticity to the training process, and provides two main advantages. Firstly the
-computational speed of each iteration is significantly reduced, and crucially the memory
-requirements lowered. Secondly, the addition of noise decreases the chance that the minimisation
-will get stuck in a local minimum suited to overfitting the training dataset.
+This modification to standard batch training gradient descent is called \emph{stochastic gradient
+    descent} as it introduces stochasticity to the training process, and provides two main advantages.
+Firstly the computational speed of each iteration is significantly reduced, and crucially the
+memory requirements lowered. Secondly, the addition of noise decreases the chance that the
+minimisation will get stuck in a local minimum suited to overfitting the training dataset.
 
 \subsubsection*{Early stopping} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\emph{Early stopping} is a simple procedure preventing overfitting from affecting the final
+\emph{Early stopping} is a simple procedure which prevents overfitting from affecting the final
 generalised performance of the network. During training, the training dataset is commonly iterated
 over multiple times, with each iteration called an \emph{epoch}. By evaluating the error on an
 independent \emph{validation} dataset at the end of each epoch, the point at which overfitting
-begins can be determined, as shown in Fig.~\ref{fig:early_stopping}. At this point, the training
-is stopped to return the best possible generalised model. In practice, it is common only to stop
-training after $n$ number of epochs have passed with no validation error improvement.
+begins can be determined, as illustrated in Fig.~\ref{fig:early_stopping}. At the determined
+epoch, the training is stopped to return the best possible generalised model. In practice, it is
+common only to stop training after $n$ number of epochs have passed with no validation error
+improvement.
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/6-cnn/early_stopping.pdf}
@@ -650,10 +655,10 @@ training after $n$ number of epochs have passed with no validation error improve
 
 The training of a neural network is found to work best when the inputs of each neuron are centred
 on zero with respect to the bias of the neuron. This is because large input values can cause
-saturation of the activation function and subsequent \emph{vanishing} of the associated gradient,
+saturation of the activation function and subsequent vanishing of the associated gradient,
 reducing the ability of the network to learn. To counter this, \emph{batch normalisation}
-introduces layers that standardise the inputs using the mean and variance calculated over each
-minibatch~\cite{ioffe2015}. This not only speeds up training by preventing the \emph{vanishing} of
+introduces layers that standardise the inputs using the mean and variance of each
+minibatch~\cite{ioffe2015}. This change not only speeds up training by preventing the vanishing of
 gradients but also reduces overfitting by using the stochasticity of the minibatch.
 
 \subsubsection*{Dropout} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -661,8 +666,8 @@ gradients but also reduces overfitting by using the stochasticity of the minibat
 \emph{Dropout} is another simple technique to reduce overfitting~\cite{hinton2012}. At each
 training iteration, each neuron has a probability $p_{d}$ to be \emph{dropped out} and ignored for
 that iterations calculation. This is illustrated in Fig.~\ref{fig:dropout}. By ignoring a subset
-of the neurons at each iteration it is difficult for the network to form the particularly strong
-connections between neurons that are responsible for overfitting, leading to greater
+of the neurons at each iteration, it is difficult for the network to form the particularly strong
+connections between neurons that are usually responsible for overfitting, leading to greater
 generalisation.
 
 \begin{figure} % DROPOUT DIAGRAM %
@@ -677,10 +682,10 @@ generalisation.
 \section{A baseline implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The output from a water Cherenkov detector such as \chips is a simple image of each event where
-two channels of information are known for each PMT: the number of collected photoelectrons, and
-the associated hit times. Therefore, it is a natural fit to use CNNs primarily developed for
-image-based computer vision tasks for \chips event analysis.
+The raw output from a water Cherenkov detector, such as those envisioned by the \chips concept, is
+a simple image of each event where two channels of information are known for each PMT: the number
+of collected photoelectrons, and the associated hit times. Therefore, it is a natural fit to use
+CNNs primarily developed for image-based computer vision tasks for \chips detector event analysis.
 
 For this purpose, a Python-based software package named \emph{chipsnet}~\cite{chipsnet2020} has
 been built. By using the high-level \emph{Application Programming Interfaces}, (APIs) provided by
@@ -688,30 +693,28 @@ the Tensorflow framework (initially developed by Google)~\cite{tf2015}, a full p
 data preparation, network training, and performance evaluation is implemented. In this section,
 the baseline CNN implementation built into chipsnet is outlined. The specific network
 implementations described afterwards in Section.~\ref{sec:cnn_specific} for cosmic rejection, beam
-classification, and energy estimation share this common baseline with a few specific differences.
+classification, and energy estimation, share this common baseline with a few specific differences.
 
 \subsection{Baseline inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The primary difficulty in the application of CNNs to \chips is determining how to map an event
-captured on a cylindrical surface to a rectangular grid. Furthermore, this must be done in such a
-way as not to distort the underlying event topology which could inhibit network learning. As a
-solution, this work takes inspiration and then builds upon the ideas outlined in
-Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid as though it
-is viewed from its estimated interaction vertex position. The primary motivation behind this is to
-remove any detector shape effects and to focus on the underlying event topology and Cherenkov
-emission profiles.
+The primary difficulty in the application of CNNs to \chips detectors is determining how to map an
+event captured on a cylindrical surface to a rectangular two-dimensional grid. Furthermore, this
+must be done in such a way as not to distort the underlying event topology which could inhibit
+network learning. As a solution, this work takes inspiration and then builds upon the ideas
+outlined in Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid
+as though it is viewed from its estimated interaction vertex position. The primary motivation
+behind this is to remove any detector shape effects and to focus on the underlying event topology
+and Cherenkov emission profiles.
 
 To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
-process introduced in Section.~\ref{sec:cnn_old_reco} is used. This procedure, unlike the full
+procedure introduced in Section.~\ref{sec:cnn_old_reco} is used. This process, unlike the full
 likelihood fit, requires no track hypothesis and typically takes under
 \unit{0.1}{\mathrm{seconds}} per event on a standard batch farm computing node. The seed estimated
 vertex position resolutions for a sample of expected beam events are shown in
 Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is commonly estimated closer to the
 downstream wall of the detector than reality, however, as the $y$ and $z$ components perpendicular
 to the beam primarily drive event distortions, the impact on event topology is small.
-
-Using the standard reconstruction seeding procedure also removes
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_true_reco_vtx.pdf}
@@ -722,13 +725,13 @@ Using the standard reconstruction seeding procedure also removes
     \label{fig:explore_true_reco_vtx}
 \end{figure}
 
-Using $\theta$ and $\phi$ components calculated from the estimated interaction vertex position
-facing along the x-axis (downstream), hit PMTs are mapped onto a $64 \times 64$ grid. This
-procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where each
-grid bin is given by the total collected photoelectrons from all PMTs mapped to that bin.
-Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time (in ns) across
-all PMTs mapped to that bin. Each hit-time map bin is additionally corrected so that the first hit
-time in the event is at zero.
+Using $\theta$ and $\phi$ components calculated as viewed from the estimated interaction vertex
+position facing along the x-axis (downstream), hit PMTs are mapped onto a $64 \times 64$ grid.
+This procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where
+each grid bin is given by the total collected photoelectrons from all PMTs mapped to that bin.
+Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time (in
+nanoseconds) across all PMTs mapped to that bin. Each hit-time map bin is additionally corrected
+so that the first hit time across all bins is at zero.
 
 By design, the Hough transform within the seeding procedure uses the estimated interaction vertex
 position to generate the transform space. Therefore, by re-binning the transform space to a $64
@@ -737,14 +740,13 @@ to provide a complementary but different representation of the event where Chere
 instead represented as peaks, allowing for additional discriminating features to be learnt.
 
 All three event maps: hit-charge, hit-time and hough-height, are down-sampled (from 32-bit floats)
-using 8-bit encoding. This not only significantly reduces storage requirements but also
+using 8-bit encoding. The encoding not only significantly reduces storage requirements but also
 dramatically increases the speed with which data can be loaded during training (which turns out to
-be the primary bottleneck). For each map type, a range over which to encode from zero up to a
-\emph{cap-point} is chosen. This is selected to minimise the number of bin values that are capped
-at the maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points, and
-associated percentage of bin values capped for each map type, while
-Fig.~\ref{fig:explore_8_bit_range} shows the distribution of bin values for each map across the
-encoded range.
+be the primary training bottleneck). For each map type, a range over which to encode from zero up
+to a \emph{cap-point} is chosen to minimise the number of bin values that are capped at the
+maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points, and associated
+percentage of bin values capped for each map type, while Fig.~\ref{fig:explore_8_bit_range} shows
+the distribution of bin values for each map across the encoded range.
 
 \begin{table}
     \begin{tabular}{lcc}
@@ -770,11 +772,12 @@ encoded range.
     \label{fig:explore_8_bit_range}
 \end{figure}
 
-All three event maps for example events generated using the above procedure are shown in
+Event maps for example events generated using the above procedure are shown in
 Fig.~\ref{fig:explore_nuel_ccres_event} for a CC resonant $\nu_{e}$ event, in
 Fig.~\ref{fig:explore_numu_ccdis_event} for a CC DIS $\nu_{\mu}$ event, in
 Fig.~\ref{fig:explore_nuel_ncdis_event} for a NC DIS event, and in
 Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
+
 
 \begin{figure} % NUEL EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_nuel_ccres_event.pdf}
@@ -975,14 +978,15 @@ improve cosmic rejection performance. As a large proportion of cosmic muons are 
 energy and, therefore, escape the detector in this fashion, there is motivation as to why this
 additional task is helpful.
 
-The network is trained on a sample of 3.15 million simulated events, roughly $1/3^{rd}$
-$\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events. The
-counts of which are shown in Fig.~\ref{fig:cosmic_training_sample}. All beam events (both
-$\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy spectrum to
-closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events
-are used for training with no preselection applied as this is found to be the best for cosmic
-rejection performance. The full sample is split 95\% to 5\% for training and validation,
-respectively.
+The network is trained on a sample of 3.15 million simulated events produced using the detector
+simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
+\chipsfive geometry. Roughly $1/3^{rd}$ of events are $\nu_{\mu}$ beam events, $1/3^{rd}$
+$\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events, the counts of which are shown in
+Fig.~\ref{fig:cosmic_training_sample}. All beam events (both $\nu_{\mu}$ and $\nu_{e}$) are
+generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely mimic the dominant
+$\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used for training with no
+preselection applied as this is found to be the best for cosmic rejection performance. The full
+sample is split 95\% to 5\% for training and validation, respectively.
 
 \begin{figure} % COSMIC TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_cosmic_training_sample.pdf}
@@ -1042,12 +1046,14 @@ reduce both energy resolution and systematic errors. As an example of a method a
 $\nu_{\mu}$ sample into populations of different energy resolution. Each population can then be
 treated separately in the analysis before combination to increase performance~\cite{acero2018}.
 
-The network is trained on a sample of 1.67 million simulated events, roughly half $\nu_{\mu}$ beam
-events, and half $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All
-events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
-spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
-All events are used for training with no preselection applied as this is found to be the best for
-beam classification performance, especially NC rejection. The full sample is split 95\% to 5\% for
+The network is trained on a sample of 1.67 million simulated events produced using the detector
+simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
+\chipsfive geometry. Roughly half the events are $\nu_{\mu}$ beam events, with the other half
+being $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All events (both
+$\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum
+to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events
+are used for training with no preselection applied as this is found to be the best for beam
+classification performance, especially NC rejection. The full sample is split 95\% to 5\% for
 training and validation, respectively.
 
 \begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
@@ -1140,12 +1146,13 @@ as to why these additional tasks are also helpful.
 
 Separate networks are trained for each of CC-QEL(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$
 and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. All events
-(both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chips $\nu_{\mu}$ energy
-spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal.
-Only events for which the primary charged lepton is fully contained within the detector volume are
-used for training. Each sample is split 95\% to 5\% for training and validation, respectively.
-Note that CC-QEL and CC-MEC neutrino energy estimation is combined as both have incredibly similar
-final state topologies.
+(both $\nu_{\mu}$ and $\nu_{e}$) are produced using the detector simulation and event generation
+methods outlined in Section.~\ref{sec:chips_monte_carlo} with a \chipsfive geometry. The expected
+\chipsfive $\nu_{\mu}$ energy spectrum is used to generate all events to closely mimic the
+dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. Only events for which the
+primary charged lepton is fully contained within the detector volume are used for training. Each
+sample is split 95\% to 5\% for training and validation, respectively. Note that CC-QEL and CC-MEC
+neutrino energy estimation is combined as both have incredibly similar final state topologies.
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}

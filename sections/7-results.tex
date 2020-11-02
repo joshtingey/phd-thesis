@@ -29,10 +29,12 @@ without concern.
 
 A statistically independent sample of events is used to evaluate the combined performance of the
 trained CNNs. The evaluation sample consists of 400000 beam and 350000 cosmic muon events,
-generated in the same way as the training and validation events. The beam events include the
-expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and $\bar{\nu}_{e}$ components of the beam as
-well as events generated to mimic the appeared(App) $\nu_{e}$ component. In this work, only the
-neutrino mode (forward horn current) of NuMI beam operation is considered for simplicity.
+produced in the same way as the training and validation events using the detector simulation and
+event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a \chipsfive
+geometry. The beam events include the expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and
+$\bar{\nu}_{e}$ components of the beam as well as events generated to mimic the appeared(App)
+$\nu_{e}$ component. In this work, only the neutrino mode (forward horn current) of NuMI beam
+operation is considered for simplicity.
 
 All evaluation events are weighted to match the expected spectrum in the \unit{5}{\mathrm{kton}}
 \chipsfive detector, using the expected unoscillated flux, cross-sections, and oscillation
@@ -814,12 +816,18 @@ beam classification training.
 \section{Robustness} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_robust} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+- Go back and mention how augmentation in the implementation hopes to make the models more robust.
+
 TODO: Write the robustness section of the results chapter
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 TODO: Write the alternative implementations section of the results chapter
+
+- We can learn a lot about how the networks behave by looking at alternative implementations that
+do not perform as well. Input event representation is important! Input distribution of events is
+very important!
 
 The work outlined in this chapter is the result of extensive testing and optimisation of many
 differing approaches to applying CNNs to \chips. Here we highlight some interesting findings from
@@ -829,7 +837,9 @@ this process to both provide completeness, but also to hopefully inform future w
 \label{sec:results_alt_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 There are many possible event representations that can be used as input to the CNNs in this work.
-Three different approaches are explored in this work!
+Three different approaches are explored in this work! Problem is not that difficult as the
+architecture doesn't matter that much! Maybe we just need larger images for that to become a
+thing!
 
 - New ideas with x+ x- mapping in Ref.~\cite{berns2020}
 - Fraction of deposited charge in endcaps = 0.4769380479133997
