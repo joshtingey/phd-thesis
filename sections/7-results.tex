@@ -1,7 +1,7 @@
-\chapter{Results} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Convolutional neural network evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:results} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Performance} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_eval} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Here the performance of the CNN approach is presented and compared to that achieved by the
@@ -84,7 +84,7 @@ reject low energy events which are usually NC in nature, while the last two reje
 activity is not along the beamline, typically cosmic.
 
 \begin{figure} % SIMPLE CUTS DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-results/explore_simple_cuts.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/explore_simple_cuts.pdf}
     \caption[Plots detailing evaluation sample preselection cuts]
     {Plots showing the four simple preselection cuts and how they affect the different event
         categories. The greyed out regions indicate rejected events.}
@@ -594,7 +594,7 @@ training sample. A contributing factor, however, will be due to the inability of
 distinguish between numbers of incident photons at higher counts, more likely at higher energies.
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-results/final_energy_nuel.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_nuel.pdf}
     \caption[Means and standard deviations of fits to $\nu_{e}$ energy distributions]
     {Means (left) and standard deviations (right) of fits made to distributions of
         (reco-true)/true neutrino energy for CC $\nu_{e}$ events across a range of \unit{1}{GeV}
@@ -604,7 +604,7 @@ distinguish between numbers of incident photons at higher counts, more likely at
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-results/final_energy_numu.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_numu.pdf}
     \caption[Means and standard deviations of fits to $\nu_{\mu}$ energy distributions]
     {Means (left) and standard deviations (right) of fits made to distributions of
         (reco-true)/true neutrino energy for CC $\nu_{\mu}$ events across a range of \unit{1}{GeV}
@@ -692,7 +692,7 @@ sensitivity analysis is not included in this work, the expected curves for diffe
 $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
 
 \begin{figure} % FINAL NUEL ENERGY DIST DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_nuel_passed_energy_dist.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/7-results/final_nuel_passed_energy_dist.pdf}
     \caption[Distribution of CNN reconstructed $\nu_{e}$ energies for CC $\nu_{e}$ selected events]
     {Distribution of CNN reconstructed $\nu_{e}$ energies for CC $\nu_{e}$ selected events. The
         appeared CC $\nu_{e}$ signal component as well as the intrinsic beam CC $\nu_{e}$, NC and
@@ -703,7 +703,7 @@ $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIST DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_numu_passed_energy_dist.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/7-results/final_numu_passed_energy_dist.pdf}
     \caption[Distribution of CNN reconstructed $\nu_{\mu}$ energies for CC $\nu_{\mu}$ selected events]
     {Distribution of CNN reconstructed $\nu_{\mu}$ energies for CC $\nu_{\mu}$ selected events.
         The survived CC $\nu_{\mu}$ signal component as well as the appeared CC $\nu_{e}$,
@@ -714,8 +714,6 @@ $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
 
 \section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-TODO: Add the initial CNN visualisation paper in~\cite{zeiler2013}
 
 A common and justified concern with deep neural networks is their tendency to be used as a black
 box (inputs in, outputs out) with no understanding of their inner working. For detailed physics
@@ -817,32 +815,57 @@ beam classification training.
 \label{sec:results_robust} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 - Go back and mention how augmentation in the implementation hopes to make the models more robust.
+What are the things we need to be robust against? Mainly the calibration, wrong Monte Carlo etc,
+position, time, charge are the things that can chance about the input, position is obviously
+robust as our bins are 2.5m is theta and 2m in phi approx (when viewed from the centre of the
+detector), this means the absolute position of PMTs is not very important in the context of the
+networks trained here, maybe future work could look at making the images bigger, but did that hee
+to speed up optimisation process and make training not take too long.
 
-TODO: Write the robustness section of the results chapter
+\subsection*{Time calibration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure} % CALIB TIME NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+        values of CC $\nu_{e}$ score selection for the three input image representations
+        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
+            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
+        lines.}
+    \label{fig:calib_time_nuel_eff_curves}
+\end{figure}
+
+\begin{figure} % CALIB TIME NUEL COMP CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_comp_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+        values of CC $\nu_{e}$ score selection for the three input image representations
+        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
+            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
+        lines.}
+    \label{fig:calib_time_nuel_comp_curves}
+\end{figure}
+
+\subsection*{Charge calibration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Write the alternative implementations section of the results chapter
+Here we present a sample of alternative (but not as good) implementation as they help understand
+which factors are important for network performance, just look at beam classification as this is
+the main one, these findings translate to both the cosmic rejection and energy estimation networks
+also, extensive testing, this is just a selection of the findings from that process also hints and
+informs our choice of future work.
 
-- We can learn a lot about how the networks behave by looking at alternative implementations that
-do not perform as well. Input event representation is important! Input distribution of events is
-very important!
+\subsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The way you represent the event as an image has a significant impact on performance
+% The different channels don't provide a huge improvement over a single one
 
-The work outlined in this chapter is the result of extensive testing and optimisation of many
-differing approaches to applying CNNs to \chips. Here we highlight some interesting findings from
-this process to both provide completeness, but also to hopefully inform future work on this topic.
-
-\subsection{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:results_alt_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-There are many possible event representations that can be used as input to the CNNs in this work.
-Three different approaches are explored in this work! Problem is not that difficult as the
-architecture doesn't matter that much! Maybe we just need larger images for that to become a
-thing!
-
-- New ideas with x+ x- mapping in Ref.~\cite{berns2020}
-- Fraction of deposited charge in endcaps = 0.4769380479133997
+- Many different possible event representation, three different ones considered in this work, a
+simple theta and phi view from the origin and a new idea for constant PMT density with x+ x-
+mapping in Ref.~\cite{berns2020}, fraction of deposited charge in endcaps is 48\%
 
 \begin{equation} % ISO CASE EQUATION %
     X_{\pm}=
@@ -930,8 +953,13 @@ taken a few Approaches to generating the input image representation.
     \label{tab:chan}
 \end{table}
 
-\subsection{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:results_alt_samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Using a training sample representative of the expected event composition is very important.
+
+- It may be tempting to use the same number of training samples from each category, but this is
+not found to improve performance, shows that the network does use an averaging technique to some
+degree. This is not the same for energy estimation, that may be better to use a uniform one in
+energy.
 
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/sample_nuel_eff_curves.pdf}
@@ -939,7 +967,7 @@ taken a few Approaches to generating the input image representation.
     {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
         values of CC $\nu_{e}$ score selection for the different training samples considered. The
         \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
-        by the dashed lines, and the \emph{origin dotted} surves by the dotted lines.}
+        by the dashed lines, and the \emph{origin dotted} curves by the dotted lines.}
     \label{fig:sample_nuel_eff_curves}
 \end{figure}
 
@@ -972,11 +1000,12 @@ taken a few Approaches to generating the input image representation.
     \label{tab:sample}
 \end{table}
 
-\subsection{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:results_alt_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The network architecture doesn't seem to matter, easy problem, use fastest
 
-- truncated versions of the other networks so they have approximately the same number of
-parameters to train for making a good comparison.
+- The network architecture is not found to matter that much, we tested on truncated versions of
+other networks, all roughly same number of parameters for comparison, maybe that larger images
+would allow these network to become better, possibility for future work to explore this.
 
 \begin{table}
     \begin{tabular}{ccccc}
@@ -996,63 +1025,28 @@ parameters to train for making a good comparison.
     \label{tab:arch}
 \end{table}
 
-\subsection{Alternative beam categorisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:results_alt_cat} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-- The choice of categorisation can matter
-- All categories CC QEL, Res, DIS, Coh, MEC, and other for both $\nu_{e}$ and $\nu_{\mu}$, plus NC
-Res, DIS, Coh, and other, for a total of 16 categories. You can then sum the scores as Nova have
-done etc.... to get the combined categories
-- Fully combined, you may think would work better as it just focuses on what we want to optimise.
-This is CC $\nu_{e}$, CC $\nu_{\mu}$, and NC.
-- Combined plus the CC and NC cats that are masked like in this work described above.
-
-\begin{table}
-    \begin{tabular}{cccc}
-        Metric                   & All   & Full-Comb & Multi (learnt) \\
-        \midrule
-        Maximum FOM              & 0.465 & 0.451     & 0.471          \\
-        Highest Score Efficiency & 0.877 & 0.871     & 0.872          \\
-        Highest Score Purity     & 0.369 & 0.359     & 0.392          \\
-        ROC Integral             & 0.826 & 0.825     & 0.826          \\
-        PRC Integral             & 0.712 & 0.692     & 0.716          \\
-    \end{tabular}
-    \caption[Comparison of performance metrics for the different beam categorisations considered.]
-    {Comparison of performance metrics for the different beam categorisations considered. The highest
-        score selection uses the highest scoring output neuron for classification.}
-    \label{tab:cat}
-\end{table}
-
 \section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Write the summary section of the results chapter
+% PERFORMANCE
+1) Cosmic rejection is brilliant, with a descent overburden, don't need veto,
+2) Beam classification
+3) Neutrino energy estimation
+% EXPLAINABILITY
+1) Clearly learning ring and peak like features that we hoped the networks would
+2) Clear separation between categories
+3) Maybe want to only train on contained events and look at final state categorisation
+% ROBUSTNESS
+1) Robust to time calibration
+2) Robust to charge calibration
+3) Robust to noise
+% ALTERNATIVES
+1) Input representation, how you map neutrino event in cylinder to input image is important
+2) The training sample must match the expected composition of events
+3) The network architecture does not matter much in the context of this work
+% FUTURE WORK AND IMPROVEMENTS
+1) Larger images and new architectures
+2) Input distributions of events
+3) Use of graph convolutional network or transformers hehe
 
-- Having a veto in the upstream towards the beam direction would be best in the context of Explain
-how this effectively works as a fiducial volume cut which is very common. But it does not really
-work on the entry side, mention upstream interacting neutrinos. The escapes cut!!!
-- We have not needed even the top-cap veto to achieve the required cosmic rejection
-- The digitisation function can definitely be improved, not very accurate.
-- but was mainly chosen to speed up iteration of network optimisation.
-- This works out at 2.5m is theta and 2m in phi approx (when viewed from the centre of the
-detector)
-CALIBRATION SENSITIVITY
-POSSIBLE IMPROVEMENTS
-
-- You have all of these possible parameters that can affect the performance (event categorisation
-and kinematic reconstruction) of your WC detector
-- Positioning of the detector (L, angle off-axis, overburden) *
-- Size of the detector (height and radius) *
-- Water quality (attenuation length, scattering vs absorption) *
-- Which PMT’s you use (time resolution, charge collection) *
-- How the PMT’s are positioned (percentage coverage, zones)
-- Calibration quality (position, time, charge)
-- Reconstruction methodology (likelihood vs CNN)
-- Given these restrictions
-
-- Only certain mine pits usable (fixes L and angle off-axis, use all overburden available)
-- 12.5m radius for practical construction (fixes radius, but not height)
-- Want to be able to carry the planes easily (Adds limits to PMT coverage percentage)
-- Will just be looking at beam events, should not need much in the back
-- PMT’s available. Due to cost etc… we fix the PMT’s we use, can still explore this space with
-varying the time/charge. Can look at
+TODO: Mention upstream neutrinos in the context of similarity with cosmics

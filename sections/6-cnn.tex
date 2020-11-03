@@ -33,7 +33,7 @@ in the field amongst the global research community, especially within computer v
 seen in Fig.~\ref{fig:papers}.
 
 \begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/papers.png}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cnn/papers.png}
     \caption[The number of artificial intelligence papers submitted to arXiv]
     {The number of artificial intelligence papers submitted to arXiv, broken down by sub-category.
         Note the particularly large increase in Computer Vision (CV) and pattern recognition
@@ -277,7 +277,7 @@ Fig.~\ref{fig:network}. In general, this simple neural network structure is refe
 the previous and following layers.
 
 \begin{figure} % BASIC NETWORK DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/network.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cnn/network.pdf}
     \caption[Illustration of a simple neural network]
     {Illustration of a simple neural network. There is a single input layer (yellow), two hidden
         layers (blue), and an output layer (green). Each node corresponds to a \emph{neuron}
@@ -671,7 +671,7 @@ connections between neurons that are usually responsible for overfitting, leadin
 generalisation.
 
 \begin{figure} % DROPOUT DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/dropout.pdf}
+    \includegraphics[width=0.6\textwidth]{diagrams/6-cnn/dropout.pdf}
     \caption[Illustration of dropout]
     {Example of dropout applied to the network shown in Fig.~\ref{fig:network}. Neurons are
         randomly \emph{dropped out} and not considered at each training step. This reduces the
@@ -818,7 +818,7 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 \subsection{Baseline architecture} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-An illustrative diagram of the baseline network architecture is shown in Fig.~\ref{fig:chipsnet}.
+An illustrative diagram of the baseline chipsnet architecture is shown in Fig.~\ref{fig:chipsnet}.
 Based on the VGG network (16 layer variant) previously mentioned in
 Section.~\ref{sec:cnn_previous} and detailed in Ref.~\cite{simonyan2014} there are a few key
 differences from the literature defined network, discussed below.
@@ -828,47 +828,47 @@ differences from the literature defined network, discussed below.
     \caption[Illustrative diagram of the baseline chipsnet architecture]
     {Illustrative diagram of the baseline chipsnet architecture. The three input event maps are
         separately passed through two VGG blocks each before their outputs are combined and passed
-        through a further three VGG blocks. Both the number of convolutional units and kernels is
-        shown for each block. The detailed block structure is shown within the grey box. The
-        circular yellow $R$ and $Bn$ indicate the use of the ReLU activation function and batch
-        normalisation, respectively. The flattened VGG blocks outputs are then concatenated with
-        five seed parameters (seed pars) and passed through two fully-connected (FC) layers of 512
-        neurons each before the output layer.}
+        through a further three VGG blocks together. The flattened VGG blocks outputs are then
+        concatenated with five seed parameters (seed pars) and passed through two fully-connected
+        (FC) layers of 512 neurons each before the output layer. Both the number of convolutional
+        units and kernels is shown for each block. The detailed VGG block structure is shown
+        within the grey box. The circular yellow $R$ and $Bn$ indicate the use of the ReLU
+        activation function and batch normalisation, respectively.}
     \label{fig:chipsnet}
 \end{figure}
 
 \begin{itemize}
     \item Each of the three event maps: hit-charge, hit-time, and hough-height are initially fed
           into three separate branches. Each branch contains two VGG blocks with two convolutional
-          layers (four convolutional layers in total). The outputs from all branches are merged
-          together using a concatenation layer before being fed to the rest of the network. This
-          structure allows for features from each event map to be learnt independently before the
-          rest of the network learns combined features.
+          layers each (four convolutional layers in total). The outputs from each branch are
+          merged together using a concatenation layer before being fed to the rest of the network.
+          This configuration allows for event map specific features to be learnt independently
+          before combined features are learnt by the rest of the network.
 
     \item Batch normalisation as described in Section.~\ref{sec:cnn_theory_reg} is included before
-          the activation (ReLU) function for every convolutional layer.
+          the activation (ReLU) function within every convolutional layer.
 
-    \item Squeeze-and-excitation units as detailed in Ref.~\cite{hu2018} are included after the
+    \item Squeeze-and-excitation units, as detailed in Ref.~\cite{hu2018} are included after the
           max-pooling operation in all VGG blocks. These units introduce extra parameters to model
-          the interdependencies between output feature maps, allowing the network to weight each
-          feature map effectively.
+          the interdependencies between output feature maps, allowing the network to learn how to
+          weight each feature map effectively.
 
     \item Dropout is included at the end of each VGG block as well as after the final
           fully-connected layer. Instead of dropping individual kernel elements, the dropout
-          within the blocks drops entire kernels at each training iteration, this is called
-          \emph{two-dimensional spatial dropout}. The dropout after the fully-connected layers is
-          normal, in that it drops out individual fully-connected neurons.
+          within the VGG blocks drops entire kernels at each training iteration, this is commonly
+          called \emph{two-dimensional spatial dropout}. The dropout after the fully-connected
+          layers is standard, in that it drops out individual fully-connected neurons.
 
     \item Five seed parameters are concatenated with the flattened layer before the
-          fully-connected layers. These are the three components of the estimated interaction
+          fully-connected layers. Included are the three components of the estimated interaction
           vertex position and the two components of the estimated track direction ($s_{x},s_{y},
-              s_{z},s_{\theta},s_{\phi}$). By providing the network with spatial context as to where
-          in the detector the input event maps have been generated and the dominant activity
-          direction,
+              s_{z},s_{\theta},s_{\phi}$). These parameters provide the network with spatial context
+          as to where in the detector the input event maps have been generated and the dominant
+          direction of PMT activity.
 \end{itemize}
 
-Within chipsnet the network architecture is implemented using the Keras~\cite{chollet2015} API
-built into Tensorflow. This allows for predefined common layers such as a two-dimensional
+The chipsnet network architecture is implemented using the Keras~\cite{chollet2015} API built into
+Tensorflow. This specification allows for predefined common layers such as a two-dimensional
 convolution or a max-pooling layer to be easily structured into a full network definition.
 
 \subsection{Baseline outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -893,17 +893,18 @@ referred to as the \emph{simple} multi-task loss.
 
 The final network performance can strongly depend on the relative weighting between loss
 functions, especially when the values returned from the different loss function differ by many
-order of magnitude. Therefore, finding the optimal $w_{i}$ weights can be both difficult and
-time-consuming. Another approach outlined in Ref.~\cite{kendall2018} aims to remedy this problem
-by learning the optimal weighting between loss functions. This is done by introducing an
-additional trainable parameter $\sigma_{i}$, for each loss function, such that
+order of magnitude (common when combining regression and classification tasks). Therefore, finding
+the optimal $w_{i}$ weights can be both difficult and time-consuming. Another approach outlined in
+Ref.~\cite{kendall2018} aims to remedy this problem by learning the optimal weighting between loss
+functions. This is done by introducing an additional trainable parameter $\sigma_{i}$, for each
+loss function, such that
 \begin{equation}
     E_{tot}= \sum_{i=1}^{i=N}\frac{1}{2\sigma_{i}^2}E_{i}+ \log\sigma_{i}.
     \label{eq:multi_learnt}
 \end{equation}
 In this work we refer to this as the \emph{learnt} multi-task loss.
 
-The specific number and nature of outputs for the different networks are detailed in
+The specific number and nature of outputs for the different specific networks are detailed in
 Section.~\ref{sec:cnn_specific}. Although physically motivated to some degree, the exact set of
 tasks and the loss combination technique used is mainly driven by trial-and-error. The chipsnet
 software is specifically designed to enable this process by making it easy to configure the
@@ -912,25 +913,26 @@ network outputs via a simple configuration file.
 \subsection{Baseline training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-All three networks are trained using Tensorflow 2.3.0 on an 18 core CPU (36 thread) machine
-equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The Tensorflow
-dataset API is used to create an efficient input data pipeline where data is loaded on-the-fly at
-training time. This ensures all GPU threads are utilised loading, decoding, and preprocessing data
-for the primary GPU based calculations before being needed, maximising computational efficiency.
+All three networks are trained using Tensorflow (version 2.3.0) on an 18 core CPU (36 thread)
+machine equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The
+Tensorflow dataset API is used to create an efficient input data pipeline where data is loaded
+on-the-fly at training time. This procedure ensures all GPU threads are utilised loading,
+decoding, and preprocessing data for the primary GPU based network calculations before being
+needed, maximising computational efficiency.
 
 During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
 between zero and one. Additionally, a random factor scaling is applied to each map bin. Generated
 from a Gaussian centred on one with a standard deviation of $\sigma_{r}$, by fluctuating the bin
 values in this way the network is forced to focus less on the absolute bin values and more on the
-underlying event topology. Furthermore, this provides valuable regularisation to reduce
+underlying event topology. Importantly, this also provides valuable regularisation to reduce
 overfitting.
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
 optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
-used. The exact training sample size and composition for each network are given in
-Section.~\ref{sec:cnn_specific} but for all networks a 95\% training to 5\% validation data split
-is employed allowing for the implementation of early stopping. The learning rate for each epoch
-$\eta_{e}$ is set to decrease throughout training according to
+used. The exact training sample size and composition for each specific network are given in
+Section.~\ref{sec:cnn_specific}, but for all networks a 95\% training to 5\% validation data split
+is employed early stopping used. The learning rate for each epoch $\eta_{e}$ is set to decrease
+throughout training according to
 \begin{equation}
     \eta_{e}=\frac{\eta_{0}}{1+c_{d}(e-1)},
 \end{equation}
@@ -958,35 +960,36 @@ choices for each hyperparameter (also outlined below) are tested to maximise per
 The specific CNN implementations for cosmic rejection, beam classification and energy estimation
 are outlined below. It is important to note that the exact configuration of networks outlined here
 is the result of extensive testing designed to maximise the selection of a pure and efficient
-sample of $\nu_{e}$ beam events whose neutrino energy can also be accurately determined.
+sample of CC $\nu_{e}$ beam events whose neutrino energy can also be accurately determined.
 
-For example, if cosmic and beam classification are combined into a single network, both objectives
-see a reduction in performance. The same is also true if either classification task and neutrino
-energy estimation are combined. However, specific secondary outputs such as counting the number of
-primary particles in conjunction with beam classification are seen to improve performance. It is
-clear, therefore, that the multi-task approach only works for tasks that require a similar
-representation of the inputs to be learnt by the network. Put simply; the tasks must be similar.
+As an example of an alternative implementation, if cosmic and beam classification are combined
+into a single network, both objectives see a reduction in performance. The same is also true if
+either classification task are combined with neutrino energy estimation. However, specific
+secondary outputs such as counting the number of primary particles in conjunction with beam
+classification are seen to improve performance. It is clear, therefore, that the multi-task
+approach only works for tasks that require a similar learnt representation of the inputs. Put
+simply; the tasks must be similar.
 
-\subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The cosmic rejection network aims to prevent the large expected cosmic muon background from
-contaminating the final selected sample of beam events. Therefore, the primary task is a simple
-binary classification between beam and cosmic events. Additionally, training the network to also
-separate events where the primary charged lepton escapes the detector volume or not, is found to
-improve cosmic rejection performance. As a large proportion of cosmic muons are relatively high in
-energy and, therefore, escape the detector in this fashion, there is motivation as to why this
-additional task is helpful.
+The cosmic rejection network aims to prevent the vast cosmic muon background from contaminating
+the final selected sample of beam events. Therefore, the primary task is a simple binary
+classification between beam and cosmic events. Additionally, training the network to also separate
+events where the primary charged lepton escapes the detector volume or not, is found to improve
+cosmic rejection performance. As a large proportion of cosmic muons are relatively high in energy
+and, therefore, escape the detector in this fashion, there is motivation as to why this additional
+task is helpful.
 
 The network is trained on a sample of 3.15 million simulated events produced using the detector
 simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
-\chipsfive geometry. Roughly $1/3^{rd}$ of events are $\nu_{\mu}$ beam events, $1/3^{rd}$
-$\nu_{e}$ beam events, and $1/3^{rd}$ cosmic muon events, the counts of which are shown in
+\chipsfive geometry. Roughly $1/3^{rd}$ are $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam
+events, and $1/3^{rd}$ cosmic muon events, the counts of which are shown in
 Fig.~\ref{fig:cosmic_training_sample}. All beam events (both $\nu_{\mu}$ and $\nu_{e}$) are
 generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely mimic the dominant
 $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used for training with no
-preselection applied as this is found to be the best for cosmic rejection performance. The full
-sample is split 95\% to 5\% for training and validation, respectively.
+preselection as this is found to be the best for cosmic rejection performance. The full sample is
+split 95\% to 5\% for training and validation, respectively.
 
 \begin{figure} % COSMIC TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_cosmic_training_sample.pdf}
@@ -1014,8 +1017,8 @@ The network is allowed to train for up to 30 epochs using the SHERPA optimised h
 $\eta_{0}=0.00005$, $c_{d}=0.7$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple
 multi-task loss combination as given in Eq.~\ref{eq:multi_simple}. Typically, only 6 epochs are
 required to reach the maximum validation sample \emph{cosmic score} accuracy, with early stopping
-halting training after 11 epochs, as can be seen in Fig.~\ref{fig:final_cosmic_history}. Training
-takes approximately 15 hours.
+halting training after 11 epochs (taking 15 hours), as can be seen in
+Fig.~\ref{fig:final_cosmic_history}.
 
 \begin{figure} % COSMIC HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_cosmic_history.pdf}
@@ -1029,12 +1032,12 @@ takes approximately 15 hours.
 \subsection{Beam classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The beam classification network aims to separate beam events by their interaction type primarily
-to select a pure and efficient sample of appeared $\nu_{e}$ events, but also a sample of survived
-CC $\nu_{\mu}$ events. Therefore, the primary task is a categorical classification between CC
-$\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is made to separate the appeared CC $\nu_{e}$
-and intrinsic beam CC $\nu_{e}$ components as they are impossible to tell apart, except for their
-energy distributions.
+The beam classification network aims to separate beam events by their interaction type to
+primarily select a pure and efficient sample of appeared $\nu_{e}$ events, but also a sample of
+survived CC $\nu_{\mu}$ events. Therefore, the principle task is a categorical classification
+between CC $\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is made to separate the appeared
+CC $\nu_{e}$ and intrinsic beam CC $\nu_{e}$ components as they are impossible to tell apart,
+except for their distribution in energy.
 
 Similar to the implementation used by DUNE~\cite{collaboration2020}, alongside the core
 classification additional classification and particle counting tasks outlined below are included
@@ -1044,17 +1047,18 @@ exploit any ability to separate exclusive final states deduced from these partic
 reduce both energy resolution and systematic errors. As an example of a method already in use,
 \nova use their ability to accurately determine the hadronic energy of an event to split their CC
 $\nu_{\mu}$ sample into populations of different energy resolution. Each population can then be
-treated separately in the analysis before combination to increase performance~\cite{acero2018}.
+treated separately in the analysis before being combined, which increases
+performance~\cite{acero2018}.
 
 The network is trained on a sample of 1.67 million simulated events produced using the detector
 simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
-\chipsfive geometry. Roughly half the events are $\nu_{\mu}$ beam events, with the other half
-being $\nu_{e}$ beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All events (both
-$\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum
-to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events
-are used for training with no preselection applied as this is found to be the best for beam
-classification performance, especially NC rejection. The full sample is split 95\% to 5\% for
-training and validation, respectively.
+\chipsfive geometry. Roughly half are $\nu_{\mu}$ beam events, with the other half being $\nu_{e}$
+beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All events (both $\nu_{\mu}$ and
+$\nu_{e}$) are generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely
+mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used
+for training with no preselection as this is found to be the best for beam classification
+performance, especially NC rejection. The full sample is split 95\% to 5\% for training and
+validation, respectively.
 
 \begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_beam_training_sample.pdf}
@@ -1113,8 +1117,8 @@ The network is allowed to train for up to 30 epochs using the SHERPA optimised h
 $\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple
 multi-task loss combination as given in Eq.~\ref{eq:multi_simple}. Typically, only 7 epochs are
 required to reach the maximum validation sample \emph{combined category} accuracy, with early
-stopping halting training after 12 epochs, as can be seen in Fig.~\ref{fig:final_beam_history}.
-Training takes approximately 15 hours.
+stopping halting training after 12 epochs (taking 15 hours), as can be seen in
+Fig.~\ref{fig:final_beam_history}.
 
 \begin{figure} % BEAM HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_beam_history.pdf}
@@ -1178,9 +1182,9 @@ Each network is allowed to train for up to 30 epochs using the SHERPA optimised 
 $\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.0$, and $n_{b}=128$, with a learnt
 multi-task loss combination as given in Eq.~\ref{eq:multi_learnt}. Typically, only approximately
 16 epochs are required to reach the minimum mean absolute error on the validation sample
-\emph{neutrino energy}. Early stopping typically halts training after approximately 20 epochs. An
-example of how an energy estimation networks training typically proceeds is given in
-Fig.~\ref{fig:final_energy_history}. Training each takes approximately 2 hours.
+\emph{neutrino energy}. Early stopping typically halts training after approximately 20 epochs
+(taking 2 hours). An example of how an energy estimation networks training typically proceeds is
+given in Fig.~\ref{fig:final_energy_history}.
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_energy_history.pdf}
