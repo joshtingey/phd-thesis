@@ -723,12 +723,12 @@ $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
 \section{Explainability} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_explain} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A common and justified concern with deep neural networks is their tendency to be used as a black
-box (inputs in, outputs out) with no understanding of their inner working. For detailed physics
-analyses, this can have significant implications for confidence in final results. Although
-difficult quantitatively, qualitative assessments of the trained networks can go a long way to
-proving they behave as desired. Here a sample of efforts to explain the inner workings of the
-trained CNNs presented in this work are described.
+A common and justified concern with CNNs is their tendency to be used as a black box (inputs in,
+outputs out) with no understanding of their inner working. For detailed physics analyses, this can
+have significant confidence implications for the final results. Although difficult quantitatively,
+qualitative assessments of the trained networks can go a long way to proving they behave as
+desired. Here a sample of efforts to explain the inner workings of the trained CNNs presented in
+this work are described.
 
 \subsection*{Feature map visualisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -826,92 +826,178 @@ contained events during beam classification training.
 \section{Robustness} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_robust} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Here a sample
+Another common concern with CNNs is that they do not generalise well under distributional shifts
+within the input data. 
 
-- Studying the network output robustness to changes in the input.
-- Need to explain the ROC and PRC curves as I come to them!
-- Go back and mention how augmentation in the implementation hopes to make the models more robust.
-What are the things we need to be robust against? Mainly the calibration, wrong Monte Carlo etc,
-position, time, charge are the things that can chance about the input, position is obviously
-robust as our bins are 2.5m is theta and 2m in phi approx (when viewed from the centre of the
-detector), this means the absolute position of PMTs is not very important in the context of the
-networks trained here, maybe future work could look at making the images bigger, but did that hee
-to speed up optimisation process and make training not take too long.
+In the context of the CNNs trained here, this could mean that if the Monte
+Carlo generated events differ from those measured by a real \chipsfive detector, confidence in any
+of the network output is questionable.
 
-\subsection*{Time calibration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Another common concern with CNNs is that they do not generalise well under distributional shifts
+within the input data. In the context of this work if the Monte Carlo generated training and
+performance evaluation events differ from those measured by a real \chipsfive detector, confidence
+in any of the network outputs can be brought into question. A strong calibration procedure and
+corresponding simulation improvements can always go some way to ensuring any discrepancy is
+minimised, but a difference will always exist.
+
+The inputs can be characterised as being dependent on three things, the hit times, the hit charges
+and their positions. The 
+
+To quantify this effect, three studies are presented here to determine how robust the trained CNNs
+are to changes within the input events. Firstly, the smearing of hit times. Secondly, the smearing
+and shifting of hit charges. Finally, the addition of random noise.
+
+position is obviously robust as our bins are 2.5m is theta and 2m in phi approx (when viewed from
+the centre of the detector), this means the absolute position of PMTs is not very important in the
+context of the networks trained here, maybe future work could look at making the images bigger,
+but did that hee to speed up optimisation process and make training not take too long. - Mention
+the calibration - Three short robustness studies are presented here for smearing the hit times,
+smearing and shifting the charge and the addition of random noise to the input. - Robustness paper
+in ~\cite{djolonga2020}
+
+Here we present modifications to the input event maps to see how robust the performance is. T
+
+\subsection*{Time smearing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Put in ROC and PRC description
+- Receiver operating characteristic and precision-recall
+- Important for the calibration
+
+\begin{figure} % CALIB TIME NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-time smearing]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+        values of CC $\nu_{e}$ score selection for different levels of hit-time smearing. The
+        $\sigma=0~\mathrm{ns}$ curves are shown by the solid lines, $\sigma=2~\mathrm{ns}$ curves
+        by the dashed lines, and $\sigma=5~\mathrm{ns}$ curves by the dotted lines.}
+    \label{fig:calib_time_nuel_eff_curves}
+\end{figure}
+
+\begin{table} % CALIB TIME COMPARISON METRICS TABLE %
+    \begin{tabular}{cccc}
+        Metric                   & $\sigma=0~\mathrm{ns}$ & $\sigma=2~\mathrm{ns}$ & $\sigma=5~\mathrm{ns}$ \\
+        \midrule
+        Maximum FOM Value        & 0.519                  & 0.513                  & 0.484                  \\
+        Highest Score Efficiency & 0.835                  & 0.826                  & 0.798                  \\
+        Highest Score Purity     & 0.554                  & 0.556                  & 0.561                  \\
+        ROC Integral             & 0.828                  & 0.828                  & 0.826                  \\
+        PRC Integral             & 0.756                  & 0.751                  & 0.730                  \\
+    \end{tabular}
+    \caption[Performance metrics for different levels of hit-time smearing]
+    {Performance metrics for different levels of hit-time smearing. The \emph{Highest Score}
+        values use the highest scoring output neuron for classification. The ROC and PRC integrals
+        are taken from the curves shown in Fig.~\ref{fig:calib_time_nuel_comp_curves}.}
+    \label{tab:calib_time}
+\end{table}
 
 \begin{figure} % CALIB TIME NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_time_nuel_comp_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the three input image representations
-        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
-            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
-        lines.}
+    \caption[Receiver operating characteristic and precision-recall curves for different levels of hit-time smearing]
+    {Receiver operating characteristic (left) and precision-recall (right) curves for different
+        levels of hit-time smearing. The $\sigma=0~\mathrm{ns}$ curves are shown by the solid
+        lines, $\sigma=2~\mathrm{ns}$ curves by the dashed lines, and $\sigma=5~\mathrm{ns}$
+        curves by the dotted lines.}
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
-\subsection*{Charge calibration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % CALIB CHARGE RAND NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_rand_nuel_comp_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the three input image representations
-        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
-            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
-        lines.}
-    \label{fig:calib_charge_rand_nuel_comp_curves}
+\begin{figure} % CALIB CHARGE RAND NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_rand_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-charge smearing]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+        values of CC $\nu_{e}$ score selection for different levels of hit-charge smearing. The
+        $\sigma=0~\mathrm{p.e}$ curves are shown by the solid lines, $\sigma=1~\mathrm{p.e}$ curves by
+        the dashed lines, and $\sigma=2~\mathrm{p.e}$ curves by the dotted lines.}
+    \label{fig:calib_charge_rand_nuel_eff_curves}
 \end{figure}
 
-\begin{figure} % CALIB CHARGE SHIFT NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_shift_nuel_comp_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the three input image representations
-        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
-            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
-        lines.}
-    \label{fig:calib_charge_shift_nuel_comp_curves}
+\begin{figure} % CALIB CHARGE SHIFT NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_shift_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-charge shifting]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+        values of CC $\nu_{e}$ score selection for different levels of hit-charge shifting. The
+        $\mu=0~\mathrm{p.e}$ curves are shown by the solid lines, $\mu=1~\mathrm{p.e}$ curves by the
+        dashed lines, and $\mu=2~\mathrm{p.e}$ curves by the dotted lines.}
+    \label{fig:calib_charge_shift_nuel_eff_curves}
 \end{figure}
+
+\begin{figure} % CALIB CHARGE ABS ENERGY DIAGRAM %
+    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_abs_energy.pdf}
+    \caption[Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge smearing and shifting]
+    {Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge
+        smearing and shifting. Shown are the different smearing levels (left) and the different
+        shifting levels (right). Standard deviations found from fits made to each distribution are
+        shown in the brackets.}
+    \label{fig:calib_charge_abs_energy}
+\end{figure}
+
+\begin{table} % CALIB CHARGE COMPARISON METRICS TABLE %
+    \begin{tabular}{cccccc}
+        Metric         & $\mu=0,\sigma=0$ & $\mu=0,\sigma=1$ & $\mu=0,\sigma=2$ & $\mu=2,\sigma=1$ & $\mu=2,\sigma=1$ \\
+        \midrule
+        Max FOM        & 0.519            & 0.517            & 0.474            & 0.476            & 0.414            \\
+        High Score Eff & 0.835            & 0.807            & 0.725            & 0.744            & 0.630            \\
+        High Score Pur & 0.554            & 0.596            & 0.645            & 0.626            & 0.649            \\
+        ROC Integral   & 0.828            & 0.827            & 0.820            & 0.821            & 0.812            \\
+        PRC Integral   & 0.756            & 0.749            & 0.710            & 0.710            & 0.647            \\
+    \end{tabular}
+    \caption[Performance metrics for different levels of hit-charge smearing and shifting]
+    {Performance metrics for different levels of hit-charge smearing and shifting. The
+        \emph{High Score} values use the highest scoring output neuron for classification.}
+    \label{tab:calib_time}
+\end{table}
 
 \subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure} % CALIB NOISE NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_noise_nuel_comp_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the three input image representations
-        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
-            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
+\begin{figure} % CALIB NOISE NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_noise_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of noise]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+        values of CC $\nu_{e}$ score selection for different levels of noise. The $0.0\%$ curves are
+        shown by the solid lines, $2.3\%$ curves by the dashed lines, and $6.7\%$ curves by the dotted
         lines.}
-    \label{fig:calib_noise_nuel_comp_curves}
+    \label{fig:calib_noise_nuel_eff_curves}
 \end{figure}
+
+\begin{table} % CALIB NOISE COMPARISON METRICS TABLE %
+    \begin{tabular}{cccc}
+        Metric                   & $0.0\%$ & $2.3\%$ & $6.7\%$ \\
+        \midrule
+        Maximum FOM Value        & 0.519   & 0.503   & 0.316   \\
+        Highest Score Efficiency & 0.835   & 0.824   & 0.717   \\
+        Highest Score Purity     & 0.554   & 0.545   & 0.414   \\
+        ROC Integral             & 0.828   & 0.827   & 0.810   \\
+        PRC Integral             & 0.756   & 0.740   & 0.559   \\
+    \end{tabular}
+    \caption[Performance metrics for different levels of noise]
+    {Performance metrics for different levels of noise. The \emph{Highest Score}
+        values use the highest scoring output neuron for classification.}
+    \label{tab:calib_time}
+\end{table}
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Here a sample of alternative (but not as good) \chips CNN implementations are presented. Those
-chosen highlight important factors that are found to drive performance. Only the beam
-classification performance, specifically the primary CC $\nu_{e}$ selection is used for
-comparison, however, these findings are also all found to translate somewhat to the cosmic
-rejection and energy estimation networks.
+Here a sample of alternative (but unsuccessful) \chips CNN implementations are presented and
+compared to the final implementation. Those chosen highlight important factors that are found to
+drive performance. Only the beam classification performance, specifically the primary CC $\nu_{e}$
+selection is used for comparison, however, these findings are also all found to translate somewhat
+to the cosmic rejection and energy estimation networks.
 
 \subsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The way you represent the event as an image has a significant impact on performance
-% The different channels don't provide a huge improvement over a single one
 
-There are many ways in which the event data used as input to the CNNs can be represented. Three
-different representations are considered. Firstly, the (successful) \emph{vertex view} were events
-maps are generated in $\theta$ and $\phi$ as viewed from the seed estimated interaction vertex
-position. Secondly, the \emph{origin raw view} were event maps are generated in $\theta$ and
-$\phi$ as viewed from the centre of the detector. Finally, the \emph{origin iso view} were event
-maps are generated using a PMT position parametrisation in $X_{+}$ and $X_{-}$ as viewed from the
-centre of the detector.
+The way in which you represent the raw PMT hits of an event is found to significantly impact
+performance. Three different representations are considered. Firstly, the (successful)
+\emph{vertex view}, were event maps are generated in $\theta$ and $\phi$ as viewed from the seed
+estimated interaction vertex position. Secondly, the \emph{origin raw view}, were event maps are
+generated in $\theta$ and $\phi$ as viewed from the centre of the detector (the origin). Finally,
+the \emph{origin iso view}, were event maps are generated using a PMT position parametrisation in
+$X_{+}$ and $X_{-}$ as viewed from the centre of the detector.
 
-The origin iso view follows the parameterisation introduced in Ref.~\cite{berns2020} which
-attempts to equally distribute PMT density across the whole two-dimensional input representation.
-The PMT positions in cylindrical coordinates are mapped to two dimensions, $X_{+}$ and $X_{-}$ using
+The origin iso view follows the parametrisation from Ref.~\cite{berns2020} which attempts to
+equally distribute PMT density across the whole two-dimensional input representation. The PMT
+positions in cylindrical coordinates are mapped to two dimensions, $X_{+}$ and $X_{-}$ using
 \begin{equation} % ISO CASE EQUATION %
     X_{\pm}=
     \begin{cases}
@@ -930,17 +1016,27 @@ and
     W(\rho,z)=\sqrt{\frac{\rho^{2}-2R|z|+RH}{R^{2}+RH}},
     \label{eq:iso_part}
 \end{equation}
-with $R$ and $Z$ being the radius and height of the cylindrical detector respectively.
+with $R$ and $H$ being the radius and height of the cylindrical detector respectively.
 
+For comparison a beam classification network is trained for each representation. Only the
+hit-charge and hit-time event maps are used as input, as the hough-height map is generated as
+viewed from the estimated interaction vertex position, not the centre of the detector. For each of
+the representations the resulting efficiency, purity, and their product (the FOM) for CC $\nu_{e}$
+events as a function of selecting events above a particular CC $\nu_{e}$ score is shown in
+Fig.~\ref{fig:repr_nuel_eff_curves}. Performance comparison metrics are also presented in
+Table.~\ref{tab:repr}.
 
-- fraction of deposited charge in endcaps is 48\%
-- Turns out removing the distortions of not viewing the event from the vertex is the most
-important thing!!!
-- Approaches in the past for event classification using CNNs for water cherenkov detectors have
-taken a few Approaches to generating the input image representation.
-- Projecting onto a 2d surface "outside" the detector
+\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/repr_nuel_eff_curves.pdf}
+    \caption[CC $\nu_{e}$ efficiency and purity curves for three input representations]
+    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+        values of CC $\nu_{e}$ score selection for the three input representations. The
+        \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
+        by the dashed lines, and the \emph{origin iso view} curves by the dotted lines.}
+    \label{fig:repr_nuel_eff_curves}
+\end{figure}
 
-\begin{table}
+\begin{table} % REPR COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
         Metric                   & Vertex View & Origin Raw View & Origin Iso View \\
         \midrule
@@ -950,86 +1046,38 @@ taken a few Approaches to generating the input image representation.
         ROC Integral             & 0.825       & 0.822           & 0.821           \\
         PRC Integral             & 0.707       & 0.675           & 0.670           \\
     \end{tabular}
-    \caption[Comparison of performance metrics for three input representations.]
-    {Comparison of performance metrics for the three input representations considered. The highest
-        score selection simply uses the highest scoring output neuron for classification. The ROC
-        and PRC integrals are taken from the curves shown in
-        Fig.~\ref{fig:repr_nuel_comp_curves}.}
+    \caption[Performance metrics for three input representations]
+    {Performance metrics for the three input representations. The \emph{Highest Score} values use
+        the highest scoring output neuron for classification.}
     \label{tab:repr}
 \end{table}
 
-\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/7-results/repr_nuel_eff_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the three input image representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the three input image representations
-        considered. The \emph{vertex view} curves are shown by the solid lines, the \emph{origin
-            raw view} curves by the dashed lines, and the \emph{origin dotted} surves by the dotted
-        lines.}
-    \label{fig:repr_nuel_eff_curves}
-\end{figure}
-
-\begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-results/repr_nuel_comp_curves.pdf}
-    \caption[Comparison curves for the three input image representations considered]
-    {Comparison curves for the three input image representations considered. Signal vs background
-        selection efficiencies as the CC $\nu_{e}$ score selection is varied (left). Signal CC
-        $\nu_{e}$ purity vs efficiency as the CC $\nu_{e}$ score selection is varied (right). The
-        \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
-        by the dashed lines, and the \emph{origin dotted} curves by the dotted lines. The left
-        plot contains what are commonly referred to as receiver-operator curves (ROC), while the
-        right plot contains precision-recall (PRC) curves.}
-    \label{fig:repr_nuel_comp_curves}
-\end{figure}
-
-\begin{table}
-    \begin{tabular}{cccc}
-        Metric                   & Charge & Charge+Time & Charge+Time+Hough \\
-        \midrule
-        Maximum FOM              & 0.436  & 0.461       & 0.465             \\
-        Highest Score Efficiency & 0.869  & 0.878       & 0.877             \\
-        Highest Score Purity     & 0.357  & 0.354       & 0.369             \\
-        ROC Integral             & 0.824  & 0.825       & 0.826             \\
-        PRC Integral             & 0.689  & 0.707       & 0.712             \\
-    \end{tabular}
-    \caption[Comparison of performance metrics for each additional input image map.]
-    {Comparison of performance metrics for each additional input image map. The highest score
-        selection uses the highest scoring output neuron for classification.}
-    \label{tab:chan}
-\end{table}
+- Turns out removing the distortions of not viewing the event from the vertex is the most
+important thing, the network can't learn to both remove distortions and classify events well, need
+to help it a little bit.
 
 \subsection*{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Using a training sample representative of the expected event composition is very important.
 
-- It may be tempting to use the same number of training samples from each category, but this is
-not found to improve performance, shows that the network does use an averaging technique to some
-degree. This is not the same for energy estimation, that may be better to use a uniform one in
-energy.
+The relative proportions of interaction types within the training sample is found to significantly
+impact performance. Three different training samples are considered. Firstly,
 
-\begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
+For comparison a beam classification network is trained using each of the training samples with
+and equal number of events from each. For each of the training samples the resulting efficiency,
+purity, and their product (the FOM) for CC $\nu_{e}$ events as a function of selecting events
+above a particular CC $\nu_{e}$ score is shown in Fig.~\ref{fig:sample_nuel_eff_curves}.
+Performance comparison metrics are also presented in Table.~\ref{tab:sample}.
+
+\begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/sample_nuel_eff_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency and purity curves for the different training samples]
+    \caption[CC $\nu_{e}$ efficiency and purity curves for different training samples]
     {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
-        values of CC $\nu_{e}$ score selection for the different training samples considered. The
+        values of CC $\nu_{e}$ score selection for the different training samples. The
         \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
         by the dashed lines, and the \emph{origin dotted} curves by the dotted lines.}
     \label{fig:sample_nuel_eff_curves}
 \end{figure}
 
-\begin{figure} % REPR NUEL COMP CURVES DIAGRAM %
-    \includegraphics[width=0.8\textwidth]{diagrams/7-results/sample_nuel_comp_curves.pdf}
-    \caption[Comparison curves for the different training samples considered]
-    {Comparison curves for the different training samples considered. Signal vs background
-        selection efficiencies as the CC $\nu_{e}$ score selection is varied (left). Signal CC
-        $\nu_{e}$ purity vs efficiency as the CC $\nu_{e}$ score selection is varied (right). The
-        \emph{flux+uniform} curves are shown by the solid lines, the \emph{flux} curves by the
-        dashed lines, and the \emph{uniform} curves by the dotted lines. The left plot contains
-        what are commonly referred to as receiver-operator curves (ROC), while the right plot
-        contains precision-recall (PRC) curves.}
-    \label{fig:sample_nuel_comp_curves}
-\end{figure}
-
-\begin{table}
+\begin{table} % SAMPLE COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
         Metric                   & Flux  & Uniform & Flux+Uniform \\
         \midrule
@@ -1039,18 +1087,25 @@ energy.
         ROC Integral             & 0.826 & 0.815   & 0.820        \\
         PRC Integral             & 0.712 & 0.568   & 0.634        \\
     \end{tabular}
-    \caption[Comparison of performance metrics for the different training samples considered.]
-    {Comparison of performance metrics for the different training samples considered. The highest
-        score selection uses the highest scoring output neuron for classification.}
+    \caption[Performance metrics for different training samples]
+    {Performance metrics for the different training samples. The \emph{Highest Score} values use
+        the highest scoring output neuron for classification.}
     \label{tab:sample}
 \end{table}
 
-\subsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The network architecture doesn't seem to matter, easy problem, use fastest
+- It may be tempting to use the same number of training samples from each category, but this is
+not found to improve performance, shows that the network does use an averaging technique to some
+degree. This is not the same for energy estimation, that may be better to use a uniform one in
+energy.
 
-- The network architecture is not found to matter that much, we tested on truncated versions of
-other networks, all roughly same number of parameters for comparison, maybe that larger images
-would allow these network to become better, possibility for future work to explore this.
+\subsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The CNN architecture used does impact performance. Four different network architectures are
+considered. Firstly,
+
+For comparison a beam classification network is trained using each network architectures. For each
+of the network architectures the performance comparison metrics are presented in
+Table.~\ref{tab:sample}.
 
 \begin{table}
     \begin{tabular}{ccccc}
@@ -1064,11 +1119,15 @@ would allow these network to become better, possibility for future work to explo
         ROC Integral             & 0.825      & 0.825      & 0.824      & 0.824            \\
         PRC Integral             & 0.712      & 0.706      & 0.688      & 0.699            \\
     \end{tabular}
-    \caption[Comparison of performance metrics for the different network architectures considered.]
-    {Comparison of performance metrics the different network architectures considered. The highest
-        score selection uses the highest scoring output neuron for classification.}
-    \label{tab:arch}
+    \caption[Performance metrics for different network architectures]
+    {Performance metrics for the different network architectures. The \emph{Highest Score} values
+        use the highest scoring output neuron for classification.}
+    \label{tab:sample}
 \end{table}
+
+- The network architecture is not found to matter that much, we tested on truncated versions of
+other networks, all roughly same number of parameters for comparison, maybe that larger images
+would allow these network to become better, possibility for future work to explore this.
 
 \section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

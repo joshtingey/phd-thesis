@@ -924,8 +924,9 @@ During preprocessing, all 8-bit input map values are converted to 32-bit float v
 between zero and one. Additionally, a random factor scaling is applied to each map bin. Generated
 from a Gaussian centred on one with a standard deviation of $\sigma_{r}$, by fluctuating the bin
 values in this way the network is forced to focus less on the absolute bin values and more on the
-underlying event topology. Importantly, this also provides valuable regularisation to reduce
-overfitting.
+underlying event topology. Not only does this process provide valuable regularisation to reduce
+overfitting, but also makes the trained networks robust to small changes within the input
+(explored within Section.~\ref{sec:results_robust}).
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
 optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
