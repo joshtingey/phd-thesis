@@ -235,11 +235,13 @@ approach.
     \label{fig:final_comb_cat_confusion}
 \end{figure}
 
-To access the beam classification performance more rigorously, it is instead common to calculate a
-selection score for each of the output categories, found by maximising a figure-of-merit (FOM).
-All events with a score above this optimised value are then accepted as signal. In this work
-$\mathrm{FOM}=\mathrm{efficiency}\times\mathrm{purity}$ is optimised. Below, the results for both
-appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections using this methodology are presented.
+To access the beam classification performance more rigorously, a selection score for each of the
+output categories, found by maximising a figure-of-merit (FOM), is instead calculated. All events
+with a score above this optimised value are then deemed signal. To minimise the expected
+measurement statistical error, the value of $\mathrm{efficiency}\times\mathrm{purity}$
+(proportional to $s/\sqrt{s+b}$) is optimised as the FOM~\cite{list2002}. Below, the results for
+both appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections using this methodology are
+presented.
 
 \subsubsection*{CC $\nu_{e}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -826,42 +828,63 @@ contained events during beam classification training.
 \section{Robustness} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_robust} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Another common concern with CNNs is that they do not generalise well under distributional shifts
-within the input data. 
+Recent work within the field of CNN research has focused on the common concern that CNNs do not
+generalise well under distributional shifts within the input data~\cite{djolonga2020}. As the CNNs
+presented in this work are trained and evaluated on Monte Carlo events, this is of particular
+relevance. If these events differ from those measured by the real \chipsfive detector, confidence
+in any of the network outputs becomes questionable. An effective calibration procedure and
+corresponding simulation improvement can ensure any discrepancy is minimised; however, a small
+distributional difference is inevitable. Studies are presented here to outline the robustness of
+the trained CNNs to such differences within the input.
 
-In the context of the CNNs trained here, this could mean that if the Monte
-Carlo generated events differ from those measured by a real \chipsfive detector, confidence in any
-of the network output is questionable.
+Broadly, the CNN inputs can be characterised as being dependent on three sets of PMT information:
+the hit times, the hit charges, and hit positions. The PMT position is deemed not very important
+to the trained CNNs as the $64 \times 64$ input grid used roughly corresponds to relatively large
+bins of size \unit{2.5}{\mathrm{m}} in $\theta$ and \unit{2.0}{\mathrm{m}} in $\phi$ within the
+\chipsfive detector. However, if larger input grids are used in future work whose bin size allows
+for the individual PMTs to be resolved, their positions may become important. Consequently,
+changes in only the PMT hit time and hit charges are considered in three studies: the smearing of
+hit time, the smearing and shifting of hit charges, and the addition of random noise.
 
-Another common concern with CNNs is that they do not generalise well under distributional shifts
-within the input data. In the context of this work if the Monte Carlo generated training and
-performance evaluation events differ from those measured by a real \chipsfive detector, confidence
-in any of the network outputs can be brought into question. A strong calibration procedure and
-corresponding simulation improvements can always go some way to ensuring any discrepancy is
-minimised, but a difference will always exist.
-
-The inputs can be characterised as being dependent on three things, the hit times, the hit charges
-and their positions. The 
-
-To quantify this effect, three studies are presented here to determine how robust the trained CNNs
-are to changes within the input events. Firstly, the smearing of hit times. Secondly, the smearing
-and shifting of hit charges. Finally, the addition of random noise.
-
-position is obviously robust as our bins are 2.5m is theta and 2m in phi approx (when viewed from
-the centre of the detector), this means the absolute position of PMTs is not very important in the
-context of the networks trained here, maybe future work could look at making the images bigger,
-but did that hee to speed up optimisation process and make training not take too long. - Mention
-the calibration - Three short robustness studies are presented here for smearing the hit times,
-smearing and shifting the charge and the addition of random noise to the input. - Robustness paper
-in ~\cite{djolonga2020}
-
-Here we present modifications to the input event maps to see how robust the performance is. T
+Five classification performance metrics are used to make comparisons during this section and the
+next (Section.~\ref{sec:results_alt}):
+\begin{enumerate}
+    \item \textbf{Max FOM:} The optimised figure-of-merit
+          ($\mathrm{efficiency}\times\mathrm{purity}$) value. As the FOM is proportional to
+          $s/\sqrt{s+b}$ which increases linearly with detector exposure, an improvement in the
+          FOM value linearly decreases the experiment run time required to reach the same physics
+          sensitivity.
+    \item \textbf{High Score Eff (Pur):} The CC $\nu_{e}$ selection efficiency (purity) using the
+          simple highest-scoring output neuron classification methodology. This classification
+          strategy is used as the FOM selection is susceptible to trading off between efficiency
+          and purity, which can often make comparison difficult.
+    \item \textbf{ROC Integral:} The area under the Receiver Operating Characteristic (ROC) curve.
+          Corresponding to the signal CC $\nu_{e}$ efficiency plotted against the background
+          efficiency as the CC $\nu_{e}$ score cut value is varied, ROC curves are a standard tool
+          for classification performance comparison. A curve which reaches closer to the top-left
+          (high signal efficiency, low background efficiency) signifies a stronger classification
+          performance.
+    \item \textbf{PR Integral:} The area under the Precision-Recall (PR) curve. Corresponding to
+          the signal CC $\nu_{e}$ purity plotted against the signal efficiency as the CC $\nu_{e}$
+          score cut value is varied, PR curves are another standard tool for classification
+          performance comparison. A curve closer to the top-right (high signal purity, high signal
+          efficiency) signifies a stronger classification performance. For imbalanced class
+          numbers such as those expected within the \chipsfive detector, the PR curve is seen as a
+          more reliable indicator of performance than the ROC curve~\cite{saito2015}.
+\end{enumerate}
 
 \subsection*{Time smearing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Put in ROC and PRC description
-- Receiver operating characteristic and precision-recall
-- Important for the calibration
+Each hit-time bin for every event map in the evaluation sample is smeared using an absolute time
+randomly generated using a normal distribution with a mean of zero and a standard deviation of
+$\sigma$ nanoseconds. For comparison, the cases when $\sigma=0~\mathrm{ns}$ (no smearing),
+$\sigma=2~\mathrm{ns}$, and $\sigma=5~\mathrm{ns}$ are considered.
+
+For each case of $n$, the resulting efficiency, purity, and their product (the FOM) for CC
+$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
+in Fig.~\ref{fig:calib_time_nuel_eff_curves}. The comparison metrics are also presented in
+Table.~\ref{tab:repr} with the corresponding ROC and PR curves shown in
+Fig.~\ref{fig:calib_time_nuel_comp_curves}.
 
 \begin{figure} % CALIB TIME NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_eff_curves.pdf}
@@ -875,32 +898,46 @@ Here we present modifications to the input event maps to see how robust the perf
 
 \begin{table} % CALIB TIME COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
-        Metric                   & $\sigma=0~\mathrm{ns}$ & $\sigma=2~\mathrm{ns}$ & $\sigma=5~\mathrm{ns}$ \\
+        Metric         & $\sigma=0~\mathrm{ns}$ & $\sigma=2~\mathrm{ns}$ & $\sigma=5~\mathrm{ns}$ \\
         \midrule
-        Maximum FOM Value        & 0.519                  & 0.513                  & 0.484                  \\
-        Highest Score Efficiency & 0.835                  & 0.826                  & 0.798                  \\
-        Highest Score Purity     & 0.554                  & 0.556                  & 0.561                  \\
-        ROC Integral             & 0.828                  & 0.828                  & 0.826                  \\
-        PRC Integral             & 0.756                  & 0.751                  & 0.730                  \\
+        Max FOM        & \textbf{0.519}         & 0.513                  & 0.484                  \\
+        High Score Eff & \textbf{0.835}         & 0.826                  & 0.798                  \\
+        High Score Pur & 0.554                  & 0.556                  & \textbf{0.561}         \\
+        ROC Integral   & \textbf{0.828}         & 0.828                  & 0.826                  \\
+        PR Integral    & \textbf{0.756}         & 0.751                  & 0.730                  \\
     \end{tabular}
-    \caption[Performance metrics for different levels of hit-time smearing]
-    {Performance metrics for different levels of hit-time smearing. The \emph{Highest Score}
-        values use the highest scoring output neuron for classification. The ROC and PRC integrals
-        are taken from the curves shown in Fig.~\ref{fig:calib_time_nuel_comp_curves}.}
+    \caption[Classification performance metrics for different levels of hit-time smearing]
+    {Classification performance metrics for different levels of hit-time smearing. The ROC and PR
+        integrals are taken from under the curves shown in
+        Fig.~\ref{fig:calib_time_nuel_comp_curves}.}
     \label{tab:calib_time}
 \end{table}
 
 \begin{figure} % CALIB TIME NUEL COMP CURVES DIAGRAM %
     \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_time_nuel_comp_curves.pdf}
     \caption[Receiver operating characteristic and precision-recall curves for different levels of hit-time smearing]
-    {Receiver operating characteristic (left) and precision-recall (right) curves for different
-        levels of hit-time smearing. The $\sigma=0~\mathrm{ns}$ curves are shown by the solid
-        lines, $\sigma=2~\mathrm{ns}$ curves by the dashed lines, and $\sigma=5~\mathrm{ns}$
-        curves by the dotted lines.}
+    {ROC (left) and PR (right) curves for different levels of hit-time smearing. The
+        $\sigma=0~\mathrm{ns}$ curves are shown by the solid lines, $\sigma=2~\mathrm{ns}$ curves
+        by the dashed lines, and $\sigma=5~\mathrm{ns}$ curves by the dotted lines.}
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
+- Negligible impact on energy estimation and cosmic rejection performance
+
 \subsection*{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Each hit-charge bin for every event map in the evaluation sample is modified using an absolute
+charge randomly generated using a normal distribution with a mean of $\mu$ and a standard
+deviation of $\sigma$ photoelectrons. For comparison, the cases when $\mu=0,\sigma=0$,
+$\mu=0,\sigma=1$, $\mu=0,\sigma=2$, $\mu=1,\sigma=1$, $\mu=2,\sigma=1$ are considered. These
+correspond to either a smearing of either 1 or 2 p.e or a positive shifting of 1 or 2 p.e with a
+width of 1 p.e.
+
+For the smearing cases, the resulting efficiency, purity, and their product (the FOM) for CC
+$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
+in Fig.~\ref{fig:calib_charge_rand_nuel_eff_curves}. With the equivalent plot for the shifting
+cases shown in Fig.~\ref{fig:calib_charge_shift_nuel_eff_curves}. The comparison metrics are also
+presented in Table.~\ref{tab:repr}.
 
 \begin{figure} % CALIB CHARGE RAND NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_rand_nuel_eff_curves.pdf}
@@ -922,6 +959,22 @@ Here we present modifications to the input event maps to see how robust the perf
     \label{fig:calib_charge_shift_nuel_eff_curves}
 \end{figure}
 
+\begin{table} % CALIB CHARGE COMPARISON METRICS TABLE %
+    \begin{tabular}{cccccc}
+        Metric         & $\mu=0,\sigma=0$ & $\mu=0,\sigma=1$ & $\mu=0,\sigma=2$ & $\mu=2,\sigma=1$ & $\mu=2,\sigma=1$ \\
+        \midrule
+        Max FOM        & \textbf{0.519}   & 0.517            & 0.474            & 0.476            & 0.414            \\
+        High Score Eff & \textbf{0.835}   & 0.807            & 0.725            & 0.744            & 0.630            \\
+        High Score Pur & 0.554            & 0.596            & 0.645            & 0.626            & \textbf{0.649}   \\
+        ROC Integral   & \textbf{0.828}   & 0.827            & 0.820            & 0.821            & 0.812            \\
+        PR Integral    & \textbf{0.756}   & 0.749            & 0.710            & 0.710            & 0.647            \\
+    \end{tabular}
+    \caption[Classification performance metrics for different levels of hit-charge smearing and shifting]
+    {Classification performance metrics for different levels of hit-charge smearing and shifting.
+        The \emph{High Score} values use the highest scoring output neuron for classification.}
+    \label{tab:calib_time}
+\end{table}
+
 \begin{figure} % CALIB CHARGE ABS ENERGY DIAGRAM %
     \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_abs_energy.pdf}
     \caption[Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge smearing and shifting]
@@ -931,22 +984,6 @@ Here we present modifications to the input event maps to see how robust the perf
         shown in the brackets.}
     \label{fig:calib_charge_abs_energy}
 \end{figure}
-
-\begin{table} % CALIB CHARGE COMPARISON METRICS TABLE %
-    \begin{tabular}{cccccc}
-        Metric         & $\mu=0,\sigma=0$ & $\mu=0,\sigma=1$ & $\mu=0,\sigma=2$ & $\mu=2,\sigma=1$ & $\mu=2,\sigma=1$ \\
-        \midrule
-        Max FOM        & 0.519            & 0.517            & 0.474            & 0.476            & 0.414            \\
-        High Score Eff & 0.835            & 0.807            & 0.725            & 0.744            & 0.630            \\
-        High Score Pur & 0.554            & 0.596            & 0.645            & 0.626            & 0.649            \\
-        ROC Integral   & 0.828            & 0.827            & 0.820            & 0.821            & 0.812            \\
-        PRC Integral   & 0.756            & 0.749            & 0.710            & 0.710            & 0.647            \\
-    \end{tabular}
-    \caption[Performance metrics for different levels of hit-charge smearing and shifting]
-    {Performance metrics for different levels of hit-charge smearing and shifting. The
-        \emph{High Score} values use the highest scoring output neuron for classification.}
-    \label{tab:calib_time}
-\end{table}
 
 \subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -962,17 +999,16 @@ Here we present modifications to the input event maps to see how robust the perf
 
 \begin{table} % CALIB NOISE COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
-        Metric                   & $0.0\%$ & $2.3\%$ & $6.7\%$ \\
+        Metric         & $0.0\%$        & $2.3\%$ & $6.7\%$ \\
         \midrule
-        Maximum FOM Value        & 0.519   & 0.503   & 0.316   \\
-        Highest Score Efficiency & 0.835   & 0.824   & 0.717   \\
-        Highest Score Purity     & 0.554   & 0.545   & 0.414   \\
-        ROC Integral             & 0.828   & 0.827   & 0.810   \\
-        PRC Integral             & 0.756   & 0.740   & 0.559   \\
+        Max FOM        & \textbf{0.519} & 0.503   & 0.316   \\
+        High Score Eff & \textbf{0.835} & 0.824   & 0.717   \\
+        High Score Pur & \textbf{0.554} & 0.545   & 0.414   \\
+        ROC Integral   & \textbf{0.828} & 0.827   & 0.810   \\
+        PR Integral    & \textbf{0.756} & 0.740   & 0.559   \\
     \end{tabular}
-    \caption[Performance metrics for different levels of noise]
-    {Performance metrics for different levels of noise. The \emph{Highest Score}
-        values use the highest scoring output neuron for classification.}
+    \caption[Classification performance metrics for different levels of noise]
+    {Classification performance metrics for different levels of noise.}
     \label{tab:calib_time}
 \end{table}
 
@@ -1038,17 +1074,16 @@ Table.~\ref{tab:repr}.
 
 \begin{table} % REPR COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
-        Metric                   & Vertex View & Origin Raw View & Origin Iso View \\
+        Metric         & Vertex View    & Origin Raw View & Origin Iso View \\
         \midrule
-        Maximum FOM Value        & 0.461       & 0.422           & 0.419           \\
-        Highest Score Efficiency & 0.878       & 0.874           & 0.867           \\
-        Highest Score Purity     & 0.354       & 0.291           & 0.298           \\
-        ROC Integral             & 0.825       & 0.822           & 0.821           \\
-        PRC Integral             & 0.707       & 0.675           & 0.670           \\
+        Max FOM        & \textbf{0.461} & 0.422           & 0.419           \\
+        High Score Eff & \textbf{0.878} & 0.874           & 0.867           \\
+        High Score Pur & \textbf{0.354} & 0.291           & 0.298           \\
+        ROC Integral   & \textbf{0.825} & 0.822           & 0.821           \\
+        PR Integral    & \textbf{0.707} & 0.675           & 0.670           \\
     \end{tabular}
-    \caption[Performance metrics for three input representations]
-    {Performance metrics for the three input representations. The \emph{Highest Score} values use
-        the highest scoring output neuron for classification.}
+    \caption[Classification performance metrics for three input representations]
+    {Classification performance metrics for the three input representations.}
     \label{tab:repr}
 \end{table}
 
@@ -1079,17 +1114,16 @@ Performance comparison metrics are also presented in Table.~\ref{tab:sample}.
 
 \begin{table} % SAMPLE COMPARISON METRICS TABLE %
     \begin{tabular}{cccc}
-        Metric                   & Flux  & Uniform & Flux+Uniform \\
+        Metric         & Flux           & Uniform & Flux+Uniform \\
         \midrule
-        Maximum FOM              & 0.465 & 0.339   & 0.386        \\
-        Highest Score Efficiency & 0.877 & 0.799   & 0.834        \\
-        Highest Score Purity     & 0.369 & 0.347   & 0.368        \\
-        ROC Integral             & 0.826 & 0.815   & 0.820        \\
-        PRC Integral             & 0.712 & 0.568   & 0.634        \\
+        Maximum FOM    & \textbf{0.465} & 0.339   & 0.386        \\
+        High Score Eff & \textbf{0.877} & 0.799   & 0.834        \\
+        High Score Pur & \textbf{0.369} & 0.347   & 0.368        \\
+        ROC Integral   & \textbf{0.826} & 0.815   & 0.820        \\
+        PR Integral    & \textbf{0.712} & 0.568   & 0.634        \\
     \end{tabular}
-    \caption[Performance metrics for different training samples]
-    {Performance metrics for the different training samples. The \emph{Highest Score} values use
-        the highest scoring output neuron for classification.}
+    \caption[Classification performance metrics for different training samples]
+    {Classification performance metrics for the different training samples.}
     \label{tab:sample}
 \end{table}
 
@@ -1109,19 +1143,18 @@ Table.~\ref{tab:sample}.
 
 \begin{table}
     \begin{tabular}{ccccc}
-        Metric                   & VGG        & Inception  & ResNet     & Inception-ResNet \\
+        Metric         & VGG            & Inception  & ResNet              & Inception-ResNet \\
         \midrule
-        Number of parameters     & 17,225,296 & 16,893,216 & 16,526,288 & 17,145,238       \\
-        Iteration time (ms)      & 88         & 192        & 112        & 209              \\
-        Maximum FOM              & 0.465      & 0.459      & 0.445      & 0.444            \\
-        Highest Score Efficiency & 0.877      & 0.870      & 0.869      & 0.874            \\
-        Highest Score Purity     & 0.369      & 0.373      & 0.374      & 0.349            \\
-        ROC Integral             & 0.825      & 0.825      & 0.824      & 0.824            \\
-        PRC Integral             & 0.712      & 0.706      & 0.688      & 0.699            \\
+        Number of pars & 17,225,296     & 16,893,216 & \textbf{16,526,288} & 17,145,238       \\
+        Iter time (ms) & \textbf{88}    & 192        & 112                 & 209              \\
+        Maximum FOM    & \textbf{0.465} & 0.459      & 0.445               & 0.444            \\
+        High Score Eff & \textbf{0.877} & 0.870      & 0.869               & 0.874            \\
+        High Score Pur & 0.369          & 0.373      & \textbf{0.374}      & 0.349            \\
+        ROC Integral   & \textbf{0.825} & 0.825      & 0.824               & 0.824            \\
+        PR Integral    & \textbf{0.712} & 0.706      & 0.688               & 0.699            \\
     \end{tabular}
-    \caption[Performance metrics for different network architectures]
-    {Performance metrics for the different network architectures. The \emph{Highest Score} values
-        use the highest scoring output neuron for classification.}
+    \caption[Classification performance metrics for different network architectures]
+    {Classification performance metrics for the different network architectures.}
     \label{tab:sample}
 \end{table}
 
