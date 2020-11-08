@@ -57,7 +57,7 @@ DUNE is called \emph{multi-task} learning and is discussed in detail within
 Section.~\ref{sec:cnn_baseline_outputs}.
 
 Applications to water Cherenkov detectors have also been made by both the Daya Bay reactor
-experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Additionally, a
+experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Furthermore, a
 type of CNN known as a \emph{variational autoencoder} has been shown to approximate the
 distribution of simulated water Cherenkov data~\cite{abhishek2019}. If further studies prove
 successful, this could allow for training on real data to reduce experimental uncertainties and
@@ -72,12 +72,11 @@ comparing their performance with the new CNN approach. Secondly, to highlight th
 weaknesses, motivating the new technique and making its advantages clear.
 
 A \emph{maximum likelihood} method based on that implemented by MiniBooNE~\cite{patterson2009} is
-used for event reconstruction. Additionally, a simple neural network built using the TMVA
-package~\cite{hocker2007} and using outputs from the reconstruction is used for event
-classification. Both methods are typical of the mainstream approach used by the majority of water
-Cherenkov neutrino experiments. A prime example is the fiTQun algorithm developed for the
-Super-Kamiokande detector, which is used for both atmospheric~\cite{jiang2019} and
-T2K~\cite{missert2017} analyses.
+used for event reconstruction, with a simple neural network built using the TMVA
+package~\cite{hocker2007} used for event classification. Both methods are typical of the
+mainstream approach used by the majority of water Cherenkov neutrino experiments. A prime example
+is the fiTQun algorithm developed for the Super-Kamiokande detector, which is used for both
+atmospheric~\cite{jiang2019} and T2K~\cite{missert2017} analyses.
 
 \subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,9 +121,9 @@ following:
     \item The initial kinetic energy of the particle.
     \item The particle type (muon, electron or photon).
 \end{itemize}
-Additionally, for a photon hypothesis (identical to an electron hypothesis in reality) the
-distance between the interaction vertex and the beginning of the electromagnetic shower is
-included as a parameter.
+For a photon hypothesis (identical to an electron hypothesis in reality) the distance between the
+interaction vertex and the beginning of the electromagnetic shower is also included as a
+parameter.
 
 The hypothesis tracks are then initialised using the list of seeds found in the seeding procedure
 in descending order of Hough peak height score. As the seeding algorithms do not estimate the
@@ -196,7 +195,7 @@ software. If a physical process is not dealt with appropriately or overlooked (s
 hadronic component of neutrino events), then the prediction accuracy of PMT charges and hit times
 is affected, impacting the performance of finding accurate best-fit parameters.
 
-Additionally, the likelihood-based approach requires a predefined track hypothesis. Real events
+Moreover, the likelihood-based approach requires a predefined track hypothesis. Real events
 expected within \chips detector modules are rarely simple single particle or even two-particle
 events. In reality, the majority of events contain multiple final state particles of various types
 and in various topologies. The predefinition of a track hypothesis makes the implementation of a
@@ -730,8 +729,8 @@ position facing along the x-axis (downstream), hit PMTs are mapped onto a $64 \t
 This procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where
 each grid bin is given by the total collected photoelectrons from all PMTs mapped to that bin.
 Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time (in
-nanoseconds) across all PMTs mapped to that bin. Each hit-time map bin is additionally corrected
-so that the first hit time across all bins is at zero.
+nanoseconds) across all PMTs mapped to that bin. Each hit-time map bin is also corrected so that
+the first hit time across all bins is at zero.
 
 By design, the Hough transform within the seeding procedure uses the estimated interaction vertex
 position to generate the transform space. Therefore, by re-binning the transform space to a $64
@@ -921,7 +920,7 @@ decoding, and preprocessing data for the primary GPU based network calculations 
 needed, maximising computational efficiency.
 
 During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
-between zero and one. Additionally, a random factor scaling is applied to each map bin. Generated
+between zero and one. Furthermore, a random factor scaling is applied to each map bin. Generated
 from a Gaussian centred on one with a standard deviation of $\sigma_{r}$, by fluctuating the bin
 values in this way the network is forced to focus less on the absolute bin values and more on the
 underlying event topology. Not only does this process provide valuable regularisation to reduce

@@ -64,10 +64,10 @@ Fig.~\ref{fig:explore_stacked_int_types}.
         probabilities, while cosmic events are weighted using the expected cosmic rate and
         overburden. Shown in blue, green and olive are the surviving CC $\nu_{\mu}$, appearing CC
         $\nu_{e}$ and the intrinsic beam CC $\nu_{e}$ spectra respectively, binned in terms of
-        their neutrino energy. Additionally, shown in red is the NC event spectra binned in terms
-        of the energy of the hadronic component (excluding the outgoing neutrino energy) to
-        represent more accurately the energy visible to the detector. Finally, shown in black is
-        the cosmic muon event spectra binned in terms of the muon energy.}
+        their neutrino energy. Shown in red is the NC event spectra binned in terms of the energy
+        of the hadronic component (excluding the outgoing neutrino energy) to represent more
+        accurately the energy visible to the detector. Finally, shown in black is the cosmic muon
+        event spectra binned in terms of the muon energy.}
     \label{fig:explore_osc_fluxes}
 \end{figure}
 
@@ -828,23 +828,23 @@ contained events during beam classification training.
 \section{Robustness} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_robust} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Recent work within the field of CNN research has focused on the common concern that CNNs do not
-generalise well under distributional shifts within the input data~\cite{djolonga2020}. As the CNNs
-presented in this work are trained and evaluated on Monte Carlo events, this is of particular
-relevance. If these events differ from those measured by the real \chipsfive detector, confidence
-in any of the network outputs becomes questionable. An effective calibration procedure and
-corresponding simulation improvement can ensure any discrepancy is minimised; however, a small
-distributional difference is inevitable. Studies are presented here to outline the robustness of
-the trained CNNs to such differences within the input.
+Recent work within the field of CNN research has focused on the concern that CNNs do not
+generalise well under distributional changes within the input data~\cite{djolonga2020}. As the
+CNNs presented in this work are trained and evaluated on Monte Carlo events, this is of particular
+relevance. If these events differ from those measured by the real \chipsfive detector, the network
+outputs are questionable. An effective calibration procedure and corresponding simulation
+improvements can ensure any discrepancy is minimised; however, a small distributional difference
+is inevitable. Studies are presented here to outline the robustness of the trained CNNs to such
+changes within the input.
 
 Broadly, the CNN inputs can be characterised as being dependent on three sets of PMT information:
-the hit times, the hit charges, and hit positions. The PMT position is deemed not very important
-to the trained CNNs as the $64 \times 64$ input grid used roughly corresponds to relatively large
-bins of size \unit{2.5}{\mathrm{m}} in $\theta$ and \unit{2.0}{\mathrm{m}} in $\phi$ within the
-\chipsfive detector. However, if larger input grids are used in future work whose bin size allows
-for the individual PMTs to be resolved, their positions may become important. Consequently,
-changes in only the PMT hit time and hit charges are considered in three studies: the smearing of
-hit time, the smearing and shifting of hit charges, and the addition of random noise.
+the hit times, the hit charges, and hit positions. An accurate PMT position is deemed unimportant
+to the trained networks as the $64 \times 64$ input grid roughly corresponds to bins of size
+\unit{2.5}{\mathrm{m}} in $\theta$ by \unit{2.0}{\mathrm{m}} in $\phi$ within the \chipsfive
+detector. As this binning is much larger than the actual distance between PMTs, resolution of
+individual PMTs is not possible. Consequently, changes in only the PMT hit times and hit charges
+are considered in three studies: the smearing of hit times, the smearing and shifting of hit
+charges, and the addition of random noise.
 
 Five classification performance metrics are used to make comparisons during this section and the
 next (Section.~\ref{sec:results_alt}):
@@ -852,8 +852,8 @@ next (Section.~\ref{sec:results_alt}):
     \item \textbf{Max FOM:} The optimised figure-of-merit
           ($\mathrm{efficiency}\times\mathrm{purity}$) value. As the FOM is proportional to
           $s/\sqrt{s+b}$ which increases linearly with detector exposure, an improvement in the
-          FOM value linearly decreases the experiment run time required to reach the same physics
-          sensitivity.
+          FOM value linearly decreases the detector exposure time required to reach the same
+          physics sensitivity.
     \item \textbf{High Score Eff (Pur):} The CC $\nu_{e}$ selection efficiency (purity) using the
           simple highest-scoring output neuron classification methodology. This classification
           strategy is used as the FOM selection is susceptible to trading off between efficiency
@@ -870,21 +870,23 @@ next (Section.~\ref{sec:results_alt}):
           performance comparison. A curve closer to the top-right (high signal purity, high signal
           efficiency) signifies a stronger classification performance. For imbalanced class
           numbers such as those expected within the \chipsfive detector, the PR curve is seen as a
-          more reliable indicator of performance than the ROC curve~\cite{saito2015}.
+          more reliable visual indicator of performance than the ROC curve~\cite{saito2015}.
 \end{enumerate}
 
 \subsection*{Time smearing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each hit-time bin for every event map in the evaluation sample is smeared using an absolute time
+The smearing of hit times is found to have a negligible impact on performance. For every event,
+each hit-time bin for which there is an entry not equal to zero is smeared using an absolute time
 randomly generated using a normal distribution with a mean of zero and a standard deviation of
-$\sigma$ nanoseconds. For comparison, the cases when $\sigma=0~\mathrm{ns}$ (no smearing),
-$\sigma=2~\mathrm{ns}$, and $\sigma=5~\mathrm{ns}$ are considered.
+$\sigma$ nanoseconds. The cases when $\sigma=0~\mathrm{ns}$ (no smearing), $\sigma=2~\mathrm{ns}$,
+and $\sigma=5~\mathrm{ns}$ are considered.
 
-For each case of $n$, the resulting efficiency, purity, and their product (the FOM) for CC
+For each case of $\sigma$, the resulting efficiency, purity, and their product (the FOM) for CC
 $\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
-in Fig.~\ref{fig:calib_time_nuel_eff_curves}. The comparison metrics are also presented in
-Table.~\ref{tab:repr} with the corresponding ROC and PR curves shown in
-Fig.~\ref{fig:calib_time_nuel_comp_curves}.
+in Fig.~\ref{fig:calib_time_nuel_eff_curves}. The classification performance metrics are presented
+in Table.~\ref{tab:repr} with the corresponding ROC and PR curves shown in
+Fig.~\ref{fig:calib_time_nuel_comp_curves}. A negligible affect on cosmic rejection and energy
+estimation performance is observed and so not shown.
 
 \begin{figure} % CALIB TIME NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_eff_curves.pdf}
@@ -922,22 +924,32 @@ Fig.~\ref{fig:calib_time_nuel_comp_curves}.
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
-- Negligible impact on energy estimation and cosmic rejection performance
+Relative to the $\sim$\unit{2}{\mathrm{ns}} time resolution of the \unit{88}{\mathrm{mm}} HZC PMTs
+(and associated readout electronics) used within \chipsfive an additional $\sigma=2~\mathrm{ns}$
+hit-time smearing is significant. Given an effective calibration and reasonable simulation, a
+smaller difference is highly likely. Therefore, it is promising to observe that for
+$\sigma=2~\mathrm{ns}$ smearing the beam classification network is robust, with only a small
+reduction in performance. Interestingly, the \emph{High Score Pur} is seen to increase with
+increased hit-time smearing. This trend indicates that the CC $\nu_{e}$ signal is proportionally
+more robust to hit-time input changes than the background.
 
 \subsection*{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each hit-charge bin for every event map in the evaluation sample is modified using an absolute
-charge randomly generated using a normal distribution with a mean of $\mu$ and a standard
-deviation of $\sigma$ photoelectrons. For comparison, the cases when $\mu=0,\sigma=0$,
-$\mu=0,\sigma=1$, $\mu=0,\sigma=2$, $\mu=1,\sigma=1$, $\mu=2,\sigma=1$ are considered. These
-correspond to either a smearing of either 1 or 2 p.e or a positive shifting of 1 or 2 p.e with a
-width of 1 p.e.
+For every event, each hit-charge bin for which there is an entry not equal to zero is modified
+using an absolute charge randomly generated using a normal distribution with a mean of $\mu$ and a
+standard deviation of $\sigma$ photoelectrons. Only those bins that contain a hit are modified.
+Alongside the default case when $\mu=0$ and $\sigma=0$, two smearing and two shifting cases are
+considered: $\mu=0,\sigma=1$ and $\mu=0,\sigma=2$ for smearing, and $\mu=1,\sigma=1$ and
+$\mu=2,\sigma=1$ for shifting. Note that for the shifting cases a standard deviation of
+$1~\mathrm{p.e}$ is used to introduce randomness.
 
-For the smearing cases, the resulting efficiency, purity, and their product (the FOM) for CC
-$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
-in Fig.~\ref{fig:calib_charge_rand_nuel_eff_curves}. With the equivalent plot for the shifting
-cases shown in Fig.~\ref{fig:calib_charge_shift_nuel_eff_curves}. The comparison metrics are also
-presented in Table.~\ref{tab:repr}.
+For each of the smearing cases, the resulting efficiency, purity, and their product (the FOM) for
+CC $\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is
+shown in Fig.~\ref{fig:calib_charge_rand_nuel_eff_curves}. The equivalent plot for each of the
+shifting cases shown in Fig.~\ref{fig:calib_charge_shift_nuel_eff_curves}. All the classification
+performance metrics are presented in Table.~\ref{tab:calib_time}. Distributions of
+(reco-true)/true CC QEL $\nu_{e}$ energies for each case are also shown in
+Fig.~\ref{fig:calib_charge_abs_energy}.
 
 \begin{figure} % CALIB CHARGE RAND NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_rand_nuel_eff_curves.pdf}
@@ -978,14 +990,46 @@ presented in Table.~\ref{tab:repr}.
 \begin{figure} % CALIB CHARGE ABS ENERGY DIAGRAM %
     \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_abs_energy.pdf}
     \caption[Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge smearing and shifting]
-    {Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge
-        smearing and shifting. Shown are the different smearing levels (left) and the different
-        shifting levels (right). Standard deviations found from fits made to each distribution are
-        shown in the brackets.}
+    {Distributions of (reco-true)/true CC QEL $\nu_{e}$ energies for different levels of
+        hit-charge smearing and shifting. Shown are the different smearing levels (left) and the
+        different shifting levels (right). Standard deviations found from fits made to each
+        distribution are shown in brackets.}
     \label{fig:calib_charge_abs_energy}
 \end{figure}
 
+- Shift and smearing should be smaller hopefully
+- A non negligable difference is seen for beam classification
+- Suprisingly the energy estimation is resiliant, given you would assume the exact amount of
+collected charge was important.
+- Increased purity and reduced efficiency, lower FOM overall!
+- Need to understand why this shift is happening!
+
+\begin{figure} % CALIB CHARGE SHIFT NUEL OUTPUTS DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_nuel_outputs.pdf}
+    \caption[Distribution of CC $\nu_{e}$ scores when the hit-charge is shifted using $\mu=2~\mathrm{p.e}$]
+    {Distribution of \emph{combined category} CC $\nu_{e}$ scores from the trained beam
+        classification network for the different event categories when the hit-charge is shifted using
+        $\mu=2~\mathrm{p.e}$. For comparison Fig.~\ref{fig:final_beam_nuel_outputs} shows the
+        distribution of un-shifted output values.}
+    \label{fig:calib_charge_nuel_outputs}
+\end{figure}
+
 \subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Random PMT noise is found to have a negligible impact on performance. For each hit-charge bin for
+every event map in the evaluation sample a normal distribution with a mean of zero and a standard
+deviation of $\mu$ photoelectrons is randomly sampled. If a value greater than that corresponding
+to a single photoelectron is returned, the bin charge is incremented by the returned value.
+Furthermore, if a hit-charge bin is modified, the corresponding hit-time bin is updated by
+randomly sampling a uniform distribution and choosing the smallest of the return value and the
+already set bin value. Alongside the default case with no noise ($0.0\%$), values of $\mu$ are
+chosen so that either $2.3\%$ or $6.7\%$ of bins are modified by noise for each event.
+
+For each case, the resulting efficiency, purity, and their product (the FOM) for CC $\nu_{e}$
+events as a function of selecting events above a particular CC $\nu_{e}$ score is shown in
+Fig.~\ref{fig:calib_noise_nuel_eff_curves}. The classification performance metrics are presented
+in Table.~\ref{tab:calib_time}. Negligible reduction in cosmic rejection and energy estimation
+performance is observed and so not shown here.
 
 \begin{figure} % CALIB NOISE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_noise_nuel_eff_curves.pdf}
@@ -1012,12 +1056,17 @@ presented in Table.~\ref{tab:repr}.
     \label{tab:calib_time}
 \end{table}
 
+- This is orders of magnitude more noise than you would expect. Even for 10Khz PMT noise you would
+expect $\sim0.2\%$ of PMTs to be impacted by noise within the time frame (100ns) of a typical
+event.
+- The effect is not huge, so noise should not be a problem for the robustness of the networks.
+
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Here a sample of alternative (but unsuccessful) \chips CNN implementations are presented and
-compared to the final implementation. Those chosen highlight important factors that are found to
-drive performance. Only the beam classification performance, specifically the primary CC $\nu_{e}$
+compared to the final implementation. Those chosen highlight important factors found to drive
+performance. Only the beam classification performance, specifically the primary CC $\nu_{e}$
 selection is used for comparison, however, these findings are also all found to translate somewhat
 to the cosmic rejection and energy estimation networks.
 
@@ -1166,24 +1215,22 @@ would allow these network to become better, possibility for future work to explo
 \label{sec:results_summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % PERFORMANCE
-1) Cosmic rejection is brilliant, with a descent overburden, don't need veto,
-2) Beam classification
-3) Neutrino energy estimation
-% EXPLAINABILITY
-1) Clearly learning ring and peak like features that we hoped the networks would
-2) Clear separation between categories
-3) Maybe want to only train on contained events and look at final state categorisation
-% ROBUSTNESS
-1) Robust to time calibration
-2) Robust to charge calibration
-3) Robust to noise
-% ALTERNATIVES
-1) Input representation, how you map neutrino event in cylinder to input image is important
-2) The training sample must match the expected composition of events
-3) The network architecture does not matter much in the context of this work
-% FUTURE WORK AND IMPROVEMENTS
-1) Larger images and new architectures
-2) Input distributions of events
-3) Use of graph convolutional network or transformers hehe
+\begin{enumerate}
+    \item Sufficient cosmic rejection for negligible beam sample contamination is achieved.
+    \item Beam classification selection is surprisingly comparable to other costly experiments.
+    \item Energy estimation is comparable and more generalisable compared to standard methods.
+    \item Cherenkov ring and Hough peak features are clearly being learnt by the trained networks.
+    \item There is clear learnt separation between categories as seen via unsupervised methods.
+    \item Future work should train beam classification network on only contained events.
+    \item The smearing of hit times is found to have a negligible impact on performance.
+    \item Robust to charge calibration.
+    \item Random PMT noise is found to have a negligible impact on performance.
+    \item The input representation of the event is important for performance.
+    \item The training sample must match the expected composition of events closely.
+    \item The network architecture does not matter much in the context of this work.
+    \item Future work should explore larger input image sizes and network architectures.
+    \item Future work should study the input distribution of events in greater detail.
+    \item Future work should look at using a graph convolutional network or transformers.
+\end{enumerate}
 
 TODO: Mention upstream neutrinos in the context of similarity with cosmics
