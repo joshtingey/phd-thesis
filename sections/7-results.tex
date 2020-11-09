@@ -1,14 +1,13 @@
 \chapter{Convolutional neural network evaluation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:results} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This chapter aims to provide a comprehensive evaluation of how the new CNN approach detailed in
-the previous chapter behaves. This is separated into four categories of understanding (each a
-section of this chapter):
+This chapter provides a comprehensive evaluation of how the new CNN approach behaves. Four
+categories of understanding are explored (each a section of this chapter):
 \begin{enumerate}
-    \item Determining the sample selection and energy estimation performance.
+    \item Determining the beam selection and energy estimation performance.
     \item Explaining the inner workings of the trained networks.
-    \item Studying the network output robustness to changes in the input.
-    \item Exploration different implementations to see which factors drive performance.
+    \item Studying how robust the network outputs are to changes in the input.
+    \item Exploring alternative implementations to see which factors drive performance.
 \end{enumerate}
 
 Beforehand, a key and hugely impactful advantage of the CNN approach must be highlighted. Although
@@ -40,9 +39,9 @@ trained CNNs. The evaluation sample consists of 400000 beam and 350000 cosmic mu
 produced in the same way as the training and validation events using the detector simulation and
 event generation methods outlined in Section.~\ref{sec:chips_monte_carlo}, with a \chipsfive
 geometry. The beam events include the expected $\nu_{\mu}$, $\bar{\nu}_{\mu}$, $\nu_{e}$ and
-$\bar{\nu}_{e}$ components of the beam as well as events generated to mimic the appeared(sometimes
-referred to as \emph{App}) $\nu_{e}$ component. Only the neutrino mode (forward horn current) of
-NuMI beam operation is considered for simplicity.
+$\bar{\nu}_{e}$ components of the beam as well as events generated to mimic the appeared
+(sometimes referred to as \emph{App}) $\nu_{e}$ component. Only the neutrino mode (forward horn
+current) of NuMI beam operation is considered for simplicity.
 
 All evaluation events are weighted to match the expected spectrum at the \chipsfive detector,
 using the unoscillated flux, cross-sections, and oscillation probabilities (including the MSW
@@ -349,7 +348,7 @@ $\nu_{e}$ contribution.
 
 \begin{figure} % FINAL OLD PID OUTPUTS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_old_pid_outputs.pdf}
-    \caption[Distributions of standard event selectio neural network output scores]
+    \caption[Distributions of standard event selection neural network output scores]
     {Distributions of CC $\nu_{e}$ vs CC $\nu_{\mu}$ (left) and CC $\nu_{e}$ vs NC (right) output
         scores from the two standard event selection neural networks for the different event
         categories. A score close to one signifies a CC $\nu_{e}$ like event in both cases. Each
@@ -784,14 +783,14 @@ output layer (with 512 dimensions) are used as input, as they provide the final 
 the learnt network features.
 
 Visualisations of the t-SNE algorithm applied to both the trained cosmic rejection and beam
-classification networks are shown in Fig.~\ref{fig:final_cosmic_tsne} and
-Fig.~\ref{fig:final_beam_tsne} respectively. The very strong cosmic to beam like separation
+classification networks are shown in Fig.~\ref{fig:explain_cosmic_tsne} and
+Fig.~\ref{fig:explain_beam_tsne} respectively. The very strong cosmic to beam like separation
 presented in the previous section is clear from the cosmic rejection visualisation. For the beam
 classification network, as expected, the separation is weaker, with major overlap between
 categories, especially for CC $\nu_{e}$ and NC events.
 
 For the beam classification network, three events, highlighted in t-SNE space, are shown in
-Fig.~\ref{fig:final_beam_tsne_events}. Each event is highly representative of the corresponding
+Fig.~\ref{fig:explain_beam_tsne_events}. Each event is highly representative of the corresponding
 category, achieving a high respective \emph{combined category} score. Both the CC $\nu_{e}$ and NC
 events shown are typical of that expected. However, the CC $\nu_{\mu}$ event contains a primary
 charged lepton that escapes the detector volume, identified by the central peak. This topology
@@ -800,29 +799,29 @@ rather than the shape of the muon ring. Future work, therefore, should explore u
 contained events during beam classification training.
 
 \begin{figure} % COSMIC t-SNE DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-results/final_cosmic_tsne.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/explain_cosmic_tsne.pdf}
     \caption[Cosmic rejection network t-SNE space]
     {Two dimensional probability space of beam and cosmic events generated using the t-SNE
         procedure on the final fully-connected layer of the trained cosmic rejection network.}
-    \label{fig:final_cosmic_tsne}
+    \label{fig:explain_cosmic_tsne}
 \end{figure}
 
 \begin{figure} % BEAM t-SNE DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-results/final_beam_tsne.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/explain_beam_tsne.pdf}
     \caption[Beam classification network t-SNE space]
     {Two dimensional probability space of different beam events generated using the t-SNE
         procedure on the final fully-connected layer of the trained beam classification network.
         Three events, one highly CC $\nu_{e}$ like, one highly CC $\nu_{\mu}$ like, and one highly
-        NC like are highlighted and shown in Fig.~\ref{fig:final_beam_tsne_events}.}
-    \label{fig:final_beam_tsne}
+        NC like are highlighted and shown in Fig.~\ref{fig:explain_beam_tsne_events}.}
+    \label{fig:explain_beam_tsne}
 \end{figure}
 
 \begin{figure} % BEAM t-SNE EVENTS DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/7-results/final_beam_tsne_events.pdf}
+    \includegraphics[width=\textwidth]{diagrams/7-results/explain_beam_tsne_events.pdf}
     \caption[Hit-charge maps of highly CC $\nu_{e}$ like, CC $\nu_{\mu}$ like, and NC like events]
     {Hit-charge maps of the most CC $\nu_{e}$ like, CC $\nu_{\mu}$ like, and NC like events from
-        Fig.~\ref{fig:final_beam_tsne}.}
-    \label{fig:final_beam_tsne_events}
+        Fig.~\ref{fig:explain_beam_tsne}.}
+    \label{fig:explain_beam_tsne_events}
 \end{figure}
 
 \section{Robustness} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -935,6 +934,11 @@ more robust to hit-time input changes than the background.
 
 \subsection*{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+scaled by a factor randomly drawn from a normal distribution with mean of $\mu$ and a standard
+deviation of $\sigma$. This methodology is used instead of an absolute scaling as a bin with a
+large collected charge should be proportionally modified more than a low charge bin to be
+accurate.
+
 For every event, each hit-charge bin for which there is an entry not equal to zero is modified
 using an absolute charge randomly generated using a normal distribution with a mean of $\mu$ and a
 standard deviation of $\sigma$ photoelectrons. Only those bins that contain a hit are modified.
@@ -949,7 +953,7 @@ shown in Fig.~\ref{fig:calib_charge_rand_nuel_eff_curves}. The equivalent plot f
 shifting cases shown in Fig.~\ref{fig:calib_charge_shift_nuel_eff_curves}. All the classification
 performance metrics are presented in Table.~\ref{tab:calib_time}. Distributions of
 (reco-true)/true CC QEL $\nu_{e}$ energies for each case are also shown in
-Fig.~\ref{fig:calib_charge_abs_energy}.
+Fig.~\ref{fig:calib_charge_energy}.
 
 \begin{figure} % CALIB CHARGE RAND NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_rand_nuel_eff_curves.pdf}
@@ -975,11 +979,11 @@ Fig.~\ref{fig:calib_charge_abs_energy}.
     \begin{tabular}{cccccc}
         Metric         & $\mu=0,\sigma=0$ & $\mu=0,\sigma=1$ & $\mu=0,\sigma=2$ & $\mu=2,\sigma=1$ & $\mu=2,\sigma=1$ \\
         \midrule
-        Max FOM        & \textbf{0.519}   & 0.517            & 0.474            & 0.476            & 0.414            \\
-        High Score Eff & \textbf{0.835}   & 0.807            & 0.725            & 0.744            & 0.630            \\
-        High Score Pur & 0.554            & 0.596            & 0.645            & 0.626            & \textbf{0.649}   \\
-        ROC Integral   & \textbf{0.828}   & 0.827            & 0.820            & 0.821            & 0.812            \\
-        PR Integral    & \textbf{0.756}   & 0.749            & 0.710            & 0.710            & 0.647            \\
+        Max FOM        & \textbf{0.519}   & 0.513            & 0.458            & 0.519            & 0.501            \\
+        High Score Eff & \textbf{0.835}   & 0.820            & 0.771            & 0.829            & 0.821            \\
+        High Score Pur & 0.554            & \textbf{0.565}   & 0.560            & 0.551            & 0.532            \\
+        ROC Integral   & \textbf{0.828}   & 0.828            & 0.825            & 0.827            & 0.825            \\
+        PR Integral    & \textbf{0.756}   & 0.751            & 0.707            & 0.750            & 0.733            \\
     \end{tabular}
     \caption[Classification performance metrics for different levels of hit-charge smearing and shifting]
     {Classification performance metrics for different levels of hit-charge smearing and shifting.
@@ -988,31 +992,21 @@ Fig.~\ref{fig:calib_charge_abs_energy}.
 \end{table}
 
 \begin{figure} % CALIB CHARGE ABS ENERGY DIAGRAM %
-    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_abs_energy.pdf}
+    \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_charge_energy.pdf}
     \caption[Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of hit-charge smearing and shifting]
     {Distributions of (reco-true)/true CC QEL $\nu_{e}$ energies for different levels of
         hit-charge smearing and shifting. Shown are the different smearing levels (left) and the
         different shifting levels (right). Standard deviations found from fits made to each
         distribution are shown in brackets.}
-    \label{fig:calib_charge_abs_energy}
+    \label{fig:calib_charge_energy}
 \end{figure}
 
 - Shift and smearing should be smaller hopefully
-- A non negligable difference is seen for beam classification
-- Suprisingly the energy estimation is resiliant, given you would assume the exact amount of
+- A non negligible difference is seen for beam classification
+- Surprisingly the energy estimation is resilient, given you would assume the exact amount of
 collected charge was important.
 - Increased purity and reduced efficiency, lower FOM overall!
 - Need to understand why this shift is happening!
-
-\begin{figure} % CALIB CHARGE SHIFT NUEL OUTPUTS DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_nuel_outputs.pdf}
-    \caption[Distribution of CC $\nu_{e}$ scores when the hit-charge is shifted using $\mu=2~\mathrm{p.e}$]
-    {Distribution of \emph{combined category} CC $\nu_{e}$ scores from the trained beam
-        classification network for the different event categories when the hit-charge is shifted using
-        $\mu=2~\mathrm{p.e}$. For comparison Fig.~\ref{fig:final_beam_nuel_outputs} shows the
-        distribution of un-shifted output values.}
-    \label{fig:calib_charge_nuel_outputs}
-\end{figure}
 
 \subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1111,6 +1105,13 @@ events as a function of selecting events above a particular CC $\nu_{e}$ score i
 Fig.~\ref{fig:repr_nuel_eff_curves}. Performance comparison metrics are also presented in
 Table.~\ref{tab:repr}.
 
+\begin{figure} % EXPLORE REPR EVENT DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/7-results/explore_repr_nuel_ccres_event.pdf}
+    \caption[blah]
+    {blah}
+    \label{fig:explore_repr_nuel_ccres_event}
+\end{figure}
+
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/repr_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for three input representations]
@@ -1151,6 +1152,14 @@ purity, and their product (the FOM) for CC $\nu_{e}$ events as a function of sel
 above a particular CC $\nu_{e}$ score is shown in Fig.~\ref{fig:sample_nuel_eff_curves}.
 Performance comparison metrics are also presented in Table.~\ref{tab:sample}.
 
+\begin{figure} % UNIFORM TRAINING SAMPLE DIAGRAM %
+    \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_uniform_training_sample.pdf}
+    \caption[Number of training events per category for the uniform beam classification network
+        training sample] {Number of training events per category for the uniform beam classification
+        network training sample. All beam event interaction types are shown.}
+    \label{fig:explore_uniform_training_sample}
+\end{figure}
+
 \begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/sample_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different training samples]
@@ -1190,7 +1199,7 @@ For comparison a beam classification network is trained using each network archi
 of the network architectures the performance comparison metrics are presented in
 Table.~\ref{tab:sample}.
 
-\begin{table}
+\begin{table} % ARCHITECTURE COMPARISON METRICS TABLE %
     \begin{tabular}{ccccc}
         Metric         & VGG            & Inception  & ResNet              & Inception-ResNet \\
         \midrule

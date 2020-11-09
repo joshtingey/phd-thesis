@@ -226,7 +226,7 @@ unlike in the Nikhef case where it is done on the CLB. As the beaglebone is a fu
 at a low level lots of processing can occur close to the PMTs. It controls the power and
 networking on the $\mu$DAQ, receives their hits before forwarding further up the chain. The
 $\mu$DAQ and beaglebone are novel approaches, CHEAP, more processing close to PMTs!!! commercially
-availiable!!
+available!!
 
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,27 +236,27 @@ corresponding SFPs (Small Form-Factor Pluggable Transceiver)
 
 The Junction box contains connections to each container and their power supply relays. The two
 input power connections from shore are distributed to via two copper plates to all the relay
-connections throughout the box. Two standard network contolled logic relays control "trip" gates
+connections throughout the box. Two standard network controlled logic relays control "trip" gates
 that stop the power supply to any/ section of the detector is a power surge is detected. THis is
-espcecially important for CHIPS given the water that is everywher :p. One relay controls a pusing
+especially important for CHIPS given the water that is everywhere :p. One relay controls a pulsing
 and one just opens the channels. The trip gates are opening via a short pulse of current. Tye
-multipleer contains 18 channels each a different wavelenght of light allowing a huge volume of
-data to be sent up a single fibre to shore. Eahc WR swithc or WR LEN in the madison case has the
+multiplexer contains 18 channels each a different wavelength of light allowing a huge volume of
+data to be sent up a single fibre to shore. Each WR switch or WR LEN in the madison case has the
 corresponding receiver SFP as the ones o shore.
 
-Within the shore hut all netwoking comes in through the multiplexer and is split back out into its
-individual wavelenght channels via the multiplexer these go into multiple ports on two white
+Within the shore hut all networking comes in through the multiplexer and is split back out into its
+individual wavelength channels via the multiplexer these go into multiple ports on two white
 rabbit switches. This is mainly for data flow such that each can be segmented via a VLAN with the
-coresponding ports on the oppsitie side and then the higher level standard networking switch to
+corresponding ports on the opposite side and then the higher level standard networking switch to
 provide DO THE CALCULATION HERE lots of data bandwidth up to the main DAQ machines. One of the WR
-sitches is the GrandMaster for the WR network and recievs the PPS and 10MhZ input from the GPs
-disciplines ocillator anwhich is connected to a GPS antenna to receive its signals. Again both
+switches is the GrandMaster for the WR network and receives the PPS and 10MhZ input from the GPs
+disciplines oscillator which is connected to a GPS antenna to receive its signals. Again both
 switches are also on the DAQ network for monitoring and control.
 
 The standard switch acts as the switch for condensing traffic onto single 10Gb connections to each
-individual DAQ machine. This is also on the netwokr via a control port for monitoring. Only a
+individual DAQ machine. This is also on the network via a control port for monitoring. Only a
 single DAQ machine is used for data taking which another is used for monitoring and control as
-etailed inSection... The standard network switch is also connected to the wider CHIPS network at
+detailed in Section... The standard network switch is also connected to the wider CHIPS network at
 the pit the polymet building and then the wider internet for data transfer to fermilab!
 
 \begin{figure} % MANIFOLD DIAGRAM %
@@ -346,16 +346,16 @@ sufficient bandwidth, DO A SMALL CALCULATION!
 - daqstate: Used to report the current state of various DAQ applications
 - monpom: Used for reporting general POM monitoring information, such as temp, humidity, status
 - monchannel: Used for reporting individual channel monitoring, such as rate, veto
-- A series of altering rules are also setup constantly monitoring the status of the monitoring
+- A series of altering rules are also set up constantly monitoring the status of the monitoring
 data contained within the elasticsearch database to alert via slack or email individuals if something goes wrong.
 - We index asynchronously to not block data taking, all data is backed up easily.
 - Use the Kibana user interface which is accessible through a browser, means that no special
 equipment, or GUIs are used, anyone on any machine has access to the full monitoring stack from
-their browser. A series of dashboards ar setup to monitor everything within the detector.
-- A series of indices are setup to store data which is sent via standard REST messages to the
+their browser. A series of dashboards ar set up to monitor everything within the detector.
+- A series of indices are set up to store data which is sent via standard REST messages to the
 database, the special indexing allows for quick `searching' over any time period etc... for
 monitoring.
-- Also means that anyone can quikcly/easily look at any part of the data and make plots etc...
+- Also means that anyone can quickly/easily look at any part of the data and make plots etc...
 without needing to write an additional part of a monitoring program.
 
 \begin{figure} % MONITORING DIAGRAM %
