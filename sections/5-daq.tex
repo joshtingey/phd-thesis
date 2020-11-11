@@ -54,11 +54,11 @@ bi-directional optical fibre connections using the \unit{1310}{\mathrm{nm}} and
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
     \subcaptionbox{White Rabbit switch}{%
-        \includegraphics[height=6cm]{diagrams/5-daq/wr_switch.jpg}%
+        \includegraphics[height=6cm]{diagrams/5-daq/wr_switch.pdf}%
     }
     \quad
     \subcaptionbox{White Rabbit LEN}{%
-        \includegraphics[height=6cm]{diagrams/5-daq/wr_len.jpg}%
+        \includegraphics[height=6cm]{diagrams/5-daq/wr_len.pdf}%
     }
     \caption[Pictures of the White Rabbit timing hardware used within \chipsfive.]
     {Pictures of the White Rabbit timing hardware used within \chipsfive. The compact White rabbit
@@ -73,7 +73,7 @@ representing single nanoseconds, sub-nanosecond time synchronisation accuracy be
 is achieved.
 
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.jpg}
+    \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.pdf}
     \caption[Picture of White Rabbit timing synchronisation seen in \chips.]
     {Picture of an oscilloscope measuring the PPS output signal from two WR switches shown in pink
         and yellow at either end of a \unit{500}{\mathrm{m}} long optical fibre. The vertical
@@ -153,8 +153,9 @@ switch ensures that if one higher-level connection fails the other can still be 
 
 Each Nikhef-container also contains a relay board to control the power supply to individual POMs.
 The relay board control electronics are powered via an AC to DC converter and connected to one of
-the switches via a media converter for networking. A total of five Nikhef-containers are present
-within \chipsfive.
+the switches via a media converter for networking. The media converter is required to convert the
+optical fibre (1000BASE ethernet) WR switch connection to a standard RJ45 copper cable (100BASE
+ethernet). A total of five Nikhef-containers are present within \chipsfive.
 
 \begin{figure} % FULL SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
@@ -223,8 +224,8 @@ unlike in the Nikhef case where it is done on the CLB. As the beaglebone is a fu
 at a low level lots of processing can occur close to the PMTs. It controls the power and
 networking on the $\mu$DAQ, receives their hits before forwarding further up the chain. The
 $\mu$DAQ and beaglebone are novel approaches, CHEAP, more processing close to PMTs!!! commercially
-available!!
-- Can introduce additional logic once deployed via simple software updates to the beaglebone.
+available!! - Can introduce additional logic once deployed via simple software updates to the
+beaglebone.
 
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,12 +233,12 @@ available!!
 Each Nikhef-container and Madison-container is connected to the \chipsfive \emph{junction-box},
 labelled in Fig.~\ref{fig:full_setup}. This central container acts as the interface between the
 detector electronics and the umbilical carrying data and power between the shore and the detector.
-All connections to the junction-box (as well as POM to Nikhef or Madison container connections)
-are made within watertight flexible PVC tubing called \emph{manifolds}. These tubes span all
-corners of the \chipsfive detector as shown in Fig.~\ref{fig:manifold}.
+All connections to the junction-box (as well as those between POMs and Nikhef and Madison
+containers) are made within watertight, flexible PVC tubing called \emph{manifolds}. These tubes
+span all corners of the \chipsfive detector, as shown in Fig.~\ref{fig:manifold}.
 
 \begin{figure} % MANIFOLD DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.jpg}
+    \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.pdf}
     \caption[manifold short]
     {Picture of a Nikhef POM to Nikhef-container manifold (in white) attached to the top-cap of
         the \chipsfive detector. In the left of the image, two unattached Nikhef POM pigtail
@@ -245,42 +246,45 @@ corners of the \chipsfive detector as shown in Fig.~\ref{fig:manifold}.
     \label{fig:manifold}
 \end{figure}
 
-For networking the junction-box contains a Coarse Wavelength Division Multiplexing
-multiplexer/demultiplexer supporting 32 wavelengths for a total of 16 bi-directional connections
-with the corresponding multiplexer/demultiplexer at the other end of the \unit{500}{\mathrm{m}}
-long umbilical optical fibre on shore as shown in Fig.~\ref{fig:hut_daq}. Each WR-LEN or WR switch
-within the detector uses one of these channels and the corresponding wavelength SFP to communicate
-with the WR switches on shore.
+For networking the junction-box contains a Coarse Wavelength Division Multiplexing (CWDM)
+multiplexer/demultiplexer (MUX/DEMUX). This device supports 32 wavelengths for a total of 16
+bi-directional \unit{1}{\mathrm{Gb}} connections over the single \unit{500}{\mathrm{m}} long
+umbilical optical fibre. Each WR-LEN or WR switch within the detector uses one of these channels
+exclusively with the corresponding wavelength SFP.
+
+The umbilical power connections are distributed via two thick copper plates to all the relay
+channels within the junction-box. Two relay boards are used to provide a sufficient number of
+output channels, with their control electronics powered by separate AC to DC converters and each
+connected to one of the multiplexer/demultiplexer networking channels via a media converter. Each
+relay channel also has a built-in \emph{trip gate} to immediately power-off the channel if a
+current surge is detected. This protection is particularly important for \chips as water leaks are
+possible.
+
+The contents of the DAQ \emph{Shore Hut} next to the water filtration hut onshore are shown in
+Fig.~\ref{fig:hut_daq}. The single umbilical optical fibre passes through a
+multiplexer/demultiplexer before each of the wavelength-specific channels are passed into one of
+two WR switches to provide sufficient bandwidth. Multiple Virtual Local Area Networks (VLANs) are
+configured on each switch such that for each wavelength channel only a single corresponding port
+on the other side of the switch carries data to a standard networking switch. Of the two WR
+switches, one is configured to be the WR network GrandMaster with connections to a GPS disciplined
+oscillator. A single connection is also made between the WR switches for synchronisation.
 
 \begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/hut_daq.pdf}
-    \caption[hut daq short]
-    {hut daq long}
+    \caption[Picture of the onshore components of the \chipsfive DAQ system]
+    {Picture of the onshore components of the \chipsfive DAQ system arranged on a table at the
+        PolyMet mining administration building.}
     \label{fig:hut_daq}
 \end{figure}
 
-The two umbilical input power connections are distributed via two copper plates to a series of
-"trip gat" The Junction box contains connections to each container and their power supply relays.
-The two input power connections from shore are distributed to via two copper plates to all the
-relay connections throughout the box. Two standard network controlled logic relays control "trip"
-gates that stop the power supply to any/ section of the detector is a power surge is detected.
-THis is especially important for CHIPS given the water that is everywhere :p. One relay controls a
-pulsing and one just opens the channels. The trip gates are opening via a short pulse of current.
+The standard network switch provides \unit{10}{\mathrm{Gb}} connections to each of the Shore DAQ
+computing machines whose specific roles are detailed in Section.~\ref{sec:daq_soft}. Each machine
+is also connected to a second standard network router which provides a higher level \chips network
+for non-DAQ related work, also provides connections to the broader internet for communication with
+Fermilab.
 
-Within the shore hut all networking comes in through the multiplexer and is split back out into
-its individual wavelength channels via the multiplexer these go into multiple ports on two white
-rabbit switches. This is mainly for data flow such that each can be segmented via a VLAN with the
-corresponding ports on the opposite side and then the higher level standard networking switch to
-provide DO THE CALCULATION HERE lots of data bandwidth up to the main DAQ machines. One of the WR
-switches is the GrandMaster for the WR network and receives the IRIG-B and 10MhZ input from the
-GPs disciplines oscillator which is connected to a GPS antenna to receive its signals. Again both
-switches are also on the DAQ network for monitoring and control.
-
-The standard switch acts as the switch for condensing traffic onto single 10Gb connections to each
-individual DAQ machine. This is also on the network via a control port for monitoring. Only a
-single DAQ machine is used for data taking which another is used for monitoring and control as
-detailed in Section... The standard network switch is also connected to the wider CHIPS network at
-the pit the polymet building and then the wider internet for data transfer to fermilab!
+An uninterruptible power supply provides power to all electronics within the Shore Hut, providing
+power for up to \unit{15}{\mathrm{minutes}} after a power cut (surprisingly quite common).
 
 \section{Data flow and software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -312,6 +316,7 @@ SOFTWARE
 - INCLUDE DATA RATES IN SOFTWARE DIAGRAM
 - INCLUDE WHICH MACHINES THINGS RUN ON IN SOFTWARE DIAGRAM
 
+- Where the DHCP server is
 - Separated into slow-control, data collection, and
 
 - Need to get across what makes this DAQ implementation special and novel, what are the
@@ -368,7 +373,7 @@ monitoring.
 without needing to write an additional part of a monitoring program.
 
 \begin{figure} % MONITORING DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.png}
+    \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.pdf}
     \caption[monitoring short]
     {monitoring long}
     \label{fig:monitoring}
