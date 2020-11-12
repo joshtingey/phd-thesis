@@ -873,7 +873,8 @@ Five classification performance metrics are used for comparison during this sect
           curve~\cite{saito2015}.
 \end{enumerate}
 
-\subsection*{Time smearing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Time smearing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_robust_time} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The smearing of input hit times is found to produce a minimal reduction in output performance. For
 every event, each hit-time bin for which there is an entry not equal to zero is smeared using an
@@ -935,7 +936,8 @@ fall-off in performance. Interestingly, the \emph{High Score Pur} is seen to inc
 hit-time smearing, indicating that CC $\nu_{e}$ signal events are proportionally more robust to
 hit-time input smearing than background events.
 
-\subsection*{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Charge smearing and shifting} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_robust_charge} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The smearing and shifting of input hit charges behaves as expected and produces no significant
 reduction in output performance. For every event, each hit-charge and hough-height bin is scaled
@@ -1020,7 +1022,8 @@ the measured input data is always expected to bias the output prediction heavily
 realistic input differences on the order of a few per cent, only small output changes should be
 expected here.
 
-\subsection*{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Random noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_robust_noise} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Random PMT noise added to the input is found to have a negligible impact on output performance.
 For every event hit-charge bin, a normal distribution with a mean of zero and a standard deviation
@@ -1066,20 +1069,21 @@ The cases presented here represent a PMT noise rate more than two orders of magn
 that expected within \chipsfive. Testing has shown that at room temperate the
 \unit{88}{\mathrm{mm}} HZC PMTs produce a dark noise rate of $\sim$\unit{1}{\mathrm{KHz}}.
 Therefore, only $\sim0.02\%$ of event map bins are expected to be affected by PMT noise throughout
-a typical \unit{100}{\mathrm{ns}} event. Therefore, excellent beam classification robustness is
+a typical \unit{100}{\mathrm{ns}} event. Given this, excellent beam classification robustness is
 observed, with the small reduction in performance seen for the $2.3\%$ chance case indicating any
 realistic output changes would be negligible.
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Here a sample of alternative (but unsuccessful) \chips CNN implementations is presented and
-compared to the final implementation. Those chosen highlight important factors found to drive
-performance. Only the beam classification performance, specifically the primary CC $\nu_{e}$
-selection is used for comparison; however, these findings are also all found to translate somewhat
-to the cosmic rejection and energy estimation networks.
+Here a sample of alternative (but ultimately unsuccessful) \chips CNN implementations are
+presented and compared to the final implementation used. Those chosen highlight interesting
+factors that are found to drive (or not drive) performance. Only the beam classification
+performance, specifically the primary CC $\nu_{e}$ selection is used here for comparison; however,
+these findings also translate to cosmic rejection and energy estimation performance.
 
-\subsection*{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alternative inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_alt_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 How the raw PMT hits of an event are represented is found to impact performance significantly.
 Three different representations are considered. Firstly, the (successful) \emph{vertex view}, were
@@ -1091,7 +1095,8 @@ as viewed from the centre of the detector.
 
 The origin iso view follows the parametrisation from Ref.~\cite{berns2020} which attempts to
 equally distribute PMT density across the whole two-dimensional input representation. The PMT
-positions in cylindrical coordinates are mapped to two dimensions, $X_{+}$ and $X_{-}$ using
+positions in cylindrical coordinates ($\rho,\phi,z$) are mapped to two dimensions, $X_{+}$ and
+$X_{-}$ using
 \begin{equation} % ISO CASE EQUATION %
     X_{\pm}=
     \begin{cases}
@@ -1112,14 +1117,10 @@ and
 \end{equation}
 with $R$ and $H$ being the radius and height of the cylindrical detector respectively.
 
-For comparison, a beam classification network is trained for each representation. Only the
-hit-charge and hit-time event maps are used as input, as the hough-height map is generated as
-viewed from the estimated interaction vertex position, not the centre of the detector. Each of the
-three representations for a single example event is shown in
-Fig.~\ref{fig:explore_repr_nuel_ccres_event}. For each of the representations the resulting
-efficiency, purity, and their product (the FOM) for CC $\nu_{e}$ events as a function of selecting
-events above a particular CC $\nu_{e}$ score is shown in Fig.~\ref{fig:repr_nuel_eff_curves}.
-Performance comparison metrics are also presented in Table.~\ref{tab:repr}.
+A beam classification network is trained for each representation. Only the hit-charge and hit-time
+event maps are used as input, as the hough-height map can only be generated from the seed
+estimated interaction vertex position. An example CC resonant $\nu_{e}$ event as each
+representation is shown in Fig.~\ref{fig:explore_repr_nuel_ccres_event}.
 
 \begin{figure} % EXPLORE REPR EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_repr_nuel_ccres_event.pdf}
@@ -1131,6 +1132,17 @@ Performance comparison metrics are also presented in Table.~\ref{tab:repr}.
         $\pi^{0}$.}
     \label{fig:explore_repr_nuel_ccres_event}
 \end{figure}
+
+The example event highlights the advantages of representing the event as viewed from its estimated
+interaction vertex position. The emitted Cherenkov radiation and resulting ring are viewed as
+accurate to their physical topology and distorted less by the cylindrical surface of the detector.
+This clarity allows the CNN to solely learn the underlying topological differences between event
+types instead of also having to untangle detector induced distortions.
+
+For each representation the resulting efficiency, purity, and their product (the FOM) for CC
+$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
+in Fig.~\ref{fig:repr_nuel_eff_curves}. Performance comparison metrics are also presented in
+Table.~\ref{tab:repr}.
 
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/repr_nuel_eff_curves.pdf}
@@ -1157,25 +1169,22 @@ Performance comparison metrics are also presented in Table.~\ref{tab:repr}.
     \label{tab:repr}
 \end{table}
 
-The example event highlights the advantages of representing the event as viewed from its estimated
-interaction vertex position. The emitted Cherenkov radiation and the resulting ring is much
-clearer with limited distortions when compared to the other two representations. This clarity
-allows the CNN to learn the critical underlying topological differences between events instead of
-having to untangle detector induced distortions.
+A significant reduction in performance is observed when using either origin view representations,
+backing up the qualitative description above. Interestingly, both origin view representations
+result in a very similar performance, showing that uniform PMT distribution across the input
+representation does not provide improvements. Future work should consider other methods for
+removing detector induced distortions, such as smearing of hits across nearby bins and an improved
+interaction vertex position estimation.
 
-A significant reduction in performance is observed when using the two origin view representations,
-showing that the most crucial goal should be the representation of an event as close to the true
-physical Cherenkov shape as possible, rather than concerns of PMT density. Future work should
-consider further methods for removing distortions, such as the smearing of hits across nearby bins
-and an improved interaction vertex position estimation.
-
-\subsection*{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alternative training samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_samples} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The relative proportions of training sample interaction types should match the expected sample as
 closely as possible. Three different training samples are considered. Firstly, the (successful)
 \emph{flux} sample representative of the expected spectrum. Secondly, a \emph{uniform} sample,
 using a similar number of events per interaction type as shown in
-Fig.\ref{fig:explore_uniform_training_sample}. Finally, a \emph{both} sample combining both.
+Fig.\ref{fig:explore_uniform_training_sample}. Finally, a \emph{both} sample using an equivalent
+combination.
 
 \begin{figure} % UNIFORM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_uniform_training_sample.pdf}
@@ -1185,11 +1194,11 @@ Fig.\ref{fig:explore_uniform_training_sample}. Finally, a \emph{both} sample com
     \label{fig:explore_uniform_training_sample}
 \end{figure}
 
-For comparison, a beam classification network is trained using each of the training samples with
-an equal number of events. For each of the training samples the resulting efficiency, purity, and
-their product (the FOM) for CC $\nu_{e}$ events as a function of selecting events above a
-particular CC $\nu_{e}$ score is shown in Fig.~\ref{fig:sample_nuel_eff_curves}. Performance
-comparison metrics are also presented in Table.~\ref{tab:sample}.
+A beam classification network is trained using each of the training samples with an equal number
+of events. For each sample the resulting efficiency, purity, and their product (the FOM) for CC
+$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
+in Fig.~\ref{fig:sample_nuel_eff_curves}. Performance comparison metrics are also presented in
+Table.~\ref{tab:sample}.
 
 \begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/sample_nuel_eff_curves.pdf}
@@ -1216,37 +1225,40 @@ comparison metrics are also presented in Table.~\ref{tab:sample}.
     \label{tab:sample}
 \end{table}
 
-- Networks not as clever as you think, they play the statistics game.
-- Future work could define a loss function to minimise that quantifies the actual physics
-sensitivity as just optimising the accuracy across the sample is probably not the best way of
-doing it as under represented events could be really important.
+Using the uniform training sample is found to reduce beam classification performance
+significantly. Given that the \emph{both} sample performance lies between the uniform and flux
+cases, it can be assumed that as the training sample tends towards the expected flux, the
+performance increases. This finding highlights a key feature of CNNs; they play the game of
+statistics and only statistics, making them less smart than they may first appear.
 
-Using a sample not representative of the relative proportion of interaction types, as is the case
-for the uniform sample is seen to impact beam classification performance significantly. Given that
-the \emph{both} sample performance lies between that of the uniform and flux sample, as the
-similarity of the training sample trends towards the expected flux, the performance is seen to
-increase.
+In the beam classification case, the CNN learns to minimise the categorical cross-entropy loss
+function, maximising the fraction of total training events that are classified correctly. An easy
+way to do this is to become heavily biased by the averages of the sample used during training,
+such that the final performance does not generalise well to a differing evaluation sample.
 
-Therefore, the network must learn training sample specific features that are heavily biased by the
-averages of the training sample used. Although it may appear a good idea to use a uniform sample
-to represent less common interaction types within training better, this significantly impacts the
-final performance. Future work should study the exact behaviour of these findings to understand if
-different training sample distributions can be used without affecting final performance.
+For the flux training sample case, less common event classes are ignored by the network during
+training, as solely focusing on the dominant classes is found to be the easiest way to minimise
+the loss. The effect of this can be seen in the interaction type classification matrices in
+Section'~\ref{sec:results_eval_beam}. Future work should consider the use of a different loss
+function to promote learning of less common event classes, as to maximise the physics sensitivity
+rather than simple accuracy.
 
-\subsection*{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alternative architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:results_alt_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The choice of CNN architecture does not significantly impact performance. Four different network
-architectures are considered: the default VGG based chipsnet architecture, an Inception
-(GoogLeNet) based architecture, a ResNet based architecture, and an Inception-ResNet based
-architecture. Each follows the standard chipsnet pattern with separate initial branches for each
-event map followed by a series of combined layers. All the networks are scaled in size so that
-they have approximately the same number of parameters as the default VGG based architecture.
+The choice of CNN architecture is found not significantly to impact performance. Four different
+network architectures are considered: the default VGG based chipsnet architecture, an Inception
+(GoogLeNet) based architecture~\cite{szegedy2015}, a ResNet based
+architecture~\cite{he2016_improved}, and an Inception-ResNet based architecture\cite{szegedy2016}.
+Each is modified to fit the standard chipsnet pattern with separate initial branches for each
+event map followed by a series of combined layers. For a fair comparison, each network is scaled
+so that they have approximately the same number of trainable parameters as the default VGG based
+architecture.
 
-For comparison, a beam classification network is trained using each network architecture, with
-hyperparameters tuned in the standard way using SHERPA. For each of the network architectures the
-classification performance metrics are presented in Table.~\ref{tab:sample} along with the number
-of trainable parameters (Number of pars) and the time taken in milliseconds to complete a single
-training iteration step (Iter time).
+A beam classification network is trained using each network architecture with individual SHERPA
+optimised hyperparameters. For each network architecture, the classification performance metrics
+are presented in Table.~\ref{tab:sample} along with the number of trainable parameters (Number of
+pars) and the time taken in milliseconds to complete a single training iteration step (Iter time).
 
 \begin{table} % ARCHITECTURE COMPARISON METRICS TABLE %
     \begin{tabular}{ccccc}
@@ -1265,16 +1277,18 @@ training iteration step (Iter time).
     \label{tab:sample}
 \end{table}
 
-- We are looking at a different problem which is basically subtle changes to rings, rather than
-the broad range of features that can be learnt in ImageNet for example.
+Only small performance differences are observed across the different CNN architectures, with the
+simplest and least modern, the VGG architecture, proving the highest performing. Furthermore, the
+VGG architecture provides the fastest training step iteration time by a significant margin,
+leading to drastically reduced overall training times.
 
-Small differences are observed between the different CNN architectures considered. As recent CV
-research advances have focused on the case of larger images (typically $256\times256$ pixels or
-greater) the additional complexity the non VGG models provide is probably incapable of increasing
-performance for the $64\times64$ inputs grid used in this work. However, it is also a possibility
-that the underlying \chipsfive beam event classification task is not sufficiently complex. In this
-case, an increased complexity model introduces additional bias decreasing performance, instead of
-introducing additional discriminating power.
+The other architectures are primarily the result of advances that improve the classification of
+real-world objects, such as cars, trees, and dogs, with image sizes typically $256\times256$
+pixels or greater. Therefore, it is likely that the more subtle task of learning slight changes in
+Cherenkov ring topology with a relatively limited number of classes on $64\times64$ images does
+not require the advanced feature representation. In this case, the increased complexity models
+introduce additional bias acting to decrease performance, instead of providing additional
+discriminating power.
 
 \section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
