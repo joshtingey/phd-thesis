@@ -521,7 +521,7 @@ according to Eq.~\ref{eq:conv}, as is shown in Fig.~\ref{fig:conv_operation}.
 \begin{figure} % CONV OPERATION DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/conv_operation.pdf}
     \caption[Example of a convolutional operation]
-    {Example of a $\mathrm{stride}=1$ convolution operation involving the input grid and kernel
+    {Example of a $\text{stride}=1$ convolution operation involving the input grid and kernel
         from Fig.~\ref{fig:conv_input}. Both the operation for the case of \emph{valid} (top) and
         \emph{same} (bottom) padding is shown. The blue square in the top-left of the output
         feature maps indicates the output generated from the specific operation shown on the left
@@ -550,7 +550,7 @@ Fig.~\ref{fig:pooling}.
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/pooling.pdf}
     \caption[Example of pooling operation]
-    {Example of both a max and average $2 \times 2$ pooling operation with $\mathrm{stride}=2$.}
+    {Example of both a max and average $2 \times 2$ pooling operation with $\text{stride}=2$.}
     \label{fig:pooling}
 \end{figure}
 
@@ -709,7 +709,7 @@ and Cherenkov emission profiles.
 To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
 procedure introduced in Section.~\ref{sec:cnn_old_reco} is used. This process, unlike the full
 likelihood fit, requires no track hypothesis and typically takes under
-\unit{0.1}{\mathrm{seconds}} per event on a standard batch farm computing node. The seed estimated
+\unit{0.1}{\text{seconds}} per event on a standard batch farm computing node. The seed estimated
 vertex position resolutions for a sample of expected beam events are shown in
 Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is commonly estimated closer to the
 downstream wall of the detector than reality, however, as the $y$ and $z$ components perpendicular
@@ -748,7 +748,7 @@ percentage of bin values capped for each map type, while Fig.~\ref{fig:explore_8
 the distribution of bin values for each map across the encoded range.
 
 \begin{table}
-    \begin{tabular}{lcc}
+    \begin{tabular}{lrr}
         Event map    & Cap-point & Capped percentage \\
         \midrule
         hit-charge   & 25 p.e    & 0.10\%            \\

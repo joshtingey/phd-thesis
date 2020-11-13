@@ -13,8 +13,8 @@ categories of understanding are explored (each a section of this chapter):
 Beforehand, a key and hugely impactful advantage of the CNN approach must be highlighted. Although
 the time taken to train all the CNNs in this work is approximately two days, once trained the time
 required to calculate all network outputs (inference time) for a single event is on the order of
-\unit{2}{\mathrm{ms}}. When combined with event seeding and map generation, the total time taken
-to fully reconstruct and classify a raw event is less than \unit{0.2}{\mathrm{seconds}}.
+\unit{2}{\text{ms}}. When combined with event seeding and map generation, the total time taken
+to fully reconstruct and classify a raw event is less than \unit{0.2}{\text{seconds}}.
 
 Armed with this incredible speed, the time taken to process a large dataset containing millions of
 events becomes a matter of hours. Compared to the many weeks typically required for such a
@@ -48,8 +48,8 @@ using the unoscillated flux, cross-sections, and oscillation probabilities (incl
 effect). Additional weighting also scales events to match data taking in the NuMI beam for a
 single year, corresponding to $6\times 10^{20}$ protons on target (POT). For simplicity, the
 neutrino and antineutrino components of the beam are also combined as they are impossible to tell
-apart in practice. Cosmic muon events are weighted according to the \unit{11.8}{\mathrm{kHz}} and
-\unit{50}{\mathrm{m}} of overburden outlined in Section.~\ref{sec:chips_monte_carlo_cosmic}. The
+apart in practice. Cosmic muon events are weighted according to the \unit{11.8}{\text{kHz}} and
+\unit{50}{\text{m}} of overburden outlined in Section.~\ref{sec:chips_monte_carlo_cosmic}. The
 final weighted spectrum of events is shown in Fig.~\ref{fig:explore_osc_fluxes} with the
 combination of underlying beam neutrino interaction types shown in
 Fig.~\ref{fig:explore_stacked_int_types}.
@@ -175,7 +175,7 @@ contained. Furthermore, NC events are found to be primarily rejected by the pres
 cosmic events are heavily rejected by both the preselection and \emph{cosmic score} cuts.
 
 \begin{table}
-    \begin{tabular}{lccccc}
+    \begin{tabular}{lrrrrr}
                        & App CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC             & Cosmic                 \\
         \midrule
         Total events   & 44.2             & 2045.9         & 35.1              & 348.7          & 1211000                \\
@@ -237,7 +237,7 @@ approach.
 To access the beam classification performance more rigorously, a selection score for each of the
 output categories, found by maximising a figure-of-merit (FOM), is instead calculated. All events
 with a score above this optimised value are then deemed signal. To minimise the expected
-measurement statistical error, the value of $\mathrm{efficiency}\times\mathrm{purity}$
+measurement statistical error, the value of $\text{efficiency}\times\text{purity}$
 (proportional to $s/\sqrt{s+b}$) is optimised as the FOM~\cite{list2002}. Below, the results for
 both appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections using this methodology are
 presented.
@@ -263,9 +263,9 @@ clustered with scores close to one as expected.
 
 The efficiency, purity, and their product (the FOM) for CC $\nu_{e}$ events (both appeared and
 beam) as a function of selecting events above a certain CC $\nu_{e}$ score are shown in
-Fig.~\ref{fig:final_nuel_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised by
+Fig.~\ref{fig:final_nuel_eff_curves}. $\text{Efficiency}\times\text{purity}$ is optimised by
 selecting events with a CC $\nu_{e}$ score above $0.8$, achieving a value of $0.519$. Note that
-$\mathrm{efficiency}\times\mathrm{purity}$ is optimised considering both appeared and beam CC
+$\text{efficiency}\times\text{purity}$ is optimised considering both appeared and beam CC
 $\nu_{e}$ components as signal, due to their indistinguishable nature, this is the only reasonable
 approach to generate cut values.
 
@@ -277,14 +277,14 @@ considered signal the selection purity becomes $71.0\pm0.6\%$.
 
 \begin{figure} % FINAL NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_nuel_eff_curves.pdf}
-    \caption[CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+    \caption[CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$]
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ for different
         values of CC $\nu_{e}$ score selection.}
     \label{fig:final_nuel_eff_curves}
 \end{figure}
 
 \begin{table}
-    \begin{tabular}{ccccccc}
+    \begin{tabular}{lrrrrr}
                  & CC $\nu_{e}$ sig & Beam CC $\nu_{\mu}$ bkg & CC $\nu_{e}$ bkg & NC bkg        & Sig Purity     \\
         \midrule
         Cuts Num & 40.8             & 818.0                   & 33.0             & 231.0         & $3.6\pm0.1\%$  \\
@@ -296,12 +296,12 @@ considered signal the selection purity becomes $71.0\pm0.6\%$.
     {Table showing CC $\nu_{e}$ selected event numbers and corresponding efficiencies for the
         various event categories as well as the associated signal purity. Shown are the numbers
         for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
-        numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ (FOM)
+        numbers (Cuts) in addition to the $\text{efficiency}\times\text{purity}$ (FOM)
         optimised selection for which the efficiency is shown.}
     \label{tab:nuel_selection}
 \end{table}
 
-The $\mathrm{efficiency}\times\mathrm{purity}$ optimised CC $\nu_{e}$ selection efficiency as a
+The $\text{efficiency}\times\text{purity}$ optimised CC $\nu_{e}$ selection efficiency as a
 function of energy for the different event categories is shown in Fig.~\ref{fig:final_nuel_hists}.
 From low neutrino energies, both CC $\nu_{e}$ category selection efficiencies rise steeply to a
 plateau of approximately 80\% beginning at \unit{4}{GeV}. This is expected as low energy CC
@@ -329,11 +329,11 @@ The best way to understand the relative performance of the CNN CC $\nu_{e}$ clas
 comparison with the standard event selection presented in Section.~\ref{sec:cnn_old_pid}. The
 distribution of output scores from both neural networks used in the standard selection is shown in
 Fig.~\ref{fig:final_old_pid_outputs}. By optimising the selection values for both networks, 0.91
-and 0.78 respectively, to maximise $\mathrm{efficiency}\times\mathrm{purity}$, the standard CC
+and 0.78 respectively, to maximise $\text{efficiency}\times\text{purity}$, the standard CC
 $\nu_{e}$ selection sample is found. All events that pass the preselection, not just those shown
 in Fig.~\ref{fig:final_old_pid_outputs} are used in this optimisation.
 
-A maximum $\mathrm{efficiency}\times\mathrm{purity}$ of 0.132 is achieved; only 25\% the value
+A maximum $\text{efficiency}\times\text{purity}$ of 0.132 is achieved; only 25\% the value
 reached by the CNN approach. Both the signal efficiency of 34\% compared to 71\% and combined
 appeared and beam CC $\nu_{e}$ purity of 39\% compared to 71\% are considerably lower than that
 provided by the new CNN classification.
@@ -381,7 +381,7 @@ three orders of magnitude.
 
 The efficiency, purity, and their product (the FOM) for CC $\nu_{\mu}$ events as a function of
 selecting events above a particular CC $\nu_{\mu}$ score is shown in
-Fig.~\ref{fig:final_numu_eff_curves}. $\mathrm{Efficiency}\times\mathrm{purity}$ is optimised by
+Fig.~\ref{fig:final_numu_eff_curves}. $\text{Efficiency}\times\text{purity}$ is optimised by
 selecting events with a CC $\nu_{\mu}$ score above $0.315$, achieving a value of $0.365$. The
 corresponding number and efficiency of selected events for each event category, as well as the
 signal purity, is shown in Table.~\ref{tab:numu_selection}. The results compare well to the 31.2\%
@@ -393,14 +393,14 @@ considering just those CC $\nu_{\mu}$ events for which the primary charged muon 
 
 \begin{figure} % FINAL NUMU EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_numu_eff_curves.pdf}
-    \caption[CC $\nu_{\mu}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$]
-    {CC $\nu_{\mu}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for
+    \caption[CC $\nu_{\mu}$ efficiency, purity and $\text{efficiency}\times\text{purity}$]
+    {CC $\nu_{\mu}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ for
         different values of CC $\nu_{\mu}$ score selection.}
     \label{fig:final_numu_eff_curves}
 \end{figure}
 
 \begin{table}
-    \begin{tabular}{cccccc}
+    \begin{tabular}{lrrrrr}
                  & CC $\nu_{\mu}$ sig & App CC $\nu_{e}$ bkg & Beam CC $\nu_{e}$ bkg & NC bkg        & Sig Purity     \\
         \midrule
         Cuts Num & 818.0              & 40.8                 & 33.0                  & 231.0         & $72.9\pm0.5\%$ \\
@@ -412,12 +412,12 @@ considering just those CC $\nu_{\mu}$ events for which the primary charged muon 
     {Table showing CC $\nu_{\mu}$ selected event numbers and corresponding efficiencies for the
         various event categories as well as the associated signal purity. Shown are the numbers
         for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
-        numbers (Cuts) in addition to the $\mathrm{efficiency}\times\mathrm{purity}$ (FOM)
+        numbers (Cuts) in addition to the $\text{efficiency}\times\text{purity}$ (FOM)
         optimised selection for which the efficiency is shown.}
     \label{tab:numu_selection}
 \end{table}
 
-The $\mathrm{efficiency}\times\mathrm{purity}$ optimised CC $\nu_{\mu}$ selection efficiency as a
+The $\text{efficiency}\times\text{purity}$ optimised CC $\nu_{\mu}$ selection efficiency as a
 function of energy for the different event categories is shown in Fig.~\ref{fig:final_numu_hists}.
 Survived CC $\nu_{\mu}$ selection efficiency peaks just below \unit{2}{\GeV} before slowly
 declining, this is explained by higher energy events being less likely to have their primary
@@ -441,9 +441,9 @@ protons and pions.
 \subsubsection*{Interaction type classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Using the \emph{CC category} output of the trained beam classification network, the CC interaction
-type (used in the following energy estimation section) for both CC $\nu_{e}$ and CC $\nu_{\mu}$
-selected events can be determined. As in the \emph{combined category} output case, the
-highest-scoring neuron can be used for classification, resulting in the matrix shown in
+type (used for energy estimation in Section.~\ref{sec:results_eval_energy}) for both CC $\nu_{e}$
+and CC $\nu_{\mu}$ selected events can be determined. As in the \emph{combined category} output
+case, the highest-scoring neuron can be used for classification, resulting in the matrix shown in
 Fig.~\ref{fig:final_cc_cat_confusion}. Note that only events which are selected by either the CC
 $\nu_{e}$ or CC $\nu_{\mu}$ selection are shown.
 
@@ -559,7 +559,7 @@ Tab.~\ref{tab:energy_resolutions}.
 \end{figure}
 
 \begin{table}
-    \begin{tabular}{lccccc}
+    \begin{tabular}{lrrrrr}
         Event type     & All    & Signal & Signal-QEL & Signal-Res & Signal-DIS \\
         \midrule
         CC $\nu_{e}$   & 12.9\% & 10.3\% & 7.1\%      & 10.3\%     & 13.6\%     \\
@@ -659,9 +659,9 @@ method distributions shown for comparison.
 
 Comparable resolutions are achieved for CC $\nu_{e}$ events, while CC $\nu_{\mu}$ events display
 considerable improvements in interaction vertex z-position and time. The Super-Kamiokande fiTQun
-algorithm reaches an interaction vertex position resolution of \unit{20}{\mathrm{cm}} for CC
-$\nu_{e}$ and \unit{15}{\mathrm{cm}} for CC $\nu_{\mu}$ events~\cite{jiang2019}, compared to the
-approximately \unit{50}{\mathrm{cm}} and \unit{70}{\mathrm{cm}} resolutions in this work. Again, a
+algorithm reaches an interaction vertex position resolution of \unit{20}{\text{cm}} for CC
+$\nu_{e}$ and \unit{15}{\text{cm}} for CC $\nu_{\mu}$ events~\cite{jiang2019}, compared to the
+approximately \unit{50}{\text{cm}} and \unit{70}{\text{cm}} resolutions in this work. Again, a
 reasonable difference in performance, given the significant detector differences.
 
 The charged lepton energy, interaction vertex position, and interaction vertex time resolutions
@@ -707,7 +707,7 @@ $\delta_{CP}$ are shown in the CC $\nu_{e}$ case for interest.
         appeared CC $\nu_{e}$ signal component as well as the intrinsic beam CC $\nu_{e}$, NC and
         survived CC $\nu_{\mu}$ background components are shown stacked to generate the full
         distribution. Expected totals are show in each bin for
-        $\delta_{CP}=-\pi/2,~0,~\mathrm{and}~+\pi/2$.}
+        $\delta_{CP}=-\pi/2,~0,~\text{and}~+\pi/2$.}
     \label{fig:final_nuel_passed_energy_dist}
 \end{figure}
 
@@ -785,9 +785,9 @@ the learnt network features.
 Visualisations of the t-SNE algorithm outputs, when applied to both the trained cosmic rejection
 and beam classification networks, are shown in Fig.~\ref{fig:explain_cosmic_tsne} and
 Fig.~\ref{fig:explain_beam_tsne} respectively. The very strong cosmic to beam like separation
-presented in the previous section is clear from the cosmic rejection visualisation. Conversely,
-for the beam classification network, the separation is weaker, with major overlap between
-categories, especially for CC $\nu_{e}$ and NC events.
+presented in Section.~\ref{sec:results_eval_cosmic} is clear from the cosmic rejection
+visualisation. Conversely, for the beam classification network, the separation is weaker, with
+major overlap between categories, especially for CC $\nu_{e}$ and NC events.
 
 \begin{figure} % COSMIC t-SNE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explain_cosmic_tsne.pdf}
@@ -839,7 +839,7 @@ Studies are presented here to prove the robustness of the trained CNNs to such c
 input. Broadly, the CNN inputs can be characterised as being dependent on three sets of PMT
 information: the hit times, the hit charges, and hit positions. An accurate PMT position is deemed
 unimportant to the trained networks as the $64 \times 64$ input grid roughly corresponds to bins
-of size \unit{2.5}{\mathrm{m}} in $\theta$ by \unit{2.0}{\mathrm{m}} in $\phi$ within the
+of size \unit{2.5}{\text{m}} in $\theta$ by \unit{2.0}{\text{m}} in $\phi$ within the
 \chipsfive detector. As this binning is much larger than the actual distance between PMTs,
 resolving individual PMTs becomes impossible. Consequently, changes in only the PMT hit times and
 hit charges are considered in three studies: the smearing of hit times, the smearing and shifting
@@ -849,7 +849,7 @@ Five classification performance metrics are used for comparison during this sect
 (Section.~\ref{sec:results_alt}):
 \begin{enumerate}
     \item \textbf{Max FOM:} The optimised figure-of-merit
-          ($\mathrm{efficiency}\times\mathrm{purity}$) value. As the FOM is proportional to
+          ($\text{efficiency}\times\text{purity}$) value. As the FOM is proportional to
           $s/\sqrt{s+b}$ which increases linearly with detector exposure, an improvement in the
           FOM value linearly decreases the exposure time required to reach the same physics
           sensitivity.
@@ -879,8 +879,8 @@ Five classification performance metrics are used for comparison during this sect
 The smearing of input hit times is found to produce a minimal reduction in output performance. For
 every event, each hit-time bin for which there is an entry not equal to zero is smeared using an
 absolute time randomly generated using a normal distribution with a mean of zero and a standard
-deviation of $\sigma$ nanoseconds. The cases when $\sigma=0~\mathrm{ns}$ (no smearing),
-$\sigma=2~\mathrm{ns}$, and $\sigma=5~\mathrm{ns}$ are considered. The actual smearing values used
+deviation of $\sigma$ nanoseconds. The cases when $\sigma=0~\text{ns}$ (no smearing),
+$\sigma=2~\text{ns}$, and $\sigma=5~\text{ns}$ are considered. The actual smearing values used
 are scaled for the zero to one input range, and any post smearing out-of-range values are clipped
 to the range boundaries.
 
@@ -894,22 +894,22 @@ not presented as the resulting output changes are negligible.
 \begin{figure} % CALIB TIME NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_time_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-time smearing]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ at different
         values of CC $\nu_{e}$ score selection for different levels of hit-time smearing. The
-        $\sigma=0~\mathrm{ns}$ curves are shown by the solid lines, $\sigma=2~\mathrm{ns}$ curves
-        by the dashed lines, and $\sigma=5~\mathrm{ns}$ curves by the dotted lines.}
+        $\sigma=0~\text{ns}$ curves are shown by the solid lines, $\sigma=2~\text{ns}$ curves
+        by the dashed lines, and $\sigma=5~\text{ns}$ curves by the dotted lines.}
     \label{fig:calib_time_nuel_eff_curves}
 \end{figure}
 
 \begin{table} % CALIB TIME COMPARISON METRICS TABLE %
-    \begin{tabular}{cccc}
-        Metric         & $\sigma=0~\mathrm{ns}$ & $\sigma=2~\mathrm{ns}$ & $\sigma=5~\mathrm{ns}$ \\
+    \begin{tabular}{lrrr}
+        Metric         & $\sigma=0~\text{ns}$ & $\sigma=2~\text{ns}$ & $\sigma=5~\text{ns}$ \\
         \midrule
-        Max FOM        & \textbf{0.519}         & 0.513                  & 0.484                  \\
-        High Score Eff & \textbf{0.835}         & 0.826                  & 0.798                  \\
-        High Score Pur & 0.554                  & 0.556                  & \textbf{0.561}         \\
-        ROC Integral   & \textbf{0.828}         & 0.828                  & 0.826                  \\
-        PR Integral    & \textbf{0.756}         & 0.751                  & 0.730                  \\
+        Max FOM        & \textbf{0.519}       & 0.513                & 0.484                \\
+        High Score Eff & \textbf{0.835}       & 0.826                & 0.798                \\
+        High Score Pur & 0.554                & 0.556                & \textbf{0.561}       \\
+        ROC Integral   & \textbf{0.828}       & 0.828                & 0.826                \\
+        PR Integral    & \textbf{0.756}       & 0.751                & 0.730                \\
     \end{tabular}
     \caption[Classification performance metrics for different levels of hit-time smearing]
     {Classification performance metrics for different levels of hit-time smearing. The ROC and PR
@@ -922,16 +922,16 @@ not presented as the resulting output changes are negligible.
     \includegraphics[width=0.9\textwidth]{diagrams/7-results/calib_time_nuel_comp_curves.pdf}
     \caption[Receiver operating characteristic and precision-recall curves for different levels of
         hit-time smearing] {ROC (left) and PR (right) curves for different levels of hit-time
-        smearing. The $\sigma=0~\mathrm{ns}$ curves are shown by the solid lines,
-        $\sigma=2~\mathrm{ns}$ curves by the dashed lines, and $\sigma=5~\mathrm{ns}$ curves by
+        smearing. The $\sigma=0~\text{ns}$ curves are shown by the solid lines,
+        $\sigma=2~\text{ns}$ curves by the dashed lines, and $\sigma=5~\text{ns}$ curves by
         the dotted lines.}
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
 With an effective calibration, a realistic discrepancy in hit times of less than
-\unit{1}{\mathrm{ns}} should be expected. Given this, it is promising to observe that even for the
-smearing of $\sigma=2~\mathrm{ns}$ the beam classification performance change is minimal. At
-$\sigma=5~\mathrm{ns}$ more significant degradation starts to occur; however, there is no dramatic
+\unit{1}{\text{ns}} should be expected. Given this, it is promising to observe that even for the
+smearing of $\sigma=2~\text{ns}$ the beam classification performance change is minimal. At
+$\sigma=5~\text{ns}$ more significant degradation starts to occur; however, there is no dramatic
 fall-off in performance. Interestingly, the \emph{High Score Pur} is seen to increase with greater
 hit-time smearing, indicating that CC $\nu_{e}$ signal events are proportionally more robust to
 hit-time input smearing than background events.
@@ -962,7 +962,7 @@ rejection performance is not presented as the resulting output changes are negli
 \begin{figure} % CALIB CHARGE RAND NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_rand_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-charge smearing]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ at different
         values of CC $\nu_{e}$ score selection for different levels of hit-charge smearing. The
         $\sigma=0.0$ curves are shown by the solid lines, $\sigma=0.2$ curves by the dashed lines,
         and $\sigma=0.4$ curves by the dotted lines.}
@@ -972,7 +972,7 @@ rejection performance is not presented as the resulting output changes are negli
 \begin{figure} % CALIB CHARGE SHIFT NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_charge_shift_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of hit-charge shifting]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ at different
         values of CC $\nu_{e}$ score selection for different levels of hit-charge shifting. The
         $\mu=1.0$ curves are shown by the solid lines, $\mu=1.2$ curves by the dashed lines, and
         $\mu=1.4$ curves by the dotted lines.}
@@ -980,7 +980,7 @@ rejection performance is not presented as the resulting output changes are negli
 \end{figure}
 
 \begin{table} % CALIB CHARGE COMPARISON METRICS TABLE %
-    \begin{tabular}{cccccc}
+    \begin{tabular}{lrrrrr}
         Scaling ($\mu,\sigma$) & ($1.0,0.0$)    & ($1.0,0.2$)    & ($1.0,0.4$) & ($1.2,0.2$) & ($1.4,0.2$) \\
         \midrule
         Max FOM                & \textbf{0.519} & 0.513          & 0.458       & 0.519       & 0.501       \\
@@ -1043,7 +1043,7 @@ presented as the resulting output changes are negligible.
 \begin{figure} % CALIB NOISE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_noise_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different levels of noise]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ at different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ at different
         values of CC $\nu_{e}$ score selection for different levels of noise. The $0.0\%$ curves
         are shown by the solid lines, $2.3\%$ curves by the dashed lines, and $6.7\%$ curves by
         the dotted lines.}
@@ -1051,7 +1051,7 @@ presented as the resulting output changes are negligible.
 \end{figure}
 
 \begin{table} % CALIB NOISE COMPARISON METRICS TABLE %
-    \begin{tabular}{cccc}
+    \begin{tabular}{lrrr}
         Metric         & $0.0\%$        & $2.3\%$ & $6.7\%$ \\
         \midrule
         Max FOM        & \textbf{0.519} & 0.503   & 0.316   \\
@@ -1067,9 +1067,9 @@ presented as the resulting output changes are negligible.
 
 The cases presented here represent a PMT noise rate more than two orders of magnitude greater than
 that expected within \chipsfive. Testing has shown that at room temperate the
-\unit{88}{\mathrm{mm}} HZC PMTs produce a dark noise rate of $\sim$\unit{1}{\mathrm{KHz}}.
+\unit{88}{\text{mm}} HZC PMTs produce a dark noise rate of $\sim$\unit{1}{\text{KHz}}.
 Therefore, only $\sim0.02\%$ of event map bins are expected to be affected by PMT noise throughout
-a typical \unit{100}{\mathrm{ns}} event. Given this, excellent beam classification robustness is
+a typical \unit{100}{\text{ns}} event. Given this, excellent beam classification robustness is
 observed, with the small reduction in performance seen for the $2.3\%$ chance case indicating any
 realistic output changes would be negligible.
 
@@ -1147,7 +1147,7 @@ Table.~\ref{tab:repr}.
 \begin{figure} % REPR NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/repr_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for three input representations]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ for different
         values of CC $\nu_{e}$ score selection for the three input representations. The
         \emph{vertex view} curves are shown by the solid lines, the \emph{origin raw view} curves
         by the dashed lines, and the \emph{origin iso view} curves by the dotted lines.}
@@ -1155,7 +1155,7 @@ Table.~\ref{tab:repr}.
 \end{figure}
 
 \begin{table} % REPR COMPARISON METRICS TABLE %
-    \begin{tabular}{cccc}
+    \begin{tabular}{lrrr}
         Metric         & Vertex View    & Origin Raw View & Origin Iso View \\
         \midrule
         Max FOM        & \textbf{0.461} & 0.422           & 0.419           \\
@@ -1203,7 +1203,7 @@ Table.~\ref{tab:sample}.
 \begin{figure} % SAMPLE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/sample_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency and purity curves for different training samples]
-    {CC $\nu_{e}$ efficiency, purity and $\mathrm{efficiency}\times\mathrm{purity}$ for different
+    {CC $\nu_{e}$ efficiency, purity and $\text{efficiency}\times\text{purity}$ for different
         values of CC $\nu_{e}$ score selection for the different training samples. The \emph{flux}
         sample curves are shown by the solid lines, the \emph{uniform} sample curves by the dashed
         lines, and the \emph{both} curves by the dotted lines.}
@@ -1211,7 +1211,7 @@ Table.~\ref{tab:sample}.
 \end{figure}
 
 \begin{table} % SAMPLE COMPARISON METRICS TABLE %
-    \begin{tabular}{cccc}
+    \begin{tabular}{lrrr}
         Metric         & Flux           & Uniform & Both  \\
         \midrule
         Maximum FOM    & \textbf{0.465} & 0.339   & 0.386 \\
@@ -1239,7 +1239,7 @@ such that the final performance does not generalise well to a differing evaluati
 For the flux training sample case, less common event classes are ignored by the network during
 training, as solely focusing on the dominant classes is found to be the easiest way to minimise
 the loss. The effect of this can be seen in the interaction type classification matrices in
-Section'~\ref{sec:results_eval_beam}. Future work should consider the use of a different loss
+Section.~\ref{sec:results_eval_beam}. Future work should consider the use of a different loss
 function to promote learning of less common event classes, as to maximise the physics sensitivity
 rather than simple accuracy.
 
@@ -1261,7 +1261,7 @@ are presented in Table.~\ref{tab:sample} along with the number of trainable para
 pars) and the time taken in milliseconds to complete a single training iteration step (Iter time).
 
 \begin{table} % ARCHITECTURE COMPARISON METRICS TABLE %
-    \begin{tabular}{ccccc}
+    \begin{tabular}{lrrrr}
         Metric         & VGG            & Inception  & ResNet              & Inception-ResNet \\
         \midrule
         Number of pars & 17,225,296     & 16,893,216 & \textbf{16,526,288} & 17,145,238       \\
