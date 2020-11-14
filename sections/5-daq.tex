@@ -86,7 +86,7 @@ is achieved.
 \label{sec:daq_hard} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The hardware of the \chipsfive DAQ system is split into two distinct implementations at its lower
-levels (closest to the PMTs), corresponding to the Nikhef and Madison POM types. \chips R\&D
+levels (closest to the PMTs), corresponding to the Nikhef and Madison \textsc{Pom} types. \chips R\&D
 efforts have developed the novel Madison implementation with the view to use this hardware within
 detector modules exclusively. However, as a safe stepping stone, while development and testing are
 still ongoing, \chipsfive mainly contains proven Nikhef hardware developed initially for the
@@ -126,32 +126,32 @@ Converter (ADC) readout as the electronics are simpler and notably cheaper.
 \subsection{Nikhef hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_Nikhed} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-All Nikhef \unit{88}{\text{mm}} HZC PMTs are attached directly to a simple readout board
-containing a high-voltage generating Cockcroft-Walton circuit. Up to 30 such PMTs are connected to
-two \emph{Calamares} boards within the electronics box of each Nikhef POM via standard category 5
-cables with RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares boards are
-directly attached to a Central Logic Board (CLB)~\cite{biagi2015, eijk2015}. The CLB contains ToT
+All Nikhef HZC PMTs are attached directly to a simple readout board containing a high-voltage
+generating Cockcroft-Walton circuit. Up to 30 such PMTs are connected to two \emph{Calamares}
+boards within the electronics box of each Nikhef \textsc{Pom} via standard category 5 cables with
+RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares boards are directly
+attached to a Central Logic Board (CLB)~\cite{biagi2015, eijk2015}. The CLB contains ToT
 discriminators and TDCs to digitise the recorded PMT signals as well as electronics to synchronise
-to the WR network clock for timestamping. Each Nikhef POM electronics box also contains an AC to
-DC power converter (AC/DC) whose output is fed into the CLB for distribution.
+to the WR network clock for timestamping. Each Nikhef \textsc{Pom} electronics box also contains
+an AC to DC power converter (AC/DC) whose output is fed into the CLB for distribution.
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/nikhef_plane.pdf}
-    \caption[Labelled picture of the Nikhef POM electronics box.]
-    {Labelled picture of the Nikhef POM electronics box. Both ends of the category 5 PMT cables
+    \caption[Labelled picture of the Nikhef \textsc{Pom} electronics box.]
+    {Labelled picture of the Nikhef \textsc{Pom} electronics box. Both ends of the category 5 PMT cables
         can be seen, either at the PMT mounting points or entering the electronics box and not yet
         plugged into Calamares boards.}
     \label{fig:nikhef_plane}
 \end{figure}
 
-Every Nikhef POM is connected via a single optical fibre and a single power connection to a
+Every Nikhef \textsc{Pom} is connected via a single optical fibre and a single power connection to a
 \emph{Nikhef-container}, the contents of which are labelled in the bottom half of
 Fig.~\ref{fig:full_setup}. Two WR switches are used within each container to provide sufficient
-POM networking ports. Both are powered by independent AC to DC converters and connected via a
+\textsc{Pom} networking ports. Both are powered by independent AC to DC converters and connected via a
 single optical fibre each to the higher level DAQ systems. An additional connection between each
 switch ensures that if one higher-level connection fails the other can still be used.
 
-Each Nikhef-container also contains a relay board to control the power supply to individual POMs.
+Each Nikhef-container also contains a relay board to control the power supply to individual \textsc{Pom}s.
 The relay board control electronics are powered via an AC to DC converter and connected to one of
 the switches via a media converter for networking. The media converter is required to convert the
 optical fibre (1000BASE ethernet) WR switch connection to a standard RJ45 copper cable (100BASE
@@ -159,16 +159,16 @@ ethernet). A total of five Nikhef-containers are present within \chipsfive.
 
 \begin{figure} % FULL SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
-    \caption[Picture of the non POM components of the \chipsfive DAQ system]
-    {Picture of the non POM components of the \chipsfive DAQ system arranged on a table at the
+    \caption[Picture of the non \textsc{Pom} components of the \chipsfive DAQ system]
+    {Picture of the non \textsc{Pom} components of the \chipsfive DAQ system arranged on a table at the
         PolyMet mining administration building.}
     \label{fig:full_setup}
 \end{figure}
 \subsection{Madison hardware} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Every Madison Hamamatsu R6091 PMT is directly attached to a high-voltage generating
-Cockcroft-Walton board followed by a signal processing \emph{$\mu$DAQ}, as shown in
+Every Madison Hamamatsu PMT is directly attached to a high-voltage generating Cockcroft-Walton
+board followed by a signal processing \emph{$\mu$DAQ}, as shown in
 Fig.~\ref{fig:madison_pmt_assembly}. The $\mu$DAQ is a small microcontroller developed for both
 IceCube and \chips at WIPAC in Madison. Capable of timestamping and digitising signals directly at
 the PMT level, the $\mu$DAQ also sets the PMT operating voltage by controlling the
@@ -177,19 +177,19 @@ Cockcroft-Walton board~\cite{eijk2018}.
 Up to 16 $\mu$DAQs receive power, networking, and IRIG-B and \unit{10}{\text{MHz}} timing
 signals from a \emph{badger-board}, as shown in Fig.~\ref{fig:madison_plane}. Standard category 5
 cables with RJ45 connectors are used. The badger-board is located within the electronics box of
-each Madison POM and acts as a simple fanout and power control board. For logic, each badger-board
+each Madison \textsc{Pom} and acts as a simple fanout and power control board. For logic, each badger-board
 has an attached mezzanine Beaglebone~\cite{beagle2020}. This single-board Linux machine (very
 similar to a Raspberry Pi) controls the power supply to and receives hits from the attached
 $\mu$DAQs.
 
 \begin{figure} % MADISON PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/madison_plane.pdf}
-    \caption[Labelled picture of the components of the Madison POM electronics box.]
-    {Labelled picture of the components of the Madison POM electronics box.}
+    \caption[Labelled picture of the components of the Madison \textsc{Pom} electronics box.]
+    {Labelled picture of the components of the Madison \textsc{Pom} electronics box.}
     \label{fig:madison_plane}
 \end{figure}
 
-Similarly, up to 16 Madison POM badger-boards receive power, networking and IRIG-B and
+Similarly, up to 16 Madison \textsc{Pom} badger-boards receive power, networking and IRIG-B and
 \unit{10}{\text{MHz}} timing signals from a \emph{danout-board} located within a single
 \emph{Madison-container}. Again, standard category 5 cables with RJ45 connectors are used. The
 full contents of the Madison-container are shown in Fig.~\ref{fig:madison_box}. Similar to the
@@ -209,7 +209,7 @@ via the danout-board.
     \includegraphics[width=\textwidth]{diagrams/5-daq/madison_box.pdf}
     \caption[Labelled picture of the Madison-container components.]
     {Labelled picture of the Madison-container components. The blue and grey cables exiting the
-        left hand side of the image go to individual Madison POMs connecting to the I/O port shown
+        left hand side of the image go to individual Madison \textsc{Pom}s connecting to the I/O port shown
         in fig.~\ref{fig:madison_plane}. An optical fibre connection into the left SFP port of the
         WR-LEN is used in reality rather than the copper connection shown here.}
     \label{fig:madison_box}
@@ -233,15 +233,15 @@ beaglebone.
 Each Nikhef-container and Madison-container is connected to the \chipsfive \emph{junction-box},
 labelled in Fig.~\ref{fig:full_setup}. This central container acts as the interface between the
 detector electronics and the umbilical carrying data and power between the shore and the detector.
-All connections to the junction-box (as well as those between POMs and Nikhef and Madison
+All connections to the junction-box (as well as those between \textsc{Pom}s and Nikhef and Madison
 containers) are made within watertight, flexible PVC tubing called \emph{manifolds}. These tubes
 span all corners of the \chipsfive detector, as shown in Fig.~\ref{fig:manifold}.
 
 \begin{figure} % MANIFOLD DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/manifold.pdf}
     \caption[manifold short]
-    {Picture of a Nikhef POM to Nikhef-container manifold (in white) attached to the top-cap of
-        the \chipsfive detector. In the left of the image, two unattached Nikhef POM pigtail
+    {Picture of a Nikhef \textsc{Pom} to Nikhef-container manifold (in white) attached to the top-cap of
+        the \chipsfive detector. In the left of the image, two unattached Nikhef \textsc{Pom} pigtail
         connections are seen, both covered in green tape and a plastic bag.}
     \label{fig:manifold}
 \end{figure}
@@ -334,7 +334,7 @@ in~\cite{microdaq2020}. Most of Madison code is written in c!
 is a library for network and low-level I/O programming using an asynchronous model.
 - Taking inspiration from the KM3NeT DAQ Java software
 - The detector is configured using a single human readable configuration file that defines all the
-POM types, MAC addresses, IP addresses, types, relay channels, which channels should be active and
+\textsc{Pom} types, MAC addresses, IP addresses, types, relay channels, which channels should be active and
 their associate high voltage setting, threshold and electronic ID.
 - Typical ethernet frame has a maximum transmission unit (MTU) size of 1500 bytes, we use Jumbo
 frames that allow for an MTU of 9000 bytes, this means we have a lot less small frames with only a
@@ -358,7 +358,7 @@ sufficient bandwidth, DO A SMALL CALCULATION!
 - Get to leverage an enormous amount of online support and the community
 - daqlog: Uses for DAQ application logging with a severity
 - daqstate: Used to report the current state of various DAQ applications
-- monpom: Used for reporting general POM monitoring information, such as temp, humidity, status
+- monpom: Used for reporting general \textsc{Pom} monitoring information, such as temp, humidity, status
 - monchannel: Used for reporting individual channel monitoring, such as rate, veto
 - A series of altering rules are also set up constantly monitoring the status of the monitoring
 data contained within the elasticsearch database to alert via slack or email individuals if something goes wrong.
