@@ -2,15 +2,28 @@
 \label{chap:introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcounter{page}{17}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
 
-TODO: Write the Introduction
+Consider a two-dimensional plane onto which thousands of individual points are randomly placed.
+Now suppose that the points are instead arranged so that combined (on a macro scale) they form the
+shape of a ring (an annulus). Not a perfect ring, but a ring with a thickness and whose
+constituent points are smeared to make it noticeably `fuzzy'. If you were to see a picture of this
+ring for the first time, how would your process of understanding unfold?
 
-Consider a neutrino, an energetic one,
+Initially, you may notice edges between areas with few points and those with many. After
+considering how these edges interconnect, you may begin to understand that they form a circular
+shape. This shape is then probably refined once you notice the central hole and realise it is, in
+fact, a ring. You would then start to consider its size, its diameter, where is the plane it is
+located, and whether it is elliptical in nature. Upon detailed inspection, you may observe an
+internal structure to the ring with a changing density of points. Given enough time you could
+start to produce quantitative properties: the number of constituent points, the location of its
+centre, even a density profile.
 
-- For now this work aims to allow for optimisation of the \chips detector concept.
-- drive the development help others
-- for detector optimisation studies
-- Main purpose for now is to allow for the exploration of different detector designs, for future
-CHIPS detectors.
+This is fundamentally the primary event analysis task for water Cherenkov neutrino detectors.
+Neutrino interactions within the detector create rings of light that are recorded on the walls of
+the detector, these are used to infer the properties on the underlying neutrino interaction. The
+methodology of starting from the fundamental base features of an image and slowly building up more
+and more detailed and complex features of an image is the is what Convolutional Neural Networks
+are a deep learning algorithm that uses a process of understanding very similar to the one above,
+just like your brain. 
 
 This thesis presents a broad range of work conducted for the CHerenkov detectors In mine PitS
 (CHIPS) neutrino detector R\&D project. The main contribution comes from the application of
@@ -34,3 +47,7 @@ Secondly, the inner workings of the trained networks are explored. Thirdly, the 
 network outputs to distributional input changes is studied. Finally, alternative implementations
 are discussed to highlight the key factors driving performance.
 
+This is the first fully-fledged implementation of Convolutional Neural Networks to long-baseline
+accelerator beam water Cherenkov neutrino detectors. Covering the full range of event
+reconstruction and classification analysis. Hopefully, this work will inform the development of
+similar applications and help with the optimisation of future \chips detector designs. 

@@ -34,7 +34,8 @@
 		"tecosaur.latex-utilities",
 		"ms-python.python",
 		"gruntfuggly.todo-tree",
-		"stkb.rewrap"
+		"stkb.rewrap",
+		"streetsidesoftware.code-spell-checker"
 	],
 	"runArgs": [
 		"--net",

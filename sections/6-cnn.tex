@@ -2,35 +2,35 @@
 \label{chap:cnn} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For the majority of HEP experiments, event analysis entails the separation of signal from
-background, the identification of particle types, the discovery of kinematic properties, and the
+background, the identification of particle types, the discovery of spatial properties, and the
 estimation of energies. The same is true for \chips detectors, with the primary aims being the
-selection of CC $\nu_{e}$ signal events from a sizeable background and estimation of the
-associated neutrino energy.
+selection of appeared CC $\nu_{e}$ signal events from a sizeable background, and the estimation of
+associated neutrino energies.
 
 For this purpose, the \chips project has so far relied on a human implemented reconstruction
-algorithm and a classification neural network driven by hand-engineered features. Both are prone
-to human error and restricted in scope to what has been implemented in software.
+algorithm and a simple classification neural network driven by hand-engineered features. Both are
+prone to human error and restricted in scope to what has been implemented in software.
 
-The work outlined in this chapter presents a replacement event analysis methodology for \chips
-concept detector modules. Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982},
-a type of \emph{deep learning}~\cite{goodfellow2016} neural network have been implemented to
-achieve the primary aims outlined above. One for cosmic rejection, one for beam classification,
-and one for neutrino energy estimation. For evaluation purposes, only the implementation as
-applied to the \chipsfive detector module is considered in this work.
+The work outlined in this chapter presents a replacement event analysis methodology for \chips.
+Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep
+learning}~\cite{goodfellow2016} neural network have been implemented to achieve the primary aims
+outlined above amongst others. One for cosmic rejection, one for beam classification, and one for
+neutrino energy estimation. For evaluation purposes, only the implementation as applied to the
+\chipsfive detector module is considered in this work.
 
-After covering previous deep learning implementations for neutrino experiments, a brief
-description of the current (standard) techniques is made. The theoretical background of CNNs is
-then outlined before the baseline implementation for \chips is described. The specific
-implementations for each of the three networks are then discussed with their combined performance
-presented in the following chapter (Chapter.~\ref{chap:results}).
+After mentioning previous implementations of deep learning for neutrino experiments, a description
+of the current (standard) techniques is given. The theoretical background of CNNs is then outlined
+before the baseline implementation for \chips is described. The specific implementations for each
+of the three networks are then discussed with a comprehensive evaluation of their performance and
+behaviour presented separately in the following chapter (Chapter.~\ref{chap:results}).
 
 \section{Previous applications of deep learning for neutrino experiments} %%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_previous} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Over the last few years, neutrino experiments have started to adopt deep learning techniques for a
-range of event analysis tasks. This trend has closely followed the general explosion of interest
-in the field amongst the global research community, especially within computer vision, as can be
-seen in Fig.~\ref{fig:papers}.
+range of event analysis tasks~\cite{psihas2020}. This trend has closely followed the general
+explosion of interest in the field amongst the global research community, especially within the
+sub-field of computer vision, as can be seen in Fig.~\ref{fig:papers}.
 
 \begin{figure} % NUMBER OF PAPERS DIAGRAM DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cnn/papers.pdf}
@@ -43,53 +43,53 @@ seen in Fig.~\ref{fig:papers}.
 
 In 2016 the \nova experiment applied a CNN to the task of classifying the interaction type of
 events within their sampling calorimeter detector~\cite{aurisano2016}. Two views of raw detector
-events were used as input to train a network based on the popular GoogLeNet
-architecture~\cite{szegedy2015} (discussed in Section.~\ref{sec:cnn_theory_conv}). Further
+data were used as input to train a network based on the popular GoogLeNet
+architecture~\cite{szegedy2015} (discussed in Section.~\ref{sec:cnn_theory_conv}). Further \nova
 iterations have since been applied to both the classification of individual energy deposit
 clusters~\cite{psihas2019} and $\nu_{e}$ and $e^{-}$ energy reconstruction~\cite{baldi2019}.
 
 CNNs have also been applied to liquid argon time-projection chambers. The MicroBooNE
-experiment~\cite{acciarri2017_ref} has shown that in addition to classification tasks, the
+experiment~\cite{acciarri2017_ref} has shown that in addition to classification tasks, the spatial
 localisation of single particles within events is possible~\cite{acciarri2017}. Furthermore, the
 DUNE collaboration has designed a network to output both the interaction class and counts of
-different particle types within an event~\cite{collaboration2020, abi2020}. This approach take by
+different particle types within an event~\cite{collaboration2020, abi2020}. This approach taken by
 DUNE is called \emph{multi-task} learning and is discussed in detail within
 Section.~\ref{sec:cnn_baseline_outputs}.
 
-Applications to water Cherenkov detectors have also been made by both the Daya Bay reactor
+Applications to water Cherenkov detectors have also been made by both the Daya Bay
 experiment~\cite{racah2016} and the KM3NeT/ORCA collaboration~\cite{aiello2020}. Furthermore, a
 type of CNN known as a \emph{variational autoencoder} has been shown to approximate the
-distribution of simulated water Cherenkov data~\cite{abhishek2019}. If further studies prove
-successful, this could allow for training on real data to reduce experimental uncertainties and
-vastly increase the speed of simulated data generation.
+distribution of simulated water Cherenkov data well~\cite{abhishek2019}. If further such studies
+prove successful, this could allow for training on `real' data to mitigate experimental
+uncertainties and vastly increase the speed of simulated data generation.
 
 \section{Standard event reconstruction and classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-It is essential to outline the standard event reconstruction and classification methods that have
-been used by the \chips project until now, for two main reasons. Firstly, to add context when
-comparing their performance with the new CNN approach. Secondly, to highlight their main
-weaknesses, motivating the new technique and making its advantages clear.
+It is essential to outline the standard event reconstruction and classification methods used by
+the \chips project until now. This is for two reasons. Firstly, to highlight their main weaknesses
+as motivation for the new CNN approach. Secondly, to provide context for the performance
+comparisons made in Chapter.~\ref{chap:results}.
 
-A \emph{maximum likelihood} method based on that implemented by MiniBooNE~\cite{patterson2009} is
-used for event reconstruction, with a simple neural network built using the TMVA
-package~\cite{hocker2007} used for event classification. Both methods are typical of the
-mainstream approach used by the majority of water Cherenkov neutrino experiments. A prime example
-is the fiTQun algorithm developed for the Super-Kamiokande detector, which is used for both
+A likelihood method based on that implemented by MiniBooNE~\cite{patterson2009} is used for event
+reconstruction, while a simple neural network built using the TMVA package~\cite{hocker2007} is
+used for event classification. Both methods are representative of the mainstream approach used by
+the majority of water Cherenkov neutrino experiments for event analysis. A prime example is the
+fiTQun algorithm developed for the Super-Kamiokande detector, used for both
 atmospheric~\cite{jiang2019} and T2K~\cite{missert2017} analyses.
 
 \subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The event reconstruction methodology is simple in theory: for a given set of hypothesised charged
-particle tracks, the number of photoelectrons and the time at which the first of these is recorded
-for each PMT in the detector is predicted. By comparing this prediction with the measured hit
-charges and times the likelihood that the given track hypothesis produced the measured signals can
-be calculated. The parameters that describe the hypothesised tracks are then varied until the
-negative logarithm of the likelihood is minimised, identifying the best-fit parameters. A brief
-description of the full procedure is given below, however, for a detailed description see
-Ref.~\cite{blake2016} and Ref.~\cite{perch2017}. The full C++ software implementation can also be
-found at Ref.~\cite{chipsreco2020}.
+particle tracks, the number of Cherenkov photoelectrons and the time at which the first of these
+is recorded for each PMT in the detector is predicted. By comparing this prediction with the
+measured hit charges and times the likelihood that the given track hypothesis produced the
+measured signals can be calculated. The parameters that describe the hypothesised tracks are then
+varied until the negative logarithm of the likelihood is minimised, identifying the best-fit
+parameters. A brief description of the full procedure is given below, however, for a detailed
+description see Ref.~\cite{blake2016} and Ref.~\cite{perch2017}. The full C++ software
+implementation can also be found in the repository at Ref.~\cite{chipsreco2020}.
 
 \subsubsection*{Seeding} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -101,43 +101,44 @@ avoid a false local minimum from being returned.
 Firstly, the PMT hits are sliced in both space and time. Gaps in the time ordering of hits are
 used to separate the event into time slices. Each of these slices then undergoes basic filtering
 and clustering to remove outlying hits and ensure only the dominant collections of hits are
-considered. Each cleaned slice is then run through simple vertex finding algorithms to estimate
-the interaction position and time, as well and the initial track direction.
+considered. Each cleaned slice is then run through simple geometric vertex finding algorithms to
+estimate the interaction position and time, in addition to the initial track direction.
 
 A circular \emph{Hough transform} algorithm, traditionally used for water Cherenkov ring finding
-is then applied. The voting-based transformation produces an output space within which rings of
-PMT hits exist as single peaks. The track direction values are then further refined using this
-space, and a search for smaller peaks is carried out to indicate if multiple particles are likely
-to be involved. This process results in a list of seeds with a corresponding score related
-directly to the height of the associated peak in Hough transform space.
+is then applied. As output, the voting-based transformation produces a space within which rings of
+PMT hits exist as peaks. The track direction values are further refined using this space before a
+search for secondary peaks is carried out to indicate if multiple particles are likely to be
+involved. This process results in a list of seeds, each with a score related directly to the
+height of the associated peak in Hough transform space.
 
 \subsubsection*{Likelihood fit} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Each track in a fit hypothesis comprises a vector of parameters $\vec{x}$, containing the
+
+Each particle track in a fit hypothesis comprises a vector of parameters $\vec{x}$, containing the
 following:
 \begin{itemize}
-    \item The track vertex position ($x_{0}$, $y_{0}$, $z_{0}$) and interaction time $t_{0}$.
-    \item The initial track direction ($d_{\theta}$, $d_{\phi}$).
-    \item The initial kinetic energy of the particle.
-    \item The particle type (muon, electron or photon).
+    \item the track interaction vertex position ($x_{0}$, $y_{0}$, $z_{0}$) and time ($t_{0}$);
+    \item the initial track direction ($d_{\theta}$, $d_{\phi}$);
+    \item the initial kinetic energy of the particle ($E_{k}$); and
+    \item the particle type (muon, electron or photon).
 \end{itemize}
 For a photon hypothesis (identical to an electron hypothesis in reality) the distance between the
 interaction vertex and the beginning of the electromagnetic shower is also included as a
 parameter.
 
-The hypothesis tracks are then initialised using the list of seeds found in the seeding procedure
-in descending order of Hough peak height score. As the seeding algorithms do not estimate the
-particle energy, a default value equal to the average particle energy observed in the Monte Carlo
-simulation is assigned. Additionally, constraints can be placed on a multi-track hypothesis before
-the minimisation process to reduce the number of free parameters.
+The hypothesised tracks are then initialised using the list of seeds found in the seeding
+procedure in descending order of Hough peak height score. As the seeding algorithms do not
+estimate the particle energy, a default value equal to the average particle energy observed in the
+Monte Carlo simulation is assigned. Additionally, constraints can be placed on a multi-track
+hypothesis to reduce the number of free parameters.
 
-As an example, considering the NC $\pi^{0}$ case, a multi-track two-photon hypothesis is used.
+As an example, consider the NC $\pi^{0}$ case, where a multi-track two-photon hypothesis is used.
 Firstly, the initial parameters for the two photons are assigned from the two highest-scoring
 seeds from the seeding procedure. Secondly, the vertex position for both tracks is constrained to
 remain the same, and the directions and energies are set to be constrained by the invariant mass
 of the $\pi^{0}$.
 
-In it's simplest form the likelihood is a simple product of two terms:
+In it's simplest form the likelihood $\mathcal{L}(\vec{x})$, is a simple product of two terms:
 \begin{equation} % LIKELIHOOD EQUATION %
     \mathcal{L}(\vec{x})=\mathcal{L}_{unhit}(\vec{x})\mathcal{L}_{hit}(\vec{x})=
     \prod_{unhit}P_{unhit}(\vec{x})\prod_{hit}P_{charge}(\vec{x})P_{time}(\vec{x}),
@@ -145,9 +146,11 @@ In it's simplest form the likelihood is a simple product of two terms:
 \end{equation}
 where the first ($unhit$) term gives the likelihood that the hypothesis $\vec{x}$ will not predict
 a hit on the PMTs that do not have a measured hit, and the second ($hit$) term gives the
-likelihood that $\vec{x}$ produces the observed photoelectrons and hit times on the hit PMTs. By
-considering the negative logarithm of the likelihood the computation can be simplified into a sum
-of logarithms over the PMTs, such that
+likelihood that $\vec{x}$ produces the observed photoelectrons and hit times on the measured hit
+PMTs. 
+
+By considering the negative logarithm of the likelihood the computation can be simplified into a
+sum of logarithms over the PMTs, such that
 \begin{equation} % LIKELIHOOD SUM PMTS EQUATION %
     -\log\mathcal{L}(\vec{x})=
     -\sum_{unhit}\log(P_{unhit}(\vec{x}))
@@ -155,111 +158,112 @@ of logarithms over the PMTs, such that
     -\sum_{hit}\log(P_{time}(\vec{x})).
     \label{eq:likelihood_sum}
 \end{equation}
-This form also has the effect of separating the charge (number of photoelectrons) and time
-prediction components, which can then be dealt with separately computationally. In the actual
-likelihood calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined,
-where the probability of an unhit PMT is treated as a PMT with an observed charge equal to zero.
+This form has the effect of separating the charge (number of photoelectrons) and time prediction
+components, which can then be dealt with separately computationally. In the actual likelihood
+calculation the $P_{unhit}(\vec{x})$ and $P_{charge}(\vec{x})$ components are combined, where the
+probability of an unhit PMT is treated as a PMT with an observed charge equal to zero.
 
 The Minuit2 algorithm contained within the ROOT software package~\cite{brun1997} is used for the
 minimisation process. At each iteration, the charge and hit time predictions are made, and the
 negative logarithm of the likelihood is calculated. The track parameters are then varied to
-minimise the likelihood before the next iteration. Through a series of stages, each fixing and
-freeing specific parameters, the minimisation process converges to the best-fit parameters for the
-given hypothesis. This procedure typically takes two minutes on a standard batch farm computing
-node.
+minimise the likelihood before the next iteration begins. Through a series of stages, each fixing
+and freeing specific parameters, the minimisation process converges to the best-fit parameters for
+the given hypothesis. This procedure typically takes two minutes on a standard batch farm
+computing node.
 
 \subsubsection*{Downsides} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The charge and hit time predictions and their associated likelihood contributions depend on many
-low-level inputs to the reconstruction. These inputs generally describe how Cherenkov light is
-emitted from specific particles and then how it propagates through the detector to be detected by
-the PMTs. Examples of these inputs include:
+low-level inputs. Generally, these inputs describe how Cherenkov light is emitted from specific
+particles and how it propagates through the detector to be detected by the PMTs. Examples of these
+inputs include:
 \begin{itemize}
-    \item The number of Cherenkov photons emitted by a particle of a specific type and energy.
-    \item The fraction of Cherenkov light emitted at each step along a specific particle's track
-          length.
-    \item The angular distribution of Cherenkov photon emission for each type of particle.
-    \item The survival probability of photons within the detector medium as a function of
-          distance.
-    \item A detailed description of the PMT positions and directions within the detector.
-    \item The angular efficiency of each PMT relative to the incident photon angle.
-    \item The probability of a measured charge given the predicted number of photoelectrons
-          (derived from a reversal of the simulation digitisation methodology).
+    \item the number of Cherenkov photons emitted by a particle of a specific type and energy;
+    \item the fraction of Cherenkov light emitted at each step along a specific particle's track
+          length;
+    \item the angular distribution of Cherenkov photon emission for each type of particle;
+    \item the survival probability of photons within the detector medium as a function of distance
+          and energy;
+    \item a detailed description of the PMT positions and directions;
+    \item the angular efficiency of each PMT relative to the incident photon angle; and
+    \item the probability of a measured charge given the predicted number of photoelectrons (see
+          Fig.~\ref{fig:digi_likelihood}).
 \end{itemize}
-The first three are combined into \emph{emission profiles} generated from a large Monte Carlo
-simulation sample, while the last is comparable to that shown in Fig.~\ref{fig:digitisation}.
 
-The above list demonstrates a fundamental problem with the likelihood-based approach. It is
-heavily reliant on the accuracy of low-level inputs and their associated use in human implemented
-software. If a physical process is not dealt with appropriately or overlooked (such as the
-hadronic component of neutrino events), then the prediction accuracy of PMT charges and hit times
-is affected, impacting the performance of finding accurate best-fit parameters.
+The above list demonstrates a fundamental problem with the likelihood based approach. Namely, it
+is heavily reliant on the accuracy of multiple low-level inputs and their associated use in human
+implemented software. If a physical process is not modelled appropriately or more crucially
+overlooked (such as the hadronic component of neutrino events is here), then the prediction
+accuracy of PMT charges and hit times is affected, impacting the performance of the best-fit
+parameters.
 
-Moreover, the likelihood-based approach requires a predefined track hypothesis. Real events
-expected within \chips detector modules are rarely simple single particle or even two-particle
-events. In reality, the majority of events contain multiple final state particles of various types
-and in various topologies. The predefinition of a track hypothesis makes the implementation of a
-generalised approach to event reconstruction where all possible event types are considered
-incredibly challenging.
+Moreover, the likelihood based approach requires a predefined track hypothesis per fit. This
+restriction is at odds with the broad array of neutrino events expected within \chips detector
+modules. Many possible combinations of final state particles are possible, making the
+implementation of an approach where all possible events are considered, challenging. For example,
+the very similar Super-Kamiokande fiTQun algorithm attempts multiple fits for each event,
+sequentially adding charged particles to the hypothesis until the best-fit is found. This
+technique vastly increases the time required to analyse a single event, still ignores some
+possible scenarios, and can never be fully rigorous.
 
 \subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As the standard event reconstruction is based on the calculation of a likelihood (analogous to a
-\emph{goodness-of-fit}), the likelihood ratio between different hypotheses can be used for event
-classification tasks. It is also found that additional hand-engineered features derived from the
-reconstruction outputs have power in classifying the event type.
+goodness-of-fit), the likelihood ratio between different hypotheses can be used for event
+classification tasks. Additional hand-engineered features derived from the reconstruction outputs
+are also found to have power in classifying the event type.
 
 Two simple neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$ separation and
-the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer with the number of
-nodes equal to the number of input parameters plus five. Variables from both a single electron
-track and single muon track hypothesis fit to each event are used for both networks, with a full
-list of inputs as follows:
+the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer (as described in
+the following Section.~\ref{sec:cnn_theory}) with the number of neurons equal to the number of
+input parameters plus five. Output variables from both a single electron track and single muon
+track hypothesis fit to each event are used for both networks, including:
 \begin{itemize}
-    \item The $\Delta\log\mathcal{L}$ between $e$ and $\mu$ hypothesis for both time and charge
-          components.
-    \item The total number of hit PMTs ($N_{hits}$) and total collected charge.
-    \item $\frac{\Delta\log\mathcal{L}_{charge}}{N_{hits}}$.
-    \item The fraction of hits inside, within, and outside the ring for both the $e$ and $\mu$
-          hypotheses.
-    \item The fraction of predicted charge outside the ring for both the $e$ and $\mu$ hypotheses.
-    \item The ratio of the total predicted charged to the total measured charge for both the $e$
-          and $\mu$ hypothesis.
-    \item The ratio of the reconstructed energy to the total measured charge.
-    \item The reconstructed track direction under the $e$ hypothesis.
-    \item The fraction of hits in the downstream half of the detector.
-    \item The number of seeds generated by the Hough transform seeding algorithm.
-    \item The peak height score of the first and last seeds found by the Hough transform seeding
+    \item the $\Delta\log\mathcal{L}$ between $e$ and $\mu$ hypothesis for both time and charge
+          components;
+    \item the total number of hit PMTs ($N_{hits}$) and total collected charge;
+    \item $\frac{\Delta\log\mathcal{L}_{charge}}{N_{hits}}$;
+    \item the fraction of hits inside, within, and outside the ring for both the $e$ and $\mu$
+          hypotheses;
+    \item the fraction of predicted charge outside the ring for both the $e$ and $\mu$ hypotheses;
+    \item the ratio of the total predicted charged to the total measured charge for both the $e$
+          and $\mu$ hypothesis;
+    \item the ratio of the reconstructed energy to the total measured charge;
+    \item the reconstructed track direction under the $e$ hypothesis;
+    \item the fraction of hits in the downstream half of the detector;
+    \item the number of seeds generated by the Hough transform seeding algorithm; and
+    \item the peak height score of the first and last seeds found by the Hough transform seeding
           algorithm.
 \end{itemize}
 
 A sample of CC $\nu_{e}$ and CC $\nu_{\mu}$ beam events characteristic of those expected to be
 seen within \chipsfive are used to train the first classifier, and a corresponding sample of CC
-$\nu_{e}$ and NC events for the second. Both network output values can then be used to select CC
-$\nu_{e}$ events from the background. Note that only the selection of CC $\nu_{e}$ events has been
-implemented, no CC $\nu_{\mu}$ selection has been developed.
+$\nu_{e}$ and NC events for the second. The output values from both networks can then be used to
+select CC $\nu_{e}$ events from the background. Note that only the selection of CC $\nu_{e}$
+events has been implemented, no CC $\nu_{\mu}$ selection has been developed.
 
-The main limitation of this approach is that the input features are restricted to those that have
-been imagined (requiring extensive domain knowledge) and then implemented in software. The current
-list is undoubtedly non-exhaustive of all the possible variables and combinations of variables
-that can, in theory, be used for discrimination between events. Additionally, any mistakes in the
-likelihood-based reconstruction and, therefore, input variables to the neural networks, can lead
-to incorrect categorisation of events.
+The principal limitation of this approach is that the input features are restricted to those that
+have been imagined (requiring extensive domain knowledge) and then implemented in software. The
+current list is undoubtedly non-exhaustive of all the possible variables and combinations of
+variables that can, in theory, be used for discrimination between events. Additionally, any
+mistakes in the likelihood based reconstruction and, therefore, input variables to the neural
+networks, can lead to incorrect classification of events.
 
 \section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 There are many machine learning techniques: linear regression, logistic regression, k-nearest
-neighbours, decision trees, random forests, support vector machines, and others, all of which
-learn to make predictions about data. However, none have been as successful, especially in recent
+neighbours, decision trees, random forests, support vector machines, amongst others, all of which
+learn to make predictions about data. However, none has been as successful, especially in recent
 years, as the deep neural network. As both the size of datasets and the amount of available
 computing power has increased, deep neural networks have proved incredibly powerful for many
 tasks, as they are well suited to this paradigm.
 
 Here we discuss the application of neural networks for \emph{supervised learning}, one of two
-broad machine learning categories and concerned with using labelled example data to train
-algorithms. The other broad category of \emph{unsupervised learning}, where the properties of the
-dataset are inferred without example data is not discussed, however, will be used for network
+broad machine learning categories concerned with using labelled example data to train algorithms.
+The other broad category of \emph{unsupervised learning}, where the properties of the dataset are
+inferred without labelled data is not discussed, however, will be used for network
 \emph{explainability} in Section.~\ref{sec:results_explain}.
 
 \subsection{Neural network basics} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -267,12 +271,12 @@ dataset are inferred without example data is not discussed, however, will be use
 
 A neural network is a type of algorithm inspired by the repeating cell structure of neurons within
 our brains. The basic building block of a neural network is a \emph{neuron}, which takes a vector
-of $k$ inputs $\vec{x} = (x_{1}, x_{2},\dots,x_{k})$ and outputs a scalar $a(\vec{x})$. The
+of $k$ inputs $\vec{x}=(x_{1}, x_{2},\dots,x_{k})$ and outputs a scalar $a(\vec{x})$. Individual
 neurons are arranged into layers, with the input of one layer being the output from the previous
 layer. The first layer is commonly referred to as the \emph{input layer}, the middle layers as
 \emph{hidden layers}, and the final layer as the \emph{output layer}, as illustrated in
 Fig.~\ref{fig:network}. In general, this simple neural network structure is referred to as
-\emph{fully-connected}, as all the neurons in each layer, have connections to all the neurons in
+\emph{fully-connected}, as all the neurons in each layer have connections to all the neurons in
 the previous and following layers.
 
 \begin{figure} % BASIC NETWORK DIAGRAM %
@@ -284,24 +288,24 @@ the previous and following layers.
     \label{fig:network}
 \end{figure}
 
-Input variables (traditionally hand-engineered features extracted from raw data) are passed into
-the network via the input layer. Any number of hidden layers containing any number of neurons can
-then follow. The neurons contained within these layers are trained so that collectively their
-$a(\vec{x})$ functions solve the task at hand. For a \emph{regression} task, the output layer
-returns a continuous decimal value. Otherwise, for a \emph{classification} task, a probability
-value between zero and one is output for each class. The forward passing of information from one
-layer to the next is why neural networks can also be referred to as \emph{feed-forward graphs}.
+Input variables (traditionally hand-engineered features extracted from the raw data) are passed
+into the network via the input layer. Any number of hidden layers containing any number of neurons
+can then follow. The neurons contained within these layers are trained so that collectively their
+$a(\vec{x})$ functions solve the task at hand. For a regression task, the output layer returns a
+continuous decimal value. Conversely, for a classification task, a probability value between zero
+and one is output for each class. The forward passing of information from one layer to the next is
+why neural networks can also be referred to as \emph{feed-forward graphs}.
 
-For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a linear operation, specific to the
-neuron, followed by a non-linear operation, which is the same across all neurons. The linear
-operation consists of the dot product of the input vector $\vec{x}$ with a vector of weights
-$\vec{w}^{(i)} = (w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$, plus a bias term $b^{(i)}$:
+For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a neuron specific linear operation,
+followed by a non-linear operation, which is the same across all neurons. The linear operation
+consists of the dot product of the input vector $\vec{x}$ with a vector of weights
+$\vec{w}^{(i)}=(w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$, plus a bias term $b^{(i)}$:
 \begin{equation} % NETWORK BASIC EQUATION %
     z^{(i)}=\vec{w}^{(i)}\cdot\vec{x}+b^{(i)}.
     \label{eq:network}
 \end{equation}
 After applying the non-linear operation $\sigma_{i}$, commonly referred to as the \emph{activation
-    function} the final output from the neuron can be written as
+    function}, the final neuron output can be written as
 \begin{equation} % NETWORK ACTIVATION EQUATION %
     a_{i}(\vec{x})=\sigma_{i}(z^{(i)}).
     \label{eq:activation}
@@ -314,11 +318,11 @@ neural networks. In fact, the choice of activation function can greatly affect h
 trains and performs.
 
 Therefore, common activation function choices have been the \emph{hyperbolic tangent} and the
-\emph{sigmoid} function, primarily because they are bounded and differentiable at all points.
-Recently, the \emph{ReLU} and other similar functions have become popular,  mainly due to them
-avoiding the problem of \emph{vanishing} gradients caused by the saturation of the tanh and
-sigmoid functions at large values of $x$. All of these functions are shown in
-Fig.~\ref{fig:activations} for reference.
+\emph{sigmoid} functions, primarily because they are bounded and differentiable at all points.
+Recently, the \emph{ReLU} and other similar functions have become popular, mainly due to their
+avoidance of \emph{vanishing} gradients which occur when the tanh and sigmoid functions become
+saturated at large values of $x$. All of these functions are shown in Fig.~\ref{fig:activations}
+for reference.
 
 \begin{figure} % ACTIVATIONS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cnn/activations.pdf}
@@ -819,7 +823,7 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 An illustrative diagram of the baseline chipsnet architecture is shown in Fig.~\ref{fig:chipsnet}.
 Based on the VGG network (16 layer variant) previously mentioned in
 Section.~\ref{sec:cnn_previous} and detailed in Ref.~\cite{simonyan2014} there are a few key
-differences from the literature defined network, discussed below.
+differences from the literature defined network.
 
 \begin{figure} % CHIPSNET DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/chipsnet.pdf}
@@ -920,11 +924,11 @@ needed, maximising computational efficiency.
 
 During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
 between zero and one. Furthermore, a random factor scaling is applied to each map bin. Generated
-from a Gaussian centred on one with a standard deviation of $\sigma_{r}$, by fluctuating the bin
-values in this way the network is forced to focus less on the absolute bin values and more on the
-underlying event topology. Not only does this process provide valuable regularisation to reduce
-overfitting, but also makes the trained networks robust to small changes within the input
-(explored within Section.~\ref{sec:results_robust}).
+from a normal distribution centred on one with a standard deviation of $\sigma_{r}$, by
+fluctuating the bin values in this way the network is forced to focus less on the absolute bin
+values and more on the underlying event topology. Not only does this process provide valuable
+regularisation to reduce overfitting, but also makes the trained networks robust to small changes
+within the input (explored within Section.~\ref{sec:results_robust}).
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
 optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
@@ -938,19 +942,19 @@ throughout training according to
 where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number (starting at one), and
 $c_{d}$ is the learning rate decay coefficient.
 
-The list below details all the possible \emph{hyperparameters} that are tunable when training each
-network. All are optimised for each specific network using the SHERPA hyperparameter tuning
-framework~\cite{hertel2020}. Random configurations selected from either a range or selection of
-choices for each hyperparameter (also outlined below) are tested to maximise performance.
-
+Therefore, when training each network there is a list of tunable input \emph{hyperparameters}. All
+are optimised specifically for each network using the SHERPA hyperparameter tuning
+framework~\cite{hertel2020}. To maximise performance, random configurations are tested within a
+specific range or selection of choices for each hyperparameter, with:
 \begin{itemize}
-    \item \textbf{Initial learning rate, $\eta_{0}$:} in a range from 0.00005 to 0.001.
-    \item \textbf{Learning rate decay coefficient, $c_{d}$:} in a range from 0.2 to 0.8.
-    \item \textbf{Dropout probability, $p_{d}$:} in a range from 0.0 to 0.5.
-    \item \textbf{Random scaling size, $\sigma_{r}$:} in a range from 0.0 to 0.1.
-    \item \textbf{Minibatch size, $n_{b}$:} choosing from 32, 64, 128, or 256.
-    \item \textbf{Multi-task loss combination strategy:} choosing from \emph{simple} or
-          \emph{learnt}.
+    \item the \textbf{initial learning rate $\eta_{0}$}, in a range from $0.00005$ to $0.001$;
+    \item the \textbf{learning rate decay coefficient $c_{d}$}, in a range from $0.2$ to $0.8$;
+    \item the \textbf{dropout probability $p_{d}$}, in a range from $0.0$ to $0.5$;
+    \item the \textbf{random scaling size $\sigma_{r}$}, in a range from $0.0$ to $0.1$;
+    \item the \textbf{minibatch size $n_{b}$}, choosing from either $32$, $64$, $128$, or $256$;
+    and
+    \item the \textbf{multi-task loss combination strategy}, choosing from either simple or
+    learnt.
 \end{itemize}
 
 \section{Specific implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
