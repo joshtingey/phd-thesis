@@ -29,7 +29,7 @@ physics for context. The design, construction, deployment, and status of the \ch
 detector will then follow. Finally, a description of the Monte Carlo methods used to simulate
 \chips detectors such as \chipsfive is given, alongside how input neutrino events are generated.
 
-\section{\chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The \chips concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The \chips concept is to deploy cylindrical water Cherenkov detector modules into deep bodies of
@@ -550,8 +550,8 @@ containing the master power supply and onshore DAQ equipment.
 \subsection{Filtration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Though surprisingly clear, the Wentworth 2W pit water requires filtration in order to reach the
-necessary \unit{30}{\text{m}} photon attenuation length. Therefore, a high volume pump is used to
+Though surprisingly clear, the Wentworth 2W pit water requires filtration to reach the necessary
+\unit{30}{\text{m}} photon attenuation length. Therefore, a high volume pump is used to
 continually pull the internal detector water through a \unit{500}{\text{m}} long pipe to a
 filtration hut on the shore. After filtration, the water is returned to the detector through a
 second such pipe.
@@ -680,14 +680,13 @@ for summer 2021 are currently under review.
 \section{Detector simulation and event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In order to describe the \chipsfive module and other \chips concept detectors in a simulated
-environment, a Monte Carlo simulation framework is used. Monte Carlo detector simulation and event
-generation methods are an indispensable tool within high energy particle physics. This is
-particularly true during the design and prototyping phase of an experimental project when no
-real-world data is available, as is predominantly the case with \chips. By matching the
-observables of a real-world detector as close as possible, these methods allow for the
-optimisation of designs, the testing of reconstruction techniques, and the study of physics
-sensitivities.
+To describe the \chipsfive module and other \chips concept detectors in a simulated environment, a
+Monte Carlo simulation framework is used. Monte Carlo detector simulation and event generation
+methods are an indispensable tool within high energy particle physics. This is particularly true
+during the design and prototyping phase of an experimental project when no real-world data is
+available, as is predominantly the case with \chips. By matching the observables of a real-world
+detector as close as possible, these methods allow for the optimisation of designs, the testing of
+reconstruction techniques, and the study of physics sensitivities.
 
 Here, a description of the detector simulation and the beam and cosmic event generation procedures
 used by \chips are described. All are employed extensively for the work presented in
@@ -838,8 +837,8 @@ cross the detector volume or do not have sufficient energy to reach the detector
 discarded~\cite{chipsgen2020}. All accepted muon tracks are stored as output in a NUANCE formatted
 file for use in the detector simulation.
 
-In order to use generated cosmic events in analysis, studies have looked at the likely cosmic rate
-for \chips detector modules at different water overburden depths~\cite{son2013}. In this work, the
+To use generated cosmic events in analysis, studies have looked at the likely cosmic rate for
+\chips detector modules at different water overburden depths~\cite{son2013}. In this work, the
 fits shown in Fig.~\ref{fig:cosmic_rate} for a cylindrical detector of both height and diameter
 \unit{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of \unit{11.8}{\text{KHz}}
 at \unit{50}{\text{m}} of overburden.

@@ -334,35 +334,34 @@ for reference.
 \subsection{Training neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The process of supervised training of a neural network uses labelled data to iteratively find the
-optimal weights and biases (network parameters) that maximise the network performance. In order to
-quantify the performance, we define a \emph{loss function} $E(\vec{w})$, describing the difference
-between the network output and the true label, where $\vec{w}$ is the vector of network
-parameters. For a given input data point $(\vec{x}_{i}, y_{i})$, with $\vec{x}_{i}$ being the
-input parameters and $y_{i}$ the known truth label, the network generates an output
-$\hat{y}_{i}(\vec{w})$. Using this notation, we can construct loss functions suitable for
-different tasks.
+Supervised neural network training uses labelled example data to iteratively find the optimal
+weights and biases (the network parameters) to maximise output performance. A \emph{loss function}
+$E(\vec{w})$ is defined to quantify the difference between the network output and truth label for
+each example, where $\vec{w}$ is the vector of network parameters. For a given input example
+$(\vec{x}_{i}, y_{i})$, with $\vec{x}_{i}$ being the input parameters and $y_{i}$ the known truth
+label, the network generates an output $\hat{y}_{i}(\vec{w})$. Using this notation, we can
+construct loss functions suitable for different tasks.
 
-In the case of a simple binary classification task the most commonly used function is the
-\emph{binary cross-entropy}:
+In the case of simple binary classification the most commonly used function is the \emph{binary
+cross-entropy}, where
 \begin{equation} % BINARY CROSS-ENTROPY EQUATION %
     E(\vec{w})=
     -\displaystyle\sum_{i=1}^{n}y_{i}\log\hat{y}_{i}(\vec{w})+
     (1-y_{i})\log[1-\hat{y}_{i}(\vec{w})],
     \label{eq:binary_cross_entropy}
 \end{equation}
-where the number of data points is given by $n$. For a classification task where the number of
-classes is greater than two $y$ can take on $M$ values. In this case we redefine each data point
-so that $y$ is instead a vector $y_{im}$ such that
+with the number of examples given by $n$. For a classification task where the number of classes is
+greater than two $y$ can instead take on $M$ values. In this case we redefine each example so that
+$y$ is instead a vector $y_{im}$, such that
 \begin{equation} % ONE-HOT EQUATION %
     y_{im}=
     \begin{cases}
-        1 & \text{if $y_{i}=m$} \\
+        1 & \text{if $y_{i}=m$,} \\
         0 & \text{otherwise.}   \\
     \end{cases}
 \end{equation}
 This is commonly named a \emph{one-hot} vector. The cross-entropy then becomes the
-\emph{categorical cross-entropy}:
+\emph{categorical cross-entropy}, given by
 \begin{equation} % CATEGORICAL CROSS-ENTROPY EQUATION %
     E(\vec{w})=
     -\displaystyle\sum_{i=1}^{n}\displaystyle\sum_{m=0}^{M-1}y_{im}\log\hat{y}_{im}
@@ -370,7 +369,7 @@ This is commonly named a \emph{one-hot} vector. The cross-entropy then becomes t
     \label{eq:categorical_cross_entropy}
 \end{equation}
 For a regression task predicting a continuous output variable, the \emph{mean-squared error} is
-most often used as the loss function:
+most often used as the loss function, with
 \begin{equation} % MEAN-SQUARED ERROR LOSS EQUATION %
     E(\vec{w})=
     \frac{1}{n}\displaystyle\sum_{i=1}^{n}(y_{i}-
@@ -378,15 +377,15 @@ most often used as the loss function:
     \label{eq:mse}
 \end{equation}
 
-To find the optimal network parameters for the given task we can iteratively minimise the loss
-function until it converges to a minimum (or in reality a local minimum that performs well). This
-is done by updating the network parameters at each iteration $t$ to move in the direction of the
-los function gradient, using the update rule
+To find the optimal network parameters for the given task the loss function output (the
+\emph{loss}) is iteratively minimised until it converges to the minimum (or in reality a local
+minimum that performs well). This is done by updating the network parameters at each iteration $t$
+to move in the direction of the loss gradient, using the update rule
 \begin{equation} % UPDATE EQUATION %
     \vec{w}_{t+1}=\vec{w}_{t}-\eta_{t}\nabla_{\vec{w}}E(\vec{w}),
     \label{eq:update_rule}
 \end{equation}
-where $\eta_{t}$ is the \emph{learning rate}, determining the size of the step taken at each
+where $\eta_{t}$ is the \emph{learning rate} which determines the size of the step taken at each
 iteration. This methodology is known as \emph{gradient descent} and is illustrated in
 Fig.~\ref{fig:gradient_descent}.
 
@@ -398,58 +397,69 @@ Fig.~\ref{fig:gradient_descent}.
     \label{fig:gradient_descent}
 \end{figure}
 
-Therefore, in order to use gradient descent, we require that the gradient of the loss function
-with respect to the parameters of the network can be calculated. Doing this for each parameter at
-every iteration would render neural networks impossible to train due to the vast computational
+Therefore, to use gradient descent, we require that the gradient of the loss function with respect
+to the parameters of the network can be calculated. Doing this for each parameter at every
+iteration would render neural networks impossible to train due to the vast computational
 requirements. Instead, an innovative application of the chain rule, in an algorithm called
 \emph{backpropagation} is used~\cite{werbos1974}. Here we follow the derivation of the four main
-equations of backpropagation given in Ref.~\cite{mehta2019}.
+backpropagation equations given in Ref.~\cite{mehta2019}.
 
 For a network containing $L$ layers, we can index the individual layers using $l=1,\dots,L$. The
 weight associated with the connection between the $k$-th neuron in layer $l-1$ and the $j$-th
-neuron in layer $l$ can be denoted as $w^{l}_{jk}$. The bias of the layer $l$ neuron is written as
-$b^{l}_{j}$. The activation of the $j$-th neuron in layer $l$ is then related to the outputs from
-the previous layer by
+neuron in layer $l$ can be denoted as $w^{l}_{jk}$, with the bias of the layer $l$ neuron
+correspondingly written as $b^{l}_{j}$. The activation of the $j$-th neuron in layer $l$ is then
+related to the outputs from the previous layer by
 \begin{equation} % PREVIOUS LAYER EQUATION %
-    a^{l}_{j}=\sigma(z^{l}_{j})=\sigma\left(\sum_{k}w^{l}_{jk}a^{l-1}_{k}+b^{l}_{j}\right).
+    a^{l}_{j}=\sigma(z^{l}_{j})=\sigma\left(\sum_{k}w^{l}_{jk}a^{l-1}_{k}+b^{l}_{j}\right),
     \label{eq:feedforward}
 \end{equation}
+where $\sigma$ is the non-linear activation function.
 
-The change in the loss function with respect to the linear weighted sum $z^{l}_{j}$ of the $j$-th
-neuron in the last layer $L$ can be used to define the error
+The change in the loss function with respect to the linear weighted sum $z^{L}_{j}$ of the $j$-th
+neuron in the last layer $L$, defines the error $\Delta^{L}_{j}$, such that
 \begin{equation} % PREVIOUS LAYER EQUATION %
     \Delta^{L}_{j}=\frac{\partial E}{\partial z^{L}_{j}}.
 \end{equation}
-Similarly the error on any neuron $j$ in any layer $l$ is given by
+Using the chain rule and the fact that $a^{L}_{j}=\sigma(z^{L}_{j})$, the error is found to be
+equivalent to
 \begin{equation} % BACKPROP EQUATION 1 %
-    \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}=\frac{\partial E}{\partial a^{l}_{j}}
-    \sigma '(z^{l}_{j}),
+    \Delta^{L}_{j}=\frac{\partial E}{\partial a^{L}_{j}}
+    \sigma '(z^{L}_{j}),
     \label{eq:backprop_1}
 \end{equation}
-with $\sigma '$ denoting the derivative of the non-linear activation function. As $\partial
-    b^{l}_{j}/\partial z^{l}_{j}=1$, the error can also be viewed as the partial derivative of the
-loss function with respect to the bias, such that
+where $\sigma '(z^{L}_{j})$ denotes the derivative of the non-linear activation function at
+$z^{L}_{j}$. This (Eq.~\ref{eq:backprop_1}) is the first of the backpropagation equations.
+
+The error $\Delta^{l}_{j}$, of the $j$-th neuron in layer $l$ can be expressed in terms of the
+error in the following layer $l+1$, by using
+\begin{equation} % BACKPROP EQUATION 3 %
+    \begin{aligned}[b]
+        \Delta^{l}_{j} &=\frac{\partial E}{\partial z^{l}_{j}}, \\
+        &=\sum_{k}\frac{\partial E}{\partial z^{l+1}_{k}}
+        \frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}}, \\
+        &=\sum_{k}\Delta^{l+1}_{k}\frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}}, \\
+        &=\left(\sum_{k}\Delta^{l+1}_{k}w^{l+1}_{kj}\right)\sigma '(z^{l}_{j}).
+        \label{eq:backprop_2}
+    \end{aligned}
+\end{equation}
+The chain rule has again been used in addition to the fact that
+\begin{equation}
+    z^{l+1}_{k}=\sum_{j}w^{l+1}_{kj}\sigma(z^{l}_{j})+b^{l+1}_k,
+\end{equation}
+to give the second of the backpropagation equations (Eq.~\ref{eq:backprop_2}).
+
+As $\partial b^{l}_{j}/\partial z^{l}_{j}=1$, the error can also be viewed as the partial
+derivative of the loss function with respect to the bias, such that
 \begin{equation} % BACKPROP EQUATION 2 %
     \Delta^{l}_{j}=\frac{\partial E}{\partial z^{l}_{j}}
     =\frac{\partial E}{\partial b^{l}_{j}}\frac{\partial b^{l}_{j}}{\partial z^{l}_{j}}
-    =\frac{\partial E}{\partial b^{l}_{j}}.
-    \label{eq:backprop_2}
-\end{equation}
-
-Using the chain rule and the fact that the error on neurons in layer $l$ only depends on the
-activation of neurons in the following layer $l+1$, we can write
-\begin{align} % BACKPROP EQUATION 3 %
-    \begin{split}
-        \Delta^{l}_{j} &=\frac{\partial E}{\partial z^{l}_{j}}
-        =\sum_{k}\frac{\partial E}{\partial z^{l+1}_{k}}
-        \frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}} \\
-        &=\sum_{k}\Delta^{l+1}_{k}\frac{\partial z^{l+1}_{k}}{\partial z^{l}_{j}} \\
-        &=\left(\sum_{k}\Delta^{l+1}_{k}w^{l+1}_{kj}\right)\sigma '(z^{l}_{j}).
-    \end{split}
+    =\frac{\partial E}{\partial b^{l}_{j}},
     \label{eq:backprop_3}
-\end{align}
-Additionally, the differential of the cost function with respect to the weight $w^{l}_{jk}$ can be
-written as
+\end{equation}
+giving the third of the backpropagation equations (Eq.~\ref{eq:backprop_3}).
+
+The final backpropagation equation is given by the differential of the cost function with respect
+to the weight $w^{l}_{jk}$, which can be written as
 \begin{equation} % BACKPROP EQUATION 4 %
     \frac{\partial E}{\partial w^{l}_{jk}}
     =\frac{\partial E}{\partial z^{l}_{j}}\frac{\partial z^{l}_{j}}{\partial w^{l}_{jk}}
@@ -460,38 +470,41 @@ written as
 The full backpropagation algorithm then proceeds as follows:
 \begin{enumerate}
     \item After calculating the activations $a^{1}_{j}$ for all neurons in the input layer, use
-          the feed-forward architecture of the network to calculate all activations at every layer
-          using Eq.~\ref{eq:feedforward}.
-    \item Use Eq.~\ref{eq:backprop_1} to calculate the error of the top layer neurons. Both the
-          derivative of the loss function and the activation function is required for this step.
+          the feed-forward architecture of the network to calculate all the activations at every
+          layer using Eq.~\ref{eq:feedforward}.
+    \item Use Eq.~\ref{eq:backprop_1} to calculate the errors of the last layer neurons, requiring
+          both the derivatives of the loss and activation functions.
     \item Use Eq.~\ref{eq:backprop_2} to `backpropagate' the error through the network from the
-          top layer to the input layer to find all $\Delta^{l}_{j}$ values.
-    \item Calculate the gradients for all the weights and biases using Eq.~\ref{eq:backprop_3} and
-          Eq.~\ref{eq:backprop_4}.
+          last layer to the input layer, calculating all $\Delta^{l}_{j}$ values.
+    \item Calculate the gradient of the loss function for all the weights and biases using
+          Eq.~\ref{eq:backprop_3} and Eq.~\ref{eq:backprop_4}.
 \end{enumerate}
-As can be seen, a single activation finding \emph{forward pass} followed by a single error
-propagating \emph{backward pass}  is all that's required to calculate the gradients for all
-weights and biases within the network. This incredibly efficient procedure allows gradient descent
-to be used for the training of neural networks.
+
+A single activation finding \emph{forward pass} followed by a single error propagating
+\emph{backward pass} is all that's required to calculate the gradients for all weights and biases
+within the network. This incredibly efficient procedure allows for the use of gradient descent
+when training neural networks.
 
 \subsection{Convolutional neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory_conv} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The broad category of deep learning covers multiple neural network techniques spanning a range of
-application fields such as computer vision, speech recognition and natural language processing. By
-stacking many layers on top of each other into a `deep' network, these methods offer increased
-problem-solving capacity by allowing higher-order non-linear functions to form. As a direct
-consequence, instead of requiring hand-engineered features as input, deep networks can learn to
-extract the most powerful features for a given task from raw data. Here we outline just the
-specific technique used in this work; the CNN.
+application fields such as computer vision, speech recognition, and natural language processing.
+By stacking many layers on top of each other to form a `deep' network, these methods offer
+increased problem solving capacity by allowing higher-order non-linear functions to form
+throughout the network. As a direct consequence, instead of requiring hand-engineered features as
+input, deep networks can learn to extract the most powerful features for a given task from raw
+data. Here we outline just the specific deep learning technique used in this work; the CNN.
 
-At their core, a CNN makes use of a mathematical operation called \emph{convolution}, which either
+\subsubsection*{CNN operations}
+
+At their core, CNNs make use of a mathematical operation called \emph{convolution}, which either
 entirely or in part replaces the simple vector multiplication seen in the fully-connected networks
-introduced in Section.~\ref{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful
-for applications using grid-like input data such as computer vision tasks.
+of Section.~\ref{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful for
+applications with grid-like input data such as computer vision tasks.
 
-Using standard CNN terminology, the discrete convolution between the \emph{input}, $x$ and the
-\emph{kernel}, $w$ is given by
+Using standard CNN terminology, the discrete convolution between the \emph{input} $x$, and the
+\emph{kernel} $w$, is given by
 \begin{equation}
     f_{i}=(x*w)_{i}=\sum^{\infty}_{j=-\infty}x_{j}w_{i-j},
     \label{eq:convolution}
@@ -504,15 +517,14 @@ also become two-dimensional. In this case the convolution operation becomes
     \label{eq:conv}
 \end{equation}
 where the infinite sum in Eq.~\ref{eq:convolution} has been replaced with a discrete sum over
-two-dimensional elements. Analogous to the simple neural network weights $\vec{w}$ first described
-in Eq.~\ref{eq:network}, the elements of $W_{m,n}$ can be trained to maximise the network
-performance (minimise the loss). Also like the simple case, the output feature maps are commonly
-passed through a non-linear activation function to produce the final output.
+two-dimensional elements. Analogous to the simple neural network weights $\vec{w}$, first
+described in Eq.~\ref{eq:network}, the elements of $W_{m,n}$ are trained to minimise the loss,
+with the output feature maps passed through a non-linear activation function at each layer.
 
-To illustrate this operation Fig.~\ref{fig:conv_input} gives examples of a $4 \times 4$ input grid
-and a $3 \times 3$ kernel. The output feature map is generated by sliding the kernel across both
-dimensions of the input grid, summing the products of all associated elements at each step
-according to Eq.~\ref{eq:conv}, as is shown in Fig.~\ref{fig:conv_operation}.
+To illustrate the convolution operation, Fig.~\ref{fig:conv_input} displays examples of a $4
+\times 4$ input grid and a $3 \times 3$ kernel. The output feature map is generated by sliding the
+kernel across both dimensions of the input grid, summing the products of all associated elements
+at each step according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_operation}.
 
 \begin{figure} % CONV INPUTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/conv_input.pdf}
@@ -523,33 +535,32 @@ according to Eq.~\ref{eq:conv}, as is shown in Fig.~\ref{fig:conv_operation}.
 \end{figure}
 
 \begin{figure} % CONV OPERATION DIAGRAM %
-    \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/conv_operation.pdf}
+    \includegraphics[width=0.8\textwidth]{diagrams/6-cnn/conv_operation.pdf}
     \caption[Example of a convolutional operation]
-    {Example of a $\text{stride}=1$ convolution operation involving the input grid and kernel
-        from Fig.~\ref{fig:conv_input}. Both the operation for the case of \emph{valid} (top) and
+    {Example of a $\text{stride}=1$ convolution operation involving the input grid and kernel from
+        Fig.~\ref{fig:conv_input}. Both the operation for the case of \emph{valid} (top) and
         \emph{same} (bottom) padding is shown. The blue square in the top-left of the output
-        feature maps indicates the output generated from the specific operation shown on the left
+        feature maps indicates the output generated from the specific operation shown on the left,
         also in blue.}
     \label{fig:conv_operation}
 \end{figure}
 
-Two additional parameters that impact the output size of the feature map are also introduced in
-Fig.~\ref{fig:conv_operation}. The \emph{stride} and the \emph{padding}. The stride governs how
-far the kernel moves at each step while the padding decides how the input grid is padded with
+Two additional parameters impacting the feature map output size are introduced in
+Fig.~\ref{fig:conv_operation}. The \emph{stride} and \emph{padding}. The stride $S$, governs how
+far the kernel moves at each step while the padding $P$, decides how the input grid is padded with
 zeros around its border. If $L$ is the size of the input (both height and width) and $K$ is the
 kernel size, the output feature map size $O$, is given by
 \begin{equation}
-    O=\frac{(L-K+2P)}{S}+1,
+    O=\frac{(L-K+2P)}{S}+1.
     \label{eq:conv_size}
 \end{equation}
-where $S$ is the stride, and $P$ is the amount of zero padding.
 
-The other key operation used in CNNs is pooling. Pooling layers coarse-grain the spatial
-information of the input via down-sampling to reduce the number of network parameters. \emph{Max
-    pooling} or \emph{average pooling} are the two common ways this is achieved. In both cases, the
-input is first divided into rectangular regions, and then either the maximum or average value of
-the region is used as the output, for max or average pooling respectively, as illustrated in
-Fig.~\ref{fig:pooling}.
+The other essential operation used within CNNs is pooling. Pooling layers coarse-grain the spatial
+information of the input to reduce the number of network parameters. \emph{Max pooling} or
+\emph{average pooling} are the two common ways this is achieved. In both cases, the input is first
+divided into rectangular regions, and then either the maximum or average value of the region is
+returned as output, for max or average pooling respectively. Both pooling procedures are
+illustrated in Fig.~\ref{fig:pooling}.
 
 \begin{figure} % POOLING DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/pooling.pdf}
@@ -559,20 +570,20 @@ Fig.~\ref{fig:pooling}.
 \end{figure}
 
 Taking inspiration from how neurons behave in the visual cortex of animals~\cite{lecun2015}, small
-kernels are generally used that only scan over a small spatial patch of the input at any one time.
-When combined with the loss of absolute position information from pooling, a key feature of CNNs
-is highlighted. They exhibit translational invariance and respect the local structure contained
-within the input. In simpler terms, they do not care wherein the input image a particular feature
-exists, just that it exists.
+kernels are typically used to only scan over a small patch of the input at a time. Combined with
+the loss of absolute position information from pooling, a key feature of CNNs is highlighted. They
+exhibit translational invariance and respect the local structure contained within the input. In
+simpler terms, they do not care wherein the input image a particular feature exists, just that it
+exists.
 
 \subsubsection*{CNN architectures}
 
 In 2012 the AlexNet CNN lowered the error rate on the ubiquitous ImageNet classification
 task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
-standard CNN has adopted a similar architecture. Multiple convolutional layers are stacked on top
-of each other, periodically interspersed with pooling layers. Once the output feature map size no
-longer allows for additional pooling, one or more fully-connected layers are appended before the
-final output layer, as shown in Fig.~\ref{fig:conv_diagram}.
+standard CNN has adopted a similar architecture to AlexNet. Multiple convolutional layers are
+stacked on top of each other, periodically interspersed with pooling layers. Once the output
+feature map size no longer allows for additional pooling, one or more fully-connected layers are
+appended before the output layer, as is illustrated in Fig.~\ref{fig:conv_diagram}.
 
 \begin{figure} % CONV DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cnn/conv_diagram.pdf}
@@ -582,68 +593,68 @@ final output layer, as shown in Fig.~\ref{fig:conv_diagram}.
     \label{fig:conv_diagram}
 \end{figure}
 
-Led primarily by research teams at the technology giants, improvements upon this standard
-architecture have been made. Initially, this involved the addition of extra convolutional layers
-to form a deeper network as VGG did in 2014~\cite{simonyan2014}. Separately, the \emph{inception
-    module} introduced by GoogLeNet~\cite{szegedy2015} the same year allowed for different scales of
-features to be explored using the concept of a \emph{network-within-a-network}.
+Led primarily by large research teams at the technology giants, improvements upon this standard
+architecture have since been made. Initially, this process involved the addition of extra
+convolutional layers to form deeper and deeper networks, as was done by the VGG architecture in
+2014~\cite{simonyan2014}. Another approach was the introduction of the \emph{inception module}
+within the GoogLeNet~\cite{szegedy2015} architecture, allowing for different feature scales to be
+considered.
 
-As the size of CNNs increased, it was found that the gradients on the lower layers of the network
-were also found to decrease, sometimes even vanishing, preventing further learning. To
-counter this problem ResNet~\cite{he2016_original, he2016_improved} introduced residual
-connections, skipping specific layers and allowing for a larger gradient to reach the affected
-lower layers during backpropagation. Recently, the inception module and ResNet ideas have been
+ResNet introduced residual connections in 2016~\cite{he2016_original, he2016_improved}. By adding
+connections skipping specific layers, a larger gradient could reach the lower layers of the
+network, increasing learning. Recently, the inception module and ResNet concepts have been
 combined~\cite{szegedy2016}, and there has been a significant push for efficient rather than just
-deeper networks~\cite{sandler2018, tan2019}. The repeating layout of layers that form the above
-networks, often referred to as \emph{blocks}, are shown in Fig.~\ref{fig:blocks}.
+deeper networks~\cite{sandler2018, tan2019}. The common repeating layer patterns that form the
+above networks are shown in Fig.~\ref{fig:blocks} for reference.
 
 \begin{figure} % BLOCKS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/6-cnn/blocks.pdf}
     \caption[Common Convolutional Neural Network architecture blocks]
-    {Common blocks used within CNN architectures, taking $x$ as input and producing $\tilde{x}$ as
-        output through operations whose forward pass is described with the arrows. The blue and
-        red boxes represent convolutional (conv) and max-pooling (m-pool) layers respectively,
-        with the size of the operation shown. The circular yellow $R$ indicates the use of the
-        ReLU activation function.}
+    {Common repeating layer \emph{blocks} used within CNN architectures, taking $x$ as input and
+        producing $\tilde{x}$ as output through operations whose forward pass is shown with the
+        arrows. The blue and red boxes represent convolutional (conv) and max-pooling (m-pool)
+        layers respectively, with the size of the operation shown. The circular yellow $R$
+        indicates the use of the ReLU activation function.}
     \label{fig:blocks}
 \end{figure}
 
 \subsection{Regularisation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_theory_reg} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A key challenge for supervised machine learning techniques is ensuring the algorithm can
-generalise to new, previously unseen data, not within the training dataset. This generalisation
-can be difficult when for a deep neural network containing millions of trainable parameters, it
-can become easy for the network to learn the specific features and noise of the training data.
-This unwanted learning is named \emph{overfitting} and is very common when training CNNs. Methods
-used within this work to prevent overfitting are outlined below, all of which are commonly
-referred to as \emph{regularisation} techniques.
+A key challenge when training supervised machine learning models is ensuring that they can
+generalise to new, previously unseen data, not within the training dataset. With networks
+typically containing millions of trainable parameters, it can become effortless for them to learn
+specific features and noise of the training dataset, rather than generalisable features. This
+unwanted learning, called \emph{overfitting}, is ubiquitous when training CNNs. Methods used
+within this work to prevent overfitting are outlined below, all of which are commonly referred to
+as \emph{regularisation} techniques.
 
 \subsubsection*{Stochastic gradient descent} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The procedure outlined so far of updating the network weights at each training iteration using the
-gradient calculated over the full dataset is called \emph{batch training}. It is instead much more
-common to calculate an approximation to the complete gradient at each iteration using a
-\emph{minibatch} of the full dataset. This is done by considering just a subset of the training
-data with a size commonly referred to as the \emph{batch size} and typically equal to a power of
-two for computational reasons.
+The gradient descent update equation outlined in Eq.~\ref{eq:update_rule} updates the network
+weights at each training iteration using the gradient calculated over the full dataset. This
+procedure is called \emph{batch training}. It is instead much more common to calculate an
+approximation to the complete gradient at each iteration using a \emph{minibatch} of the full
+dataset. This is done by considering just a subset of the training data with a size commonly
+referred to as the \emph{batch size} and typically equal to a power of two for computational
+reasons.
 
 This modification to standard batch training gradient descent is called \emph{stochastic gradient
-    descent} as it introduces stochasticity to the training process, and provides two main advantages.
-Firstly the computational speed of each iteration is significantly reduced, and crucially the
-memory requirements lowered. Secondly, the addition of noise decreases the chance that the
-minimisation will get stuck in a local minimum suited to overfitting the training dataset.
+    descent} as it introduces stochasticity to the training process, providing two main
+    advantages. Firstly the computational speed of each iteration is significantly reduced, and
+    crucially the memory requirements lowered. Secondly, the addition of minibatch specific noise
+    decreases the chance that the minimisation will get stuck in a local minimum suited to
+    overfitting the training dataset.
 
 \subsubsection*{Early stopping} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\emph{Early stopping} is a simple procedure which prevents overfitting from affecting the final
-generalised performance of the network. During training, the training dataset is commonly iterated
-over multiple times, with each iteration called an \emph{epoch}. By evaluating the error on an
-independent \emph{validation} dataset at the end of each epoch, the point at which overfitting
-begins can be determined, as illustrated in Fig.~\ref{fig:early_stopping}. At the determined
-epoch, the training is stopped to return the best possible generalised model. In practice, it is
-common only to stop training after $n$ number of epochs have passed with no validation error
-improvement.
+\emph{Early stopping} is another simple regularisation procedure. During training, the training
+dataset is commonly iterated over multiple times, with each iteration called an \emph{epoch}. By
+evaluating the error on an independent \emph{validation} dataset at the end of each epoch, the
+point at which overfitting starts to occur can be determined, as illustrated in
+Fig.~\ref{fig:early_stopping}. At the determined epoch, the training is stopped to return the best
+possible generalised model. In practice, it is common only to stop training after $n$ number of
+epochs have passed with no validation error improvement.
 
 \begin{figure} % EARLY STOPPING DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/6-cnn/early_stopping.pdf}
@@ -660,50 +671,49 @@ The training of a neural network is found to work best when the inputs of each n
 on zero with respect to the bias of the neuron. This is because large input values can cause
 saturation of the activation function and subsequent vanishing of the associated gradient,
 reducing the ability of the network to learn. To counter this, \emph{batch normalisation}
-introduces layers that standardise the inputs using the mean and variance of each
-minibatch~\cite{ioffe2015}. This change not only speeds up training by preventing the vanishing of
-gradients but also reduces overfitting by using the stochasticity of the minibatch.
+introduces layers that standardise the inputs by using both the mean and variance of each
+minibatch~\cite{ioffe2015}. This modification not only speeds up training by preventing the
+vanishing of gradients, but also reduces overfitting by using the stochasticity of the minibatch.
 
 \subsubsection*{Dropout} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \emph{Dropout} is another simple technique to reduce overfitting~\cite{hinton2012}. At each
 training iteration, each neuron has a probability $p_{d}$ to be \emph{dropped out} and ignored for
 that iterations calculation. This is illustrated in Fig.~\ref{fig:dropout}. By ignoring a subset
-of the neurons at each iteration, it is difficult for the network to form the particularly strong
-connections between neurons that are usually responsible for overfitting, leading to greater
-generalisation.
+of neurons at each iteration, it is difficult for the network to form the particularly strong
+connections that are usually responsible for overfitting, leading to greater generalisation.
 
 \begin{figure} % DROPOUT DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/6-cnn/dropout.pdf}
     \caption[Illustration of dropout]
     {Example of dropout applied to the network shown in Fig.~\ref{fig:network}. Neurons are
         randomly \emph{dropped out} and not considered at each training step. This reduces the
-        strong correlations between neurons that can lead to overfitting.}
+        strong connections between neurons that can lead to overfitting.}
     \label{fig:dropout}
 \end{figure}
 
-\section{A baseline implementation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{A baseline implementation for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The raw output from a water Cherenkov detector, such as those envisioned by the \chips concept, is
 a simple image of each event where two channels of information are known for each PMT: the number
 of collected photoelectrons, and the associated hit times. Therefore, it is a natural fit to use
-CNNs primarily developed for image-based computer vision tasks for \chips detector event analysis.
+CNNs developed for image-based computer vision tasks for \chips event analysis.
 
 For this purpose, a Python-based software package named \emph{chipsnet}~\cite{chipsnet2020} has
-been built. By using the high-level \emph{Application Programming Interfaces}, (APIs) provided by
-the Tensorflow framework (initially developed by Google)~\cite{tf2015}, a full pipeline including
-data preparation, network training, and performance evaluation is implemented. In this section,
+been built. By using the high-level \emph{Application Programming Interfaces} (APIs) provided by
+the Tensorflow framework (version 2.3.0)~\cite{tf2015}, a full pipeline including data
+preparation, network training, and performance evaluation has been implemented. In this section,
 the baseline CNN implementation built into chipsnet is outlined. The specific network
-implementations described afterwards in Section.~\ref{sec:cnn_specific} for cosmic rejection, beam
-classification, and energy estimation, share this common baseline with a few specific differences.
+implementations described in Section.~\ref{sec:cnn_specific} share this common baseline with a few
+specific differences.
 
 \subsection{Baseline inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_inputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The primary difficulty in the application of CNNs to \chips detectors is determining how to map an
-event captured on a cylindrical surface to a rectangular two-dimensional grid. Furthermore, this
-must be done in such a way as not to distort the underlying event topology which could inhibit
+The primary difficulty in the application of CNNs to \chips is determining how to map an event
+captured on a cylindrical surface to a two-dimensional grid. Furthermore, this must be done in
+such a way as not to distort the underlying Cherenkov emission topology which could inhibit
 network learning. As a solution, this work takes inspiration and then builds upon the ideas
 outlined in Ref.~\cite{theodore2016}. Simply put, an event is mapped onto a two-dimensional grid
 as though it is viewed from its estimated interaction vertex position. The primary motivation
@@ -712,12 +722,12 @@ and Cherenkov emission profiles.
 
 To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
 procedure introduced in Section.~\ref{sec:cnn_old_reco} is used. This process, unlike the full
-likelihood fit, requires no track hypothesis and typically takes under
-\unit{0.1}{\text{seconds}} per event on a standard batch farm computing node. The seed estimated
-vertex position resolutions for a sample of expected beam events are shown in
-Fig.~\ref{fig:explore_true_reco_vtx}. The $x$ component is commonly estimated closer to the
-downstream wall of the detector than reality, however, as the $y$ and $z$ components perpendicular
-to the beam primarily drive event distortions, the impact on event topology is small.
+likelihood fit, requires no track hypothesis and typically takes under \unit{0.1}{\text{seconds}}
+per event on a standard batch farm computing node. The seed estimated vertex position resolutions
+for a sample of expected beam events are shown in Fig.~\ref{fig:explore_true_reco_vtx}. The $x$
+component is commonly estimated closer to the downstream wall of the detector than reality,
+however, as the $y$ and $z$ components perpendicular to the beam primarily drive event
+distortions, the impact on event topology is small.
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_true_reco_vtx.pdf}
@@ -733,23 +743,23 @@ position facing along the x-axis (downstream), hit PMTs are mapped onto a $64 \t
 This procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-charge} map where
 each grid bin is given by the total collected photoelectrons from all PMTs mapped to that bin.
 Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time (in
-nanoseconds) across all PMTs mapped to that bin. Each hit-time map bin is also corrected so that
-the first hit time across all bins is at zero.
+nanoseconds) across all PMTs mapped to that bin. Each hit-time map is further corrected so that
+the first hit time across all bins lies at zero.
 
 By design, the Hough transform within the seeding procedure uses the estimated interaction vertex
 position to generate the transform space. Therefore, by re-binning the transform space to a $64
-    \times 64$ grid a third \emph{hough-height} map is generated for each event. This event map aims
+\times 64$ grid a third \emph{hough-height} map is generated for each event. This event map aims
 to provide a complementary but different representation of the event where Cherenkov rings are
 instead represented as peaks, allowing for additional discriminating features to be learnt.
 
-All three event maps: hit-charge, hit-time and hough-height, are down-sampled (from 32-bit floats)
+All three event maps: hit-charge, hit-time, and hough-height are down-sampled (from 32-bit floats)
 using 8-bit encoding. The encoding not only significantly reduces storage requirements but also
 dramatically increases the speed with which data can be loaded during training (which turns out to
 be the primary training bottleneck). For each map type, a range over which to encode from zero up
 to a \emph{cap-point} is chosen to minimise the number of bin values that are capped at the
-maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points, and associated
+maximum encoded value of 255. Table.~\ref{tab:encoding} shows the cap-points and the associated
 percentage of bin values capped for each map type, while Fig.~\ref{fig:explore_8_bit_range} shows
-the distribution of bin values for each map across the encoded range.
+the distribution of bin values for each event map across the encoded range.
 
 \begin{table}
     \begin{tabular}{lrr}
@@ -762,8 +772,8 @@ the distribution of bin values for each map across the encoded range.
     \caption[Table of input event map 8-bit cap-points]
     {Table showing the input event map cap-points (maximum value of the encoding range) and the
         associated percentage of bin values that are capped at the maximum 8-bit value of 255 as a
-        consequence. The cap-points are specifically chosen so that the \emph{capped percentage}
-        is approximately 0.1\%, keeping the information loss as small as possible.}
+        consequence. The cap-points are specifically chosen so that the capped percentage is
+        approximately 0.1\%, keeping any information loss low.}
     \label{tab:encoding}
 \end{table}
 
@@ -771,7 +781,7 @@ the distribution of bin values for each map across the encoded range.
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_8_bit_range.pdf}
     \caption[Event map encoded 8-bit distributions]
     {The distribution of encoded 8-bit values for the hit-charge, hit-time and hough-height event
-        maps. Note the maximum (\emph{capped}) bin at an 8-bit value of 255.}
+        maps. Note the maximum (capped) bin at an 8-bit value of 255.}
     \label{fig:explore_8_bit_range}
 \end{figure}
 
@@ -784,17 +794,17 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 \begin{figure} % NUEL EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_nuel_ccres_event.pdf}
     \caption[Example of a CC resonant $\nu_{e}$ event]
-    {Three map representation of a CC resonant $\nu_{e}$ event. Initiated by a $\nu_{e}$ of
-        energy \unit{3.3}{\GeV} the final state particles above the Cherenkov threshold include a
-        $e^{-}$ of energy \unit{2.8}{\GeV} and a \unit{0.3}{\GeV} $\pi^{0}$.}
+    {Three map representation of a CC resonant $\nu_{e}$ event. Initiated by a $\nu_{e}$ of energy
+        \unit{3.3}{\GeV} the final state particles above the Cherenkov threshold include a $e^{-}$
+        of energy \unit{2.8}{\GeV} and a \unit{0.3}{\GeV} $\pi^{0}$.}
     \label{fig:explore_nuel_ccres_event}
 \end{figure}
 
 \begin{figure} % NUMU EVENT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_numu_ccdis_event.pdf}
     \caption[Example of a CC DIS $\nu_{\mu}$ event]
-    {Three map representation of a CC DIS $\nu_{\mu}$ event. Initiated by a $\nu_{\mu}$ of
-        energy \unit{3.5}{\GeV} the final state particles above the Cherenkov threshold include a
+    {Three map representation of a CC DIS $\nu_{\mu}$ event. Initiated by a $\nu_{\mu}$ of energy
+        \unit{3.5}{\GeV} the final state particles above the Cherenkov threshold include a
         $\mu^{-}$ of energy \unit{1.9}{\GeV}, a proton of energy\unit{2.0}{\GeV}, and a
         \unit{0.2}{\GeV} $\pi^{-}$.}
     \label{fig:explore_numu_ccdis_event}
@@ -821,9 +831,8 @@ Fig.~\ref{fig:explore_cosmic_event} for a cosmic muon event.
 \label{sec:cnn_baseline_arch} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 An illustrative diagram of the baseline chipsnet architecture is shown in Fig.~\ref{fig:chipsnet}.
-Based on the VGG network (16 layer variant) previously mentioned in
-Section.~\ref{sec:cnn_previous} and detailed in Ref.~\cite{simonyan2014} there are a few key
-differences from the literature defined network.
+Based on the VGG network previously mentioned in Section.~\ref{sec:cnn_previous} and detailed in
+Ref.~\cite{simonyan2014} there are a few key differences from the literature defined network.
 
 \begin{figure} % CHIPSNET DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/6-cnn/chipsnet.pdf}
@@ -843,12 +852,12 @@ differences from the literature defined network.
     \item Each of the three event maps: hit-charge, hit-time, and hough-height are initially fed
           into three separate branches. Each branch contains two VGG blocks with two convolutional
           layers each (four convolutional layers in total). The outputs from each branch are
-          merged together using a concatenation layer before being fed to the rest of the network.
-          This configuration allows for event map specific features to be learnt independently
-          before combined features are learnt by the rest of the network.
+          merged using a concatenation layer before being fed to the rest of the network. This
+          configuration allows for event map specific features to be learnt independently before
+          combined features are learnt by the rest of the network.
 
     \item Batch normalisation as described in Section.~\ref{sec:cnn_theory_reg} is included before
-          the activation (ReLU) function within every convolutional layer.
+          the activation (ReLU) function for every convolutional layer.
 
     \item Squeeze-and-excitation units, as detailed in Ref.~\cite{hu2018} are included after the
           max-pooling operation in all VGG blocks. These units introduce extra parameters to model
@@ -861,31 +870,31 @@ differences from the literature defined network.
           called \emph{two-dimensional spatial dropout}. The dropout after the fully-connected
           layers is standard, in that it drops out individual fully-connected neurons.
 
-    \item Five seed parameters are concatenated with the flattened layer before the
-          fully-connected layers. Included are the three components of the estimated interaction
-          vertex position and the two components of the estimated track direction ($s_{x},s_{y},
-              s_{z},s_{\theta},s_{\phi}$). These parameters provide the network with spatial context
-          as to where in the detector the input event maps have been generated and the dominant
-          direction of PMT activity.
+    \item Five output parameters from the seeding process (seed pars) are concatenated with the
+          flattened layer before the fully-connected layers. Included are the three components of
+          the estimated interaction vertex position ($s_{x},s_{y}, s_{z}$), and the two components
+          of the estimated track direction ($s_{\theta},s_{\phi}$). These parameters provide the
+          network with spatial context as to where in the detector the input event maps have been
+          generated and the dominant direction of PMT activity.
 \end{itemize}
 
-The chipsnet network architecture is implemented using the Keras~\cite{chollet2015} API built into
-Tensorflow. This specification allows for predefined common layers such as a two-dimensional
-convolution or a max-pooling layer to be easily structured into a full network definition.
+The chipsnet baseline architecture is implemented using the Keras~\cite{chollet2015} API built
+into Tensorflow. Keras allows for predefined common layers such as a two-dimensional convolution
+or a max-pooling layer to be easily structured into a full network definition.
 
 \subsection{Baseline outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_outputs} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Many CNN applications are found to benefit from learning multiple tasks at the same time, using
-the same inputs. This is believed to be the case as training with multiple tasks tends to return a
-network with an improved generalised representation of the inputs. Thus, features learnt for one
-task can improve the performance of another. Additionally, multiple tasks work to regularise any
-one output from overfitting. Commonly named \emph{multi-task} learning, this methodology is used
-extensively in this work.
+Many CNN applications are found to benefit from learning multiple tasks at the same time. This is
+believed to be the case as training with multiple tasks tends to return a network with an improved
+generalised representation of the inputs, with features learnt for one task improving the
+performance of another. Additionally, multiple tasks work to regularise any one output from
+overfitting. Commonly named \emph{multi-task} learning, this methodology is used extensively in
+this work.
 
-In order to train a network with multiple tasks (outputs), a loss function $E_{tot}$ must be
-defined to combine the individual loss functions for each task $E_{i}$. The simplest way to do
-this is via a linear weighted sum, such that
+To train a network with multiple tasks (outputs), a loss function $E_{tot}$ must be defined to
+combine the individual loss functions for each task $E_{i}$. The simplest way to do this is via a
+linear weighted sum, such that
 \begin{equation}
     E_{tot} = \sum_{i=1}^{i=N}w_{i}E_{i},
     \label{eq:multi_simple}
@@ -893,11 +902,11 @@ this is via a linear weighted sum, such that
 where $N$ is the number of tasks and $w_{i}$ are the associated weights. In this work this is
 referred to as the \emph{simple} multi-task loss.
 
-The final network performance can strongly depend on the relative weighting between loss
-functions, especially when the values returned from the different loss function differ by many
-order of magnitude (common when combining regression and classification tasks). Therefore, finding
-the optimal $w_{i}$ weights can be both difficult and time-consuming. Another approach outlined in
-Ref.~\cite{kendall2018} aims to remedy this problem by learning the optimal weighting between loss
+However, the final network performance can strongly depend on the relative weighting between loss
+functions, especially when the values returned by each differ by many order of magnitude (common
+when combining regression and classification tasks). Therefore, finding the optimal $w_{i}$
+weights can be both difficult and time-consuming. Another approach outlined in
+Ref.~\cite{kendall2018} remedies this problem by learning the optimal weighting between loss
 functions. This is done by introducing an additional trainable parameter $\sigma_{i}$, for each
 loss function, such that
 \begin{equation}
@@ -906,46 +915,45 @@ loss function, such that
 \end{equation}
 In this work we refer to this as the \emph{learnt} multi-task loss.
 
-The specific number and nature of outputs for the different specific networks are detailed in
+The specific number and nature of outputs for the specific networks are detailed in
 Section.~\ref{sec:cnn_specific}. Although physically motivated to some degree, the exact set of
-tasks and the loss combination technique used is mainly driven by trial-and-error. The chipsnet
-software is specifically designed to enable this process by making it easy to configure the
-network outputs via a simple configuration file.
+tasks and the loss combination technique used is mainly driven by extensive trial-and-error. The
+chipsnet software is specifically designed to enable this process by making it easy to configure
+the network outputs via a simple configuration file.
 
 \subsection{Baseline training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_baseline_training} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-All three networks are trained using Tensorflow (version 2.3.0) on an 18 core CPU (36 thread)
-machine equipped with four NVIDIA GeForce RTX 2080 graphics processing units (GPUs). The
-Tensorflow dataset API is used to create an efficient input data pipeline where data is loaded
-on-the-fly at training time. This procedure ensures all GPU threads are utilised loading,
-decoding, and preprocessing data for the primary GPU based network calculations before being
-needed, maximising computational efficiency.
+All networks are trained on an 18 core CPU (36 thread) machine equipped with four NVIDIA GeForce
+RTX 2080 graphics processing units (GPUs). The Tensorflow dataset API is used to create an
+efficient input data pipeline where data is loaded on-the-fly at training time. This procedure
+ensures all CPU threads are utilised loading, decoding, and preprocessing data for the primary GPU
+based network calculations before being needed, maximising computational efficiency.
 
-During preprocessing, all 8-bit input map values are converted to 32-bit float values bounded
-between zero and one. Furthermore, a random factor scaling is applied to each map bin. Generated
-from a normal distribution centred on one with a standard deviation of $\sigma_{r}$, by
-fluctuating the bin values in this way the network is forced to focus less on the absolute bin
-values and more on the underlying event topology. Not only does this process provide valuable
-regularisation to reduce overfitting, but also makes the trained networks robust to small changes
-within the input (explored within Section.~\ref{sec:results_robust}).
+During preprocessing, all 8-bit input event map values are converted to 32-bit float values
+bounded between zero and one. Furthermore, a random factor scaling is applied to each map bin.
+Generated from a normal distribution centred on one with a standard deviation of $\sigma_{r}$, by
+fluctuating the bin values the network is forced to focus less on the absolute bin values and more
+on the underlying event topology. Not only does this process provide valuable regularisation to
+reduce overfitting, but also makes the trained networks robust to small changes within the input
+(explored within Section.~\ref{sec:results_robust}).
 
 A minibatch training strategy of minibatch size of $n_{b}$, using the Adam
-optimiser~\cite{kingma2014} with $\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$ is
-used. The exact training sample size and composition for each specific network are given in
+optimiser~\cite{kingma2014} ($\beta_{1}=0.9$, $\beta_{2}=0.999$, and $\epsilon = 1e-7$) is used.
+The exact training sample size and composition for each specific network are given in
 Section.~\ref{sec:cnn_specific}, but for all networks a 95\% training to 5\% validation data split
-is employed early stopping used. The learning rate for each epoch $\eta_{e}$ is set to decrease
-throughout training according to
+is employed across the full training sample. Consequently, early stopping is used. The learning
+rate for each epoch $\eta_{e}$ is set to decrease throughout training according to
 \begin{equation}
     \eta_{e}=\frac{\eta_{0}}{1+c_{d}(e-1)},
 \end{equation}
 where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number (starting at one), and
 $c_{d}$ is the learning rate decay coefficient.
 
-Therefore, when training each network there is a list of tunable input \emph{hyperparameters}. All
-are optimised specifically for each network using the SHERPA hyperparameter tuning
-framework~\cite{hertel2020}. To maximise performance, random configurations are tested within a
-specific range or selection of choices for each hyperparameter, with:
+Therefore, when training each network there is a list of tunable \emph{hyperparameters}. All are
+optimised specifically for each network using the SHERPA hyperparameter tuning
+framework~\cite{hertel2020}. To maximise performance, random configurations are tested within
+SHERPA across a specific range or selection of choices for each hyperparameter, with:
 \begin{itemize}
     \item the \textbf{initial learning rate $\eta_{0}$}, in a range from $0.00005$ to $0.001$;
     \item the \textbf{learning rate decay coefficient $c_{d}$}, in a range from $0.2$ to $0.8$;
@@ -957,21 +965,21 @@ specific range or selection of choices for each hyperparameter, with:
     learnt.
 \end{itemize}
 
-\section{Specific implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Specific implementations for CHIPS} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_specific} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The specific CNN implementations for cosmic rejection, beam classification and energy estimation
+The specific CNN implementations for cosmic rejection, beam classification, and energy estimation
 are outlined below. It is important to note that the exact configuration of networks outlined here
 is the result of extensive testing designed to maximise the selection of a pure and efficient
 sample of CC $\nu_{e}$ beam events whose neutrino energy can also be accurately determined.
 
-As an example of an alternative implementation, if cosmic and beam classification are combined
-into a single network, both objectives see a reduction in performance. The same is also true if
-either classification task are combined with neutrino energy estimation. However, specific
-secondary outputs such as counting the number of primary particles in conjunction with beam
-classification are seen to improve performance. It is clear, therefore, that the multi-task
-approach only works for tasks that require a similar learnt representation of the inputs. Put
-simply; the tasks must be similar.
+As an example of an alternative implementation, if cosmic rejection and beam classification are
+combined into a single network, both objectives see a reduction in performance. The same is also
+true if either cosmic rejection or beam classification is combined with neutrino energy
+estimation. However, specific secondary outputs such as counting the number of primary particles
+in conjunction with beam classification are seen to improve performance. It is clear, therefore,
+that the multi-task approach only works for tasks that require a similar learnt representation of
+the inputs. Put simply; the tasks must be similar.
 
 \subsection{Cosmic rejection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_specific_cosmic} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -985,14 +993,13 @@ and, therefore, escape the detector in this fashion, there is motivation as to w
 task is helpful.
 
 The network is trained on a sample of 3.15 million simulated events produced using the detector
-simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
-\chipsfive geometry. Roughly $1/3^{rd}$ are $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam
-events, and $1/3^{rd}$ cosmic muon events, the counts of which are shown in
-Fig.~\ref{fig:cosmic_training_sample}. All beam events (both $\nu_{\mu}$ and $\nu_{e}$) are
-generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely mimic the dominant
-$\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used for training with no
-preselection as this is found to be the best for cosmic rejection performance. The full sample is
-split 95\% to 5\% for training and validation, respectively.
+simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo}. Roughly
+$1/3^{rd}$ are $\nu_{\mu}$ beam events, $1/3^{rd}$ $\nu_{e}$ beam events, and $1/3^{rd}$ cosmic
+muon events, the counts of which are shown in Fig.~\ref{fig:cosmic_training_sample}. All beam
+events (both $\nu_{\mu}$ and $\nu_{e}$) are generated using the expected \chipsfive $\nu_{\mu}$
+energy spectrum to closely mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$
+signal. Every event in the sample is used for training with no preselection, as this is found to
+be the best for cosmic rejection performance.
 
 \begin{figure} % COSMIC TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_cosmic_training_sample.pdf}
@@ -1005,15 +1012,16 @@ split 95\% to 5\% for training and validation, respectively.
 
 There are two outputs to the cosmic rejection network:
 \begin{enumerate}
-    \item \textbf{Cosmic score (1 neuron):} Returns a score between zero and one corresponding to
-          whether the event is beam or cosmic like. The binary cross-entropy loss function in
-          Eq.~\ref{eq:binary_cross_entropy} is used for training with a simple multi-task weight
-          of $1$.
-    \item \textbf{Escapes score (1 neuron):} Returns a score between zero and one corresponding to
-          whether the charged lepton in an event is contained or escapes the detector. The binary
-          cross-entropy loss function in Eq.~\ref{eq:binary_cross_entropy} is used for training
-          with a simple multi-task weight of $1$. NC beam events without a charged lepton are
-          masked (do not contribute to the loss) during training for this output.
+    \item \textbf{Cosmic score (1 classification neuron):} Returns a score between zero and one
+          corresponding to whether the event is beam or cosmic like. The binary cross-entropy loss
+          function in Eq.~\ref{eq:binary_cross_entropy} is used for training with a simple
+          multi-task weight of $1$.
+    \item \textbf{Escapes score (1 classification neuron):} Returns a score between zero and one
+          corresponding to whether the charged lepton in an event is contained or escapes the
+          detector. The binary cross-entropy loss function in Eq.~\ref{eq:binary_cross_entropy} is
+          used for training with a simple multi-task weight of $1$. NC beam events without a
+          charged lepton are masked (do not contribute to the loss) during training for this
+          output.
 \end{enumerate}
 
 The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
@@ -1035,33 +1043,32 @@ Fig.~\ref{fig:final_cosmic_history}.
 \subsection{Beam classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_specific_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The beam classification network aims to separate beam events by their interaction type to
-primarily select a pure and efficient sample of appeared $\nu_{e}$ events, but also a sample of
-survived CC $\nu_{\mu}$ events. Therefore, the principle task is a categorical classification
-between CC $\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is made to separate the appeared
-CC $\nu_{e}$ and intrinsic beam CC $\nu_{e}$ components as they are impossible to tell apart,
-except for their distribution in energy.
+The beam classification network aims to separate beam events by their neutrino and interaction
+type to primarily select a pure and efficient sample of appeared $\nu_{e}$ events, but also a
+sample of survived CC $\nu_{\mu}$ events. Therefore, the principal task is a categorical
+classification between CC $\nu_{e}$, CC $\nu_{\mu}$, and NC events. No attempt is made to separate
+the appeared CC $\nu_{e}$ and intrinsic beam CC $\nu_{e}$ components as they are impossible to
+tell apart, except for their distribution in neutrino energy.
 
 Similar to the implementation used by DUNE~\cite{collaboration2020}, alongside the core
 classification additional classification and particle counting tasks outlined below are included
 to improve performance. Note that the particle counting tasks are not used in this work for
 anything but increasing the primary classification performance. Future work, however, could
-exploit any ability to separate exclusive final states deduced from these particle counts, to
+exploit any ability to separate exclusive final states, deduced from these particle counts, to
 reduce both energy resolution and systematic errors. As an example of a method already in use,
 \nova use their ability to accurately determine the hadronic energy of an event to split their CC
 $\nu_{\mu}$ sample into populations of different energy resolution. Each population can then be
-treated separately in the analysis before being combined, which increases
+treated separately in the analysis before being combined, increasing overall
 performance~\cite{acero2018}.
 
 The network is trained on a sample of 1.67 million simulated events produced using the detector
-simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo} with a
-\chipsfive geometry. Roughly half are $\nu_{\mu}$ beam events, with the other half being $\nu_{e}$
-beam events, as shown in Fig.~\ref{fig:beam_training_sample}. All events (both $\nu_{\mu}$ and
-$\nu_{e}$) are generated using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely
-mimic the dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used
-for training with no preselection as this is found to be the best for beam classification
-performance, especially NC rejection. The full sample is split 95\% to 5\% for training and
-validation, respectively.
+simulation and event generation methods outlined in Section.~\ref{sec:chips_monte_carlo}. Roughly
+half are $\nu_{\mu}$ beam events, with the other half being $\nu_{e}$ beam events, as shown in
+Fig.~\ref{fig:beam_training_sample}. All events (both $\nu_{\mu}$ and $\nu_{e}$) are generated
+using the expected \chipsfive $\nu_{\mu}$ energy spectrum to closely mimic the dominant
+$\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. All events are used for training with no
+preselection as this is found to be the best for beam classification performance, especially NC
+rejection.
 
 \begin{figure} % BEAM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_beam_training_sample.pdf}
@@ -1073,47 +1080,53 @@ validation, respectively.
 
 There are nine outputs to the beam classification network:
 \begin{enumerate}
-    \item \textbf{Combined category (3 neurons):} Returns a classification probability score
-          between zero and one for each of CC $\nu_{e}$, CC $\nu_{\mu}$, and NC (summing to one).
-          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$.
-    \item \textbf{CC category (6 neurons):} Returns a classification probability score between
-          zero and one for each of CC-QEL, CC-Res, CC-DIS, CC-Coh, CC-MEC and CC-other (summing to
-          one). The categorical cross-entropy loss function in
-          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
-          weight of $1$. NC events are masked (do not contribute to the loss) during training for
-          this output.
-    \item \textbf{NC category (4 neurons):} Returns a classification probability score between
-          zero and one for each of NC-Res, NC-DIS, NC-Coh and NC-other (summing to one). The
-          categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$. CC events are masked (do not
-          contribute to the loss) during training for this output.
-    \item \textbf{Electron count (4 neurons):} Returns a classification probability score between
-          zero and one for each of 0, 1, 2, and 3+ electrons in the final state (summing to one).
-          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$.
-    \item \textbf{Muon count (4 neurons):} Returns a classification probability score between zero
-          and one for each of 0, 1, 2, and 3+ muons in the final state (summing to one). The
-          categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$.
-    \item \textbf{Proton count (4 neurons):} Returns a classification probability score between
-          zero and one for each of 0, 1, 2, and 3+ protons in the final state (summing to one).
-          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$.
-    \item \textbf{$\pi^{\pm}$ count (4 neurons):} Returns a classification probability score
-          between zero and one for each of 0, 1, 2, and 3+ charged pions in the final state
+    \item \textbf{Combined category (3 classification neurons):} Returns a classification
+          probability score between zero and one for each of CC $\nu_{e}$, CC $\nu_{\mu}$, and NC
           (summing to one). The categorical cross-entropy loss function in
           Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
           weight of $1$.
-    \item \textbf{$\pi^{0}$ count (4 neurons):} Returns a classification probability score between
-          zero and one for each of 0, 1, 2, and 3+ neutral pions in the final state (summing to
+    \item \textbf{CC category (6 classification neurons):} Returns a classification probability
+          score between zero and one for each of CC-QEL, CC-Res, CC-DIS, CC-Coh, CC-MEC and
+          CC-other (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$. NC events are masked (do not contribute to the loss) during training for
+          this output.
+    \item \textbf{NC category (4 classification neurons):} Returns a classification probability
+          score between zero and one for each of NC-Res, NC-DIS, NC-Coh and NC-other (summing to
           one). The categorical cross-entropy loss function in
           Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$. CC events are masked (do not contribute to the loss) during training for
+          this output.
+    \item \textbf{Electron count (4 classification neurons):} Returns a classification probability
+          score between zero and one for each of 0, 1, 2, and 3+ electrons in the final state
+          (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
           weight of $1$.
-    \item \textbf{Photon count (4 neurons):} Returns a classification probability score between
-          zero and one for each of 0, 1, 2, and 3+ photons in the final state (summing to one).
-          The categorical cross-entropy loss function in Eq.~\ref{eq:categorical_cross_entropy} is
-          used for training with a simple multi-task weight of $1$.
+    \item \textbf{Muon count (4 classification neurons):} Returns a classification probability
+          score between zero and one for each of 0, 1, 2, and 3+ muons in the final state (summing
+          to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
+    \item \textbf{Proton count (4 classification neurons):} Returns a classification probability
+          score between zero and one for each of 0, 1, 2, and 3+ protons in the final state
+          (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
+    \item \textbf{$\pi^{\pm}$ count (4 classification neurons):} Returns a classification
+          probability score between zero and one for each of 0, 1, 2, and 3+ charged pions in the
+          final state (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
+    \item \textbf{$\pi^{0}$ count (4 classification neurons):} Returns a classification
+          probability score between zero and one for each of 0, 1, 2, and 3+ neutral pions in the
+          final state (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
+    \item \textbf{Photon count (4 classification neurons):} Returns a classification probability
+          score between zero and one for each of 0, 1, 2, and 3+ photons in the final state
+          (summing to one). The categorical cross-entropy loss function in
+          Eq.~\ref{eq:categorical_cross_entropy} is used for training with a simple multi-task
+          weight of $1$.
 \end{enumerate}
 
 The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
@@ -1125,9 +1138,9 @@ Fig.~\ref{fig:final_beam_history}.
 
 \begin{figure} % BEAM HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_beam_history.pdf}
-    \caption[Loss and accuracy throughout training for the beam classification network]
-    {Total loss and \emph{combined category} accuracy for both the training dataset (solid) and
-        validation dataset (dashed) throughout training for the beam classification network. The
+    \caption[Loss and accuracy throughout training for the cosmic rejection network]
+    {Total loss and \emph{combined category} accuracy for both the training sample (solid) and
+        validation sample (dashed) throughout training for the beam classification network. The
         final network weights are taken at epoch 7 as shown by the vertical black line.}
     \label{fig:final_beam_history}
 \end{figure}
@@ -1151,43 +1164,42 @@ energies are related. As the interaction vertex position within the detector and
 from the instrumented wall can impact the number of deposited photoelectrons, there is motivation
 as to why these additional tasks are also helpful.
 
-Separate networks are trained for each of CC-QEL(CC-MEC), CC-Res, and CC-DIS for both $\nu_{e}$
-and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each. All events
-(both $\nu_{\mu}$ and $\nu_{e}$) are produced using the detector simulation and event generation
-methods outlined in Section.~\ref{sec:chips_monte_carlo} with a \chipsfive geometry. The expected
-\chipsfive $\nu_{\mu}$ energy spectrum is used to generate all events to closely mimic the
-dominant $\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. Only events for which the
-primary charged lepton is fully contained within the detector volume are used for training. Each
-sample is split 95\% to 5\% for training and validation, respectively. Note that CC-QEL and CC-MEC
-neutrino energy estimation is combined as both have incredibly similar final state topologies.
+Separate networks are trained for each of CC-QEL(and CC-MEC), CC-Res, and CC-DIS for both
+$\nu_{e}$ and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each.
+All events (both $\nu_{\mu}$ and $\nu_{e}$) are produced using the detector simulation and event
+generation methods outlined in Section.~\ref{sec:chips_monte_carlo}. The expected \chipsfive
+$\nu_{\mu}$ energy spectrum is used to generate all events to closely mimic the dominant
+$\nu_{\mu}$ beam component and appeared $\nu_{e}$ signal. Only events for which the primary
+charged lepton is fully contained within the detector volume are used for training, with no
+additional preselection applied. Note that CC-QEL and CC-MEC energy estimation is combined into a
+single network as both have incredibly similar final state topologies (a single charged lepton).
 
 There are six outputs to each of the energy estimation networks:
 \begin{enumerate}
-    \item \textbf{Neutrino energy (1 neuron):} Returns the estimated neutrino energy. The
-          mean-squared error loss function in Eq.~\ref{eq:mse} is used for training.
-    \item \textbf{Charged lepton energy (1 neuron):} Returns the estimated primary charged lepton
-          energy. The mean-squared error loss function in Eq.~\ref{eq:mse} is used for training.
-    \item \textbf{Interaction vertex x-position (1 neuron):} Returns the estimated interaction
-          vertex x-position. The mean-squared error loss function in Eq.~\ref{eq:mse} is used for
-          training.
-    \item \textbf{Interaction vertex y-position (1 neuron):} Returns the estimated interaction
-          vertex y-position. The mean-squared error loss function in Eq.~\ref{eq:mse} is used for
-          training.
-    \item \textbf{Interaction vertex z-position (1 neuron):} Returns the estimated interaction
-          vertex z-position. The mean-squared error loss function in Eq.~\ref{eq:mse} is used for
-          training.
-    \item \textbf{Interaction time (1 neuron):} Returns the estimated interaction time relative to
-          the first PMT hit for each event. The mean-squared error loss function in
+    \item \textbf{Neutrino energy (1 regression neuron):} Returns the estimated neutrino energy.
+          The mean-squared error loss function in Eq.~\ref{eq:mse} is used for training.
+    \item \textbf{Charged lepton energy (1 regression neuron):} Returns the estimated primary
+          charged lepton energy. The mean-squared error loss function in Eq.~\ref{eq:mse} is used
+          for training.
+    \item \textbf{Interaction vertex x-position (1 regression neuron):} Returns the estimated
+          interaction vertex x-position. The mean-squared error loss function in Eq.~\ref{eq:mse}
+          is used for training.
+    \item \textbf{Interaction vertex y-position (1 regression neuron):} Returns the estimated
+          interaction vertex y-position. The mean-squared error loss function in Eq.~\ref{eq:mse}
+          is used for training.
+    \item \textbf{Interaction vertex z-position (1 regression neuron):} Returns the estimated
+          interaction vertex z-position. The mean-squared error loss function in Eq.~\ref{eq:mse}
+          is used for training.
+    \item \textbf{Interaction time (1 regression neuron):} Returns the estimated interaction time
+          relative to the first PMT hit for each event. The mean-squared error loss function in
           Eq.~\ref{eq:mse} is used for training.
 \end{enumerate}
 
 Each network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
 $\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.0$, and $n_{b}=128$, with a learnt
-multi-task loss combination as given in Eq.~\ref{eq:multi_learnt}. Typically, only approximately
-16 epochs are required to reach the minimum mean absolute error on the validation sample
-\emph{neutrino energy}. Early stopping typically halts training after approximately 20 epochs
-(taking 2 hours). An example of how an energy estimation networks training typically proceeds is
-given in Fig.~\ref{fig:final_energy_history}.
+multi-task loss combination as given in Eq.~\ref{eq:multi_learnt}. Early stopping typically halts
+training after approximately 20 epochs (taking 2 hours). An example of how an energy estimation
+networks training typically proceeds is given in Fig.~\ref{fig:final_energy_history}.
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_energy_history.pdf}
