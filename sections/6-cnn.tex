@@ -496,7 +496,7 @@ throughout the network. As a direct consequence, instead of requiring hand-engin
 input, deep networks can learn to extract the most powerful features for a given task from raw
 data. Here we outline just the specific deep learning technique used in this work; the CNN.
 
-\subsubsection*{CNN operations}
+\subsubsection*{CNN operations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 At their core, CNNs make use of a mathematical operation called \emph{convolution}, which either
 entirely or in part replaces the simple vector multiplication seen in the fully-connected networks
@@ -536,7 +536,7 @@ at each step according to Eq.~\ref{eq:conv}, as shown in Fig.~\ref{fig:conv_oper
 
 \begin{figure} % CONV OPERATION DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/6-cnn/conv_operation.pdf}
-    \caption[Example of a convolutional operation]
+    \caption[Example of a convolution operation]
     {Example of a $\text{stride}=1$ convolution operation involving the input grid and kernel from
         Fig.~\ref{fig:conv_input}. Both the operation for the case of \emph{valid} (top) and
         \emph{same} (bottom) padding is shown. The blue square in the top-left of the output
@@ -576,7 +576,7 @@ exhibit translational invariance and respect the local structure contained withi
 simpler terms, they do not care wherein the input image a particular feature exists, just that it
 exists.
 
-\subsubsection*{CNN architectures}
+\subsubsection*{CNN architectures} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In 2012 the AlexNet CNN lowered the error rate on the ubiquitous ImageNet classification
 task~\cite{deng2009} from 28\% to 16\%~\cite{krizhevsky2012}. Since this breakthrough, the
@@ -731,10 +731,10 @@ distortions, the impact on event topology is small.
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_true_reco_vtx.pdf}
-    \caption[Seed interaction vertex resolutions]
-    {Seed interaction vertex position resolution, split by component. The large negative tail for
-        the $x$ component shows the tendency of the seeding procedure to estimate the $x$
-        component closer to the downstream detector wall than reality.}
+    \caption[Seeding estimated interaction vertex position resolutions]
+    {Seeding estimated interaction vertex position resolution, split by component. The large
+        negative tail for the $x$ component shows the tendency of the seeding procedure to
+        estimate the $x$ component closer to the downstream detector wall than reality.}
     \label{fig:explore_true_reco_vtx}
 \end{figure}
 
@@ -744,7 +744,8 @@ This procedure is used to generate two event \emph{maps}. Firstly, a \emph{hit-c
 each grid bin is given by the total collected photoelectrons from all PMTs mapped to that bin.
 Secondly, a \emph{hit-time} map where each grid bin is given by the first hit time (in
 nanoseconds) across all PMTs mapped to that bin. Each hit-time map is further corrected so that
-the first hit time across all bins lies at zero.
+the first hit time across all bins lies at zero. Note that within this work veto PMTs are ignored
+for simplicity.
 
 By design, the Hough transform within the seeding procedure uses the estimated interaction vertex
 position to generate the transform space. Therefore, by re-binning the transform space to a $64
@@ -769,7 +770,7 @@ the distribution of bin values for each event map across the encoded range.
         hit-time     & 120 ns    & 0.15\%            \\
         hough-height & 3500 p.e  & 0.23\%            \\
     \end{tabular}
-    \caption[Table of input event map 8-bit cap-points]
+    \caption[Table of input event map 8-bit cap-points and percentages]
     {Table showing the input event map cap-points (maximum value of the encoding range) and the
         associated percentage of bin values that are capped at the maximum 8-bit value of 255 as a
         consequence. The cap-points are specifically chosen so that the capped percentage is
@@ -1138,7 +1139,7 @@ Fig.~\ref{fig:final_beam_history}.
 
 \begin{figure} % BEAM HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_beam_history.pdf}
-    \caption[Loss and accuracy throughout training for the cosmic rejection network]
+    \caption[Loss and accuracy throughout training for the beam classification network]
     {Total loss and \emph{combined category} accuracy for both the training sample (solid) and
         validation sample (dashed) throughout training for the beam classification network. The
         final network weights are taken at epoch 7 as shown by the vertical black line.}
@@ -1164,7 +1165,7 @@ energies are related. As the interaction vertex position within the detector and
 from the instrumented wall can impact the number of deposited photoelectrons, there is motivation
 as to why these additional tasks are also helpful.
 
-Separate networks are trained for each of CC-QEL(and CC-MEC), CC-Res, and CC-DIS for both
+Separate networks are trained for each of CC-QEL (and CC-MEC), CC-Res, and CC-DIS for both
 $\nu_{e}$ and $\nu_{\mu}$ events (8 in total) using 250000 corresponding simulated events each.
 All events (both $\nu_{\mu}$ and $\nu_{e}$) are produced using the detector simulation and event
 generation methods outlined in Section.~\ref{sec:chips_monte_carlo}. The expected \chipsfive
@@ -1203,7 +1204,7 @@ networks training typically proceeds is given in Fig.~\ref{fig:final_energy_hist
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_energy_history.pdf}
-    \caption[Loss and mean absolute error throughout training for the beam classification network]
+    \caption[Loss and mean absolute error throughout training for the energy estimation network]
     {Total loss and \emph{neutrino energy} mean absolute error for both the training dataset
         (solid) and validation dataset (dashed) throughout training for the energy estimation
         network trained on CC-QEL and CC-MEC $\nu_{e}$ events. The final network weights are taken
