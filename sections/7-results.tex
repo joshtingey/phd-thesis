@@ -1304,27 +1304,3 @@ ring topologies, with a relatively limited number of classes, on small $64\times
 not require the advanced feature representation they provide. Using the increased complexity
 models instead introduces additional bias, acting to decrease performance instead of providing
 additional discriminating power.
-
-\section{Summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:results_summary} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% PERFORMANCE
-\begin{enumerate}
-    \item Sufficient cosmic rejection for negligible beam sample contamination is achieved.
-    \item Beam classification selection is surprisingly comparable to other costly experiments.
-    \item Energy estimation is comparable and more generalisable compared to standard methods.
-    \item Cherenkov ring and Hough peak features are clearly being learnt by the trained networks.
-    \item There is clear learnt separation between categories as seen via unsupervised methods.
-    \item Future work should train beam classification network on only contained events.
-    \item The smearing of hit times is found to have a negligible impact on performance.
-    \item Robust to charge calibration.
-    \item Random PMT noise is found to have a negligible impact on performance.
-    \item The input representation of the event is important for performance.
-    \item The training sample must match the expected composition of events closely.
-    \item The network architecture does not matter much in the context of this work.
-    \item Future work should explore larger input image sizes and network architectures.
-    \item Future work should study the input distribution of events in greater detail.
-    \item Future work should look at using a graph convolutional network or transformers.
-\end{enumerate}
-
-TODO: Mention upstream neutrinos in the context of similarity with cosmics

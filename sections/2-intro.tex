@@ -3,19 +3,30 @@
 \setcounter{page}{17}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
 
 Consider a two-dimensional plane onto which thousands of individual points are randomly placed.
-Now suppose that the points are instead arranged so that combined (on a macro scale) they form the
-shape of a ring (an annulus). Not a perfect ring, but a ring with a thickness and whose
-constituent points are smeared to make it noticeably `fuzzy'. If you were to see a picture of this
-ring for the first time, how would your process of understanding unfold?
+Now suppose that the points are instead arranged so that on a macro scale they form the shape of a
+ring. Not a perfect ring, but a ring with a thickness whose constituent points are smeared to make
+it noticeably `fuzzy'. If you were to see a picture of this ring for the first time, how would
+your process of understanding unfold?
 
-Initially, you may notice edges between areas with few points and those with many. After
-considering how these edges interconnect, you may begin to understand that they form a circular
-shape. This shape is then probably refined once you notice the central hole and realise it is, in
-fact, a ring. You would then start to consider its size, its diameter, where is the plane it is
-located, and whether it is elliptical in nature. Upon detailed inspection, you may observe an
-internal structure to the ring with a changing density of points. Given enough time you could
-start to produce quantitative properties: the number of constituent points, the location of its
-centre, even a density profile.
+Initially, you notice rough edges between those regions with few points and those with many. Next,
+you consider how these edges interconnect and understand that they form a circular shape. This
+shape is then refined once you notice the central hole and realise that, in fact, you are viewing
+a ring. Knowing this you start to consider its size, its diameter, where in the plane it is
+located, and whether it is elliptical in nature. Upon enough inspection you could start to
+quantify the rings properties: the number of constituent points, the exact location of its centre,
+even a density profile of the its internal structure.
+
+Fundamentally, this process of understanding is not dissimilar from the way Convolutional Neural
+Networks, a type of deep learning algorithm, learn to make sense of images. 
+
+The thought experiment above relates to a Cherenkov ring, created by the cone of light emitted by
+charged particles as they travel through a medium such as water.
+
+Fundamentally, this process of understanding is the same for Convolutional Neural Networks
+
+This is exactly the form 
+
+multiple rings
 
 This is fundamentally the primary event analysis task for water Cherenkov neutrino detectors.
 Neutrino interactions within the detector create rings of light that are recorded on the walls of
@@ -26,18 +37,31 @@ are a deep learning algorithm that uses a process of understanding very similar 
 just like your brain. 
 
 This thesis presents a broad range of work conducted for the CHerenkov detectors In mine PitS
-(CHIPS) neutrino detector R\&D project. The main contribution comes from the application of
-Convolutional Neural Networks, a type of "deep learning" machine learning algorithm, to the
-reconstruction and classification of neutrino events within the CHIPS-5 prototype detector.
+(\chips) neutrino detector R\&D project. The main contribution comes from the novel application of
+Convolutional Neural Networks, to the reconstruction and classification of neutrino events within
+the \chipsfive prototype detector module. This is the first full-fledged implementation of
+Convolutional Neural Networks to long-baseline accelerator beam water Cherenkov neutrino detectors
+covering 
 
-The neutrino physics history, theoretical background, and current status are detailed as
-motivation for the CHIPS project. A full description of the CHIPS detector concept follows, with a
-principle focus on the CHIPS-5 prototype detector module deployed within the NuMI neutrino beam in
-the autumn of 2019. A particularly detailed overview of the data acquisition and monitoring
-systems developed for the CHIPS-5 detector is also given.
+This thesis begins with the history of discovery in neutrino physics.
+
+This thesis begins with the history of neutrino physics, as well as the theoretical background
+underpinning the field and its current status. 
+
+
+and
+current status of the field.
+
+
+The history of neutrino physics, as well as the theoretical background and current status of the
+field are detailed as motivation for the \chips project in Chapter.~\ref{chap:theory}. A
+full description of the \chips concept follows in Chapter.~\ref{chap:chips}, with a principle
+focus on the \chipsfive prototype detector module deployed into the \numi neutrino beam in the
+autumn of 2019. A particularly detailed overview of the data acquisition and monitoring systems
+developed for the \chipsfive detector is then given in Chapter.~\ref{chap:daq}.
 
 The standard neutrino event reconstruction and classification methods to be replaced are discussed
-alongside a review of the relevant neural network theory and other "deep learning" applications
+alongside a review of the relevant neural network theory and other deep learning applications
 within the field. The Convolutional Neural Network implementations for CHIPS are then outlined,
 including that for cosmic muon rejection, beam event classification and energy estimation.
 
@@ -49,5 +73,8 @@ are discussed to highlight the key factors driving performance.
 
 This is the first fully-fledged implementation of Convolutional Neural Networks to long-baseline
 accelerator beam water Cherenkov neutrino detectors. Covering the full range of event
-reconstruction and classification analysis. Hopefully, this work will inform the development of
-similar applications and help with the optimisation of future \chips detector designs. 
+reconstruction and classification analysis. 
+
+It is hoped that the work presented in this thesis will inform the development of similar
+Convolutional Neural Network applications to other water Cherenkov detectors.
+

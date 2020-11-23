@@ -12,7 +12,7 @@ In the context of the \chips project, the DAQ system records all PMT hits, times
 common clock, and transfers them out of the detector to a central processing node. This node then
 applies a trigger to select hits that fall within the interesting \numi beam spill time window,
 before the selected hits are sliced into events and moved to permanent storage for further
-analysis. Alongside these processes, the DAQ also configures the whole detector and provides data
+analysis. Alongside these processes, the DAQ system also configures the detector and provides data
 quality and detector component monitoring.
 
 Although relatively simple when compared to the incredibly complex and time-pressured DAQ systems
@@ -40,16 +40,14 @@ All nodes are synchronised to the clock of a \emph{GrandMaster} node, typically 
 (Inter-Range Instrumentation Group timecode B) and a \unit{10}{\text{MHz}} signal from a GPS
 disciplined oscillator. These inputs allow for synchronisation of the GrandMaster clock to
 International Atomic Time (TAI). As \chips detector modules require synchronisation to accelerator
-clocks many hundreds of kilometres to determine the arrival time of beam spills accurately, the
-GPS disciplined timing is particularly important.
+clocks many hundreds of kilometres away to determine the arrival time of beam spills, the GPS
+disciplined timing is particularly important.
 
 WR hardware is commercially available from many vendors. Within \chipsfive, two WR devices are
 used for time synchronisation and data transfer, both shown in Fig.~\ref{fig:wr_electronics}.
 Firstly, a compact version of the standard WR switch~\cite{wrswitch2020}, specially developed for
 the \chips project at Nikhef~\cite{wrchromium2020}. Secondly, a WR-LEN (Lite Embedded Node) from
-Seven Solutions~\cite{wrlen2020}. All WR components are connected using \unit{1}{\text{Gb}}
-bi-directional optical fibre connections, using the \unit{1310}{\text{nm}} and
-\unit{1550}{\text{nm}} wavelengths via Small Form-Factor Pluggable Transceivers (SFPs).
+Seven Solutions~\cite{wrlen2020}. 
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
@@ -67,10 +65,12 @@ bi-directional optical fibre connections, using the \unit{1310}{\text{nm}} and
     \label{fig:wr_electronics}
 \end{figure}
 
-Fig.~\ref{fig:sync} shows the WR synchronised pulse per second clock rising edges for two
-\chipsfive WR switches separated by \unit{500}{\text{m}} of fibre. With the vertical ticks
-representing single nanoseconds, sub-nanosecond time synchronisation accuracy between the switches
-is observed.
+All WR components are connected using \unit{1}{\text{Gb}} bi-directional optical fibre
+connections, using the \unit{1310}{\text{nm}} and \unit{1550}{\text{nm}} wavelengths via Small
+Form-Factor Pluggable Transceivers (SFPs). Fig.~\ref{fig:sync} shows the subsequent WR
+synchronised pulse per second clock rising edges for two \chipsfive WR switches separated by
+\unit{500}{\text{m}} of fibre. With the vertical ticks representing single nanoseconds,
+sub-nanosecond time synchronisation accuracy between the switches is observed.
 
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.pdf}
@@ -133,14 +133,14 @@ RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares boards 
 attached to a \emph{Central Logic Board} (CLB)~\cite{biagi2015, eijk2015}. The CLB contains ToT
 discriminators and TDCs to digitise the recorded signals as well as electronics to synchronise to
 the WR network clock for timestamping. Each Nikhef \textsc{Pom} electronics box also contains an
-AC to DC power converter (AC/DC) whose output is fed into the CLB for distribution.
+AC to DC power converter (AC/DC) whose output is fed into the CLB for power distribution.
 
 \begin{figure} % NIKHEF PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/nikhef_plane.pdf}
     \caption[Labelled picture of the Nikhef \textsc{Pom} electronics box]
-    {Labelled picture of the Nikhef \textsc{Pom} electronics box. Both ends of the category 5 PMT
-        cables can be seen, either at the PMT mounting points or entering the electronics box and
-        not yet plugged into Calamares boards.}
+    {Labelled picture of the Nikhef \textsc{Pom} electronics box without its aluminium casing.
+        Both ends of the category 5 PMT cables can be seen, either at the PMT mounting points or
+        entering the electronics box and not yet plugged into Calamares boards.}
     \label{fig:nikhef_plane}
 \end{figure}
 
@@ -170,7 +170,7 @@ connection. A total of five Nikhef-containers are present within \chipsfive.
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Every Madison Hamamatsu PMT is directly attached to a high-voltage generating Cockcroft-Walton
-board followed by a signal processing \emph{$\micro$DAQ}, as shown in
+board followed by a signal processing $\micro$DAQ, as shown in
 Fig.~\ref{fig:madison_pmt_assembly}. The $\micro$DAQ is a small microcontroller developed for both
 IceCube and \chips at WIPAC in Madison. Capable of timestamping and digitising signals directly at
 the PMT level, the $\micro$DAQ also sets the PMT operating voltage by controlling the driving
@@ -261,16 +261,17 @@ output channels, with their control electronics powered by separate AC to DC con
 connected to one of the multiplexer/demultiplexer networking channels via a media converter
 (optical fibre to RJ45). Each relay channel also has a built-in \emph{trip gate} to immediately
 power-off the channel if a current surge is detected. This protection is particularly crucial for
-\chipsfive as water leaks are a possibility.
+\chipsfive as water leaks are possible.
 
 The contents of the DAQ electronics \emph{Shore Hut} are shown in Fig.~\ref{fig:hut_daq}. The
 single umbilical optical fibre connection passes through a multiplexer/demultiplexer before each
-of the wavelength-specific channels are passed into one of two WR switches to provide sufficient
-ports. Multiple Virtual Local Area Networks (VLANs) are configured on each switch such that for
-each wavelength channel only a single paired port on the other physical side of the switch carries
-that channels data to and from the standard networking switch. Of the two WR switches, one is
-configured to be the GrandMaster with connections to a GPS disciplined oscillator (with antenna).
-A single connection is also made between the WR switches for clock synchronisation.
+of the wavelength-specific channels are passed into one of two WR switches. Multiple Virtual Local
+Area Networks (VLANs) are configured on each switch such that for each wavelength channel only a
+single paired port on the other physical side of the switch carries that channels data to and from
+the standard networking switch (these connections are not present within Fig.~\ref{fig:hut_daq}).
+Of the two WR switches, one is configured to be the GrandMaster with connections to a GPS
+disciplined oscillator with an attached antenna. A single connection is also made between the WR
+switches for clock synchronisation.
 
 \begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/hut_daq.pdf}
@@ -280,35 +281,39 @@ A single connection is also made between the WR switches for clock synchronisati
     \label{fig:hut_daq}
 \end{figure}
 
-The standard network switch provides unit{10}{\text{Gb}} connections to each of the Shore DAQ
+The standard network switch provides \unit{10}{\text{Gb}} connections to each of the Shore DAQ
 computing machines whose specific roles are detailed in Section.~\ref{sec:daq_soft}. Each machine
 is also connected to a second switch providing connections to the external internet and DAQ
-components located at Fermilab.
+components located at Fermilab. At Fermilab, a principle DAQ machine (Fermi DAQ-1) performs two
+main roles. Firstly, it forwards \numi beam spill timing information from a Time Distribution Unit
+attached to the Main Injector clock to \chipsfive. Secondly, it receives recorded detector data
+from the \chipsfive located DAQ system and places it into long-term storage.
 
-An uninterruptible power supply provides power to all devices within the Shore Hut, providing
-power for up to \unit{15}{\text{minutes}} after a power cut (sadly quite common). The two detector
-umbilical power connections do not use the uninterruptible supply and instead draw power directly
-from the master supply, as does the water filtration pump.
+An uninterruptible power supply provides power to all devices within the Shore Hut, supplying
+power for up to \unit{15}{\text{minutes}} after a power cut (sadly quite a common occurrence). The
+two detector umbilical power connections do not use the uninterruptible supply and instead draw
+power directly from the master supply, as does the water filtration pump.
 
-\section{Data flow and software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Write the software section of the DAQ chapter
-
-~\cite{chipsdaq2020}
-
-- What makes this implementation special
-- Limited resource, but brilliant capabilities
-- Use existing software when possible
-
+TALK ABOUT GENERAL SOFTWARE AND THE MACHINES USED
 - Need to talk about what is novel, new and exciting!
-- Not so much about the hardcore electronics details, more high level
-- FINITE STATE MACHINE!!!
+- Limited resources but still greater modern performance, use new things easily perk of small
+collaboration.
 
-SOFTWARE
-- The beam spill
-- Hit acquisition and handling
-- Detector and data quality monitoring
+
+
+- Mainly written in C++, full asynchronous using the BOOST Asio library in~\cite{boost2020} which
+is a library for network and low-level I/O programming using an asynchronous model.
+- Software repository at~\cite{chipsdaq2020}
+- $\micro$DAQ software repository with fh-library (field-hub) novel communication library
+in~\cite{microdaq2020}. Most of Madison code is written in c!
+- Shore DAQ-1 used for hit acquisition and Shore DAQ-2 used for control and monitoring. Want all
+processing resources available on a single machine for hit acquisition as this is the process that
+must take precedence over all else, as we do not want to loose hits.
+- The complete DAQ software implementation for \chipsfive is presented in terms of the flow of data
+between components within Fig.~\ref{fig:daq_software}.
 
 \begin{figure} % SOFTWARE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/daq_software.pdf}
@@ -317,29 +322,33 @@ SOFTWARE
     \label{fig:daq_software}
 \end{figure}
 
-- INCLUDE DATA RATES IN SOFTWARE DIAGRAM
-- INCLUDE WHICH MACHINES THINGS RUN ON IN SOFTWARE DIAGRAM
+\subsection{Detector control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft_control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Where the DHCP server is
-- Separated into slow-control, data collection, and
-
-- Need to get across what makes this DAQ implementation special and novel, what are the
-interesting unique bits of it? Limited resources but great performance! Use of existing hardware
-and software! Modern approaches to doing things, good part of small collaboration!
-- Needs to able to cope with 4 degrees at bottom!
-- Talk about expected data through put, what we can cope with
-- Jumbo frames etc
-
-- An `all-data-to-shore' approach as done in KM3NeT
-- Data is sent in UDP packets (not TCP so some will go missing)
-- $\micro$DAQ software repository with fh-library (field-hub) novel communication library
-in~\cite{microdaq2020}. Most of Madison code is written in c!
-- Mainly written in C++, full asynchronous using the BOOST Asio library in~\cite{boost2020} which
-is a library for network and low-level I/O programming using an asynchronous model.
-- Taking inspiration from the KM3NeT DAQ Java software
+A singular Finite State Machine (FSM) process on DAQ
+- Finite State Machine (FSM)
+- DHCP server controls all the static ip addresses!
+- Sometimes referred to as slow-control
+- typically this is separated physically into a separate network, that is the best way to do the
+DAQ for multiple reasons, but this would make the \chips DAQ system dramatically more complicated,
+as running another cable requires so much more effort than normal, so they are combined into one.
 - The detector is configured using a single human readable configuration file that defines all the
 \textsc{Pom} types, MAC addresses, IP addresses, types, relay channels, which channels should be active and
 their associate high voltage setting, threshold and electronic ID.
+- Taking inspiration from the KM3NeT DAQ Java software
+- Currently no run control system is in place to automatically control the detector according to a
+scheduled run plan. Detector control is done via a simple command line interface (CLI) that
+communicates with the FSM. Starting data taking, starting runs of a given type, stopping,
+configuring with a given configuration file etc...
+
+\subsection{Hit acquisition} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- How the beam spill stuffy works and how it is used to trigger hit acquisition
+- Talk about the data rates for hits at full steam
+- Jumbo frames etc
+- An `all-data-to-shore' approach as done in KM3NeT
+- Data is sent in UDP packets (not TCP so some will go missing)
 - Typical ethernet frame has a maximum transmission unit (MTU) size of 1500 bytes, we use Jumbo
 frames that allow for an MTU of 9000 bytes, this means we have a lot less small frames with only a
 limited number of recorded hits, which proved to be taxing to the switches and lead to an increase
@@ -347,14 +356,11 @@ in the number of dropped frames.
 - 1Gb links between WR switches, 10Gb link between FS switch and main DAQ machine. Provides
 sufficient bandwidth, DO A SMALL CALCULATION!
 
-\subsection{Detector control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:daq_soft_control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Hit acquisition} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Monitoring} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_monitor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Talk about the data rates for monitoring at full steam
+- Which machines run this, which is backup?
 
 - Elasticsearch ref in~\cite{elastic2020}
 - An open source RESTful, JSON-based, search engine and noSQL database.
@@ -375,6 +381,8 @@ database, the special indexing allows for quick `searching' over any time period
 monitoring.
 - Also means that anyone can quickly/easily look at any part of the data and make plots etc...
 without needing to write an additional part of a monitoring program.
+- Means the full detector and data quality monitoring is accessible to anyone with access anywhere
+in the world via their normal browser.
 
 \begin{figure} % MONITORING DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/monitoring.pdf}

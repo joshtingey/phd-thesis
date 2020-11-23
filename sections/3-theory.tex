@@ -399,7 +399,7 @@ Fig.~\ref{fig:nc_interaction}.
     \feynmandiagram[vertical'=a to b] {
     i1 [particle=\(\nu_{l}\)]-- [fermion] a-- [fermion] f1 [particle=\(l^{-}\)],
     a -- [boson,edge label=\(W^{+}\)] b,
-    i2 [particle=\(n\)]-- [fermion] b-- [fermion] f2 [particle=\(P\)],
+    i2 [particle=\(n\)]-- [fermion] b-- [fermion] f2 [particle=\(P^{+}\)],
     };
     \caption[Feynman diagram of a charged-current interaction]
     {Example Feynman diagram of a quasi-elastic charged-current interaction of a $\nu_{l}$ with a
@@ -431,9 +431,9 @@ For \chips the relevant neutrino interaction energy regime is commonly referred 
 \emph{transition region}, covering a range of energies between 1 and \unit{10}{\GeV}. Both CC and
 NC interactions within this regime fall into one of five main categories.
 \begin{itemize}
-    \item \textbf{Quasi-Elastic(elastic) Scattering (QEL)} is the dominant channel for energies
-          below \unit{1}{\GeV} and involves the neutrino scattering off the entire nucleon. In the
-          CC neutrino case, this converts the target neutron to a proton (reversed for
+    \item \textbf{Quasi-Elastic scattering (QEL)} is the dominant channel for energies below
+          \unit{1}{\GeV} and involves the neutrino scattering off the entire nucleon. In the CC
+          neutrino case, this converts the target neutron to a proton (reversed for
           antineutrinos). The same process can also occur in an NC interaction, where it is
           referred to as \emph{elastic} scattering.
 
@@ -444,7 +444,7 @@ NC interactions within this regime fall into one of five main categories.
           modern experiments, and is now included by default in the popular event
           generators~\cite{katori2013}.
 
-    \item \textbf{Resonant Pion Production (Res)} is the dominant channel between 1 and
+    \item \textbf{Resonant pion production (Res)} is the dominant channel between 1 and
           \unit{2}{\GeV} and involves the neutrino exciting the nucleon into a resonant state. The
           resonance then decays the vast majority of the time to produce a single pion and
           nucleon. Resonant production is responsible for the majority of NC $\pi^{0}$ events
@@ -452,12 +452,12 @@ NC interactions within this regime fall into one of five main categories.
           Section.~\ref{sec:chips_concept_cherenkov}, forms an incredibly tricky component of the
           background to deal with as it can mimic the event topology of a single electron.
 
-    \item \textbf{Coherent Pion production (Coh)} is a much rarer interaction mechanism where the
+    \item \textbf{Coherent pion production (Coh)} is a much rarer interaction mechanism where the
           neutrino scatters coherently from the entire nucleus. This process transfers negligible
           energy to the target and produces a significantly forward scattered single pion with no
           nuclear recoil in the final state.
 
-    \item \textbf{Deep inelastic scattering (DIS)} is dominant for neutrino energies above
+    \item \textbf{Deep Inelastic Scattering (DIS)} is dominant for neutrino energies above
           \unit{3}{\GeV} with the additional energy allowing for the neutrino to resolve the
           individual quark content of the nucleon. The subsequent scattering from an individual
           quark produces a hadronic shower in the final state containing multiple pions which are
@@ -648,7 +648,7 @@ Equation.~\ref{eq:chips_prob}. Furthermore, determining the hierarchy is also po
 future reactor experiments such as JUNO~\cite{an2016}.
 
 \begin{figure} % MASS HIERARCHY DIAGRAM %
-    \includegraphics[origin=c,width=0.5\textwidth]{diagrams/3-theory/hierarchy.pdf}
+    \includegraphics[origin=c,width=0.6\textwidth]{diagrams/3-theory/hierarchy.pdf}
     \caption[Illustration of the two neutrino mass hierarchies]
     {Illustrated diagram of the two neutrino mass hierarchies. The atmospheric (atm) and solar
         (sol) naming convention is used for the mass differences. The sign of $\Delta m_{21}^{2}$
