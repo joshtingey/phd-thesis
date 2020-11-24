@@ -297,34 +297,50 @@ power directly from the master supply, as does the water filtration pump.
 \section{Software} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TALK ABOUT GENERAL SOFTWARE AND THE MACHINES USED
-- Need to talk about what is novel, new and exciting!
-- Limited resources but still greater modern performance, use new things easily perk of small
-collaboration.
-
-
-
-- Mainly written in C++, full asynchronous using the BOOST Asio library in~\cite{boost2020} which
-is a library for network and low-level I/O programming using an asynchronous model.
-- Software repository at~\cite{chipsdaq2020}
-- $\micro$DAQ software repository with fh-library (field-hub) novel communication library
-in~\cite{microdaq2020}. Most of Madison code is written in c!
-- Shore DAQ-1 used for hit acquisition and Shore DAQ-2 used for control and monitoring. Want all
-processing resources available on a single machine for hit acquisition as this is the process that
-must take precedence over all else, as we do not want to loose hits.
-- The complete DAQ software implementation for \chipsfive is presented in terms of the flow of data
-between components within Fig.~\ref{fig:daq_software}.
+The software of the \chipsfive DAQ system provides three main functionalities: control of the
+detector instrumentation, the handling of recorded PMT hits, and the monitoring of hardware and
+data quality. Each of these functions is discussed within a specific subsection below. Only the
+high-level software components are detailed with the low-level CLB, Beaglebone, and $\micro$DAQ
+software implementations omitted for brevity. An in-depth discussion of the CLB software can be
+found in Ref.~\cite{aiello2019} while the Beaglebone and $\micro$DAQ software implementation can
+be found at Ref.~\cite{microdaq2020}.
 
 \begin{figure} % SOFTWARE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/daq_software.pdf}
-    \caption[daq software short]
-    {daq software long}
+    \caption[Diagram of the \chipsfive software system in terms of the flow of data between
+    components] {Diagram of the \chipsfive software system in terms of the flow of data between
+    high-level components.}
     \label{fig:daq_software}
 \end{figure}
+
+The software itself is mainly written in C++ and can be found in the repository at
+Ref.~\cite{chipsdaq2020}. The complete system is comprised of multiple processes, each of which is
+illustratively shown within Fig.~\ref{fig:daq_software}, expressed in terms of the flow of data
+between distinct software components. All DAQ processes make extensive use of multithreading and
+asynchronous communication, principally implemented using the low-level Boost Asio (asynchronous
+input/output) library~\cite{boost2020}. 
+
+All central processing takes place on one of three machines: Shore DAQ-1 for hit handling, Shore
+DAQ-2 control and monitoring, and Fermi DAQ-1 for \numi spill forwarding and storage. As the
+processing of PMT hits is the principle software task, handled takes place exclusively on Shore
+DAQ-1 without other processes to ensure maximum available processing power. Both Shore DAQ
+machines have a backup machine (Shore DAQ-3 and Shore DAQ-4) to take over their functions in case
+of a fault.
 
 \subsection{Detector control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_control} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+All DAQ processes are controlled by a singular Finite State Machine (FSM) process. The FSM can be
+in exactly one 
+
+\begin{figure} % SOFTWARE DIAGRAM %
+    \includegraphics[width=0.6\textwidth]{diagrams/5-daq/fsm.pdf}
+    \caption[fsm]
+    {fsm}
+    \label{fig:fsm}
+\end{figure}
+
+- inspired by the KM3NeT Java implementation
 A singular Finite State Machine (FSM) process on DAQ
 - Finite State Machine (FSM)
 - DHCP server controls all the static ip addresses!
@@ -344,10 +360,18 @@ configuring with a given configuration file etc...
 \subsection{Hit acquisition} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+As in done within KM3NeT, an `all-data-to-shore' approach is taken, where all PMT hit data is sent
+via the WR network to the machines on shore. No triggering takes place within the detector. This
+is done by collecting all PMT hits on each low level device (CLB or Beaglebone) within time
+windows, \unit{10}{\mathrm{ms}} in length. At the end of each window, data is packaged along with
+a header into User Datagram Protocol (UDP) packets and sent to shore. 
+
+UDPavoids the overhead of error checking and correction processes, as this should be low it is not
+required as allows for a higher bandwidth data stream to shore.
+
 - How the beam spill stuffy works and how it is used to trigger hit acquisition
 - Talk about the data rates for hits at full steam
 - Jumbo frames etc
-- An `all-data-to-shore' approach as done in KM3NeT
 - Data is sent in UDP packets (not TCP so some will go missing)
 - Typical ethernet frame has a maximum transmission unit (MTU) size of 1500 bytes, we use Jumbo
 frames that allow for an MTU of 9000 bytes, this means we have a lot less small frames with only a
