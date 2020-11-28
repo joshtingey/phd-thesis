@@ -2,123 +2,56 @@
 \label{chap:introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcounter{page}{17}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
 
-It is abundantly evident that artificial intelligence and machine learning will play an every
-increasing role in the world around is over the years to come. 
+It is abundantly evident that machine learning and the broader field of artificial intelligence
+will play an ever-increasing role in the world around us over the coming years. Virtually every
+industry and human on the planet is promised to be touched by this proliferation. Whether this
+change has a positive or detrimental effect on society as a whole is questionable, however, within
+the field of physics, especially experimental particle physics, machine learning applications can
+only be seen in a positive light.
 
-It is abundantly evident that artificial intelligence and machine learning will play an ever
-increasing role in the world around us over the years to come. 
+Already, a widespread revolution is underway across the field. From the way particle interactions
+are simulated to the way recorded events are analysed, machine learning techniques are producing
+dramatic improvements. This is especially true of the study of the vastly abundant yet incredibly
+difficult to detect neutrino. For multiple years now, a large number of neutrino experiments have
+been using deep learning methods for primarily event analysis. This is principally driven by the
+fact that the raw output from neutrino detectors is effectively a simple image which is well
+suited to the methods of the computer vision field.
 
-
-It is equally capable of 
-
-
-Allowing for vastly increased speed with which analysis can be conducted and less reliance on
-heavily human influenced bespoke software frameworks.
-
-As the lives of the majority of human beings 
-
-
-As with virtually every industry
-and the life of the majority of human beings, it is capable of revolutionising the way we conduct
-experimental particle physics.
-
-
-its application revolutionises virtually every industry
-and the life of the majority of human beings on the planet, it also equally capable of
-revolutionsiing 
-
-It is abundantly evident that the 
-
-As it revolutionises virtually every industry and the life of every human being on the planet it
-is also capable of revolutionising the way we conduct experimental particle physics. 
-
-It is abundantly clear that the use of artificial intelligence and machine learning 
-
-Whether for the good or bad
-
-- AI is impacting the future of virtually every industry and every human being on the planet. 
-- Game-changer is every aspect of life, revoluntionse how idustries work.
-
-every aspect of the world around us
-
-As the prevalence of artificial intelligence and machine learning continues to dominate every
-aspect of the world around us, it is clear that this trend will continue 
-
-Machine learning in particular deep learning is clearly going to become essential 
-
-Consider a two-dimensional plane onto which thousands of individual points are randomly placed.
-Now suppose that the points are instead arranged so that on a macro scale they form the shape of a
-ring. Not a perfect ring, but a ring with a thickness whose constituent points are smeared to make
-it noticeably `fuzzy'. If you were to see a picture of this ring for the first time, how would
-your process of understanding unfold?
-
-Initially, you notice rough edges between those regions with few points and those with many. Next,
-you consider how these edges interconnect and understand that they form a circular shape. This
-shape is then refined once you notice the central hole and realise that, in fact, you are viewing
-a ring. Knowing this you start to consider its size, its diameter, where in the plane it is
-located, and whether it is elliptical in nature. Upon enough inspection you could start to
-quantify the rings properties: the number of constituent points, the exact location of its centre,
-even a density profile of the its internal structure.
-
-Fundamentally, this process of understanding is not dissimilar from the way Convolutional Neural
-Networks, a type of deep learning algorithm, learn to make sense of images. 
-
-The thought experiment above relates to a Cherenkov ring, created by the cone of light emitted by
-charged particles as they travel through a medium such as water.
-
-Fundamentally, this process of understanding is the same for Convolutional Neural Networks
-
-This is exactly the form 
-
-multiple rings
-
-This is fundamentally the primary event analysis task for water Cherenkov neutrino detectors.
-Neutrino interactions within the detector create rings of light that are recorded on the walls of
-the detector, these are used to infer the properties on the underlying neutrino interaction. The
-methodology of starting from the fundamental base features of an image and slowly building up more
-and more detailed and complex features of an image is the is what Convolutional Neural Networks
-are a deep learning algorithm that uses a process of understanding very similar to the one above,
-just like your brain. 
+However, there has currently been no fully-fledged implementation of modern deep learning
+techniques to the full event reconstruction and classification of cylindrical water Cherenkov
+detectors. This is particularly important as long-baseline accelerator beam experiments with a
+water Cherenkov detector are an incredibly promising (and cheap) channel for solving some of the
+key unsolved problems in neutrino physics.
 
 This thesis presents a broad range of work conducted for the CHerenkov detectors In mine PitS
-(\chips) neutrino detector R\&D project. The main contribution comes from the novel application of
-Convolutional Neural Networks, to the reconstruction and classification of neutrino events within
-the \chipsfive prototype detector module. This is the first full-fledged implementation of
-Convolutional Neural Networks to long-baseline accelerator beam water Cherenkov neutrino detectors
-covering 
+(\chips) neutrino detector R\&D project. The author's principal contribution comes from a novel
+application of Convolutional Neural Networks to the reconstruction and classification of neutrino
+events within the \chipsfive prototype detector module. This is the first fully-fledged
+implementation of such methods to a long-baseline accelerator beam water Cherenkov neutrino
+detector, covering the full range of event reconstruction and classification analysis. 
 
-This thesis begins with the history of discovery in neutrino physics.
+To begin, Chapter.~\ref{chap:theory} introduces the history of neutrino physics, as well as the
+theoretical background and current status of the field as motivation for the broader \chips
+project. A full description of the \chips concept follows in Chapter.~\ref{chap:chips}, with a
+principle focus on the \chipsfive prototype detector module deployed into the \numi neutrino beam
+during the autumn of 2019. A particularly detailed overview of the \chipsfive data acquisition and
+monitoring systems is then given in Chapter.~\ref{chap:daq}, for which the author also played a
+large role.
 
-This thesis begins with the history of neutrino physics, as well as the theoretical background
-underpinning the field and its current status. 
+Chapter.~\ref{chap:cnn} firstly introduces the standard neutrino event reconstruction and
+classification methods to be replaced alongside a review of the relevant neural network theory and
+other deep learning applications within the neutrino field. The chapter concludes by detailing the
+three Convolutional Neural Networks developed for \chipsfive, including that for cosmic muon
+rejection, beam event classification, and neutrino energy estimation.
 
-
-and
-current status of the field.
-
-
-The history of neutrino physics, as well as the theoretical background and current status of the
-field are detailed as motivation for the \chips project in Chapter.~\ref{chap:theory}. A
-full description of the \chips concept follows in Chapter.~\ref{chap:chips}, with a principle
-focus on the \chipsfive prototype detector module deployed into the \numi neutrino beam in the
-autumn of 2019. A particularly detailed overview of the data acquisition and monitoring systems
-developed for the \chipsfive detector is then given in Chapter.~\ref{chap:daq}.
-
-The standard neutrino event reconstruction and classification methods to be replaced are discussed
-alongside a review of the relevant neural network theory and other deep learning applications
-within the field. The Convolutional Neural Network implementations for CHIPS are then outlined,
-including that for cosmic muon rejection, beam event classification and energy estimation.
-
-A comprehensive evaluation of the trained Convolutional Neural Networks is then presented.
-Firstly, the final combined performance is determined and compared with similar experiments.
-Secondly, the inner workings of the trained networks are explored. Thirdly, the robustness of the
-network outputs to distributional input changes is studied. Finally, alternative implementations
-are discussed to highlight the key factors driving performance.
-
-This is the first fully-fledged implementation of Convolutional Neural Networks to long-baseline
-accelerator beam water Cherenkov neutrino detectors. Covering the full range of event
-reconstruction and classification analysis. 
+The thesis concludes with a comprehensive evaluation of the train Convolutional Neural Networks in
+Chapter.~\ref{chap:results}. Firstly, the final combined performance is determined and compared
+with similar experiments. Secondly, the inner workings of the trained networks are explored.
+Thirdly, the robustness of the network outputs to distributional input changes is studied.
+Finally, alternative implementations are discussed to highlight the key factors driving
+performance.
 
 It is hoped that the work presented in this thesis will inform the development of similar
-Convolutional Neural Network applications to other water Cherenkov detectors.
-
+Convolutional Neural Network applications for other water Cherenkov detectors. The scope of
+application has not fully been explored, with a considerable amount of possibilities for the
+future. 
