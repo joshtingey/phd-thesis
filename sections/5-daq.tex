@@ -319,11 +319,11 @@ software implementation can be found at Ref.~\cite{microdaq2020}.
 \end{figure}
 
 The DAQ software itself is mainly written in C++ and can be found at Ref.~\cite{chipsdaq2020}. The
-system is comprised of multiple processes containing multiple components each (usually on separate
-threads) as is shown within Fig.~\ref{fig:daq_software}, expressed in terms of the flow of data
-between components. All DAQ processes make extensive use of multithreading and asynchronous
-communication, principally implemented using the low-level Boost Asio (asynchronous input/output)
-library~\cite{boost2020}. 
+system is comprised of multiple processes containing multiple components each (usually processed
+on separate threads) as is shown within Fig.~\ref{fig:daq_software}, expressed in terms of the
+flow of data between components. All DAQ processes make extensive use of multithreading and
+asynchronous communication, principally implemented using the low-level Boost Asio (asynchronous
+input/output) library~\cite{boost2020}. 
 
 All high-level processing takes place on one of three machines: Shore DAQ-1 for hit handling,
 Shore DAQ-2 for control and monitoring, and Fermi DAQ-1 for \numi spill forwarding and storage. As
@@ -340,7 +340,7 @@ State Machine (FSM) schema. The schema defines a finite set of states, shown in
 Fig.~\ref{fig:fsm}, for which a DAQ process can only be in one at any given time. Specifically
 allowed transitions, triggered by a command signal (shown in brackets), allow each process to move
 between states. During transition, the process performs the specific actions required to achieve
-the desired state. Every DAQ process makes its current internal state known via constant
+the desired state. Every DAQ process makes its current internal state publicly known via constant
 publishing over a standard inter-process communication socket (Unix domain socket).
 
 \begin{figure} % FSM DIAGRAM %
@@ -351,12 +351,12 @@ publishing over a standard inter-process communication socket (Unix domain socke
 \end{figure}
 
 A singleton \emph{FSM} process both issues the transition signals to and monitors the state of all
-DAQ processes. The FSM process defines the global state of the DAQ system, only transitioning to a
-new state once all children DAQ processes have reached the desired state. Currently, no control
-scheduling system is implemented to automatically configure the detector and conduct a given set
-of runs. Therefore, a simple command-line interface is used to issue state transition commands to
-the FSM process manually. Viewing the DAQ system as a whole, the actions performed at each state
-transition are as follows:
+DAQ processes. The FSM process state defines the global state of the DAQ system, only
+transitioning to a new state once all children DAQ processes have reached the desired state.
+Currently, no control scheduling system is implemented to automatically configure the detector and
+conduct a given set of runs. Therefore, a simple command-line interface is used to issue state
+transition commands to the FSM process manually. Viewing the DAQ system as a whole, the actions
+performed at each state transition are as follows:
 \begin{itemize}
     \item \textbf{Initialising} occurs automatically when the DAQ system is started. During this
     transition, all processes conduct the basic actions required for them to be able to function,
@@ -368,10 +368,10 @@ transition are as follows:
     high-voltage level and ToT thresholds for each PMT via communication with all CLBs and
     Beaglebones.
     \item \textbf{Starting Data} occurs when the \emph{start\_data} command is issued. During this
-    transition, commands are issued to all CLBs and Beaglebones to start the flow of PMT hit and
+    transition, commands are sent to all CLBs and Beaglebones to start the flow of PMT hit and
     monitoring data.
     \item \textbf{Stopping Data} occurs when the \emph{stop\_data} command is issued. During this
-    transition, commands are issued to all CLBs and Beaglebones to stop the flow of PMT hit and
+    transition, commands are sent to all CLBs and Beaglebones to stop the flow of PMT hit and
     monitoring data.
     \item \textbf{Starting Run} occurs when the \emph{start\_run} command is issued. During this
     transition the handling of PMT hit data is started, with the resulting data saved to file.
@@ -384,14 +384,14 @@ transition are as follows:
 For control of the detector devices, a \emph{DAQ-control} process issues commands to and monitors
 the state of all CLBs and Beaglebones. For communication, all messages are exchanged using
 standard TCP (Transmission Control Protocol) packets over ethernet. A DHCP server on Shore DAQ-2
-assigning predefined static IP addresses to all DAQ devices allows this to happen easily. 
+assigns predefined static IP addresses to all DAQ devices to allow this to happen easily. 
 
-A single controller thread receives commands from the FSM process and instructs separate CLB and
-Beaglebone controller threads to issue the appropriate implementation specific `slow-control'
-commands for the given transition. A simple retry mechanism ensures that multiple attempts are
-made to achieve the desired state on each device. However, a CLB or Beaglebone is dropped after a
-maximum number of attempts in order not to block the global DAQ transition due to a single faulty
-device.
+A single DAQ-control controller thread receives commands from the FSM process and instructs
+separate CLB and Beaglebone controller threads to issue the appropriate implementation specific
+`slow-control' commands for the given transition. A simple retry mechanism ensures that multiple
+attempts are made to achieve the desired state on each device. However, a CLB or Beaglebone is
+dropped after a maximum number of attempts in order not to block the global DAQ transition due to
+a single faulty device.
 
 \subsection{Hit handling} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,12 +399,12 @@ device.
 As in done within the KM3NeT experiment, an `all-data-to-shore' approach to PMT hit acquisition is
 taken, where all recorded hit data is sent via the WR network to the machines on shore. No
 triggering takes place within the detector. This is conducted by collecting all PMT hits within
-\unit{10}{\mathrm{ms}} long time windows. At the end of each window, collected hits are packaged
+\unit{10}{\text{ms}} long time windows. At the end of each window, collected hits are packaged
 along with a header into UDP (User Datagram Protocol) packets and sent to shore. This process
 occurs on both the CLBs and Beaglebones when in either the \emph{Started} or \emph{Running} state.
 
-Jumbo UDP packets of maximum size \unit{9000}{\mathrm{bytes}} are used instead of typical
-\unit{1500}{\mathrm{byte}} packets. This is done to both reduce the proportion of bandwidth taken
+Jumbo UDP packets of maximum size \unit{9000}{\text{bytes}} are used instead of typical
+\unit{1500}{\text{byte}} packets. This is done to both reduce the proportion of bandwidth taken
 up by headers, and reduce the total number of frames used, leading to a decrease in the overall
 proportion of dropped packets. Although UDP does not contain the error-checking and correction
 features built into TCP, the proportion of lost packets is negligible and the increased bandwidth
@@ -428,8 +428,8 @@ threads collect the hit data across multiple input ports to increase throughput.
 sufficient bandwidth, DO A SMALL CALCULATION!
 
 During initial \chipsfive DAQ commissioning after deployment a very high average PMT hit rate of
-\unit{150}{\mathrm{KHz}} was observed across all PMTs. With a veto on PMTs over
-\unit{100}{\mathrm{KHz}} per window the average data reat
+\unit{150}{\text{KHz}} was observed across all PMTs. With a veto on PMTs over
+\unit{100}{\text{KHz}} per window the average data reat
 
 \subsection{Monitoring} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_monitor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -452,7 +452,7 @@ Monitoring data is continually ingested into Elasticsearch from a wide range of 
 \chipsfive DAQ system:
 \begin{itemize}
     \item \emph{DAQ-monitor} receives and handles the monitoring data produced by the CLBs and
-    Beaglebones. At the end of every \unit{10}{\mathrm{ms}} long PMT hit data taking window both
+    Beaglebones. At the end of every \unit{10}{\text{ms}} long PMT hit data taking window both
     CLBs and Beaglebones produce UDP monitoring data packets. Included within the packets are
     general POM wide status indicators such as temperate and humidity, as well as PMT specific hit
     rate values. DAQ-monitor decodes this data and continuously pushes it to Elasticsearch using a
@@ -492,14 +492,15 @@ authentication).
 \end{figure}
 
 Furthermore, an alerting system using the ElastAlert framework~\cite{elastalert2020} provides
-automatic notification of events that need human attention. ElastAlert continuously checks the
-monitoring data for any breaches of predefined rules, upon this occurring either an email or Slack
-message can be sent to the appropriate recipient for further analysis and response.
+automatic notification of events for need human attention. ElastAlert continuously checks the
+monitoring data for any breaches of predefined rules, upon occurrence multiple forms of
+notification (email and Slack messages) are sent to appropriate recipients for further analysis
+and response
 
 Not only is this monitoring system incredibly extensible and easy to use is also has the advantage
 of leveraging the efforts of an active open source community. With no additional effort by the
-\chips collaboration, the monitoring implementation will continue to improve with time as updates
-are made to the underlying software. These will include both performance improvements alongside
-new ways of quickly ingesting data or creating visualisations. This approach illustrates one of
-the fundamental driving principles of the \chips project, to use commercially available, cheap
-(free in this case) components wherever possible.
+members of the \chips collaboration, the monitoring implementation will continue to improve with
+time as updates are made to the underlying software. These will include both performance
+improvements alongside new ways of quickly ingesting data or creating visualisations. This
+approach again illustrates one of the fundamental driving principles of the \chips project, to use
+commercially available, cheap (free in this case) components wherever possible.
