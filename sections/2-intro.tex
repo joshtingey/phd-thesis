@@ -10,25 +10,26 @@ within the field of physics, especially experimental particle physics, machine l
 applications can only be seen in a positive light.
 
 Already, a widespread revolution is underway across the field. From the way particle interactions
-are simulated to the way recorded events are analysed, machine learning techniques are producing
-dramatic improvements. This is particularly true of the study of the vastly abundant yet
-incredibly difficult to detect neutrino. For a few years now, a range of neutrino experiments have
-successfully been employing modern machine learning methods, usually deep learning algorithms,
-primarily for event analysis. This application has principally been driven by the fact that the
-raw output from neutrino detectors is well suited to the algorithms at the forefront of computer
-vision research.
+are simulated to the way recorded events are analysed, machine learning techniques, usually deep
+learning algorithms, are yielding dramatic improvements. This is particularly true of the study of
+the vastly abundant yet incredibly difficult to detect neutrino. Principally driven by the fact
+that the raw output from neutrino detectors is well suited to the algorithms at the forefront of
+computer vision research, many neutrino experiments now routinely use deep learning methods for
+event analysis.
 
-However, to date, a fully-fledged implementation of such techniques has not been made to the
+However, to date, a thorough end-to-end implementation of such techniques is not in use for the
 reconstruction, classification, and energy estimation of neutrino events within long-baseline
-water Cherenkov neutrino detectors. This is particularly important as the field moves to a new
-generation of experiments, where long-baseline accelerator beam experiments using a water
-Cherenkov detector are an incredibly promising (and surprisingly cheap as will be seen) channel
-for solving some of the critical unsolved problems within neutrino physics.
+water Cherenkov detectors using accelerator beam neutrinos. Without redress, this lack of progress
+could have significant implications for the future of neutrino physics, especially when such
+experiments are deemed a highly promising (and potentially cheap) channel for answering some of
+the critical unsolved problems of the field.
 
 This thesis presents a broad range of work conducted for the CHerenkov detectors In mine PitS
-(\chips) neutrino detector R\&D project. The author's principal contribution comes from the novel
-application of Convolutional Neural Networks to the reconstruction, classification, and energy
-estimation of neutrino events within the \chipsfive prototype detector module.
+(\chips) neutrino detector R\&D project. \chips aims to deploy very large yet `cheap as chips'
+water Cherenkov detectors into deep bodies of water on the Earth's surface. The author's principal
+contribution comes from the novel application of Convolutional Neural Networks to the
+reconstruction, classification, and energy estimation of neutrino events within one of these the
+detectors, the \chipsfive prototype module.
 
 To begin, Chapter.~\ref{chap:theory} introduces the history of neutrino physics, as well as the
 theoretical background and current status of the field as motivation for the broader \chips
@@ -55,4 +56,5 @@ It is hoped that the work presented in this thesis will achieve two principle go
 motivate the need for a detector concept such as \chips for the long term success of the field of
 neutrino physics. Secondly, inform the development of similar Convolutional Neural Network
 applications for other water Cherenkov neutrino detectors. The real power of such techniques is
-still not fully understood, and only time will tell what uses they may have for neutrino physics.
+still not fully understood, and only time will tell what additional impact they may have within
+neutrino physics.

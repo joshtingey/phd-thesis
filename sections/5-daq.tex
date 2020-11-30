@@ -50,7 +50,7 @@ Seven Solutions~\cite{wrlen2020}.
 
 \begin{figure} % WHITE-RABBIT COMPONENTS DIAGRAM %
     \centering
-    \subcaptionbox{White Rabbit switch}{%
+    \subcaptionbox{White Rabbit Switch}{%
         \includegraphics[height=6cm]{diagrams/5-daq/wr_switch.pdf}%
     }
     \quad
@@ -58,9 +58,9 @@ Seven Solutions~\cite{wrlen2020}.
         \includegraphics[height=6cm]{diagrams/5-daq/wr_len.pdf}%
     }
     \caption[Pictures of the White Rabbit timing hardware used within \chipsfive]
-    {Pictures of the White Rabbit timing hardware used within \chipsfive. The compact White rabbit
-        switch  specially designed for \chips is shown in (a), while the White Rabbit Lite
-        Embedded Node (WR-LEN) from Seven Solutions is shown in (b).}
+    {Pictures of the White Rabbit timing hardware used within \chipsfive. The compact WR Switch
+        specially designed for \chips is shown in (a), while the White Rabbit Lite Embedded Node
+        (WR-LEN) from Seven Solutions is shown in (b).}
     \label{fig:wr_electronics}
 \end{figure}
 
@@ -74,10 +74,10 @@ accuracy between the switches is observed.
 \begin{figure} % WHITE-RABBIT SYNC DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/5-daq/sync.pdf}
     \caption[Picture of White Rabbit timing synchronisation seen within \chipsfive]
-    {Picture of an oscilloscope display measuring the pulse per second output signal from two WR
-        switches shown in pink and yellow at either end of a \unit{500}{\text{m}} long optical
-        fibre. The vertical ticks are in nanoseconds showing the sub-nanosecond synchronisation
-        possible with the WR timing network.}
+    {Oscilloscope display measuring the pulse per second output signal from two WR switches shown
+        in pink and yellow at either end of a \unit{500}{\text{m}} long optical fibre. The
+        vertical ticks are in nanoseconds showing the sub-nanosecond synchronisation possible with
+        the WR timing network.}
     \label{fig:sync}
 \end{figure}
 
@@ -161,9 +161,9 @@ connection. A total of five Nikhef-containers are present within \chipsfive.
 
 \begin{figure} % FULL SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/full_setup.pdf}
-    \caption[Picture of the non \textsc{Pom} components of the \chipsfive DAQ system]
-    {Picture of the non \textsc{Pom} components of the \chipsfive DAQ system arranged on a table
-        at the PolyMet mining administration building.}
+    \caption[Labelled picture of the high-level components of the \chipsfive DAQ system]
+    {Labelled picture of the high-level non \textsc{Pom} components of the \chipsfive DAQ system
+        arranged on a table at the PolyMet mining administration building.}
     \label{fig:full_setup}
 \end{figure}
 
@@ -218,21 +218,26 @@ via the danout-board.
     \label{fig:madison_box}
 \end{figure}
 
-The compared to the Nikhef hardware the Madison implementation has two key differences:
+Compared to the Nikhef hardware the \chips developed Madison implementation has a few key
+advantages:
 \begin{itemize}
-    \item Cheap, commerically availiable hardware 
-    \item By leveraging commercially available cheap Beaglebones ($\sim\textsterling50$ each) for
-    onboard logic and using vastly \textbf{cheaper} WR-LENs compared to WR switches, the Madison
-    DAQ hardware implementation is drastically cheaper compared to the Nikhef (KM3NeT) approach
-    for a minimal reduction in performance.
-    \item By having a fully fledged Linux machine on each POM and easily reprogrammable
-    $\micro$DAQ microcontrollers the DAQ software can be easily \textbf{configurable} and upgraded
-    once deployed. Having so much cheap general purpose processing power close to the PMTs allows
-    for most of the computation to happen at that level, additional logic can be added. Don't even
-    know what we could implement yet using it. Advanced processing at lower level. 
-\end{itemize}
+    \item Commercially available and cheap ($\sim\textsterling50$ each) Beaglebones are leveraged
+    for \textsc{Pom} level processing and logic instead of expensive CLBs. Not only are they cheap
+    but Beaglebones provide a fully configurable general-purpose Linux machine that can easily be
+    enhanced with new features once deployed. This is in comparison to CLBs which can not be
+    reconfigured once installed (in the water restricted \chips case).
 
-need to correct for the length of time signals take to travel down wire
+    \item PMT hit processing and logic is pushed right to the lowest-level PMTs themselves via the
+    use of $\micro$DAQs. Although not currently fully realised this can have significant
+    implications for the DAQ system as a whole. For example, future updates will allow for beam
+    spill hit triggering to be performed on the $\micro$DAQ, drastically reducing the capacity
+    requirements of the rest of the DAQ system, further reducing costs.
+
+    \item The number of expensive WR switches is dramatically reduced, with much cheaper WR-LENs
+    taking their place. Although this change removes WR clock time synchronisation from the
+    \textsc{Pom} level, tests have shown that achievable cable length time corrections still allow
+    for sub-nanosecond synchronisation to be reached.
+\end{itemize}
 
 \subsection{Combined systems} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -279,9 +284,9 @@ switches for clock synchronisation.
 
 \begin{figure} % WHITE-RABBIT GM SETUP DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/hut_daq.pdf}
-    \caption[Picture of the onshore components of the \chipsfive DAQ system]
-    {Picture of the onshore components of the \chipsfive DAQ system arranged on a table at the
-        PolyMet mining administration building.}
+    \caption[Labelled picture of the high-level onshore components of the \chipsfive DAQ system]
+    {Labelled picture of the high-level onshore components of the \chipsfive DAQ system arranged
+        on a table at the PolyMet mining administration building.}
     \label{fig:hut_daq}
 \end{figure}
 
@@ -296,7 +301,7 @@ and places it into long-term storage.
 An uninterruptible power supply provides power to all devices within the Shore Hut, supplying
 power for up to \unit{15}{\text{minutes}} after a power cut (sadly quite a common occurrence). The
 two detector umbilical power connections do not use the uninterruptible supply and instead draw
-power directly from the master supply, as does the water filtration pump.
+power directly from the master supply.
 
 \section{Software and the flow of data} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -397,39 +402,51 @@ a single faulty device.
 \label{sec:daq_soft_hits} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 As in done within the KM3NeT experiment, an `all-data-to-shore' approach to PMT hit acquisition is
-taken, where all recorded hit data is sent via the WR network to the machines on shore. No
+taken, where all recorded hit data is sent via the WR network to the machines onshore. No
 triggering takes place within the detector. This is conducted by collecting all PMT hits within
 \unit{10}{\text{ms}} long time windows. At the end of each window, collected hits are packaged
 along with a header into UDP (User Datagram Protocol) packets and sent to shore. This process
-occurs on both the CLBs and Beaglebones when in either the \emph{Started} or \emph{Running} state.
+occurs on both the CLBs and Beaglebones when in either the \emph{Started} or \emph{Running} FSM
+state.
 
 Jumbo UDP packets of maximum size \unit{9000}{\text{bytes}} are used instead of typical
-\unit{1500}{\text{byte}} packets. This is done to both reduce the proportion of bandwidth taken
-up by headers, and reduce the total number of frames used, leading to a decrease in the overall
-proportion of dropped packets. Although UDP does not contain the error-checking and correction
-features built into TCP, the proportion of lost packets is negligible and the increased bandwidth
-desirable.
+\unit{1500}{\text{byte}} packets. This is done to both reduce the proportion of bandwidth taken up
+by headers, and reduce the total network traffic (number of packets), leading to a decrease in the
+overall proportion of dropped packets. Although UDP does not contain the error-checking and
+correction features built into TCP, the proportion of lost packets is negligible and the increased
+bandwidth desirable.
 
-Hit data packets are handled by the \emph{DAQ-onite} process, named after the Taconite ore that
+PMT hit packets are handled by the \emph{DAQ-onite} process, named after the Taconite ore that
 used to be extracted from the Wentworth 2W pit. The primary function of DAQ-onite is to store
-incoming PMT hits that match a \numi beam spill trigger window and discard those that do not. This
-is complicated by the fact that the exact \numi spill time is not known in advance.
+incoming PMT hits whose timestamp matches a \numi beam spill trigger window and discard those that
+do not. This is complicated by the fact that the exact \numi spill time is not known in advance. 
 
-- The exact Main Injector clock spill time is received when it occurs by the Spill Server at
-Fermilab, a Spill Forwarder process then use an encrypted SSH reverse tunnel connection to send
-the spill over the internet to the \chipsfive Shore DAQ-1 machine. 
+Whenever the Main Injector at Fermilab releases a spill of protons for the \numi beam, the
+accurate timestamp of this event is only published as it happens. Therefore, by the time the
+Fermilab based \emph{Spill Server} and \emph{Spill Forwarder} processes have received and
+forwarded the signal to the Shore DAQ-1 machine running DAQ-onite, approximately
+\unit{0.5}{\text{seconds}} have passed since the neutrino spill passed \chipsfive.
 
-Multiple CLB and Beaglebone specific handling
-threads collect the hit data across multiple input ports to increase throughput. 
+To counter this problem DAQ-onite implements a \emph{Spill Scheduler} prediction mechanism which
+uses the periodicity of the spill trigger signal to continually predict the time of multiple spill
+windows (each \unit{100}{\text{ms}} long) in advance. As PMT hits are processed, they are either
+attached to a matching predicted \emph{Spill} or immediately discarded. This process is conducted
+by a series of CLB and Beaglebone specific handling threads which decode the raw PMT hit packets
+across a range of input ports to increase throughput. 
 
-- How the beam spill stuffy works and how it is used to trigger hit acquisition
-- Talk about the data rates for hits at full steam
-- 1Gb links between WR switches, 10Gb link between FS switch and main DAQ machine. Provides
-sufficient bandwidth, DO A SMALL CALCULATION!
+Once the accurate timestamp for a beam spill has been received and a configurable period has
+passed to catch any late-arriving hits, the spill window is closed. Once closed, the attached PMT
+hits are combined and sorted using a \emph{Merge-sorter} algorithm before being saved to file. In
+addition to the PMT hit data, each data file includes context metadata and flags indicating data
+faults. All new data files are periodically forwarded to long-term storage at Fermilab for further
+analysis. 
 
-During initial \chipsfive DAQ commissioning after deployment a very high average PMT hit rate of
-\unit{150}{\text{KHz}} was observed across all PMTs. With a veto on PMTs over
-\unit{100}{\text{KHz}} per window the average data reat
+During the initial \chipsfive DAQ commissioning in late 2019, a very high average PMT hit rate of
+\unit{100}{\text{KHz}} was observed across all PMTs. This was expected due to the extended period
+the PMTs had been exposed to direct sunlight and the presence of a light leak through a tear in
+the detector liner. Somewhat beneficially this allowed for load testing of the DAQ hit handling
+system corresponding to a peak WR network throughput of \unit{5.66}{\text{Gb per second}} of hit
+data. DAQ-onite was found to behave as expected, with only negligible data loss.
 
 \subsection{Monitoring} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:daq_soft_monitor} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -454,9 +471,9 @@ Monitoring data is continually ingested into Elasticsearch from a wide range of 
     \item \emph{DAQ-monitor} receives and handles the monitoring data produced by the CLBs and
     Beaglebones. At the end of every \unit{10}{\text{ms}} long PMT hit data taking window both
     CLBs and Beaglebones produce UDP monitoring data packets. Included within the packets are
-    general POM wide status indicators such as temperate and humidity, as well as PMT specific hit
-    rate values. DAQ-monitor decodes this data and continuously pushes it to Elasticsearch using a
-    set of asynchronous \emph{indexing} threads.
+    general \textsc{Pom} wide status indicators such as temperate and humidity, as well as PMT
+    specific hit rate values. DAQ-monitor decodes this data and continuously pushes it to
+    Elasticsearch using a set of asynchronous \emph{indexing} threads.
     \item The current FSM state of all the DAQ software processes in addition to the global state
     is frequently pushed to Elasticsearch by the FSM process.
     \item The status of the Fermilab based Spill Server and Spill Forwarder alongside general
@@ -470,7 +487,7 @@ Monitoring data is continually ingested into Elasticsearch from a wide range of 
     \item Any logs produced by the DAQ software are asynchronously logged to Elasticsearch.
 \end{itemize}
 
-The kibana browser-based user interface application is used to visualise the monitoring data
+The Kibana browser-based user interface application is used to visualise the monitoring data
 stored within Elasticsearch~\cite{kibana2020}. A series of preconfigured dashboards, one of which
 is shown in Fig.~\ref{fig:monitoring}, summarise the current and historical monitoring data in an
 easy to digest fashion. The primary advantage of using Kibana over the more typical bespoke
@@ -484,23 +501,23 @@ authentication).
     {Screenshot of a Kibana monitoring dashboard for \chipsfive. The dashboard pulls live
     monitoring data from the Elasticsearch database to populate all the visualisations shown. The
     status of the various DAQ software components is shown in the top right above an average hit
-    rate plot for each POM and the colour coded status indicators for various DAQ devices. A plot
-    of the network data rates is also shown alongside average parameter indicators. The right hand
-    side of the dashboard contains visualisations to monitor the overall status and specific hit
-    rates of PMTs.}
+    rate plot for each \textsc{Pom} and the colour coded status indicators for various DAQ
+    devices. A plot of the network data rates is also shown alongside average parameter
+    indicators. The right hand side of the dashboard contains visualisations to monitor the
+    overall status and specific hit rates of PMTs.}
     \label{fig:monitoring}
 \end{figure}
 
 Furthermore, an alerting system using the ElastAlert framework~\cite{elastalert2020} provides
-automatic notification of events for need human attention. ElastAlert continuously checks the
-monitoring data for any breaches of predefined rules, upon occurrence multiple forms of
-notification (email and Slack messages) are sent to appropriate recipients for further analysis
-and response
+automatic notification of events for human attention. The ElastAlert process continuously checks
+the Elasticsearch monitoring data for any breaches of predefined rules ($x$ events in $y$ time,
+for example). Upon the occurrence of a rule trigger, multiple forms of notification (email and
+Slack messages) are sent to appropriate recipients for further analysis and response.
 
-Not only is this monitoring system incredibly extensible and easy to use is also has the advantage
+Not only is the \chipsfive monitoring system extensible and easy to use it also has the advantage
 of leveraging the efforts of an active open source community. With no additional effort by the
 members of the \chips collaboration, the monitoring implementation will continue to improve with
-time as updates are made to the underlying software. These will include both performance
-improvements alongside new ways of quickly ingesting data or creating visualisations. This
-approach again illustrates one of the fundamental driving principles of the \chips project, to use
-commercially available, cheap (free in this case) components wherever possible.
+time as updates are made to the underlying Elastic Stack software. This is likely to include both
+performance improvements alongside new ways of quickly ingesting data and creating visualisations.
+The approach firmly achieves one of the driving principles of the \chips project, using
+commercially available, cheap (free in this case) components, wherever possible.
