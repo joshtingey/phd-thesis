@@ -19,22 +19,36 @@ event analysis.
 
 However, to date, a thorough end-to-end implementation of such techniques is not in use for the
 reconstruction, classification, and energy estimation of neutrino events within long-baseline
-water Cherenkov detectors using accelerator beam neutrinos. Without redress, this lack of progress
-could have significant implications for the future of neutrino physics, especially when such
-experiments are deemed a highly promising (and potentially cheap) channel for answering some of
-the critical unsolved problems of the field.
+water Cherenkov detectors studying accelerator beam neutrinos. Without redress, this lack of
+progress could have significant implications for the future of neutrino physics, especially when
+such experiments are deemed a highly promising (and potentially cheap) channel for answering some
+of the critical unsolved problems of the field.
 
-This thesis presents a broad range of work conducted for the CHerenkov detectors In mine PitS
-(\chips) neutrino detector R\&D project. \chips aims to deploy very large yet `cheap as chips'
-water Cherenkov detectors into deep bodies of water on the Earth's surface. The author's principal
-contribution comes from the novel application of Convolutional Neural Networks to the
-reconstruction, classification, and energy estimation of neutrino events within one of these the
-detectors, the \chipsfive prototype module.
+This thesis presents a broad range of work conducted for one such experiment, the CHerenkov
+detectors In mine PitS (\chips) neutrino detector R\&D project. \chips aims to deploy very large
+yet `cheap as chips' water Cherenkov detectors into deep bodies of water on the Earth's surface.
+By vastly reducing costs, \chips aims to make practical and affordable megaton scale detectors a
+reality, crucial for the long-term future of neutrino physics.
+
+The author's principal contribution comes from the novel application of Convolutional Neural
+Networks, a type of deep learning algorithm, to the reconstruction, classification, and energy
+estimation of neutrino events within the \chipsfive prototype detector module. This work is the
+solely that of the authors. 
+
+At the same time as being explainable and robust, which are of course a key concern of
+any new methodology or approach. 
+
+It is hoped that the work presented in this thesis will achieve three principal goals. Firstly,
+motivate the need for the \chips project and detail how it accomplishes its aims. Secondly, show
+that Convolutional Neural Networks can be used to fully reconstruct and classify neutrino events
+within water Cherenkov detectors whilst providing significant performance improvements in the
+process. Finally, inform the development of similar Convolutional Neural Network applications for
+other water Cherenkov neutrino detectors.
 
 To begin, Chapter.~\ref{chap:theory} introduces the history of neutrino physics, as well as the
 theoretical background and current status of the field as motivation for the broader \chips
 project. A full description of the \chips detector concept follows in Chapter.~\ref{chap:chips},
-with a principle focus on the \chipsfive prototype detector module deployed into the \numi
+with a principal focus on the \chipsfive prototype detector module deployed into the \numi
 neutrino beam during the autumn of 2019. A particularly detailed overview of the \chipsfive data
 acquisition and monitoring systems is then given in Chapter.~\ref{chap:daq}, for which the author
 played a primary role.
@@ -51,10 +65,3 @@ compared with similar experiments. Secondly, the inner workings of the trained n
 explored. Thirdly, the robustness of the network outputs to distributional changes in the input is
 studied. Finally, alternative implementations are discussed to highlight the key factors driving
 performance.
-
-It is hoped that the work presented in this thesis will achieve two principle goals. Firstly,
-motivate the need for a detector concept such as \chips for the long term success of the field of
-neutrino physics. Secondly, inform the development of similar Convolutional Neural Network
-applications for other water Cherenkov neutrino detectors. The real power of such techniques is
-still not fully understood, and only time will tell what additional impact they may have within
-neutrino physics.

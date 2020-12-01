@@ -42,8 +42,7 @@ excavation and expensive structural support, the cost of construction can be dra
 Additionally, the common practice of building majority bespoke components is replaced by using
 modern commercially available components wherever possible. The number of expensive elements, such
 as photomultiplier tubes are also reduced by only considering multi-$\GeV$ accelerator beam
-neutrino events, such that full high density and high coverage detector instrumentation are not
-required.
+neutrino events, such that full high density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap, but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
@@ -179,11 +178,12 @@ or not can have a significant impact on the observed energy spectrum of beam neu
 in Fig.~\ref{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong dependence
 on the energy of the parent pion within Eq.~\ref{eq:pi_decays}. However, as the off-axis angle
 increases, the neutrino energy becomes less and less dependent on the parent pion energy and is
-restricted to a narrowing range of decreasing energies. Known as the \emph{off-axis effect} this
-is used by both \nova and T2K to create a narrow energy peak focused on the important
-$\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum. By reducing the tail of high energy neutrinos,
-the number of background NC events can also be greatly reduced, as is the case for the
-\unit{7}{\text{mrad}} off-axis \chipsfive detector module.
+restricted to a narrowing range of decreasing energies. 
+
+Known as the \emph{off-axis effect} this phenomenon is used by both \nova and T2K to create a
+narrow energy peak focused on the important $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum. By
+reducing the tail of high energy neutrinos, the number of background NC events can also be greatly
+reduced, as is the case for the \unit{7}{\text{mrad}} off-axis \chipsfive detector module.
 
 \begin{figure} % OFF-AXIS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.pdf}
@@ -259,12 +259,35 @@ CC $\nu_{e}$ or CC $\nu_{\mu}$ event respectively, rejecting NC and cosmic event
 
 The basic shape of a Cherenkov ring can be used to tell which charged particle created it. Muons
 are long-lived and typically travel many metres within the detector, producing a clean ring with
-sharp edges. Conversely, electrons almost immediately initiate an electromagnetic shower;
-therefore, the observed ring is the sum of multiple rings produced from the individual electrons
-and positrons within the shower. As a consequence, when compared to a muon ring, electron rings
-are characteristically fuzzy. A factor of this difference can be seen in Fig.~\ref{fig:emission
+sharp edges as is shown in Fig.~\ref{fig:cc_numu_event}. Conversely, electrons almost immediately
+initiate an electromagnetic shower; therefore, the observed ring is the sum of multiple rings
+produced from the individual electrons and positrons within the shower. As a consequence, when
+compared to a muon ring, electron rings are characteristically fuzzy, as is shown in
+Fig.~\ref{fig:cc_nue_event}. A factor of this difference can be seen in Fig.~\ref{fig:emission
 distance}, which shows how the total amount of Cherenkov radiation is emitted for both electrons
 and muons as a function of distance from the interaction vertex.
+
+\begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/cc_numu_event.pdf}
+    \caption[Event display of a simulated beam CC $\nu_{\mu}$ event]
+    {Event display of a simulated beam CC $\nu_{\mu}$ quasi-elastic event with a single muon in
+        the final state of energy \unit{2.36}{\GeV}. Both the unrolled barrel and endcaps are
+        shown with every entry representing a hit PMT with the colour indicating the collected
+        charge. The purple ring indicates the true muon Cherenkov cone projected onto the detector
+        walls.}
+    \label{fig:cc_numu_event}
+\end{figure}
+
+\begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/cc_nue_event.pdf}
+    \caption[Event display of a simulated beam CC $\nu_{e}$ event]
+    {Event display of a simulated beam CC $\nu_{e}$ quasi-elastic event with a single electron in
+        the final state of energy \unit{1.05}{\GeV}. Both the unrolled barrel and endcaps are
+        shown with every entry representing a hit PMT with the colour indicating the collected
+        charge. The purple ring indicates the true electron Cherenkov cone projected onto the
+        detector walls.}
+    \label{fig:cc_nue_event}
+\end{figure}
 
 \begin{figure} % EMISSION DISTANCE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/emission_distance.pdf}
@@ -406,16 +429,16 @@ Optical Modules (\textsc{Pom}s), which take inspiration from the Digital Optical
 (\textsc{Dom}s) used by IceCube and KM3NeT~\cite{hanson2006, eijk2015}. Each \textsc{Pom} is a
 roughly \unit{2}{\text{m}} by \unit{3}{\text{m}} array of watertight PVC tubing equipped with
 between $15$ to $30$ PMTs, as well as the lowest level of DAQ electronics. Commercially available
-schedule $40$ PVC piping and connectors are used to form the structure of each plane, glued
-together with standard PVC primer and cement.
+PVC piping and connectors are used to form the structure of each plane, glued together with
+standard PVC primer and cement.
 
 There are two types of \textsc{Pom} used within \chipsfive, differentiated by the PMTs and DAQ
 electronics they use and named after the institution at which they were primarily developed.
-Firstly, \emph{Nikhef} \textsc{Pom}s use \unit{88}{\text{mm}} wide HZC PMTs with electronics
-developed for the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly, \emph{Madison}
-\textsc{Pom}s use \unit{3}{\text{inch}} wide Hamamatsu PMTs with electronics developed by \chips
-in collaboration with the Wisconsin IceCube Particle Astrophysics Centre (WIPAC) in Madison,
-Wisconsin.
+Firstly, \emph{Nikhef} \textsc{Pom}s use \unit{88}{\text{mm}} wide HZC PMTs~\cite{hzc}, with
+electronics developed for the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly,
+\emph{Madison} \textsc{Pom}s use \unit{3}{\text{inch}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
+electronics developed by \chips in collaboration with the Wisconsin IceCube Particle Astrophysics
+Centre (WIPAC) in Madison, Wisconsin.
 
 The HZC PMTs have a high ratio of output electrons to incident photons (quantum efficiency) of
 24.4\% at a wavelength of \unit{400}{\text{nm}}, compared to the low 12.0\% ratio achieved by the
@@ -435,9 +458,9 @@ All PMTs within a \textsc{Pom} are connected to the lowest level of DAQ electron
 within a dedicated onboard electronics box. Either an aluminium or PVC cylinder in the Nikhef or
 Madison case respectively. A flexible PVC \emph{pigtail} is attached to each \textsc{Pom}
 electronics box containing connections to the higher level DAQ and power supply. A
-\emph{water-block} within each pigtail ensures that even if the external link is flooded, the
-\textsc{Pom} is capable of withstanding the \unit{6}{\text{atm}} of water pressure at the bottom
-of the pit. A fully assembled and installed Nikhef \textsc{Pom} is shown in
+\emph{water-block} within each pigtail ensures that if either the external link or \textsc{Pom}
+becomes flooded, the other is still capable of withstanding the \unit{6}{\text{atm}} of water
+pressure at the bottom of the pit. A fully assembled and installed Nikhef \textsc{Pom} is shown in
 Fig.~\ref{fig:single_plane} for reference.
 
 \begin{figure} % NIKHEF PMT ASSEMBLY DIAGRAM %
@@ -487,8 +510,8 @@ Fig.~\ref{fig:single_plane} for reference.
 
 The \textsc{Pom}s are tiled next to each other on the detector walls, attached to either the
 stainless steel stringers on the top-cap and bottom-cap, or clipped to the Dyneema cables on the
-vertical walls of the \emph{barrel}. As mentioned previously, full high density and high coverage
-detector instrumentation is not required for \chips detector modules, for two main reasons.
+vertical walls of the \emph{barrel}. As mentioned previously, full high density detector
+instrumentation is not required for \chips detector modules, for two main reasons.
 
 Firstly, only highly directional accelerator beam events are to be studied. Therefore, the vast
 majority of neutrino interaction Cherenkov radiation is deposited on a relatively small downstream
@@ -531,13 +554,15 @@ to aid cosmic muon rejection. Separated from the main detector volume by a geome
 muons by detecting the Cherenkov radiation they produce. A total of $324$ upward-facing HZC veto
 PMTs within the top-cap Nikhef \textsc{Pom}s give a veto photocathode coverage of $\sim0.6\%$. A
 graphical rendering of the full top-cap instrumentation, showing the different density regions and
-including the veto PMTs, is shown in Fig.~\ref{fig:top_cap}.
+veto PMTs, is shown in Fig.~\ref{fig:top_cap}.
 
 \begin{figure} % TOP CAP RENDER DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/top_cap.pdf}
     \caption[Graphical rendering of the top-cap Planar Optical Modules]
     {Graphical rendering of the top-cap \textsc{Pom}s. Both the different photocathode coverage
-        regions and the veto PMTs are visible.}
+        regions and the veto PMTs (contained within the top-cap \textsc{Pom}s) are visible. The
+        \emph{manifolds} connecting the \textsc{Pom}s with the higher level DAQ components are
+        also shown in pink and orange.}
     \label{fig:top_cap}
 \end{figure}
 
@@ -577,24 +602,24 @@ approximately two months of constant filtering~\cite{campbell2020}.
 
 The construction and deployment of any \chips detector module is a bespoke process that is
 relatively complex when compared to other experiments. This complexity is primarily due to a body
-of water being used activities rather than solid ground. Below a simplified version of the
+of water being used for activities rather than solid ground. Below a simplified version of the
 \chipsfive construction and deployment procedure is outlined.
 
 \begin{enumerate}
     \item An earthen barrier is built separating the main body of Wentworth 2W from the
           construction area. As the pit water level rises during the summer, this acts as a dam
-          preventing the construction area from flooding.
+          preventing the construction area from flooding (at least in theory).
     \item The bottom-cap liner is welded together before the endcap structural frames are
           constructed above, resulting in that shown by Fig.~\ref{fig:frame}.
-    \item The pre-assembled and tested endcap \textsc{Pom}s are installed along with their
-          associated power and data connections as well as other high-level DAQ components.
     \item The barrel liner is partly constructed starting from the detector base. Using a vertical
           liner roll for each of the 28 sides, the barrel liner is welded up to the height of the
           top-cap, as is shown in Fig.~\ref{fig:chips_with_liner}. The top-cap liner is also
           installed but not welded to the barrel liner.
-    \item A strongly buoyant \emph{floating-dock}, made from steel, is constructed surrounding the
-          detector. The bottom-cap is attached with metal chains to winches on the floating-dock
-          and with the Dyneema cables to winches on the top-cap.
+    \item A strongly buoyant \emph{floating-dock}, made from steel and large plastic floats, is
+          constructed surrounding the detector. The bottom-cap is attached with metal chains to
+          winches on the floating-dock and with the Dyneema cables to winches on the top-cap.
+    \item The pre-assembled and tested endcap \textsc{Pom}s are installed along with their
+          associated power and data connections as well as other high-level DAQ components.
     \item The earthen barrier is removed and the construction area flooded, causing the detector
           and floating-dock structure to float. The detector is towed by a boat to its deployment
           location.
@@ -625,9 +650,8 @@ of water being used activities rather than solid ground. Below a simplified vers
 
 During the summer of 2018 and 2019 extensive \chipsfive construction work was carried out by a
 team of 10 to 15 collaborators at any one time. Given the novel nature of the project, most tasks,
-some of which are pictured in Fig.~\ref{fig:work1} and Fig.~\ref{fig:work2}, proved challenging.
-Interestingly, an ability to derive pleasure from permanently wet feet was found to be invaluable
-for personal morale.
+some of which are pictured in Fig.~\ref{fig:work1} and Fig.~\ref{fig:work2}, proved challenging
+and time consuming.
 
 \begin{figure} % WORK DIAGRAM 1 %
     \centering
@@ -659,23 +683,37 @@ for personal morale.
 
 By late summer 2019, it became apparent that deployment of a fully instrumented \chipsfive would
 be impossible before the pit started to freeze over in October. Therefore, the decision was taken
-to only partially instrument the endcaps, leave the barrel walls bare, and reduce the module
-height to \unit{8}{\text{m}}. In October 2019 this version of \chipsfive (shown in
-Fig.~\ref{fig:complete}) was deployed into Wentworth 2W with DAQ tests commencing shortly after.
-Given the outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over the summer of
-2020 were suspended, including essential repairs and instrumentation of the barrel walls. Plans
-for summer 2021 are currently under review.
+to only partially instrument the endcaps, leave the barrel walls bare, not include the veto
+separation liner, and reduce the module height to \unit{8}{\text{m}}. In October 2019 this version
+of \chipsfive, shown in Fig.~\ref{fig:complete}, was deployed into the Wentworth 2W pit.
+
+Analysis of preliminary data was successful in isolating individual cosmic muon events, one of
+which is shown in Fig.~\ref{fig:cosmic_event}. However, extensive data taking was paused due to a
+deployment induced tear in the liner preventing filtration of the internal water. Given the
+outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over the summer of 2020 were
+suspended, including the essential repairs and instrumentation of the barrel walls. Plans for
+summer 2021 are currently under review.
 
 \begin{figure} % COMPLETE PICTURE DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/4-chips/complete.pdf}
+    \includegraphics[width=0.9\textwidth]{diagrams/4-chips/complete.pdf}
     \caption[Inside picture of \chipsfive just before deployment]
     {Inside picture of \chipsfive just before deployment, with a section of the total
         instrumentation shown. In total 56 Nikhef and 6 Madison \textsc{Pom}s were installed.
         Instead of being mounted on the upstream detector walls the Madison \textsc{Pom}s were
         mounted on the bottom-cap and can be seen in the foreground of the image. The flexible PVC
-        tube pigtails and \emph{manifolds} can also be seen connecting each \textsc{Pom} to the
-        higher level DAQ electronics and power supply.}
+        tube pigtails and manifolds can also be seen connecting each \textsc{Pom} to the higher
+        level DAQ electronics and power supply.}
     \label{fig:complete}
+\end{figure}
+
+\begin{figure} % COSMIC EVENT DIAGRAM %
+    \includegraphics[width=\textwidth]{diagrams/4-chips/cosmic_event.pdf}
+    \caption[A cosmic muon event recorded within \chipsfive]
+    {A cosmic muon event recorded within \chipsfive, found by clustering hits in time. PMT hits
+    from both the top-cap (left) and bottom-cap (right) are shown with the colour indicating the
+    measured ToT value. Due to the small attenuation length of unfiltered water, only a single
+    bottom-cap \textsc{Pom} has significant activity.}
+    \label{fig:cosmic_event}
 \end{figure}
 
 \section{Detector simulation and event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -755,10 +793,10 @@ interactions, decays, and Cherenkov emission all taken into account.
 Whenever a photon is calculated to have hit the photocathode of a PMT, an angular dependent
 acceptance efficiency is applied to see if it is recorded. If accepted, all hits within
 \unit{200}{\text{ns}} windows are grouped to form a single recorded hit, with a smeared first hit
-time used as the recorded time. A method similar to that employed in the Super-Kamiokande
-simulation determines the total output charge of the hit given the number of incident photons. A
-single photoelectron charge distribution is repeatedly probed for each photon, and the combined
-sum returned.
+time used as the recorded time. The standard WCSim methodology is used to determine the total
+output charge of the hit given the number of incident photons. This procedure involves a single
+photoelectron charge distribution being repeatedly probed for each photon, before the combined sum
+is returned~\cite{tutorial2020}.
 
 By sampling this procedure multiple times, the output charge probability distribution given the
 number of incident photons can be generated, as shown in Fig.~\ref{fig:digitisation}. The reverse
@@ -784,33 +822,20 @@ standard reconstruction methods outlined in Section.~\ref{sec:cnn_old_reco}.
 
 The simulated PMT hits for each event are stored in an output file along with truth information
 and track descriptions. A full event takes approximately three seconds to simulate on a standard
-batch farm computing node. An example output event display for a CC $\nu_{\mu}$ QEL event is shown
-in Fig.~\ref{fig:sim_event}.
-
-\begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
-    \includegraphics[width=\textwidth]{diagrams/4-chips/sim_event.pdf}
-    \caption[Event display of a simulated beam CC $\nu_{\mu}$ \chipsfive event]
-    {Event display of a simulated CC $\nu_{\mu}$ quasi-elastic event with a single muon in the
-        final state of energy \unit{1.77}{\GeV}. The display shows both the unrolled barrel of the
-        \chipsfive detector as well the two endcaps. Every entry represents a hit PMT with the
-        color indicating the total number of photoelectrons (charge) collected. The pink ring
-        indicates the true muon Cherenkov light-cone projected onto the detector walls.}
-    \label{fig:sim_event}
-\end{figure}
+batch farm computing node.
 
 \subsection{Beam event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The expected flux of beam neutrinos at the \chipsfive detector location, shown in
 Fig.~\ref{fig:flux}, is generated using the existing beam simulation written for the \numi
-experiments. As the $\nu_{\tau}$ component is negligible, it is not predicted by the beam
-simulation and ignored. Using the generated fluxes as input, the \textsc{Genie} neutrino event
-generator (version 3.0.6)~\cite{andreopoulos2009, andreopoulos2015} is used to generate beam
-neutrino events. Default neutrino cross-sections on water provided by \textsc{Genie} are used
-during generation. All initial, intermediate, and final state particle tracks for each event are
-stored as output in a NUANCE formatted file for use in the detector simulation. Note that
-unoscillated input fluxes are used such that analyses samples must be later weighted to match the
-desired oscillated neutrino composition.
+experiments. Using the generated fluxes as input, the \textsc{Genie} neutrino event generator
+(version 3.0.6)~\cite{andreopoulos2009, andreopoulos2015} is used to generate beam neutrino
+events. Default neutrino cross-sections on water provided by \textsc{Genie} are used during
+generation. All initial, intermediate, and final state particle tracks for each event are stored
+as output in a NUANCE formatted file for use in the detector simulation. Note that unoscillated
+input fluxes are used such that analyses samples must be later weighted to match the desired
+oscillated neutrino composition.
 
 \begin{figure} % CHIPS FLUX DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/flux.pdf}
