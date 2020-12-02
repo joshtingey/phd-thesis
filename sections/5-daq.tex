@@ -16,10 +16,10 @@ DAQ system also configures the detector and provides hardware and data quality m
 
 Although relatively simple when compared to the incredibly complex and time-pressured DAQ systems
 of the LHC experiments, the DAQ system developed for the \chips project contains some unique
-approaches to solve the constraints of the \chips concept. Namely, deployment within a body of
-water and a limited resource budget. In this chapter, the DAQ system for \chips as applied to the
-\chipsfive prototype detector module is described. The description is presented in two broad
-categories, hardware and software, with a short description of the timing system to begin.
+approaches to solve the goals of the \chips concept. Namely, deployment within a body of water and
+a limited resource budget. In this chapter, the DAQ system for \chips as applied to the \chipsfive
+prototype detector module is described. The description is presented in two broad categories,
+hardware and software, with a short description of the timing system to begin.
 
 The author played a major role in both the development and construction of the DAQ system for
 \chipsfive. Specifically, a significant contribution to the development of the networking solution
@@ -35,7 +35,7 @@ shared across all timestamping electronics. For this purpose, \chips uses a \emp
 (WR) network~\cite{lipinski2011}. Initially developed at CERN, the open-source WR project provides
 an ethernet-based time distribution network with sub-nanosecond synchronisation accuracy between
 nodes. By using two-way exchanges of WR messages, precise adjustment of individual node clock
-phases and offsets is possible across thousands of devices, separated by tens of kilometres. All
+phases and offsets are possible across thousands of devices, separated by tens of kilometres. All
 of this is achieved alongside a standard data transfer network capable of \unit{1}{\text{Gb}}
 speeds.
 
@@ -48,7 +48,7 @@ clocks many hundreds of kilometres away to determine the arrival time of beam sp
 disciplined timing is essential.
 
 WR hardware is commercially available from many vendors. Within \chipsfive, two WR devices are
-used for time synchronisation and data transfer, both shown in Fig.~\ref{fig:wr_electronics}.
+used for time synchronisation and data transfer, both shown in \FigureRef{fig:wr_electronics}.
 Firstly, a compact version of the standard WR switch~\cite{wrswitch2020}, specially developed for
 the \chips project at Nikhef~\cite{wrchromium2020}. Secondly, a WR-LEN (Lite Embedded Node) from
 Seven Solutions~\cite{wrlen2020}. 
@@ -71,7 +71,7 @@ Seven Solutions~\cite{wrlen2020}.
 
 All WR components within \chipsfive are connected using \unit{1}{\text{Gb}} bi-directional optical
 fibre connections, using the \unit{1310}{\text{nm}} and \unit{1550}{\text{nm}} wavelengths via
-Small Form-Factor Pluggable Transceivers (SFPs). Fig.~\ref{fig:sync} shows the WR synchronised
+Small Form-Factor Pluggable Transceivers (SFPs). \FigureRef{fig:sync} shows the WR synchronised
 pulse per second rising edges for two \chipsfive WR switches separated by \unit{500}{\text{m}} of
 fibre. With the vertical ticks representing single nanoseconds, sub-nanosecond time
 synchronisation accuracy between the switches is observed.
@@ -97,7 +97,7 @@ still ongoing, \chipsfive mainly contains proven Nikhef hardware developed for t
 experiment~\cite{adrian2016}.
 
 The complete DAQ and power distribution system for \chipsfive is diagrammatically shown in
-Fig.~\ref{fig:daq}. The following subsections describe each component, starting from the lowest
+\FigureRef{fig:daq}. The following subsections describe each component, starting from the lowest
 level and working upwards. The Nikhef and Madison descriptions are separated for clarity in
 addition to the high-level combined hardware systems, part of which is not physically located
 within the detector but in an electronics hut onshore.
@@ -120,7 +120,7 @@ connections into a single umbilical (the tree trunk) to shore.
 Common to both low-level hardware implementations is the use of the Time over Threshold (ToT)
 method for PMT signal digitisation. Each analogue PMT pulse is fed to a ToT discriminator coupled
 with a Time to Digital Converter (TDC) to generate each digitised recorded hit, as shown in
-Fig.~\ref{fig:tot}. Compared to the more common Analogue to Digital Converter (ADC) readout, ToT
+\FigureRef{fig:tot}. Compared to the more common Analogue to Digital Converter (ADC) readout, ToT
 values are less accurate and do not scale linearly with deposited charge. However, as the expected
 range of deposited charge within \chips detectors is relatively small, the impact of the
 non-linearity is predicted to be small, and the ToT implementation is used. Furthermore, ToT
@@ -143,7 +143,7 @@ electronics are simpler and notably cheaper.
 All Nikhef HZC PMTs are attached directly to a simple readout board containing a high-voltage
 generating Cockcroft-Walton circuit~\cite{cockcroft1932}. Up to 30 such PMTs are connected to two
 fanout \emph{Calamares} boards within the electronics box of each Nikhef \textsc{Pom} via standard
-category 5 cables with RJ45 connectors, as shown in Fig.~\ref{fig:nikhef_plane}. Both Calamares
+category 5 cables with RJ45 connectors, as shown in \FigureRef{fig:nikhef_plane}. Both Calamares
 boards are directly attached to a \emph{Central Logic Board} (CLB)~\cite{biagi2015, eijk2015}. The
 CLB contains the ToT discriminators, and TDCs used to digitise the recorded signals as well as an
 FPGA (Field-Programmable Gate Array) programmed to provide additional logic and WR clock
@@ -161,7 +161,7 @@ DC power converter (AC/DC) whose output is fed into the CLB for distribution.
 
 Every Nikhef \textsc{Pom} is connected via a single optical fibre and a single power connection to
 an interface Nikhef-container, the contents of which are labelled in the bottom half of
-Fig.~\ref{fig:full_setup}. An aluminium structure holds two WR switches within each container,
+\FigureRef{fig:full_setup}. An aluminium structure holds two WR switches within each container,
 specially designed to remove heat from the switch components and transfer it to the colder outer
 shell. Both switches are powered by independent AC to DC converters and connected via a single
 optical fibre each to the higher level DAQ systems. An additional connection is made between each
@@ -187,14 +187,14 @@ connection. A total of five Nikhef-containers are present within \chipsfive.
 
 Every Madison Hamamatsu PMT is directly attached to a high-voltage generating Cockcroft-Walton
 board followed by a signal processing $\micro$DAQ, as shown in
-Fig.~\ref{fig:madison_pmt_assembly}. The $\micro$DAQ is a small microcontroller developed for both
-IceCube and \chips at WIPAC in Madison. Capable of timestamping and digitising signals directly at
-the PMT level, the $\micro$DAQ also sets the PMT operating voltage by controlling the driving
-frequency of the Cockcroft-Walton board~\cite{eijk2018}.
+\FigureRef{fig:madison_pmt_assembly}. The $\micro$DAQ is a small microcontroller developed for
+both IceCube and \chips at WIPAC in Madison. Capable of timestamping and digitising signals
+directly at the PMT level, the $\micro$DAQ also sets the PMT operating voltage by controlling the
+driving frequency of the Cockcroft-Walton board~\cite{eijk2018}.
 
 Up to 16 $\micro$DAQs receive power, networking, and WR synchronised IRIG-B and
 \unit{10}{\text{MHz}} timing signals from a \emph{badger-board}, as shown in
-Fig.~\ref{fig:madison_plane}. Standard category 5 cables with RJ45 connectors are used for these
+\FigureRef{fig:madison_plane}. Standard category 5 cables with RJ45 connectors are used for these
 connections. The badger-board is located within the electronics box of each Madison \textsc{Pom}
 and acts as a simple fanout and power control board. For logic, each badger-board has an attached
 mezzanine Beaglebone~\cite{beagle2020}. This single-board Linux machine (very similar to a
@@ -211,7 +211,7 @@ Similarly, up to 16 Madison \textsc{Pom} badger-boards receive power, networking
 synchronised IRIG-B and \unit{10}{\text{MHz}} timing signals from a \emph{danout-board} located
 within a single interface Madison-container. Again, standard category 5 cables with RJ45
 connectors are used for these connections. The full contents of the Madison-container are shown in
-Fig.~\ref{fig:madison_box}. Similar to the badger-board, the danout-board acts as a simple fanout
+\FigureRef{fig:madison_box}. Similar to the badger-board, the danout-board acts as a simple fanout
 and power control board with an attached mezzanine Beaglebone. However, in this case, the attached
 Beaglebone acts only to control the power provided by the danout-board.
 
@@ -228,7 +228,7 @@ via the danout-board.
     \caption[Labelled picture of the Madison-container components]
     {Labelled picture of the Madison-container components. The blue and grey cables exiting the
         left hand side of the image go to individual Madison \textsc{Pom}s connecting to the I/O
-        port shown in fig.~\ref{fig:madison_plane}. An optical fibre connection into the left SFP
+        port shown in \FigureRef{fig:madison_plane}. An optical fibre connection into the left SFP
         port of the WR-LEN is used in reality rather than the copper connection shown here.}
     \label{fig:madison_box}
 \end{figure}
@@ -258,13 +258,13 @@ advantages, primarily driven by the core \chips concept of reducing cost:
 \label{sec:daq_hard_combined} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Each interface container is connected to a single junction-box, labelled in
-Fig.~\ref{fig:full_setup}. This central container acts as the interface between the detector
+\FigureRef{fig:full_setup}. This central container acts as the interface between the detector
 electronics and the umbilical carrying data and power between the shore and the detector. 
 
 Due to the unique \chips constraint of complete submersion within water, all connections to the
 junction-box (as well as those between \textsc{Pom}s and the interface containers) are made within
 watertight, flexible PVC tubing called \emph{manifolds}. These tubes span all corners of the
-\chipsfive detector, as shown in Fig.~\ref{fig:manifold}, usually attached to the endcap frames.
+\chipsfive detector, as shown in \FigureRef{fig:manifold}, usually attached to the endcap frames.
 Additionally, as is done for the individual \textsc{Pom}s, water-blocks are placed between all
 interface containers and the junction-box to compartmentalise the higher-level DAQ components and
 prevent a single leak from taking down the whole system.
@@ -276,7 +276,7 @@ prevent a single leak from taking down the whole system.
         top-cap of the \chipsfive detector. In the left of the image, two unattached Nikhef
         \textsc{Pom} pigtail connections are seen, both covered in green tape and a plastic bag.
         The manifolds can also be seen in the graphical rendering of the top-cap shown in
-        Fig.~\ref{fig:top_cap}.}
+        \FigureRef{fig:top_cap}.}
     \label{fig:manifold}
 \end{figure}
 
@@ -294,12 +294,12 @@ connected to one of the multiplexer/demultiplexer networking channels via a medi
 power-off the channel if a current surge is detected. This protection is particularly crucial for
 \chipsfive as water leaks are possible.
 
-The contents of the DAQ electronics \emph{Shore Hut} are shown in Fig.~\ref{fig:hut_daq}. The
+The contents of the DAQ electronics \emph{Shore Hut} are shown in \FigureRef{fig:hut_daq}. The
 single umbilical optical fibre connection passes through a multiplexer/demultiplexer before each
 of the wavelength-specific channels are passed into one of two WR switches. Multiple Virtual Local
 Area Networks (VLANs) are configured on each switch such that for each wavelength channel only a
 single paired port on the other physical side of the switch carries that channels data to and from
-the standard networking switch (these connections are not present within Fig.~\ref{fig:hut_daq}).
+the standard networking switch (these connections are not present within \FigureRef{fig:hut_daq}).
 Of the two WR switches, one is configured to be the GrandMaster with connections to a GPS
 disciplined oscillator with an attached antenna. A single connection is also made between the WR
 switches for clock synchronisation.
@@ -313,8 +313,8 @@ switches for clock synchronisation.
 \end{figure}
 
 The standard network switch provides \unit{10}{\text{Gb}} connections to each of the Shore DAQ
-computing machines whose specific roles are detailed in Section.~\ref{sec:daq_soft}. Each machine
-is also connected to a second switch providing connections to the external internet and DAQ
+computing machines whose specific roles are detailed in \SectionRef{sec:daq_soft}. Each machine is
+also connected to a second switch providing connections to the external internet and DAQ
 components located at Fermilab. At Fermilab, a DAQ machine (Fermi DAQ-1) performs two main roles.
 Firstly, it forwards \numi beam spill timing information from a Time Distribution Unit attached to
 the Main Injector clock to \chipsfive. Secondly, it receives recorded detector data and places it
@@ -331,12 +331,12 @@ supply and instead draw power directly from the master supply.
 
 The software of the \chipsfive DAQ system provides three main functionalities: control of the
 detector instrumentation, the handling of recorded PMT hits, and the monitoring of hardware and
-data quality. Each of these functions is discussed within a specific subsection below alongside
+data quality. Each of these functions are discussed within a specific subsection below alongside
 the corresponding software processes (applications) that perform them. Only the high-level
 software components (physically processed onshore) are detailed, with the low-level CLB,
 Beaglebone, and $\micro$DAQ software implementations omitted for brevity. An in-depth discussion
-of the CLB software can be found in Ref.~\cite{aiello2019} while the Beaglebone and $\micro$DAQ
-software implementation can be found at Ref.~\cite{microdaq2020}.
+of the CLB software can be found in \ReferenceRef{aiello2019} while the Beaglebone and $\micro$DAQ
+software implementation can be found at \ReferenceRef{microdaq2020}.
 
 \begin{figure} % SOFTWARE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/daq_software.pdf}
@@ -346,10 +346,10 @@ software implementation can be found at Ref.~\cite{microdaq2020}.
     \label{fig:daq_software}
 \end{figure}
 
-The DAQ software itself is mainly written in C++ and can be found at Ref.~\cite{chipsdaq2020}. The
-system is comprised of multiple processes containing multiple components each (usually processed
-on separate threads) as is shown within Fig.~\ref{fig:daq_software}, expressed in terms of the
-flow of data between components. All DAQ processes make extensive use of multithreading and
+The DAQ software itself is mainly written in C++ and can be found at \ReferenceRef{chipsdaq2020}.
+The system is comprised of multiple processes containing multiple components each (usually
+processed on separate threads) as is shown within \FigureRef{fig:daq_software}, expressed in terms
+of the flow of data between components. All DAQ processes make extensive use of multithreading and
 asynchronous communication, principally implemented using the low-level Boost Asio (asynchronous
 input/output) library~\cite{boost2020}. 
 
@@ -365,7 +365,7 @@ immediately in case of a fault.
 
 All DAQ processes and low-level DAQ devices (CLBs and Beaglebones) conform to a global Finite
 State Machine (FSM) schema. The schema defines a finite set of states, shown in
-Fig.~\ref{fig:fsm}, for which a DAQ process can only be in one at any given time. Specifically
+\FigureRef{fig:fsm}, for which a DAQ process can only be in one at any given time. Specifically
 allowed transitions, triggered by a command signal (shown in brackets), allow each process to move
 between states. During transition, the process performs the specific actions required to achieve
 the desired state. Every DAQ process makes its current internal state publicly known via constant
@@ -404,14 +404,14 @@ performed at each state transition are as follows:
     \item \textbf{Starting Run} occurs when the \emph{start\_run} command is issued. During this
     transition the handling of PMT hit data is started, with the resulting data saved to file.
     This procedure includes the selection of hits according to the \numi beam spill trigger, as is
-    detailed further in Section.~\ref{sec:daq_soft_hits}.
+    detailed further in \SectionRef{sec:daq_soft_hits}.
     \item \textbf{Stopping Run} occurs when the \emph{stop\_run} command is issued. During this
     transition the handling of PMT hit data is stopped, and the run data file closed.
 \end{itemize}
 
 For control of the detector devices, a \emph{DAQ-control} process issues commands to and monitors
 the state of all CLBs and Beaglebones. For communication, all messages are exchanged using
-standard TCP (Transmission Control Protocol) packets over ethernet. A DHCP server on Shore DAQ-2
+standard TCP (Transmission Control Protocol) packets over ethernet. A DHCP server onshore DAQ-2
 assigns predefined static IP addresses to all DAQ devices to allow this to happen easily. 
 
 A single DAQ-control controller thread receives commands from the FSM process and instructs
@@ -512,7 +512,7 @@ Monitoring data is continually ingested into Elasticsearch from a wide range of 
 
 The Kibana browser-based user interface application is used to visualise the monitoring data
 stored within Elasticsearch~\cite{kibana2020}. A series of preconfigured dashboards, one of which
-is shown in Fig.~\ref{fig:monitoring}, summarise the current and historical monitoring data in an
+is shown in \FigureRef{fig:monitoring}, summarise the current and historical monitoring data in an
 easy to digest fashion. The primary advantage of using Kibana over the more typical bespoke
 implementations used by HEP experiments is that it is both easily configurable by non-experts and
 only requires a browser and an internet connection to use from anywhere (in addition to
@@ -523,7 +523,7 @@ authentication).
     \caption[Screenshot of a Kibana monitoring dashboard for \chipsfive]
     {Screenshot of a Kibana monitoring dashboard for \chipsfive. The dashboard pulls live
     monitoring data from the Elasticsearch database to populate all the visualisations shown. The
-    status of the various DAQ software components is shown in the top right above an average hit
+    status of the various DAQ software components are shown in the top right above an average hit
     rate plot for each \textsc{Pom} and the colour coded status indicators for various DAQ
     devices. A plot of the network data rates is also shown alongside average parameter
     indicators. The right hand side of the dashboard contains visualisations to monitor the

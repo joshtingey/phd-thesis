@@ -1,65 +1,59 @@
 \chapter{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{page}{17}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
+\setcounter{page}{15}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
 
 It is abundantly evident that machine learning and the broader field of artificial intelligence
 will play an ever-increasing role in the world around us over the coming years. Virtually every
-industry and human on the planet is promised to be touched by their proliferation. Whether this
-change has a positive or detrimental effect on society as a whole is still questionable, however,
-within the field of physics, especially experimental particle physics, machine learning
-applications can only be seen in a positive light.
+industry and human on the planet are promised to be touched by their proliferation. Whether this
+change has a entirely positive or somewhat detrimental effect on society as a whole is still
+questionable, however, within the field of physics, especially experimental particle physics,
+machine learning applications can only be seen in a positive light.
 
 Already, a widespread revolution is underway across the field. From the way particle interactions
 are simulated to the way recorded events are analysed, machine learning techniques, usually deep
-learning algorithms, are yielding dramatic improvements. This is particularly true of the study of
-the vastly abundant yet incredibly difficult to detect neutrino. Principally driven by the fact
-that the raw output from neutrino detectors is well suited to the algorithms at the forefront of
-computer vision research, many neutrino experiments now routinely use deep learning methods for
-event analysis.
+learning algorithms, are yielding dramatic performance improvements. This is particularly true of
+the study of the vastly abundant yet incredibly difficult to detect neutrino. Principally driven
+by the fact that the raw output from neutrino detectors is well suited to the algorithms at the
+forefront of computer vision research, many neutrino experiments now routinely use deep learning
+methods for event analysis.
 
-However, to date, a thorough end-to-end implementation of such techniques is not in use for the
-reconstruction, classification, and energy estimation of neutrino events within long-baseline
-water Cherenkov detectors studying accelerator beam neutrinos. Without redress, this lack of
-progress could have significant implications for the future of neutrino physics, especially when
-such experiments are deemed a highly promising (and potentially cheap) channel for answering some
-of the critical unsolved problems of the field.
+However, to date, a thorough end-to-end implementation of such techniques is not yet in use for
+the reconstruction and classification of neutrino events within long-baseline water Cherenkov
+detectors studying accelerator beam neutrinos. Without redress, this lack of progress could have
+significant implications for the future of neutrino physics, especially when such experiments are
+deemed a highly promising (and potentially cheap) channel for answering some of the critical
+unsolved problems of the field.
 
 This thesis presents a broad range of work conducted for one such experiment, the CHerenkov
-detectors In mine PitS (\chips) neutrino detector R\&D project. \chips aims to deploy very large
-yet `cheap as chips' water Cherenkov detectors into deep bodies of water on the Earth's surface.
-By vastly reducing costs, \chips aims to make practical and affordable megaton scale detectors a
-reality, crucial for the long-term future of neutrino physics.
-
-The author's principal contribution comes from the novel application of Convolutional Neural
-Networks, a type of deep learning algorithm, to the reconstruction, classification, and energy
-estimation of neutrino events within the \chipsfive prototype detector module. This work is the
-solely that of the authors. 
-
-At the same time as being explainable and robust, which are of course a key concern of
-any new methodology or approach. 
+detectors In mine PitS (\chips) neutrino detector R\&D project. \chips aims to develop very large
+yet `cheap as chips' water Cherenkov detectors that can be deployed into deep bodies of water of
+the Earth's surface, allowing megaton scale detectors to become a reality. The author's principal
+contribution comes from the novel application of Convolutional Neural Networks, a type of deep
+learning algorithm, to the reconstruction, classification, and energy estimation of neutrino
+events within the \chipsfive prototype detector module.
 
 It is hoped that the work presented in this thesis will achieve three principal goals. Firstly,
 motivate the need for the \chips project and detail how it accomplishes its aims. Secondly, show
 that Convolutional Neural Networks can be used to fully reconstruct and classify neutrino events
-within water Cherenkov detectors whilst providing significant performance improvements in the
-process. Finally, inform the development of similar Convolutional Neural Network applications for
-other water Cherenkov neutrino detectors.
+within water Cherenkov detectors in an explainable and robust manner whilst also providing
+significant performance improvements. Finally, inform the development of similar Convolutional
+Neural Network applications for other water Cherenkov neutrino detectors.
 
-To begin, Chapter.~\ref{chap:theory} introduces the history of neutrino physics, as well as the
-theoretical background and current status of the field as motivation for the broader \chips
-project. A full description of the \chips detector concept follows in Chapter.~\ref{chap:chips},
-with a principal focus on the \chipsfive prototype detector module deployed into the \numi
-neutrino beam during the autumn of 2019. A particularly detailed overview of the \chipsfive data
-acquisition and monitoring systems is then given in Chapter.~\ref{chap:daq}, for which the author
-played a primary role.
+To begin, \ChapterRef{chap:theory} introduces the history of neutrino physics, as well as the
+theoretical background and current status of the field as motivation for the \chips project. A
+full description of the \chips detector concept follows in \ChapterRef{chap:chips}, with a
+principal focus on the \chipsfive prototype detector module deployed into the \numi neutrino beam
+during the autumn of 2019. A particularly detailed overview of the \chipsfive data acquisition and
+monitoring systems is then given in \ChapterRef{chap:daq}, for which the author played a major
+role.
 
-Chapter.~\ref{chap:cnn} begins by introducing the standard reconstruction and classification
-methods to be replaced alongside a review of the relevant neural network theory and current
-machine learning applications within the field of neutrino physics. The chapter concludes by
-detailing the three Convolutional Neural Networks developed for \chipsfive, including that for
-cosmic muon rejection, beam event classification, and neutrino energy estimation.
+\ChapterRef{chap:cnn} begins by introducing the standard reconstruction and classification methods
+to be replaced alongside a review of the relevant neural network theory and current deep learning
+applications within the field of neutrino physics. The chapter concludes by detailing the three
+Convolutional Neural Networks developed for \chipsfive, including that for cosmic muon rejection,
+beam event classification, and neutrino energy estimation.
 
-The thesis closes in Chapter.~\ref{chap:results} with a comprehensive evaluation of the new
+The thesis closes in \ChapterRef{chap:results} with a comprehensive evaluation of the new
 Convolutional Neural Network approach. Firstly, the final combined performance is determined and
 compared with similar experiments. Secondly, the inner workings of the trained networks are
 explored. Thirdly, the robustness of the network outputs to distributional changes in the input is

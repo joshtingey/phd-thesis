@@ -2,32 +2,33 @@
 \label{chap:chips} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In pursuit of answers to the open questions presented in the previous chapter, neutrino
-experiments are clearly becoming increasingly, and possibly prohibitively, expensive and
-impractical. This trend is particularly true of the next generation of long-baseline experiments,
-DUNE and Hyper-Kamiokande, with cost estimates reaching billions of dollars and construction times
-of greater than half a decade. It is also telling that the vast majority of global research effort
+experiments are becoming increasingly, and possibly prohibitively, expensive and impractical. This
+trend is particularly true of the next generation of long-baseline experiments, DUNE and
+Hyper-Kamiokande, with cost estimates reaching billions of dollars and construction times of
+greater than half a decade. It is also telling that the vast majority of global research effort
 goes into just these two future projects, such is their complexity, cost, and lead time.
 
 It is evident that for detectors to remain practical and affordable into the future, a novel
 design strategy is highly desirable. This approach is especially the case if megaton scale
-detectors are ever to become a reality. While instrumentation will continue to steadily improve
-with time, the statistics of low event counts will always limit neutrino experiments until vastly
+detectors are ever to become a reality. While instrumentation will continue to improve with time
+steadily, the statistics of low event counts will always limit neutrino experiments until vastly
 larger detectors can be built. Therefore, R\&D efforts must focus on such detectors now, whilst
 also attempting to complement the current and upcoming generation of experiments.
 
-The \chips R\&D project~\cite{adamson2013} aims to develop novel strategies and technologies for
-very large yet practical `cheap as chips' water Cherenkov detectors. Primarily aimed for
-deployment in long baseline accelerator beam scenarios, \chips aims to lower the cost per kt of
+The \chips R\&D project aims to develop novel strategies and technologies for very large yet
+practical `cheap as chips' water Cherenkov detectors~\cite{adamson2013}. Primarily aimed for
+deployment in long-baseline accelerator beam scenarios, \chips aims to lower the cost per kt of
 sensitive mass to between \$200k-\$300k. For comparison, the Super-Kamiokande detector cost
 approximately \$4 million per kt to build. As physics sensitivity depends on more than just
 sensitive mass, this comparison is not entirely rigorous; however, it highlights the scale of
 possible cost savings.
 
-This chapter aims to describe the fundamental aspects of the \chips R\&D project in detail.
-Firstly, the \chips concept will be outlined along with both neutrino beam and Cherenkov detector
-physics for context. The design, construction, deployment, and status of the \chipsfive prototype
-detector will then follow. Finally, a description of the Monte Carlo methods used to simulate
-\chips detectors such as \chipsfive is given, alongside how input neutrino events are generated.
+This chapter aims to describe the fundamental aspects of the \chips R\&D project in detail and
+explain how it achieves its goals. Firstly, the \chips concept will be outlined along with both
+neutrino beam and Cherenkov detector physics for context. The design, construction, deployment,
+and status of the \chipsfive prototype detector will then follow. Finally, a description of the
+Monte Carlo methods used to simulate \chips detectors is given, alongside how the input neutrino
+events are generated.
 
 \section{The CHIPS concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,13 +37,13 @@ The \chips concept is to deploy cylindrical water Cherenkov detector modules int
 water on the Earth's surface such as lakes, reservoirs, and flooded mine pits. Initially
 constructed on land, \chips detectors can be floated into position before being sunk. The water
 above the sunken detector provides a modest overburden from cosmic rays, whilst the surrounding
-water provides support for a lightweight detector structure. By removing the need for underground
+water provides support for a lightweight structure. By removing the need for underground
 excavation and expensive structural support, the cost of construction can be dramatically reduced.
 
 Additionally, the common practice of building majority bespoke components is replaced by using
 modern commercially available components wherever possible. The number of expensive elements, such
 as photomultiplier tubes are also reduced by only considering multi-$\GeV$ accelerator beam
-neutrino events, such that full high density detector instrumentation is not required.
+neutrino events, such that full high-density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap, but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
@@ -54,39 +55,40 @@ To date, \chips R\&D efforts have been based in the USA to exploit the \numi bea
 of its lifetime. Plans are focused on the scaling of \chips detectors for the deployment of
 multiple modules within the LBNF beam once operational. Collaborators from primarily University
 College London, The University of Wisconsin Madison, and Nikhef are focused on multiple R\&D
-efforts, each aiming to prove the viability of a crucial component of the \chips concept.
+efforts, each aiming to prove the viability of a crucial component of the \chips concept:
 
 \begin{itemize}
     \item \textbf{Detector construction:} Aiming to prove that the construction and deployment of
-          \chips concept detector modules is possible. Two prototype detectors have so far been
-          deployed. Firstly, the small \chipsm module shown in Fig.~\ref{fig:chips_m}, deployed
+          \chips concept detector modules are possible. Two prototype detectors have so far been
+          deployed. Firstly, the small \chipsm module shown in \FigureRef{fig:chips_m}, deployed
           into a flooded mine pit in northern Minnesota during the summer of 2014~\cite{perch2015,
           pfutznerProto2017, pfutzner2017}. Secondly, the much larger \unit{5}{\text{kt}}
           \chipsfive module, deployed into the same pit during the summer of 2019 and detailed in
-          Section.~\ref{sec:chips_detector}.
+          \SectionRef{sec:chips_detector}.
 
     \item \textbf{Water filtration:} Aiming to prove that adequate water purity can be achieved
           using cheap, commercially available filtration. Extensive studies have proven that by
           filtering water directly from bodies of water on the Earth's surface (including flooded
-          mine pits), adequate photon attenuation lengths greater than \unit{100}{\text{m}} are
+          mine pits), adequate photon attenuation lengths of greater than \unit{100}{\text{m}} are
           achievable~\cite{amat2017, campbell2020}.
 
     \item \textbf{Physics sensitivity:} Aiming to prove that \chips concept detector modules (even
           the prototypes) can provide significant physics contributions alone or alongside the
           current and next generation of experiments. Single modules in the current \numi beam
-          (discussed in Section.~\ref{sec:chips_concept_beam}) and multiple modules in the future
+          (discussed in \SectionRef{sec:chips_concept_beam}) and multiple modules in the future
           LBNF beam have been studied~\cite{pfutzner2017, adde2016, lang2015}.
 
     \item \textbf{Data acquisition:} Aiming to prove that a cheap data acquisition (DAQ) system
           using commercially available components and software is viable~\cite{eijk2018}. Outlined
-          in Chapter.~\ref{chap:daq}, \chips implements a novel use of cheap single-board
-          computers to collect photomultiplier tube data.
+          in \ChapterRef{chap:daq}, \chips implements a novel use of cheap single-board computers
+          to collect photomultiplier tube data.
 
-    \item \textbf{Event reconstruction and classification:} Aiming to prove that modern machine
-          learning techniques can be successfully applied to large water Cherenkov concepts such
-          as \chips. The primary contribution of this thesis (detailed in Chapter.~\ref{chap:cnn}
-          and Chapter.~\ref{chap:results}), this work feeds directly into both the physics
-          sensitivity studies mentioned above and detector design optimisation.
+    \item \textbf{Event reconstruction and classification:} Aiming to prove that deep learning
+          techniques can be successfully applied to the reconstruction and classification of
+          neutrino events from large water Cherenkov concepts such as \chips. The primary
+          contribution of this thesis (detailed in \ChapterRef{chap:cnn} and
+          \ChapterRef{chap:results}), this work feeds directly into both the physics sensitivity
+          studies mentioned above and detector design optimisation.
 \end{itemize}
 
 \begin{figure} % CHIPS-M DIAGRAM %
@@ -97,6 +99,12 @@ efforts, each aiming to prove the viability of a crucial component of the \chips
         carrying data, power, and filtered water is attached to the base.}
     \label{fig:chips_m}
 \end{figure}
+
+Although the author's primary focus was on work for the final two efforts above, a contribution to
+non DAQ related \chipsfive construction efforts were also made. This work included helping with
+both the instrumentation testing and calibration as well as installation within \chipsfive.
+Furthermore, the author played a significant role in the development of the event generation and
+detector simulation framework presented in \SectionRef{sec:chips_monte_carlo}.
 
 \subsection{The neutrino beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_concept_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,14 +123,14 @@ higher intensity and energy, principally to achieve a peak in neutrino energy ne
 $\sim$\unit{1.5}{\GeV} $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum for \nova. Currently, the
 \numi beam achieves an intensity of \unit{700}{\text{kW}} (\unit{740}{\text{kW}} at peak) making
 it the most powerful such beam in the world. A schematic of the \numi beamline configuration is
-shown in Fig.~\ref{fig:numi_beam}.
+shown in \FigureRef{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.pdf}
     \caption[Schematic of the main components of the \numi beamline]
     {Schematic of the main components of the \numi beamline. The MINOS and \nova near detectors
         and the MINERvA experiment are located just to the right of what is shown. Figure taken
-        from Ref.~\cite{adamson2016}.}
+        from \ReferenceRef{adamson2016}.}
     \label{fig:numi_beam}
 \end{figure}
 
@@ -142,9 +150,9 @@ producing an intrinsic $\nu_{e}$ component as well as wrong sign $\nu_{\mu}$ con
 
 Alternatively, the polarity of the horns can be used to switch the dominant sign of the hadrons
 focused, allowing \numi to operate as either a neutrino or antineutrino beam. These two modes of
-operation are called \emph{forward horn current} and \emph{reverse horn current} for primarily a
+operation are called \emph{forward horn current} and \emph{reverse horn current}, for primarily a
 neutrino or antineutrino beam composition respectively. Any remaining hadrons, alongside
-electrons, muons and surviving primary protons are absorbed by rock downstream of the decay pipe,
+electrons, muons, and surviving primary protons are absorbed by rock downstream of the decay pipe,
 leaving just the neutrino components of the beam.
 
 Long-baseline neutrino experiments typically consist of a \emph{near} detector to measure the
@@ -152,16 +160,17 @@ neutrino composition at source and a much larger \emph{far} detector to measure 
 composition after many hundreds of kilometres. The \numi beamline contains three detectors after
 \unit{300}{\text{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the near detector for
 MINOS (now used by MINERvA), and the near detector for \nova. \chips prototypes within the \numi
-beam will not have a dedicated near detector; therefore, data from the above detectors will be
-crucial for physics analysis in order to constrain the beam composition and flux.
+beam (such as \chipsfive) will not have a dedicated near detector; therefore, data from the above
+detectors will be crucial for physics analysis in order to constrain the beam composition and
+flux.
 
 The \numi neutrino beam passes through the Earth's crust until it finally emerges in northern
 Minnesota. This is where the MINOS, \nova, and prototype \chips far detectors are located (used to
-be located in the MINOS case), as shown in Fig.~\ref{fig:numi_map}. The Minnesota state nickname
+be located in the MINOS case), as shown in \FigureRef{fig:numi_map}. The Minnesota state nickname
 `land of 10,000 lakes' is not an overstatement, with a vast number of potential lakes for \chips
 detector deployment. Additionally, intense iron ore mining on the `Iron Range' provides many
-suitable disused (and now flooded) mine pits. The exact \chipsfive prototype detector location is
-discussed in greater detail within Section.~\ref{sec:chips_detector_location}.
+suitable, disused (and now flooded) mine pits. The exact \chipsfive prototype detector location is
+discussed in greater detail within \SectionRef{sec:chips_detector_location}.
 
 \begin{figure} % CHIPS LOCATION IN NUMI DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.pdf}
@@ -169,16 +178,16 @@ discussed in greater detail within Section.~\ref{sec:chips_detector_location}.
     {Map of the MINOS, \nova and \chips locations in the \numi beam as it surfaces in northern
         Minnesota. Shown is the expected neutrino event rate assuming no oscillations, with lines
         of constant L/E indicated with contours. The western extent of Lake Superior can be seen
-        in the lower right of the map for reference. Image taken from Ref.~\cite{adamson2013}.}
+        in the lower right of the map for reference. Image taken from \ReferenceRef{adamson2013}.}
     \label{fig:numi_map}
 \end{figure}
 
 Due to the kinematics of pion decay, whether the far detector is placed directly on the beam axis
 or not can have a significant impact on the observed energy spectrum of beam neutrinos, as shown
-in Fig.~\ref{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong dependence
-on the energy of the parent pion within Eq.~\ref{eq:pi_decays}. However, as the off-axis angle
-increases, the neutrino energy becomes less and less dependent on the parent pion energy and is
-restricted to a narrowing range of decreasing energies. 
+in \FigureRef{fig:numi_axis}. For neutrinos directly on the beam axis, there is a strong
+dependence on the energy of the parent pion within \EquationRef{eq:pi_decays}. However, as the
+off-axis angle increases, the neutrino energy becomes less and less dependent on the parent pion
+energy and is restricted to a narrowing range of decreasing energies. 
 
 Known as the \emph{off-axis effect} this phenomenon is used by both \nova and T2K to create a
 narrow energy peak focused on the important $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum. By
@@ -191,7 +200,7 @@ reduced, as is the case for the \unit{7}{\text{mrad}} off-axis \chipsfive detect
     {Muon neutrino flux for different \numi detectors at different off-axis angles. Shown are the
         neutrino energy spectrums for MINOS (on-axis), \chipsfive (\unit{7}{\text{mrad}}
         off-axis), and \nova (\unit{14}{\text{mrad}} off-axis). Figure taken from
-        Ref.~\cite{adamson2013}.}
+        \ReferenceRef{adamson2013}.}
     \label{fig:numi_axis}
 \end{figure}
 
@@ -208,10 +217,10 @@ maximising volume and reducing cost.
 Cherenkov radiation is emitted by all electrically charged particles travelling faster than the
 local phase velocity of light in a dielectric medium. Similar to the sonic boom created by a
 supersonic aircraft, Cherenkov radiation forms a shock wave of coherent light, as shown in
-Fig.~\ref{fig:cherenkov}. Typically, the emitted light has wavelengths in the optical to
+\FigureRef{fig:cherenkov}. Typically, the emitted light has wavelengths in the optical to
 ultraviolet range ($\sim400~\text{nm}$). When projected onto the detector wall, the resulting cone
 of radiation generates a distinctive ring shape. The cone opening angle (the angle at which light
-is emitted) $\theta_{c}$ is given by
+is emitted) $\theta_{c}$, is given by
 \begin{equation}
     \cos\theta_{c} = \frac{1}{\beta n(\lambda)},
     \label{eq:cherenkov_angle}
@@ -219,26 +228,28 @@ is emitted) $\theta_{c}$ is given by
 where $\beta=v/c$ and $n$ is the refractive index of the medium~\cite{particle2020}. Note that $n$
 is a function of the wavelength of emission $\lambda$, and so is the opening angle. As the
 refractive index of water is $\sim 1.33$ for typical wavelengths of emission, and using the
-ultrarelativistic limit $\beta\sim 1$ the opening angle is found to be $\sim41^{\circ}$.
+ultrarelativistic limit $\beta\sim 1$, the opening angle is found to be $\sim41^{\circ}$.
 
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.pdf}
     \caption[Diagram of Cherenkov radiation emission]
     {Diagram of Cherenkov radiation emission and wavefront angles. The angles $\theta_{c}$ and
-        $\eta$ are not equal in a dispersive medium. Figure taken from Ref.~\cite{particle2020}}
+        $\eta$ are not equal in a dispersive medium. Figure taken from
+        \ReferenceRef{particle2020}}
     \label{fig:cherenkov}
 \end{figure}
 
-In Eq.~\ref{eq:cherenkov_angle} there is no Cherenkov emission when $\cos\theta_{c} > 1$, which is
-the case when $\beta n(\lambda)<1$. Therefore, a Cherenkov energy threshold $E_{t}$ exists for
-charged particles. When expressed in terms of the particle mass $m$, the threshold is given by
+In \EquationRef{eq:cherenkov_angle} there is no Cherenkov emission when $\cos\theta_{c} > 1$,
+which is the case when $\beta n(\lambda)<1$. Therefore, a Cherenkov energy threshold $E_{t}$,
+exists for charged particles. When expressed in terms of the particle mass $m$, the threshold is
+given by
 \begin{equation}
     E_{t} = \gamma m = \frac{m}{\sqrt{1-(1/n)^{2}}}.
     \label{eq:cherenkov_threshold}
 \end{equation}
-Again using $n\sim 1.33$, a threshold energy of $\sim1.5~m$ is typical.
+Again using $n\sim 1.33$, a Cherenkov emission threshold energy of $\sim1.5~m$ is typical.
 
-The number of Cherenkov photons emitted by a particle of charge $ze$ per unit wavelength per unit
+The number of Cherenkov photons emitted by a particle of charge $ze$, per unit wavelength per unit
 path length is given by
 \begin{equation}
     \frac{d^{2}N}{d\lambda dx}=\frac{2\pi\alpha z^{2}}{\lambda^{2}}
@@ -259,13 +270,13 @@ CC $\nu_{e}$ or CC $\nu_{\mu}$ event respectively, rejecting NC and cosmic event
 
 The basic shape of a Cherenkov ring can be used to tell which charged particle created it. Muons
 are long-lived and typically travel many metres within the detector, producing a clean ring with
-sharp edges as is shown in Fig.~\ref{fig:cc_numu_event}. Conversely, electrons almost immediately
+sharp edges as shown in \FigureRef{fig:cc_numu_event}. Conversely, electrons almost immediately
 initiate an electromagnetic shower; therefore, the observed ring is the sum of multiple rings
 produced from the individual electrons and positrons within the shower. As a consequence, when
-compared to a muon ring, electron rings are characteristically fuzzy, as is shown in
-Fig.~\ref{fig:cc_nue_event}. A factor of this difference can be seen in Fig.~\ref{fig:emission
-distance}, which shows how the total amount of Cherenkov radiation is emitted for both electrons
-and muons as a function of distance from the interaction vertex.
+compared to a muon ring, electron rings are characteristically fuzzy, as shown in
+\FigureRef{fig:cc_nue_event}. Additionally, a factor of this difference can be seen in
+\FigureRef{fig:emission distance}, which shows how the total amount of Cherenkov radiation is
+emitted for both electrons and muons as a function of distance from the interaction vertex.
 
 \begin{figure} % SIMULATED EVENT DISPLAY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/cc_numu_event.pdf}
@@ -273,8 +284,8 @@ and muons as a function of distance from the interaction vertex.
     {Event display of a simulated beam CC $\nu_{\mu}$ quasi-elastic event with a single muon in
         the final state of energy \unit{2.36}{\GeV}. Both the unrolled barrel and endcaps are
         shown with every entry representing a hit PMT with the colour indicating the collected
-        charge. The purple ring indicates the true muon Cherenkov cone projected onto the detector
-        walls.}
+        charge. The purple ring indicates the true muon Cherenkov cone boundary projected onto the
+        detector walls.}
     \label{fig:cc_numu_event}
 \end{figure}
 
@@ -284,8 +295,8 @@ and muons as a function of distance from the interaction vertex.
     {Event display of a simulated beam CC $\nu_{e}$ quasi-elastic event with a single electron in
         the final state of energy \unit{1.05}{\GeV}. Both the unrolled barrel and endcaps are
         shown with every entry representing a hit PMT with the colour indicating the collected
-        charge. The purple ring indicates the true electron Cherenkov cone projected onto the
-        detector walls.}
+        charge. The purple ring indicates the true electron Cherenkov cone boundary projected onto
+        the detector walls.}
     \label{fig:cc_nue_event}
 \end{figure}
 
@@ -302,15 +313,16 @@ and muons as a function of distance from the interaction vertex.
 \end{figure}
 
 The situation quickly becomes complicated when multiple charged particles above the Cherenkov
-threshold are involved, which is common at multi-$\GeV$ energies. In this case, multiple
-overlapping rings are observed, making reconstruction difficult. The worst-case scenario is when
-two rings overlap entirely, removing any ability to tell them apart. This topology is often the
-case for NC interactions producing a $\pi^{0}$ in the final state, forming the primary background
-for the signal CC $\nu_{e}$ appearance channel.
+threshold are involved, common at multi-$\GeV$ energies. In this case, multiple overlapping rings
+are observed, making reconstruction difficult. The worst-case scenario is when two rings overlap
+entirely, removing any ability to tell them apart. This topology is often the case for NC
+interactions producing a $\pi^{0}$ in the final state, forming the primary background for the
+signal CC $\nu_{e}$ appearance channel.
 
 $\pi^{0}$ particles decay to a pair of photons with a 98.82\% branching ratio, both which almost
-immediately initiate an electromagnetic shower, just like an electron~\cite{particle2020}. The
-process leads to the formation of two electron like rings separated by an angle given by
+immediately initiate an electromagnetic shower, just like an electron~\cite{particle2020}. This
+process leads to the formation of two electron like rings separated by an angle $\theta_{ij}$,
+given by
 \begin{equation}
     (1-\cos\theta_{ij})=\frac{m_{\pi}^2}{2E_{i}E_{k}},
 \end{equation}
@@ -322,21 +334,21 @@ two photons have an unequal energy distribution, such that one is much more ener
 other, the higher energy photon ring can dominate, and the other can not be identified, leading to
 what looks like a single electron ring, producing a misidentification.
 
-\section{The CHIPS-5 detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CHIPS-5} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chipsfive is the first large scale prototype detector module for the \chips project. At
-\unit{25}{\text{m}} wide and \unit{12}{\text{m}} high, \chipsfive is cylindrical in shape with an
-inner surface area of \unit{1924}{\text{m}^2} and a total target mass of \unit{5.9}{\text{kton}}.
-Via the process of design, construction, deployment, and data taking, \chipsfive primarily aims to
-refine the \chips concept for future full-scale ($\sim$\unit{15}{\text{kton}}) modules.
-Consequently, \chipsfive is designed such that the details outlined in this section are entirely
-characteristic of what a full-sized \chips module is envisioned to be.
+\unit{25}{\text{m}} wide and \unit{12}{\text{m}} high, \chipsfive has an inner surface area of
+\unit{1924}{\text{m}^2} and a total target mass of \unit{5.9}{\text{kt}}. Via the process of
+design, construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips
+concept for future full-scale ($\sim$\unit{15}{\text{kt}}) modules. Consequently, \chipsfive is
+designed such that the details outlined in this section are entirely characteristic of what a
+full-sized \chips module is envisioned to be.
 
 First, the location, structure, instrumentation, and water filtration are detailed for the
 complete detector. A discussion of the construction and deployment procedure follows before the
-current status is presented. The full electronics and DAQ details are given separately in
-Chapter.~\ref{chap:daq}.
+current status is presented. The \chipsfive DAQ implementation is detailed separately in
+\ChapterRef{chap:daq}.
 
 \subsection{Location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -355,8 +367,8 @@ construction site is easily accessible by road and well connected to power due t
 infrastructure in place for mining. Additionally, the nearby PolyMet mining administration
 building is used as a laboratory environment for the construction and testing of individual
 components before their installation within the detector. A labelled satellite view of Wentworth
-2W is given in Fig.~\ref{fig:pit} for context, with an aerial picture of the construction site
-shown in Fig.~\ref{fig:from_the_sky}.
+2W is given in \FigureRef{fig:pit} for context, with an aerial picture of the construction site
+shown in \FigureRef{fig:from_the_sky}.
 
 \begin{figure} % PIT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/pit.pdf}
@@ -381,12 +393,12 @@ shown in Fig.~\ref{fig:from_the_sky}.
 \subsection{Structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The structure of the \chipsfive detector module consists primarily of two \unit{26}{\text{m}}
-diameter and \unit{1.3}{\text{m}} high lightweight stainless steel circular \emph{endcaps} that
-form the top and bottom of its cylindrical shape. During construction the conveniently named
-\emph{top-cap} is held above the \emph{bottom-cap} by \unit{1.5}{\text{m}} long steel struts as
-shown in Fig.~\ref{fig:frame}. This configuration allows for the endcap instrumentation, detailed
-in Section.~\ref{sec:chips_detector_instrumentation}, to be easily installed.
+The structure of \chipsfive consists primarily of two \unit{26}{\text{m}} diameter and
+\unit{1.3}{\text{m}} high lightweight stainless steel circular \emph{endcaps} that form the top
+and bottom of its cylindrical shape. During construction the conveniently named \emph{top-cap} is
+held above the \emph{bottom-cap} by \unit{1.5}{\text{m}} long steel struts as shown in
+\FigureRef{fig:frame}. This configuration allows for the endcap instrumentation, detailed in
+\SectionRef{sec:chips_detector_instrumentation}, to be easily installed.
 
 \begin{figure} % CHIPS FRAME DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/frame.pdf}
@@ -402,13 +414,13 @@ The two endcaps are connected by 28 Dyneema cables attached around their perimet
 pipes, each \unit{16}{\text{inches}} in diameter, are attached to the frame of the top-cap to make
 it buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, pulling the
 Dyneema cable taut and forming the final expanded detector shape shown in
-Fig.~\ref{fig:chips_render}.
+\FigureRef{fig:chips_render}.
 
 \begin{figure} % CHIPS RENDER DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_render.pdf}
     \caption[Graphical rendering of the \chipsfive detector]
     {Graphical rendering of the fully deployed and expanded \chipsfive detector module with a
-        section of the liner cutaway. The bottom endcap and wall \textsc{Pom}s are visible, as
+        section of the liner cutaway. The bottom endcap and wall instrumentation is visible, as
         well as the top endcap structure and floatation. The green lines indicate the Dyneema
         cables holding the endcaps together.}
     \label{fig:chips_render}
@@ -446,22 +458,22 @@ Hamamatsu PMTs. Furthermore, the photon hit time resolution is $\sim$\unit{2}{\t
 $\sim$\unit{5}{\text{ns}} for the HZC and Hamamatsu PMTs respectively.
 
 In total $6114$ HZC, and $450$ Hamamatsu PMTs are arranged into $226$ Nikhef and $30$ Madison
-\textsc{Pom}s respectively. Every PMT is housed within an assembly as shown in
-Fig.~\ref{fig:nikhef_pmt_assembly} for the Nikhef case and Fig.~\ref{fig:madison_pmt_assembly} for
-the Madison case. Importantly, to increase the level of light collection, each Nikhef PMT is
+\textsc{Pom}s. Every PMT is housed within an assembly as shown in
+\FigureRef{fig:nikhef_pmt_assembly} for the Nikhef case and \FigureRef{fig:madison_pmt_assembly}
+for the Madison case. Importantly, to increase the level of light collection, each Nikhef PMT is
 equipped with a \emph{light-cone} consisting of a circular reflective surface at \unit{45}{^\circ}
 to the PMT normal. The Madison PMT assembly is similar but has no light-cone. For \textsc{Pom}s
 attached to either endcap, their PMTs are angled at \unit{45}{^\circ} facing the direction of the
 beam to optimise light collection.
 
 All PMTs within a \textsc{Pom} are connected to the lowest level of DAQ electronics contained
-within a dedicated onboard electronics box. Either an aluminium or PVC cylinder in the Nikhef or
-Madison case respectively. A flexible PVC \emph{pigtail} is attached to each \textsc{Pom}
+within a dedicated onboard electronics box, either made from aluminium or PVC in the Nikhef or
+Madison case, respectively. A flexible PVC \emph{pigtail} is attached to each \textsc{Pom}
 electronics box containing connections to the higher level DAQ and power supply. A
 \emph{water-block} within each pigtail ensures that if either the external link or \textsc{Pom}
 becomes flooded, the other is still capable of withstanding the \unit{6}{\text{atm}} of water
 pressure at the bottom of the pit. A fully assembled and installed Nikhef \textsc{Pom} is shown in
-Fig.~\ref{fig:single_plane} for reference.
+\FigureRef{fig:single_plane} for reference.
 
 \begin{figure} % NIKHEF PMT ASSEMBLY DIAGRAM %
     \centering
@@ -494,7 +506,7 @@ Fig.~\ref{fig:single_plane} for reference.
     \caption[Pictures of the Madison PMT assembly]
     {A Hamamatsu PMT outside (a) and inside its insert (b). The PMT is potted inside its black PVC
         insert to create a watertight seal that can withstand the \unit{6}{\text{atm}} of water
-        pressure at the bottom of the pit. A $\micro$DAQ detailed in Chapter.~\ref{chap:daq}, is
+        pressure at the bottom of the pit. A $\micro$DAQ detailed in \ChapterRef{chap:daq}, is
         seen attached to the base of the PMT in (a).}
     \label{fig:madison_pmt_assembly}
 \end{figure}
@@ -510,7 +522,7 @@ Fig.~\ref{fig:single_plane} for reference.
 
 The \textsc{Pom}s are tiled next to each other on the detector walls, attached to either the
 stainless steel stringers on the top-cap and bottom-cap, or clipped to the Dyneema cables on the
-vertical walls of the \emph{barrel}. As mentioned previously, full high density detector
+vertical walls of the \emph{barrel}. As mentioned previously, full high-density detector
 instrumentation is not required for \chips detector modules, for two main reasons.
 
 Firstly, only highly directional accelerator beam events are to be studied. Therefore, the vast
@@ -522,11 +534,11 @@ required to capture adequate Cherenkov radiation from each interaction.
 Consequently, the distribution of the percentage of the detector walls covered by sensitive PMT
 surface area (\emph{photocathode coverage}) is optimised within \chipsfive to reduce the total
 number of PMTs used. The detector is split into three distinct regions of PMT photocathode
-coverage whose boundaries are defined by their azimuth angle $\phi$ from the centre of the
+coverage, whose boundaries are defined by their azimuth angle $\phi$ from the centre of the
 downstream wall (where $\phi=0^{\circ}$) using the centre of the detector as the origin. Each
 boundary is chosen by inspecting the fraction of beam Cherenkov photons that hit the detector
 walls as a function of $\phi$. This distribution, generated by the detector simulation (outlined
-in Section.~\ref{sec:chips_monte_carlo_sim}), is shown in Fig.~\ref{fig:coverage} alongside the
+in \SectionRef{sec:chips_monte_carlo_sim}), is shown in \FigureRef{fig:coverage} alongside the
 chosen boundaries.
 
 \begin{figure} % COVERAGE DIAGRAM %
@@ -545,8 +557,8 @@ $\phi=\pm180^{\circ}$ region of the endcaps and the $\phi=\pm75^{\circ}$ to $\ph
 region of the barrel with a $\sim1.5\%$ photocathode coverage. Finally, a \emph{half-density}
 Madison \textsc{Pom} region covering the $\phi=\pm140^{\circ}$ to $\phi=\pm180^{\circ}$ upstream
 region of the barrel with a $\sim0.8\%$ photocathode coverage. Simulation studies have shown that
-this configuration results in a negligible change in performance while vastly reducing the number
-of required PMTs~\cite{blake2016}.
+this configuration results in a negligible change in performance, whilst vastly reducing the
+number of required PMTs~\cite{blake2016}.
 
 The \chipsfive detector module is equipped with a veto region within the top-cap frame structure
 to aid cosmic muon rejection. Separated from the main detector volume by a geomembrane liner, the
@@ -554,7 +566,7 @@ to aid cosmic muon rejection. Separated from the main detector volume by a geome
 muons by detecting the Cherenkov radiation they produce. A total of $324$ upward-facing HZC veto
 PMTs within the top-cap Nikhef \textsc{Pom}s give a veto photocathode coverage of $\sim0.6\%$. A
 graphical rendering of the full top-cap instrumentation, showing the different density regions and
-veto PMTs, is shown in Fig.~\ref{fig:top_cap}.
+veto PMTs, is shown in \FigureRef{fig:top_cap}.
 
 \begin{figure} % TOP CAP RENDER DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/top_cap.pdf}
@@ -569,22 +581,22 @@ veto PMTs, is shown in Fig.~\ref{fig:top_cap}.
 All \chipsfive instrumentation receives power and is connected to the highest level DAQ systems
 through a \unit{500}{\text{m}} long flexible PVC umbilical resting on the pit floor. The umbilical
 contains a single optical fibre for data and two shielded gauge 10 cables for power. One end of
-the umbilical is attached to the bottom-cap of the detector while the other enters a hut on shore
+the umbilical is attached to the bottom-cap of the detector while the other enters a hut onshore
 containing the master power supply and onshore DAQ equipment.
 
 \subsection{Filtration} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Though surprisingly clear, the Wentworth 2W pit water requires filtration to reach the necessary
-\unit{30}{\text{m}} photon attenuation length. Therefore, a high volume pump is used to
-continually pull the internal detector water through a \unit{500}{\text{m}} long pipe to a
-filtration hut on the shore. After filtration, the water is returned to the detector through a
-second such pipe.
+\unit{30}{\text{m}} photon attenuation length for adequate light collection. Therefore, a high
+volume pump is used to continually pull the internal detector water through a \unit{500}{\text{m}}
+long pipe to a filtration hut on the shore. After filtration, the water is returned to the
+detector through a second such pipe.
 
 Within the hut, ten parallel sets of filters are installed in order to achieve a reasonable flow
 rate, allowing for the full detector volume to be filtered every ten days. Each filter set
 consists of a 20 inch \unit{10}{\micro\text{m}} carbon block filter followed by a 20 inch
-\unit{0.5}{\micro\text{m}} polypropylene filter, as shown in fig.~\ref{fig:filtration}. This
+\unit{0.5}{\micro\text{m}} polypropylene filter, as shown in \FigureRef{fig:filtration}. This
 configuration is found to achieve a photon attenuation length of \unit{133\pm2}{\text{m}} after
 approximately two months of constant filtering~\cite{campbell2020}.
 
@@ -610,10 +622,10 @@ of water being used for activities rather than solid ground. Below a simplified 
           construction area. As the pit water level rises during the summer, this acts as a dam
           preventing the construction area from flooding (at least in theory).
     \item The bottom-cap liner is welded together before the endcap structural frames are
-          constructed above, resulting in that shown by Fig.~\ref{fig:frame}.
+          constructed above, resulting in that shown in \FigureRef{fig:frame}.
     \item The barrel liner is partly constructed starting from the detector base. Using a vertical
           liner roll for each of the 28 sides, the barrel liner is welded up to the height of the
-          top-cap, as is shown in Fig.~\ref{fig:chips_with_liner}. The top-cap liner is also
+          top-cap, as is shown in \FigureRef{fig:chips_with_liner}. The top-cap liner is also
           installed but not welded to the barrel liner.
     \item A strongly buoyant \emph{floating-dock}, made from steel and large plastic floats, is
           constructed surrounding the detector. The bottom-cap is attached with metal chains to
@@ -632,9 +644,9 @@ of water being used for activities rather than solid ground. Below a simplified 
           complete layer has been installed the bottom-cap is lowered using the winches on the
           floating-dock and top-cap and the barrel liner is correspondingly welded to a greater
           height before the procedure repeats.
-    \item After all the \textsc{Pom}s have been installed, the barrel and top-cap liner are welded
-          together, the detector umbilical attached, and the whole detector lowered until it rests
-          at the bottom of the pit.
+    \item After all the \textsc{Pom}s layers have been installed, the barrel and top-cap liner are
+          welded together, the detector umbilical attached, and the whole detector lowered until
+          it finally rests at the bottom of the pit.
 \end{enumerate}
 
 \begin{figure} % CHIPS WITH LINER DIAGRAM %
@@ -650,8 +662,8 @@ of water being used for activities rather than solid ground. Below a simplified 
 
 During the summer of 2018 and 2019 extensive \chipsfive construction work was carried out by a
 team of 10 to 15 collaborators at any one time. Given the novel nature of the project, most tasks,
-some of which are pictured in Fig.~\ref{fig:work1} and Fig.~\ref{fig:work2}, proved challenging
-and time consuming.
+some of which are pictured in \FigureRef{fig:work1} and \FigureRef{fig:work2}, proved both
+challenging and time consuming.
 
 \begin{figure} % WORK DIAGRAM 1 %
     \centering
@@ -685,14 +697,14 @@ By late summer 2019, it became apparent that deployment of a fully instrumented 
 be impossible before the pit started to freeze over in October. Therefore, the decision was taken
 to only partially instrument the endcaps, leave the barrel walls bare, not include the veto
 separation liner, and reduce the module height to \unit{8}{\text{m}}. In October 2019 this version
-of \chipsfive, shown in Fig.~\ref{fig:complete}, was deployed into the Wentworth 2W pit.
+of \chipsfive, shown in \FigureRef{fig:complete}, was deployed into the Wentworth 2W pit.
 
 Analysis of preliminary data was successful in isolating individual cosmic muon events, one of
-which is shown in Fig.~\ref{fig:cosmic_event}. However, extensive data taking was paused due to a
+which is shown in \FigureRef{fig:cosmic_event}. However, extensive data taking was paused due to a
 deployment induced tear in the liner preventing filtration of the internal water. Given the
 outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over the summer of 2020 were
-suspended, including the essential repairs and instrumentation of the barrel walls. Plans for
-summer 2021 are currently under review.
+suspended, including essential repairs and instrumentation of the barrel walls. Plans for summer
+2021 are currently under review.
 
 \begin{figure} % COMPLETE PICTURE DIAGRAM %
     \includegraphics[width=0.9\textwidth]{diagrams/4-chips/complete.pdf}
@@ -719,17 +731,18 @@ summer 2021 are currently under review.
 \section{Detector simulation and event generation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-To describe the \chipsfive module and other \chips concept detectors in a simulated environment, a
-Monte Carlo simulation framework is used. Monte Carlo detector simulation and event generation
-methods are an indispensable tool within high energy particle physics. This is particularly true
-during the design and prototyping phase of an experimental project when no real-world data is
-available, as is predominantly the case with \chips. By matching the observables of a real-world
-detector as close as possible, these methods allow for the optimisation of designs, the testing of
+
+To describe \chipsfive and other \chips concept detectors in a simulated environment, a Monte
+Carlo simulation framework is used. Monte Carlo detector simulation and event generation methods
+are an indispensable tool within high energy particle physics. This is particularly true during
+the design and prototyping phase of an experimental project when no real-world data is available,
+as is predominantly the case with \chips. By matching the observables of a real-world detector as
+close as possible, these methods allow for the optimisation of detector design, the testing of
 reconstruction techniques, and the study of physics sensitivities.
 
 Here, a description of the detector simulation and the beam and cosmic event generation procedures
-used by \chips are described. All are employed extensively for the work presented in
-Chapter.~\ref{chap:cnn} and Chapter.~\ref{chap:results} of this thesis.
+used by \chips are described. All are employed extensively for the principal work of this thesis
+presented in \ChapterRef{chap:cnn} and \ChapterRef{chap:results}.
 
 \subsection{Detector simulation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_monte_carlo_sim} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -745,8 +758,8 @@ considered without recompilation of the code.
 The simulation builds an n-sided, regular polygonal prism consisting of two endcaps and a barrel,
 filled with water and lined with a low reflectivity \emph{blacksheet}. The geometry is separated
 into \emph{regions} within both the barrel and endcaps, defined either by a list of barrel sides
-or an opening angle respectively. Each region is filled with a unique base unit of geometry known
-as the \emph{unit cell}, as shown in Fig.~\ref{fig:sim_geom}.
+or an opening angle, respectively. Each region is filled with a unique base unit of geometry known
+as the \emph{unit cell}, as shown in \FigureRef{fig:sim_geom}.
 
 The unit cell defines a pattern of any number of PMTs, including their relative positions and in
 which direction they face. The final geometry is built by tiling the defined regions with their
@@ -754,55 +767,54 @@ respective unit cell scaled to match the required regional photocathode coverage
 although exact PMT positions are not used in this procedure, a given configuration will always
 generate the same geometry (it is deterministic). In this work, the \chipsfive geometry is
 generated with 28 sides and regions matching the boundary angles and photocathode coverage
-detailed in Section.~\ref{sec:chips_detector_instrumentation}.
+detailed in \SectionRef{sec:chips_detector_instrumentation}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/4-chips/sim_geom.pdf}
     \caption[Illustrative diagram of a WCSim detector geometry]
     {Illustrative diagram of a WCSim detector geometry. The endcap and barrel regions, tiled unit
         cells, and PMTs within a unit cell are all shown. Figure taken from
-        Ref.~\cite{blake2016}.}
+        \ReferenceRef{blake2016}.}
     \label{fig:sim_geom}
 \end{figure}
 
 The geometry shape, regions, and unit cells are defined in a configuration file. Additionally, a
 file for PMT definitions containing their shape, time resolution, and quantum efficiency is also
 used. Light-cones are described by a list of radial profile points in a further file. Although the
-underlying Geant4 material properties are mostly hardcoded (taken from the Super-Kamiokande
-simulation), values within yet another configuration file are used to scale them. This scaling
-controls the water absorption, scattering (Rayleigh and Mie) lengths, and both the blacksheet and
-PMT glass reflectivity. In this work a photon attenuation length of \unit{50}{\text{m}} at
-\unit{405}{\text{nm}} is used with negligible scattering, the blacksheet reflectivity is set to be
-4\% and the PMT glass reflectivity 24\%.
+underlying Geant4 material properties are mostly hardcoded, values within yet another
+configuration file are used to scale them. This scaling controls the water absorption, scattering
+(Rayleigh and Mie) lengths, and both the blacksheet and PMT glass reflectivity. In this work a
+photon attenuation length of \unit{50}{\text{m}} at \unit{405}{\text{nm}} is used with negligible
+scattering, the blacksheet reflectivity is set to 4\% and the PMT glass reflectivity 24\%.
 
 A veto volume can also be defined. The veto is built as either a concentric shell around the whole
-inner volume with a given thickness, or solely above the top-cap with a given height. Any PMTs
+inner volume with a given thickness or solely above the top-cap with a given height. Any PMTs
 defined as facing outwards within a unit cell look into the veto volume instead of the inner
 volume. In this work, the \chipsfive geometry is given a top-cap veto of height
 \unit{1.3}{\text{m}} with a photocathode coverage matching that described in
-Section.~\ref{sec:chips_detector_instrumentation}.
+\SectionRef{sec:chips_detector_instrumentation}.
 
 Once the full generation of the Geant4 geometry is complete, the final state tracks for each
 successive event to be simulated are loaded from either the beam or cosmic event generator files
-described next in Section.~\ref{sec:chips_monte_carlo_beam} and
-Section.~\ref{sec:chips_monte_carlo_cosmic}. Beam event vertices are randomly placed within the
+described in \SectionRef{sec:chips_monte_carlo_beam} and
+\SectionRef{sec:chips_monte_carlo_cosmic}. Beam event vertices are randomly placed within the
 inner detector volume, while cosmic vertices are set at \unit{1}{\text{m}} above the detector
 volume. WCSim then simulates the passage of all particles through the detector materials, with
-interactions, decays, and Cherenkov emission all taken into account.
+interactions, decays, and Cherenkov emission all considered.
 
 Whenever a photon is calculated to have hit the photocathode of a PMT, an angular dependent
 acceptance efficiency is applied to see if it is recorded. If accepted, all hits within
 \unit{200}{\text{ns}} windows are grouped to form a single recorded hit, with a smeared first hit
 time used as the recorded time. The standard WCSim methodology is used to determine the total
-output charge of the hit given the number of incident photons. This procedure involves a single
+output charge of the hit, given the number of incident photons. This procedure involves a single
 photoelectron charge distribution being repeatedly probed for each photon, before the combined sum
 is returned~\cite{tutorial2020}.
 
 By sampling this procedure multiple times, the output charge probability distribution given the
-number of incident photons can be generated, as shown in Fig.~\ref{fig:digitisation}. The reverse
+number of incident photons can be generated, as shown in \FigureRef{fig:digitisation}. The reverse
 likelihood function of an actual number of incident photons given a measured digitised charge is
 also shown (with a lower value being more likely). The reverse likelihood function is used for the
-standard reconstruction methods outlined in Section.~\ref{sec:cnn_old_reco}.
+standard reconstruction methods outlined in \SectionRef{sec:cnn_old_reco}.
 
 \begin{figure} % DIGI DIAGRAM %
     \centering
@@ -828,7 +840,7 @@ batch farm computing node.
 \label{sec:chips_monte_carlo_beam} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The expected flux of beam neutrinos at the \chipsfive detector location, shown in
-Fig.~\ref{fig:flux}, is generated using the existing beam simulation written for the \numi
+\FigureRef{fig:flux}, is generated using the existing beam simulation written for the \numi
 experiments. Using the generated fluxes as input, the \textsc{Genie} neutrino event generator
 (version 3.0.6)~\cite{andreopoulos2009, andreopoulos2015} is used to generate beam neutrino
 events. Default neutrino cross-sections on water provided by \textsc{Genie} are used during
@@ -857,17 +869,17 @@ input. Single muons are generated at sea level by CRY within a \unit{1}{\text{km
 dominant cosmic component) are considered for simplicity.
 
 Assuming a \chipsfive overburden of \unit{50}{\text{m}} and a \unit{2.2}{\MeV/\text{cm}^{2}} muon
-energy loss in water as suggested by Ref.~\cite{klimushin2001} the muon parameters are updated to
-estimate their values at \unit{1}{\text{m}} above the detector. All muons whose path does not
+energy loss in water as suggested by \ReferenceRef{klimushin2001}, the muon parameters are updated
+to estimate their values at \unit{1}{\text{m}} above the detector. All muons whose path does not
 cross the detector volume or do not have sufficient energy to reach the detector are
 discarded~\cite{chipsgen2020}. All accepted muon tracks are stored as output in a NUANCE formatted
 file for use in the detector simulation.
 
 To use generated cosmic events in analysis, studies have looked at the likely cosmic rate for
 \chips detector modules at different water overburden depths~\cite{son2013}. In this work, the
-fits shown in Fig.~\ref{fig:cosmic_rate} for a cylindrical detector of both height and diameter
-\unit{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of \unit{11.8}{\text{KHz}}
-at \unit{50}{\text{m}} of overburden.
+fits shown in \FigureRef{fig:cosmic_rate} for a cylindrical detector of both height and diameter
+equal to \unit{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of
+\unit{11.8}{\text{KHz}} at \unit{50}{\text{m}} of overburden.
 
 Given the \unit{10}{\micro\text{s}} long \numi beam spill occurring every
 \unit{1.33}{\text{seconds}}, an in spill cosmic rate of $\sim2.1$ million events per year is
@@ -881,6 +893,7 @@ be at reducing the significant cosmic background.
     \caption[Expected \chipsfive cosmic muon rate as a function of water overburden depth]
     {Expected cosmic muon rate as a function of water overburden depth for a \unit{24}{\text{m}}
         high and \unit{24}{\text{m}} wide \chips detector module. Shown are fits made to the work
-        originally conducted in Ref.~\cite{bugaev1998}. Figure taken from Ref.~\cite{son2013}.}
+        originally conducted in \ReferenceRef{bugaev1998}. Figure taken from
+        \ReferenceRef{son2013}.}
     \label{fig:cosmic_rate}
 \end{figure}
