@@ -14,9 +14,9 @@ prone to human error and restricted in scope to what has been implemented in sof
 The work outlined in this chapter presents a replacement event analysis methodology for \chips.
 Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep
 learning}~\cite{goodfellow2016} neural network have been implemented to achieve the primary aims
-outlined above amongst others. One for cosmic rejection, one for beam classification, and one for
-neutrino energy estimation. For evaluation purposes, only the implementation as applied to the
-\chipsfive detector module is considered in this work.
+outlined above, amongst others. One for cosmic muon rejection, one for beam event classification,
+and one for neutrino energy estimation. For evaluation purposes, only the implementation as
+applied to the \chipsfive detector module is considered in this work.
 
 After mentioning previous implementations of deep learning for neutrino experiments, a description
 of the current (standard) techniques are given, before the theoretical background of CNNs is
@@ -53,8 +53,8 @@ CNNs have also been applied to liquid argon time-projection chambers. The MicroB
 experiment~\cite{acciarri2017_ref} has shown that in addition to classification tasks, the spatial
 localisation of single particles within events is possible~\cite{acciarri2017}. Furthermore, the
 DUNE collaboration has designed a network to output both the interaction class and counts of
-different particle types within an event~\cite{collaboration2020, abi2020}. This approach taken by
-DUNE is called \emph{multi-task} learning and is discussed in detail within
+different particle types within an event~\cite{collaboration2020, abi2020}. This approach is
+called \emph{multi-task} learning and is discussed in detail within
 \SectionRef{sec:cnn_baseline_outputs}.
 
 Applications to water Cherenkov detectors have also been made by both the Daya Bay
@@ -79,7 +79,7 @@ the majority of water Cherenkov neutrino experiments for event analysis. A prime
 fiTQun algorithm developed for the Super-Kamiokande detector, used for both
 atmospheric~\cite{jiang2019} and T2K~\cite{missert2017} analyses.
 
-\subsection{Likelihood based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Likelihood-based reconstruction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_reco} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The event reconstruction methodology is simple in theory: for a given set of hypothesised charged
@@ -123,9 +123,8 @@ following:
     \item the initial kinetic energy of the particle ($E_{k}$); and
     \item the particle type (muon, electron or photon).
 \end{itemize}
-For a photon hypothesis (identical to an electron hypothesis in reality) the distance between the
-interaction vertex and the beginning of the electromagnetic shower is also included as a
-parameter.
+For a photon hypothesis the distance between the interaction vertex and the beginning of the
+electromagnetic shower is also included as a parameter.
 
 The hypothesised tracks are then initialised using the list of seeds found in the seeding
 procedure in descending order of Hough peak height score. As the seeding algorithms do not
@@ -191,21 +190,20 @@ inputs include:
           \FigureRef{fig:digi_likelihood}).
 \end{itemize}
 
-The above list demonstrates a fundamental problem with the likelihood based approach. Namely, it
+The above list demonstrates a fundamental problem with the likelihood-based approach. Namely, it
 is heavily reliant on the accuracy of multiple low-level inputs and their associated use in human
 implemented software. If a physical process is not modelled appropriately or more crucially
-overlooked (such as the hadronic component of neutrino events is here), then the prediction
-accuracy of PMT charges and hit times is affected, impacting the performance of the best-fit
-parameters.
+overlooked, then the prediction accuracy of PMT charges and hit times is affected, impacting the
+performance of the best-fit parameters.
 
-Moreover, the likelihood based approach requires a predefined track hypothesis per fit. This
+Moreover, the likelihood-based approach requires a predefined track hypothesis per fit. This
 restriction is at odds with the broad array of neutrino events expected within \chips detector
 modules. Many possible combinations of final state particles are possible, making the
 implementation of an approach where all possible events are considered, challenging. For example,
 the very similar Super-Kamiokande fiTQun algorithm attempts multiple fits for each event,
 sequentially adding charged particles to the hypothesis until the best-fit is found. This
-technique vastly increases the time required to analyse a single event, still ignores some
-possible scenarios, and can never be fully rigorous.
+technique not only vastly increases the time required to analyse a single event, but can never be
+fully rigorous as it still ignores some scenarios.
 
 \subsection{Event classification}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:cnn_old_pid} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -219,7 +217,7 @@ Two simple neural networks are used, the first for CC $\nu_{e}$ - CC $\nu_{\mu}$
 the second for CC $\nu_{e}$ - NC separation. Both contain a single hidden layer (as described in
 the following \SectionRef{sec:cnn_theory}) with the number of neurons equal to the number of input
 parameters plus five. Output variables from both a single electron track and single muon track
-hypothesis fit to each event are used for both networks, including:
+hypothesis fit are used for both networks, including:
 \begin{itemize}
     \item the $\Delta\log\mathcal{L}$ between $e$ and $\mu$ hypothesis for both time and charge
           components;
@@ -230,7 +228,8 @@ hypothesis fit to each event are used for both networks, including:
     \item the fraction of predicted charge outside the ring for both the $e$ and $\mu$ hypotheses;
     \item the ratio of the total predicted charged to the total measured charge for both the $e$
           and $\mu$ hypothesis;
-    \item the ratio of the reconstructed energy to the total measured charge;
+    \item the ratio of the reconstructed energy to the total measured charge for both the $e$ and
+          $\mu$ hypotheses;
     \item the reconstructed track direction under the $e$ hypothesis;
     \item the fraction of hits in the downstream half of the detector;
     \item the number of seeds generated by the Hough transform seeding algorithm; and
@@ -248,7 +247,7 @@ The principal limitation of this approach is that the input features are restric
 have been imagined (requiring extensive domain knowledge) and then implemented in software. The
 current list is undoubtedly non-exhaustive of all the possible variables and combinations of
 variables that can, in theory, be used for discrimination between events. Additionally, any
-mistakes in the likelihood based reconstruction and, therefore, input variables to the neural
+mistakes in the likelihood-based reconstruction and, therefore, input variables to the neural
 networks, can lead to incorrect classification of events.
 
 \section{The theory of neural networks} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,7 +297,7 @@ and one is output for each class. The forward passing of information from one la
 why neural networks can also be referred to as \emph{feed-forward graphs}.
 
 For a neuron $i$, $a_{i}(\vec{x})$ can be decomposed into a neuron specific linear operation,
-followed by a non-linear operation, which is the same across all neurons. The linear operation
+followed by a non-linear operation which is the same across all neurons. The linear operation
 consists of the dot product of the input vector $\vec{x}$ with a vector of weights
 $\vec{w}^{(i)}=(w_{1}^{(i)}, w_{2}^{(i)},\dots,w_{k}^{(i)})$, plus a bias term $b^{(i)}$:
 \begin{equation} % NETWORK BASIC EQUATION %
@@ -337,7 +336,7 @@ for reference.
 
 Supervised neural network training uses labelled example data to iteratively find the optimal
 weights and biases (the network parameters) to maximise output performance. A \emph{loss function}
-$E(\vec{w})$ is defined to quantify the difference between the network output and truth label for
+$E(\vec{w})$, is defined to quantify the difference between the network output and truth label for
 each example, where $\vec{w}$ is the vector of network parameters. For a given input example
 $(\vec{x}_{i}, y_{i})$, with $\vec{x}_{i}$ being the input parameters and $y_{i}$ the known truth
 label, the network generates an output $\hat{y}_{i}(\vec{w})$. Using this notation, we can
@@ -380,8 +379,8 @@ most often used as the loss function, with
 
 To find the optimal network parameters for the given task the loss function output (the
 \emph{loss}) is iteratively minimised until it converges to the minimum (or in reality a local
-minimum that performs well). This is done by updating the network parameters at each iteration $t$
-to move in the direction of the loss gradient, using the update rule
+minimum that performs well). This is done by updating the network parameters at each iteration
+$t$, to move in the direction of the loss gradient, using the update rule
 \begin{equation} % UPDATE EQUATION %
     \vec{w}_{t+1}=\vec{w}_{t}-\eta_{t}\nabla_{\vec{w}}E(\vec{w}),
     \label{eq:update_rule}
