@@ -1,41 +1,41 @@
 \chapter{Summary and conclusion} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:conclusion} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This thesis has presented a range of work for the \chips neutrino detector R\&D project. \chips
-puts forward a novel water Cherenkov based concept to counter the vast expense, increased
-complexity, and long construction time expected from future long-baseline neutrino oscillation
-experiments, allowing for affordable and practical megaton scale detectors. As detailed, this feat
-is possible via a series of steps: deploying detector modules in bodies of water on the Earth's
-surface rather than deep underground; using commercially available rather than bespoke components
-wherever possible; and optimising photocathode coverage to study accelerator beam neutrinos
-exclusively. These steps reduce the total cost per kt of target mass to between \$200k-\$300k. 
+This thesis presented a range of work for the \chips neutrino detector R\&D project. \chips puts
+forward a novel water Cherenkov based concept to counter the vast expense, increased complexity,
+and long construction time expected from future long-baseline neutrino oscillation experiments. As
+detailed, this feat is possible via a series of steps: deploying detector modules in bodies of
+water on the Earth's surface rather than deep underground; using commercially available rather
+than bespoke components wherever possible; and optimising photocathode coverage to study
+accelerator beam neutrinos exclusively. These steps reduce the total cost per kt of sensitive mass
+to between \$200k-\$300k and should allow for megaton scale detectors to become a reality.
 
 Moreover, \chips detector modules are expected to be relatively easy to build, quick to deploy,
 and can be upgraded once operational, making them a much more attractive proposition when
 resources are constrained. It is hoped that future \chips detectors will be able to help answer
-some of the key unsolved questions in neutrino physics, such as the neutrino hierarchy ambiguity
-and the search for CP violation in neutrino oscillations.
+some of the key unsolved questions of neutrino physics, such as the mass hierarchy ambiguity and
+the search for CP violation in neutrino oscillations.
 
-During the summer of 2019 a \chips prototype, the \chipsfive detector was deployed into the
-Wentworth 2W disused mine pit in northern Minnesota, USA. Although \chipsfive is not yet fully
-proven and plans are in flux, the amount of knowledge gained during its construction, deployment,
-and initial commissioning can not be understated. Alongside proving that a large \chips detector
-module can be constructed and deployed, \chipsfive acted as a brilliant testbed for the
-development of the \chips data acquisition system. 
+During the summer of 2019 a \chips prototype, \chipsfive was deployed into the Wentworth 2W
+disused mine pit in northern Minnesota, USA. Although \chipsfive is not yet fully proven and
+future plans are still in flux, the amount of knowledge gained during its construction,
+deployment, and initial commissioning can not be understated. Alongside proving that a large
+\chips detector module can be constructed and deployed, \chipsfive acted as a brilliant testbed
+for the development of the \chips data acquisition system. 
 
 Notably, the use of commercially available single-board Beaglebone machines and the open-source
 Elasticsearch monitoring solution were found to be highly successful. Within both future \chips
-detectors and the broader experimental particle physics field, it is clear that bespoke components
+detectors, and hopefully the broader experimental particle physics field, bespoke components
 should continue to be phased out, with commercially available or open-source components used
-instead. Not only does this drastically reduce the implementation effort required by
-collaborators, but leads to a much improved final result due to the pooling of resources. 
+instead. Not only does this drastically reduce the implementation effort required by collaborators
+and cost, but leads to a much improved final result due to the pooling of resources. 
 
-As is the case within the world around us, future \chips concept detectors will make
+As is the case within the world around us, future \chips concept detectors will also make
 ever-increasing use of modern deep learning techniques. This comes as a direct result of the
 dramatic improvement in \chipsfive reconstruction and classification performance brought about by
 the principal work presented in this thesis. Three forms of a Convolutional Neural Network have
 been trained to reject cosmic muon events, classify beam events, and estimate neutrino energies,
-all using only lightly modified versions of the raw detector events as input. This new approach
+all using only a slightly modified version of the raw detector event as input. This new approach
 replaces the standard likelihood-based reconstruction and simple neural network classification,
 greatly increasing generalisability and processing speed, whilst reducing human influence (bias).
 
@@ -43,37 +43,35 @@ With the primary goal of selecting an efficient and pure appeared CC $\nu_{e}$ s
 approach is found to provide excellent performance. The vast cosmic muon background of \chipsfive
 is found to be rejected (without the help of a veto) by a factor of $\sim1.5\times10^{-8}$,
 leading to negligible contamination of the beam selection. Beam classification performance is
-found to be surprisingly comparable to the much more complex \nova and T2K experiments, with a
+found to be surprisingly comparable to the more complex \nova and T2K experiments, with a
 $70.9\pm0.4\%$ efficiency and $71.0\pm0.6\%$ purity of the selected CC $\nu_{e}$ sample when both
 the appeared and intrinsic CC $\nu_{e}$ beam components are considered signal. Similarly, neutrino
 energy estimation is relatively comparable to other experiments. A 10.3\% and 12.6\% neutrino
 energy resolution on signal CC $\nu_{e}$ and CC $\nu_{\mu}$ events respectively, is achieved,
 falling to 7.1\% and 6.2\% when just quasi-elastic events are considered. 
 
-Not only are the new networks found to provide excellent performance, but their inner workings are
-found to be explainable and their outputs robust to distributional changes in the input. These
-efforts rebut the common and justified concern that they are too often just used as a black box
-(input in, outputs out). Cherenkov ring and Hough peak features are clearly extracted from the
-input images when looking at the output feature maps. This results in a learnt representation of
-the inputs that is seen to have strong discriminating power between classification categories when
-visualised using the t-SNE technique. Additionally, realistic modifications to the input hit time
-and charges, as well as the addition of random noise, are all found to have a negligible effect on
-output performance.
+Not only are the trained convolutional neural networks found to provide excellent performance, but
+their inner workings are found to be explainable and their outputs robust to distributional
+changes in the input. These findings rebut the common and justified concern that they are too
+often just used as a black box (input in, outputs out). Cherenkov ring and Hough peak features are
+clearly extracted from the input images, resulting in a learnt representation of the inputs that
+are seen to have strong discriminating power between categories when visualised using the t-SNE
+technique. Additionally, realistic modifications to the input hit times and charges, as well as
+the addition of random noise, are all found to have a negligible effect on output performance.
 
-------------------
+It is sincerely hoped that other water Cherenkov neutrino experiments will take inspiration from,
+and then build upon the work presented in this thesis for their own Convolutional Neural Network
+implementations. Although the results presented in this work are incredibly compelling, there are
+still clear avenues for exploration and improvement. These are all principally related to the
+critical performance drivers outlined within this thesis. 
 
-It is sincerely hoped that other water Cherenkov neutrino experiments will take inspiration from
-the work presented in this thesis for their own Convolutional Neural Network implementations.
-Although the results presented in this work are compelling, there are still many avenues for
-exploration and improvement in any future work. These are principally related to the critical
-performance drivers outlined within the thesis. Firstly, any efforts to remove detector induced
-distortions in the input event maps and improve the estimation of the interaction vertex position
-should increase performance. Secondly, comprehensively study the training samples used, different
-tasks are probably optimised using different samples, here we found they had to match, such as a
-training sample of only contained events for beam classification. Alternatively, a loss function
-that focuses on the physics sensitivity rather than simple accuracy may allow for different
-training samples to be used. Finally, multi-task learning clearly shows promise, additional tasks
-should be used to separate exclusive final states, for example, increasing performance. Only by
-further and more widespread use will the full potential of such methods become truly apparent. It
-is very likely we do not know yet! Real power not understood. Time will tell what additional
-impact they may have within neutrino physics.
+Firstly, generating the input event maps to focus on the underlying Cherenkov profiles is found be
+incredibly important; therefore, any methodology to remove distortions further or more accurately
+determine the interaction vertex position will be beneficial. Secondly, the distribution of events
+(in energy or type) used within the training sample heavily impacts performance; thus, a
+comprehensive study of this behaviour could optimise the sample used. Finally, multi-task learning
+clearly shows promise, with further trial-and-error or a more generalised approach likely to
+uncover additional useful tasks.
+
+It is highly likely that the true potential of these methods is just beginning to be realised. As
+is always the case, only time will tell.
