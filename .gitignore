@@ -5,7 +5,6 @@
 *.so
 *ipynb_checkpoints/
 build/main.pdf
-data/*run*
 
 */__pycache__/
 

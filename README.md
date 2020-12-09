@@ -1,7 +1,7 @@
 # phd-thesis
 
 [![Pipeline](https://gitlab.com/JoshTingey/phd-thesis/badges/master/pipeline.svg)](https://gitlab.com/JoshTingey/phd-thesis/pipelines)
-[![Pipeline](https://img.shields.io/badge/thesis%20link-pdf-blue)](https://joshtingey.gitlab.io/phd-thesis/thesis.pdf)
+[![Link](https://img.shields.io/badge/thesis%20link-pdf-blue)](https://joshtingey.gitlab.io/phd-thesis/thesis.pdf)
 
 This repository contains everything for my UCL PhD thesis "Convolution neural networks for
 the CHIPS neutrino detector R&D project". 
@@ -13,3 +13,5 @@ pdf built using...
 ```bash
 make
 ```
+
+You will need a full texlive installation (see .devcontainer folder for complete environment details)
