@@ -42,8 +42,8 @@ excavation and expensive structural support, the cost of construction can be dra
 
 Additionally, the common practice of building majority bespoke components is replaced by using
 modern commercially available components wherever possible. The number of expensive elements, such
-as photomultiplier tubes are also reduced by only considering multi-$\GeV$ accelerator beam
-neutrino events, such that full high-density detector instrumentation is not required.
+as photomultiplier tubes are also reduced by only considering multi-\GeV accelerator beam neutrino
+events, such that full high-density detector instrumentation is not required.
 
 Furthermore, \chips detectors are not only designed to be cheap, but practical. Easy to build,
 quick to deploy, and upgradable once operational, multiple detector modules can be flexibly
@@ -62,14 +62,14 @@ efforts, each aiming to prove the viability of a crucial component of the \chips
           \chips concept detector modules are possible. Two prototype detectors have so far been
           deployed. Firstly, the small \chipsm module shown in \FigureRef{fig:chips_m}, deployed
           into a flooded mine pit in northern Minnesota during the summer of 2014~\cite{perch2015,
-          pfutznerProto2017, pfutzner2017}. Secondly, the much larger \unit{5}{\text{kt}}
-          \chipsfive module, deployed into the same pit during the summer of 2019 and detailed in
+          pfutznerProto2017, pfutzner2017}. Secondly, the much larger \SI{5}{\text{kt}} \chipsfive
+          module, deployed into the same pit during the summer of 2019 and detailed in
           \SectionRef{sec:chips_detector}.
 
     \item \textbf{Water filtration:} Aiming to prove that adequate water purity can be achieved
           using cheap, commercially available filtration. Extensive studies have proven that by
           filtering water directly from bodies of water on the Earth's surface (including flooded
-          mine pits), adequate photon attenuation lengths of greater than \unit{100}{\text{m}} are
+          mine pits), adequate photon attenuation lengths of greater than \SI{100}{\text{m}} are
           achievable~\cite{amat2017, campbell2020}.
 
     \item \textbf{Physics sensitivity:} Aiming to prove that \chips concept detector modules (even
@@ -94,7 +94,7 @@ efforts, each aiming to prove the viability of a crucial component of the \chips
 \begin{figure} % CHIPS-M DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/chips_m.pdf}
     \caption[Picture of the \chipsm detector just before deployment]
-    {Picture of the \unit{3.3}{\text{m}} high \chipsm detector just before deployment. Temporary
+    {Picture of the \SI{3.3}{\text{m}} high \chipsm detector just before deployment. Temporary
         floatation bags are attached to the top rim of the detector, while the umbilical cord
         carrying data, power, and filtered water is attached to the base.}
     \label{fig:chips_m}
@@ -120,10 +120,10 @@ neutrino beam, including the future \numi replacement, LBNF.
 The \numi beam is an accelerator muon neutrino beam produced at Fermilab near Chicago in the USA.
 Beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to provide a
 higher intensity and energy, principally to achieve a peak in neutrino energy near the
-$\sim$\unit{1.5}{\GeV} $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum for \nova. Currently, the
-\numi beam achieves an intensity of \unit{700}{\text{kW}} (\unit{740}{\text{kW}} at peak) making
-it the most powerful such beam in the world. A schematic of the \numi beamline configuration is
-shown in \FigureRef{fig:numi_beam}.
+$\sim$\SI{1.5}{\GeV} $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum for \nova. Currently, the
+\numi beam achieves an intensity of \SI{700}{\text{kW}} (\SI{740}{\text{kW}} at peak) making it
+the most powerful such beam in the world. A schematic of the \numi beamline configuration is shown
+in \FigureRef{fig:numi_beam}.
 
 \begin{figure} % NUMI BEAM DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/4-chips/numi_beam.pdf}
@@ -134,13 +134,13 @@ shown in \FigureRef{fig:numi_beam}.
     \label{fig:numi_beam}
 \end{figure}
 
-Every \unit{1.33}{\text{seconds}} a \unit{10}{\micro\text{s}} long spill of protons accelerated to
-\unit{120}{\GeV} by the Main Injector ring are directed towards a stationary graphite target. The
+Every \SI{1.33}{\text{seconds}} a \SI{10}{\micro\text{s}} long spill of protons accelerated to
+\SI{120}{\GeV} by the Main Injector ring are directed towards a stationary graphite target. The
 resulting interactions create a shower of hadrons containing predominantly pions and kaons. The
 hadrons are passed through a focusing system of two magnetic horns tuned principally to focus
 positively charged pions along the beamline while rejecting other particles. After focusing, any
 surviving hadrons are allowed to decay in flight to a beam of muon neutrinos in a
-\unit{675}{\text{m}} long decay pipe via the processes:
+\SI{675}{\text{m}} long decay pipe via the processes:
 \begin{align} % NUMI DECAY EQUATIONS %
     \pi^{+} & \rightarrow\mu^{+}+\nu_{\mu}, \label{eq:pi_decays}   \\
     K^{+}   & \rightarrow\mu^{+}+\nu_{\mu}. \label{eq:kaon_decays}
@@ -158,7 +158,7 @@ leaving just the neutrino components of the beam.
 Long-baseline neutrino experiments typically consist of a \emph{near} detector to measure the
 neutrino composition at source and a much larger \emph{far} detector to measure the oscillated
 composition after many hundreds of kilometres. The \numi beamline contains three detectors after
-\unit{300}{\text{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the near detector for
+\SI{300}{\text{m}} of rock: The MINERvA spectrometer~\cite{mcfarland2006}, the near detector for
 MINOS (now used by MINERvA), and the near detector for \nova. \chips prototypes within the \numi
 beam (such as \chipsfive) will not have a dedicated near detector; therefore, data from the above
 detectors will be crucial for physics analysis in order to constrain the beam composition and
@@ -192,15 +192,14 @@ energy and is restricted to a narrowing range of decreasing energies.
 Known as the \emph{off-axis effect} this phenomenon is used by both \nova and T2K to create a
 narrow energy peak focused on the important $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum. By
 reducing the tail of high energy neutrinos, the number of background NC events can also be greatly
-reduced, as is the case for the \unit{7}{\text{mrad}} off-axis \chipsfive detector module.
+reduced, as is the case for the \SI{7}{\text{mrad}} off-axis \chipsfive detector module.
 
 \begin{figure} % OFF-AXIS FLUX DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/numi_axis.pdf}
     \caption[Muon neutrino flux for different \numi detectors at different off-axis angles]
     {Muon neutrino flux for different \numi detectors at different off-axis angles. Shown are the
-        neutrino energy spectrums for MINOS (on-axis), \chipsfive (\unit{7}{\text{mrad}}
-        off-axis), and \nova (\unit{14}{\text{mrad}} off-axis). Figure taken from
-        \ReferenceRef{adamson2013}.}
+        neutrino energy spectrums for MINOS (on-axis), \chipsfive (\SI{7}{\text{mrad}} off-axis),
+        and \nova (\SI{14}{\text{mrad}} off-axis). Figure taken from \ReferenceRef{adamson2013}.}
     \label{fig:numi_axis}
 \end{figure}
 
@@ -257,8 +256,8 @@ path length is given by
     \label{eq:cherenkov_emission}
 \end{equation}
 where $\alpha$ is the fine structure constant ($\sim1/137$)~\cite{particle2020}. Integrating over
-the range of wavelengths for which PMTs are typically sensitive, \unit{350}{\text{nm}} to
-\unit{650}{\text{nm}}, and using $\beta\sim 1$ and $n\sim 1.33$ gives approximately $240$ photons
+the range of wavelengths for which PMTs are typically sensitive, \SI{350}{\text{nm}} to
+\SI{650}{\text{nm}}, and using $\beta\sim 1$ and $n\sim 1.33$ gives approximately $240$ photons
 emitted per cm travelled by the charged particle~\cite{perch2017}.
 
 By analysing the Cherenkov rings of light recorded by the PMTs on the walls of the detector,
@@ -282,9 +281,9 @@ emitted for both electrons and muons as a function of distance from the interact
     \includegraphics[width=\textwidth]{diagrams/4-chips/cc_numu_event.pdf}
     \caption[Event display of a simulated beam CC $\nu_{\mu}$ event]
     {Event display of a simulated beam CC $\nu_{\mu}$ quasi-elastic event with a single muon in
-        the final state of energy \unit{2.36}{\GeV}. Both the unrolled barrel and endcaps are
-        shown with every entry representing a hit PMT with the colour indicating the collected
-        charge. The purple ring indicates the true muon Cherenkov cone boundary projected onto the
+        the final state of energy \SI{2.36}{\GeV}. Both the unrolled barrel and endcaps are shown
+        with every entry representing a hit PMT with the colour indicating the collected charge.
+        The purple ring indicates the true muon Cherenkov cone boundary projected onto the
         detector walls.}
     \label{fig:cc_numu_event}
 \end{figure}
@@ -293,10 +292,10 @@ emitted for both electrons and muons as a function of distance from the interact
     \includegraphics[width=\textwidth]{diagrams/4-chips/cc_nue_event.pdf}
     \caption[Event display of a simulated beam CC $\nu_{e}$ event]
     {Event display of a simulated beam CC $\nu_{e}$ quasi-elastic event with a single electron in
-        the final state of energy \unit{1.05}{\GeV}. Both the unrolled barrel and endcaps are
-        shown with every entry representing a hit PMT with the colour indicating the collected
-        charge. The purple ring indicates the true electron Cherenkov cone boundary projected onto
-        the detector walls.}
+        the final state of energy \SI{1.05}{\GeV}. Both the unrolled barrel and endcaps are shown
+        with every entry representing a hit PMT with the colour indicating the collected charge.
+        The purple ring indicates the true electron Cherenkov cone boundary projected onto the
+        detector walls.}
     \label{fig:cc_nue_event}
 \end{figure}
 
@@ -305,8 +304,8 @@ emitted for both electrons and muons as a function of distance from the interact
     \caption[Fraction of Cherenkov photons emitted as a function of distance]
     {Fraction of the total number of Cherenkov photons emitted as a function of the distance from
         the interaction vertex for both electrons and muons with an initial energy of
-        \unit{2.5}{\GeV}. Multiple particles within the electron-induced electromagnetic shower
-        emit their Cherenkov radiation over a short distance and in slightly different directions
+        \SI{2.5}{\GeV}. Multiple particles within the electron-induced electromagnetic shower emit
+        their Cherenkov radiation over a short distance and in slightly different directions
         (fuzzy). Conversely, a muon travels relatively much further emitting an approximately
         constant level of Cherenkov radiation as it does so (clean).}
     \label{fig:emission distance}
@@ -327,7 +326,7 @@ given by
     (1-\cos\theta_{ij})=\frac{m_{\pi}^2}{2E_{i}E_{k}},
 \end{equation}
 where $m_{\pi}$ is the invariant mass of the $\pi^{0}$ and $E_{i}$ and $E_{j}$ are the energies of
-the two photons respectively. Therefore, for a $\pi^{0}$ decaying to two \unit{1}{\GeV} photons,
+the two photons respectively. Therefore, for a $\pi^{0}$ decaying to two \SI{1}{\GeV} photons,
 there is just $8^{\circ}$ of separation between the rings, making them difficult to tell apart.
 This distinction is especially hard when electron like rings are also fuzzy. Alternatively, if the
 two photons have an unequal energy distribution, such that one is much more energetic than the
@@ -338,12 +337,12 @@ what looks like a single electron ring, producing a misidentification.
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chipsfive is the first large scale prototype detector module for the \chips project. At
-\unit{25}{\text{m}} wide and \unit{12}{\text{m}} high, \chipsfive has an inner surface area of
-\unit{1924}{\text{m}^2} and a total target mass of \unit{5.9}{\text{kt}}. Via the process of
-design, construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips
-concept for future full-scale ($\sim$\unit{15}{\text{kt}}) modules. Consequently, \chipsfive is
-designed such that the details outlined in this section are entirely characteristic of what a
-full-sized \chips module is envisioned to be.
+\SI{25}{\text{m}} wide and \SI{12}{\text{m}} high, \chipsfive has an inner surface area of
+\SI{1924}{\text{m}^2} and a total target mass of \SI{5.9}{\text{kt}}. Via the process of design,
+construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips concept
+for future full-scale ($\sim$\SI{15}{\text{kt}}) modules. Consequently, \chipsfive is designed
+such that the details outlined in this section are entirely characteristic of what a full-sized
+\chips module is envisioned to be.
 
 First, the location, structure, instrumentation, and water filtration are detailed for the
 complete detector. A discussion of the construction and deployment procedure follows before the
@@ -355,12 +354,12 @@ current status is presented. The \chipsfive DAQ implementation is detailed separ
 
 \chipsfive is located at the Wentworth 2W pit in northern Minnesota, USA, near the small town of
 Hoyt Lakes. A disused and flooded surface Taconite ore (a type of iron ore) mine pit, Wentworth 2W
-is located \unit{7}{\text{mrad}} off the \numi axis at a distance of \unit{712}{\text{km}} from
-the beam target. Roughly \unit{0.8}{\text{km}} by \unit{1.2}{\text{km}} in size with a maximum
-depth of \unit{60}{\text{m}} ($\pm$\unit{3}{\text{m}} throughout the year), the pit allows for a
-water overburden of approximately \unit{50}{\text{m}} above \chipsfive when resting on the bottom.
-With an average daily low temperate of $-24^{\circ}\text{C}$ in January, the pit freezes over
-during winter, therefore, work is only possible during the summer months of May to October.
+is located \SI{7}{\text{mrad}} off the \numi axis at a distance of \SI{712}{\text{km}} from the
+beam target. Roughly \SI{0.8}{\text{km}} by \SI{1.2}{\text{km}} in size with a maximum depth of
+\SI{60}{\text{m}} ($\pm$\SI{3}{\text{m}} throughout the year), the pit allows for a water
+overburden of approximately \SI{50}{\text{m}} above \chipsfive when resting on the bottom. With an
+average daily low temperate of $-24^{\circ}\text{C}$ in January, the pit freezes over during
+winter, therefore, work is only possible during the summer months of May to October.
 
 A sizeable earthen ramp on the south side of Wentworth 2W is used for detector construction. The
 construction site is easily accessible by road and well connected to power due to the heavy
@@ -393,10 +392,10 @@ shown in \FigureRef{fig:from_the_sky}.
 \subsection{Structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_structure} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The structure of \chipsfive consists primarily of two \unit{26}{\text{m}} diameter and
-\unit{1.3}{\text{m}} high lightweight stainless steel circular \emph{endcaps} that form the top
-and bottom of its cylindrical shape. During construction the conveniently named \emph{top-cap} is
-held above the \emph{bottom-cap} by \unit{1.5}{\text{m}} long steel struts as shown in
+The structure of \chipsfive consists primarily of two \SI{26}{\text{m}} diameter and
+\SI{1.3}{\text{m}} high lightweight stainless steel circular \emph{endcaps} that form the top and
+bottom of its cylindrical shape. During construction the conveniently named \emph{top-cap} is held
+above the \emph{bottom-cap} by \SI{1.5}{\text{m}} long steel struts as shown in
 \FigureRef{fig:frame}. This configuration allows for the endcap instrumentation, detailed in
 \SectionRef{sec:chips_detector_instrumentation}, to be easily installed.
 
@@ -410,8 +409,8 @@ held above the \emph{bottom-cap} by \unit{1.5}{\text{m}} long steel struts as sh
 \end{figure}
 
 The two endcaps are connected by 28 Dyneema cables attached around their perimeter, each
-\unit{12}{\text{m}} in length. Additionally, a total of 48 air-filled Polyvinyl Chloride (PVC)
-pipes, each \unit{16}{\text{inches}} in diameter, are attached to the frame of the top-cap to make
+\SI{12}{\text{m}} in length. Additionally, a total of 48 air-filled Polyvinyl Chloride (PVC)
+pipes, each \SI{16}{\text{inches}} in diameter, are attached to the frame of the top-cap to make
 it buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, pulling the
 Dyneema cable taut and forming the final expanded detector shape shown in
 \FigureRef{fig:chips_render}.
@@ -439,39 +438,39 @@ does not take any of the structural strain.
 \chipsfive is instrumented with PMTs arranged within distinct plane like structures called Planar
 Optical Modules (\textsc{Pom}s), which take inspiration from the Digital Optical Modules
 (\textsc{Dom}s) used by IceCube and KM3NeT~\cite{hanson2006, eijk2015}. Each \textsc{Pom} is a
-roughly \unit{2}{\text{m}} by \unit{3}{\text{m}} array of watertight PVC tubing equipped with
-between $15$ to $30$ PMTs, as well as the lowest level of DAQ electronics. Commercially available
-PVC piping and connectors are used to form the structure of each plane, glued together with
-standard PVC primer and cement.
+roughly \SI{2}{\text{m}} by \SI{3}{\text{m}} array of watertight PVC tubing equipped with between
+$15$ to $30$ PMTs, as well as the lowest level of DAQ electronics. Commercially available PVC
+piping and connectors are used to form the structure of each plane, glued together with standard
+PVC primer and cement.
 
 There are two types of \textsc{Pom} used within \chipsfive, differentiated by the PMTs and DAQ
 electronics they use and named after the institution at which they were primarily developed.
-Firstly, \emph{Nikhef} \textsc{Pom}s use \unit{88}{\text{mm}} wide HZC PMTs~\cite{hzc}, with
+Firstly, \emph{Nikhef} \textsc{Pom}s use \SI{88}{\text{mm}} wide HZC PMTs~\cite{hzc}, with
 electronics developed for the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly,
-\emph{Madison} \textsc{Pom}s use \unit{3}{\text{inch}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
+\emph{Madison} \textsc{Pom}s use \SI{3}{\text{inch}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
 electronics developed by \chips in collaboration with the Wisconsin IceCube Particle Astrophysics
 Centre (WIPAC) in Madison, Wisconsin.
 
 The HZC PMTs have a high ratio of output electrons to incident photons (quantum efficiency) of
-24.4\% at a wavelength of \unit{400}{\text{nm}}, compared to the low 12.0\% ratio achieved by the
-Hamamatsu PMTs. Furthermore, the photon hit time resolution is $\sim$\unit{2}{\text{ns}} and
-$\sim$\unit{5}{\text{ns}} for the HZC and Hamamatsu PMTs respectively.
+24.4\% at a wavelength of \SI{400}{\text{nm}}, compared to the low 12.0\% ratio achieved by the
+Hamamatsu PMTs. Furthermore, the photon hit time resolution is $\sim$\SI{2}{\text{ns}} and
+$\sim$\SI{5}{\text{ns}} for the HZC and Hamamatsu PMTs respectively.
 
 In total $6114$ HZC, and $450$ Hamamatsu PMTs are arranged into $226$ Nikhef and $30$ Madison
 \textsc{Pom}s. Every PMT is housed within an assembly as shown in
 \FigureRef{fig:nikhef_pmt_assembly} for the Nikhef case and \FigureRef{fig:madison_pmt_assembly}
 for the Madison case. Importantly, to increase the level of light collection, each Nikhef PMT is
-equipped with a \emph{light-cone} consisting of a circular reflective surface at \unit{45}{^\circ}
-to the PMT normal. The Madison PMT assembly is similar but has no light-cone. For \textsc{Pom}s
-attached to either endcap, their PMTs are angled at \unit{45}{^\circ} facing the direction of the
-beam to optimise light collection.
+equipped with a \emph{light-cone} consisting of a circular reflective surface at \ang{45} to the
+PMT normal. The Madison PMT assembly is similar but has no light-cone. For \textsc{Pom}s attached
+to either endcap, their PMTs are angled at \ang{45} facing the direction of the beam to optimise
+light collection.
 
 All PMTs within a \textsc{Pom} are connected to the lowest level of DAQ electronics contained
 within a dedicated onboard electronics box, either made from aluminium or PVC in the Nikhef or
 Madison case, respectively. A flexible PVC \emph{pigtail} is attached to each \textsc{Pom}
 electronics box containing connections to the higher level DAQ and power supply. A
 \emph{water-block} within each pigtail ensures that if either the external link or \textsc{Pom}
-becomes flooded, the other is still capable of withstanding the \unit{6}{\text{atm}} of water
+becomes flooded, the other is still capable of withstanding the \SI{6}{\text{atm}} of water
 pressure at the bottom of the pit. A fully assembled and installed Nikhef \textsc{Pom} is shown in
 \FigureRef{fig:single_plane} for reference.
 
@@ -505,7 +504,7 @@ pressure at the bottom of the pit. A fully assembled and installed Nikhef \texts
     }
     \caption[Pictures of the Madison PMT assembly]
     {A Hamamatsu PMT outside (a) and inside its insert (b). The PMT is potted inside its black PVC
-        insert to create a watertight seal that can withstand the \unit{6}{\text{atm}} of water
+        insert to create a watertight seal that can withstand the \SI{6}{\text{atm}} of water
         pressure at the bottom of the pit. A $\micro$DAQ detailed in \ChapterRef{chap:daq}, is
         seen attached to the base of the PMT in (a).}
     \label{fig:madison_pmt_assembly}
@@ -562,7 +561,7 @@ number of required PMTs~\cite{blake2016}.
 
 The \chipsfive detector module is equipped with a veto region within the top-cap frame structure
 to aid cosmic muon rejection. Separated from the main detector volume by a geomembrane liner, the
-\unit{1.3}{\text{m}} high region allows for the rejection of predominantly downward going cosmic
+\SI{1.3}{\text{m}} high region allows for the rejection of predominantly downward going cosmic
 muons by detecting the Cherenkov radiation they produce. A total of $324$ upward-facing HZC veto
 PMTs within the top-cap Nikhef \textsc{Pom}s give a veto photocathode coverage of $\sim0.6\%$. A
 graphical rendering of the full top-cap instrumentation, showing the different density regions and
@@ -579,7 +578,7 @@ veto PMTs, is shown in \FigureRef{fig:top_cap}.
 \end{figure}
 
 All \chipsfive instrumentation receives power and is connected to the highest level DAQ systems
-through a \unit{500}{\text{m}} long flexible PVC umbilical resting on the pit floor. The umbilical
+through a \SI{500}{\text{m}} long flexible PVC umbilical resting on the pit floor. The umbilical
 contains a single optical fibre for data and two shielded gauge 10 cables for power. One end of
 the umbilical is attached to the bottom-cap of the detector while the other enters a hut onshore
 containing the master power supply and onshore DAQ equipment.
@@ -588,16 +587,16 @@ containing the master power supply and onshore DAQ equipment.
 \label{sec:chips_detector_water} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Though surprisingly clear, the Wentworth 2W pit water requires filtration to reach the necessary
-\unit{30}{\text{m}} photon attenuation length for adequate light collection. Therefore, a high
-volume pump is used to continually pull the internal detector water through a \unit{500}{\text{m}}
+\SI{30}{\text{m}} photon attenuation length for adequate light collection. Therefore, a high
+volume pump is used to continually pull the internal detector water through a \SI{500}{\text{m}}
 long pipe to a filtration hut on the shore. After filtration, the water is returned to the
 detector through a second such pipe.
 
 Within the hut, ten parallel sets of filters are installed in order to achieve a reasonable flow
 rate, allowing for the full detector volume to be filtered every ten days. Each filter set
-consists of a 20 inch \unit{10}{\micro\text{m}} carbon block filter followed by a 20 inch
-\unit{0.5}{\micro\text{m}} polypropylene filter, as shown in \FigureRef{fig:filtration}. This
-configuration is found to achieve a photon attenuation length of \unit{133\pm2}{\text{m}} after
+consists of a 20 inch \SI{10}{\micro\text{m}} carbon block filter followed by a 20 inch
+\SI{0.5}{\micro\text{m}} polypropylene filter, as shown in \FigureRef{fig:filtration}. This
+configuration is found to achieve a photon attenuation length of \SI{133\pm2}{\text{m}} after
 approximately two months of constant filtering~\cite{campbell2020}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
@@ -696,7 +695,7 @@ challenging and time consuming.
 By late summer 2019, it became apparent that deployment of a fully instrumented \chipsfive would
 be impossible before the pit started to freeze over in October. Therefore, the decision was taken
 to only partially instrument the endcaps, leave the barrel walls bare, not include the veto
-separation liner, and reduce the module height to \unit{8}{\text{m}}. In October 2019 this version
+separation liner, and reduce the module height to \SI{8}{\text{m}}. In October 2019 this version
 of \chipsfive, shown in \FigureRef{fig:complete}, was deployed into the Wentworth 2W pit.
 
 Analysis of preliminary data was successful in isolating individual cosmic muon events, one of
@@ -784,27 +783,27 @@ used. Light-cones are described by a list of radial profile points in a further 
 underlying Geant4 material properties are mostly hardcoded, values within yet another
 configuration file are used to scale them. This scaling controls the water absorption, scattering
 (Rayleigh and Mie) lengths, and both the blacksheet and PMT glass reflectivity. In this work a
-photon attenuation length of \unit{50}{\text{m}} at \unit{405}{\text{nm}} is used with negligible
+photon attenuation length of \SI{50}{\text{m}} at \SI{405}{\text{nm}} is used with negligible
 scattering, the blacksheet reflectivity is set to 4\% and the PMT glass reflectivity 24\%.
 
 A veto volume can also be defined. The veto is built as either a concentric shell around the whole
 inner volume with a given thickness or solely above the top-cap with a given height. Any PMTs
 defined as facing outwards within a unit cell look into the veto volume instead of the inner
-volume. In this work, the \chipsfive geometry is given a top-cap veto of height
-\unit{1.3}{\text{m}} with a photocathode coverage matching that described in
+volume. In this work, the \chipsfive geometry is given a top-cap veto of height \SI{1.3}{\text{m}}
+with a photocathode coverage matching that described in
 \SectionRef{sec:chips_detector_instrumentation}.
 
 Once the full generation of the Geant4 geometry is complete, the final state tracks for each
 successive event to be simulated are loaded from either the beam or cosmic event generator files
 described in \SectionRef{sec:chips_monte_carlo_beam} and
 \SectionRef{sec:chips_monte_carlo_cosmic}. Beam event vertices are randomly placed within the
-inner detector volume, while cosmic vertices are set at \unit{1}{\text{m}} above the detector
+inner detector volume, while cosmic vertices are set at \SI{1}{\text{m}} above the detector
 volume. WCSim then simulates the passage of all particles through the detector materials, with
 interactions, decays, and Cherenkov emission all considered.
 
 Whenever a photon is calculated to have hit the photocathode of a PMT, an angular dependent
 acceptance efficiency is applied to see if it is recorded. If accepted, all hits within
-\unit{200}{\text{ns}} windows are grouped to form a single recorded hit, with a smeared first hit
+\SI{200}{\text{ns}} windows are grouped to form a single recorded hit, with a smeared first hit
 time used as the recorded time. The standard WCSim methodology is used to determine the total
 output charge of the hit, given the number of incident photons. This procedure involves a single
 photoelectron charge distribution being repeatedly probed for each photon, before the combined sum
@@ -864,13 +863,13 @@ oscillated neutrino composition.
 The Cosmic-Ray Shower Library (CRY)~\cite{hagmann2012_1, hagmann2012_2} is used for cosmic ray
 event generation. Both the solar cycle and Earth's geomagnetic field are taken into account, with
 the \mbox{\chipsfive} latitude ($47.56^{\circ}$ N) and deployment date (30th October 2019) used as
-input. Single muons are generated at sea level by CRY within a \unit{1}{\text{km}} by
-\unit{1}{\text{km}} area, with the detector at it's centre. Note that only single muon events (the
+input. Single muons are generated at sea level by CRY within a \SI{1}{\text{km}} by
+\SI{1}{\text{km}} area, with the detector at it's centre. Note that only single muon events (the
 dominant cosmic component) are considered for simplicity.
 
-Assuming a \chipsfive overburden of \unit{50}{\text{m}} and a \unit{2.2}{\MeV/\text{cm}^{2}} muon
+Assuming a \chipsfive overburden of \SI{50}{\text{m}} and a \SI{2.2}{\MeV/\text{cm}^{2}} muon
 energy loss in water as suggested by \ReferenceRef{klimushin2001}, the muon parameters are updated
-to estimate their values at \unit{1}{\text{m}} above the detector. All muons whose path does not
+to estimate their values at \SI{1}{\text{m}} above the detector. All muons whose path does not
 cross the detector volume or do not have sufficient energy to reach the detector are
 discarded~\cite{chipsgen2020}. All accepted muon tracks are stored as output in a NUANCE formatted
 file for use in the detector simulation.
@@ -878,21 +877,20 @@ file for use in the detector simulation.
 To use generated cosmic events in analysis, studies have looked at the likely cosmic rate for
 \chips detector modules at different water overburden depths~\cite{son2013}. In this work, the
 fits shown in \FigureRef{fig:cosmic_rate} for a cylindrical detector of both height and diameter
-equal to \unit{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of
-\unit{11.8}{\text{KHz}} at \unit{50}{\text{m}} of overburden.
+equal to \SI{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of
+\SI{11.8}{\text{KHz}} at \SI{50}{\text{m}} of overburden.
 
-Given the \unit{10}{\micro\text{s}} long \numi beam spill occurring every
-\unit{1.33}{\text{seconds}}, an in spill cosmic rate of $\sim2.1$ million events per year is
-calculated with an in spill occupancy of 9\%. Considering a typical event takes
-$\sim$\unit{100}{\text{ns}} to unfold, there is approximately a 0.3\% chance that any beam event
-overlaps with a cosmic muon. This low coincidence shows just how powerful a short beam spill can
-be at reducing the significant cosmic background.
+Given the \SI{10}{\micro\text{s}} long \numi beam spill occurring every \SI{1.33}{\text{seconds}},
+an in spill cosmic rate of $\sim2.1$ million events per year is calculated with an in spill
+occupancy of 9\%. Considering a typical event takes $\sim$\SI{100}{\text{ns}} to unfold, there is
+approximately a 0.3\% chance that any beam event overlaps with a cosmic muon. This low coincidence
+shows just how powerful a short beam spill can be at reducing the significant cosmic background.
 
 \begin{figure} % COSMIC RATE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cosmic_rate.pdf}
     \caption[Expected \chipsfive cosmic muon rate as a function of water overburden depth]
-    {Expected cosmic muon rate as a function of water overburden depth for a \unit{24}{\text{m}}
-        high and \unit{24}{\text{m}} wide \chips detector module. Shown are fits made to the work
+    {Expected cosmic muon rate as a function of water overburden depth for a \SI{24}{\text{m}}
+        high and \SI{24}{\text{m}} wide \chips detector module. Shown are fits made to the work
         originally conducted in \ReferenceRef{bugaev1998}. Figure taken from
         \ReferenceRef{son2013}.}
     \label{fig:cosmic_rate}

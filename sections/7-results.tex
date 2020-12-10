@@ -13,10 +13,10 @@ categories of understanding are explored (each a section of this chapter):
 Beforehand, a hugely impactful advantage of the CNN approach must be highlighted. Although the
 time taken to train the CNNs in this work is approximately two days, once trained the time
 required to calculate all network outputs (inference time) for a single event is on the order of
-\unit{2}{\text{ms}}. When combined with event seeding and event map generation, the total time
-taken to fully reconstruct and classify a raw event is less than \unit{0.1}{\text{seconds}}.
-Compared to the $\sim$\unit{15}{\text{minutes}} required for each event using the standard
-reconstruction and classification methods (with multiple hypotheses), the difference is stark.
+\SI{2}{\text{ms}}. When combined with event seeding and event map generation, the total time taken
+to fully reconstruct and classify a raw event is less than \SI{0.1}{\text{seconds}}. Compared to
+the $\sim$\SI{15}{\text{minutes}} required for each event using the standard reconstruction and
+classification methods (with multiple hypotheses), the difference is stark.
 
 Armed with this incredible speed, the time taken to fully process a large dataset containing
 millions of events becomes a matter of hours, compared to the many weeks typically required. This
@@ -50,7 +50,7 @@ All evaluation events are weighted to match the expected spectrum at the \chipsf
 the unoscillated flux, cross-sections, and oscillation probabilities (including the MSW effect).
 Additional weighting also scales the sample to match data taking in the NuMI beam for a single
 year, corresponding to $6\times 10^{20}$ protons on target (POT). Cosmic muon events are weighted
-according to the \unit{11.8}{\text{kHz}} expected \chipsfive rate outlined in
+according to the \SI{11.8}{\text{kHz}} expected \chipsfive rate outlined in
 \SectionRef{sec:chips_monte_carlo_cosmic}. The final weighted spectrum of events is shown in
 \FigureRef{fig:explore_osc_fluxes} with the combination of underlying beam neutrino interaction
 types shown in \FigureRef{fig:explore_stacked_int_types}.
@@ -318,15 +318,14 @@ considered signal, the selection purity becomes $71.0\pm0.6\%$.
 The $\text{efficiency}\times\text{purity}$ optimised CC $\nu_{e}$ selection efficiency as a
 function of energy for the different event categories is shown in
 \FigureRef{fig:final_nuel_hists}. From low neutrino energies, both CC $\nu_{e}$ category selection
-efficiencies rise steeply to a plateau of approximately 80\% beginning at \unit{4}{GeV}. This is
+efficiencies rise steeply to a plateau of approximately 80\% beginning at \SI{4}{GeV}. This is
 expected as low energy CC $\nu_{e}$ events have less well-defined electron Cherenkov rings,
 leading to their rejection. Due to the abundance of selected intrinsic beam CC $\nu_{e}$ events at
 higher energies, the appeared CC $\nu_{e}$ purity is observed to peak at approximately
-\unit{2.5}{\GeV} (reasonably close to the oscillation maximum) before declining. The NC efficiency
-is seen to slowly increase, approaching 15\% for hadronic component energies above \unit{5}{\GeV};
+\SI{2.5}{\GeV} (reasonably close to the oscillation maximum) before declining. The NC efficiency
+is seen to slowly increase, approaching 15\% for hadronic component energies above \SI{5}{\GeV};
 this is likely due to misidentification of high energy pions or protons as electrons. Importantly,
-however, within the key signal region from 2 to \unit{4}{\GeV}, NC selection efficiency remains
-low.
+however, within the key signal region from 2 to \SI{4}{\GeV}, NC selection efficiency remains low.
 
 \begin{figure} % FINAL NUEL HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_nuel_hists.pdf}
@@ -440,12 +439,12 @@ primary charged muon is truthfully contained, an 87\% selection efficiency is ac
 The $\text{efficiency}\times\text{purity}$ optimised CC $\nu_{\mu}$ selection efficiency as a
 function of energy for the different event categories is shown in
 \FigureRef{fig:final_numu_hists}. Survived CC $\nu_{\mu}$ selection efficiency peaks at just below
-\unit{2}{\GeV} before slowly declining, this is explained by higher energy events being less
-likely to have their primary charged muon fully contained within the detector. Of interest is the
+\SI{2}{\GeV} before slowly declining, this is explained by higher energy events being less likely
+to have their primary charged muon fully contained within the detector. Of interest is the
 expected dip in the otherwise very high ($>90\%$) CC $\nu_{\mu}$ purity at approximately
-\unit{1.5}{\GeV}, corresponding to the oscillation maximum (shown in
-\FigureRef{fig:osc_cp_probs}). As in the CC $\nu_{e}$ selection case, the NC efficiency is seen to
-rise with energy, again likely due to misidentification of energetic protons and pions.
+\SI{1.5}{\GeV}, corresponding to the oscillation maximum (shown in \FigureRef{fig:osc_cp_probs}).
+As in the CC $\nu_{e}$ selection case, the NC efficiency is seen to rise with energy, again likely
+due to misidentification of energetic protons and pions.
 
 \begin{figure} % FINAL NUMU HISTS DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_numu_hists.pdf}
@@ -607,7 +606,7 @@ results are similar to the selected signal energy resolutions obtained by \nova 
 $\nu_{e}$ events and 9.1\% for CC $\nu_{\mu}$ events~\cite{acero2019}.
 
 By making gaussian fits to the (reco-true)/true signal neutrino energy distributions shown in
-\FigureRef{fig:final_energy_frac} in \unit{1}{GeV} wide true neutrino energy bins, the energy
+\FigureRef{fig:final_energy_frac} in \SI{1}{GeV} wide true neutrino energy bins, the energy
 dependence of the energy resolution can be explored. The means and standard deviations of these
 fits are shown in \FigureRef{fig:final_energy_nuel} and \FigureRef{fig:final_energy_numu} for CC
 $\nu_{e}$ and CC $\nu_{\mu}$ events respectively, split by interaction type.
@@ -628,7 +627,7 @@ energies.
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_nuel.pdf}
     \caption[Means and standard deviations of fits to $\nu_{e}$ energy distributions]
     {Means (left) and standard deviations (right) of gaussian fits made to distributions of
-        (reco-true)/true neutrino energy for CC $\nu_{e}$ events across a range of \unit{1}{GeV}
+        (reco-true)/true neutrino energy for CC $\nu_{e}$ events across a range of \SI{1}{GeV}
         wide true neutrino energy bins and split by interaction type. The true distribution of CC
         $\nu_{e}$ events is shown in green.}
     \label{fig:final_energy_nuel}
@@ -638,7 +637,7 @@ energies.
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_numu.pdf}
     \caption[Means and standard deviations of fits to $\nu_{\mu}$ energy distributions]
     {Means (left) and standard deviations (right) of gaussian fits made to distributions of
-        (reco-true)/true neutrino energy for CC $\nu_{\mu}$ events across a range of \unit{1}{GeV}
+        (reco-true)/true neutrino energy for CC $\nu_{\mu}$ events across a range of \SI{1}{GeV}
         wide true neutrino energy bins and split by interaction type. The true distribution of CC
         $\nu_{\mu}$ events is shown in blue.}
     \label{fig:final_energy_numu}
@@ -685,10 +684,9 @@ The \emph{interaction vertex x-position}, \emph{interaction vertex y-position}, 
 Comparable resolutions are achieved for CC $\nu_{e}$ events, while CC $\nu_{\mu}$ events display
 considerable improvements in interaction vertex z-position and time prediction. The
 Super-Kamiokande fiTQun algorithm reaches an interaction vertex position resolution of
-\unit{20}{\text{cm}} for CC $\nu_{e}$ and \unit{15}{\text{cm}} for CC $\nu_{\mu}$
-events~\cite{jiang2019}, compared to the approximately \unit{50}{\text{cm}} and
-\unit{70}{\text{cm}} resolutions in this work. Again, a relatively small difference when comparing
-detectors.
+\SI{20}{\text{cm}} for CC $\nu_{e}$ and \SI{15}{\text{cm}} for CC $\nu_{\mu}$
+events~\cite{jiang2019}, compared to the approximately \SI{50}{\text{cm}} and \SI{70}{\text{cm}}
+resolutions in this work. Again, a relatively small difference when comparing detectors.
 
 The charged lepton energy, interaction vertex position, and interaction vertex time resolutions
 also display a clear advantage of the CNN approach. Long tails and biased means are common in the
@@ -774,7 +772,7 @@ for its tasks.
     \includegraphics[width=\textwidth]{diagrams/7-results/explain_example_event.pdf}
     \caption[Example CC quasi-elastic $\nu_{e}$ event for explainability]
     {Three map representation of a CC quasi-elastic $\nu_{e}$ event. Initiated by a $\nu_{e}$ of
-        energy \unit{2.4}{\GeV} with a final state $e^{-}$ of energy \unit{1.6}{\GeV}.}
+        energy \SI{2.4}{\GeV} with a final state $e^{-}$ of energy \SI{1.6}{\GeV}.}
     \label{fig:explain_example_event}
 \end{figure}
 
@@ -868,11 +866,11 @@ Studies are presented here to prove the robustness of the trained CNNs to such c
 input. Broadly, the CNN inputs can be characterised as being dependent on three sets of PMT
 information: the hit times, the hit charges, and the hit positions. An accurate PMT position is
 deemed unimportant to the trained networks as the $64 \times 64$ input grid roughly corresponds to
-bins of size \unit{2.5}{\text{m}} in $\theta$ by \unit{2.0}{\text{m}} in $\phi$ within the
-\chipsfive detector. As this binning is much larger than the actual distance between PMTs,
-resolving individual PMTs becomes impossible. Consequently, changes in only the PMT hit times and
-hit charges are considered in three studies: the smearing of hit times, the smearing and shifting
-of hit charges, and the addition of random noise.
+bins of size \SI{2.5}{\text{m}} in $\theta$ by \SI{2.0}{\text{m}} in $\phi$ within the \chipsfive
+detector. As this binning is much larger than the actual distance between PMTs, resolving
+individual PMTs becomes impossible. Consequently, changes in only the PMT hit times and hit
+charges are considered in three studies: the smearing of hit times, the smearing and shifting of
+hit charges, and the addition of random noise.
 
 Five classification performance metrics are used for comparison during this section and the next
 (\SectionRef{sec:results_alt}):
@@ -958,9 +956,9 @@ are not presented, as the resulting output changes are negligible.
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
-With an effective calibration, a realistic discrepancy in hit times of less than
-\unit{1}{\text{ns}} should be expected. Given this, it is promising to observe that even for the
-smearing of $\sigma=2~\text{ns}$ the beam classification performance change is minimal. At
+With an effective calibration, a realistic discrepancy in hit times of less than \SI{1}{\text{ns}}
+should be expected. Given this, it is promising to observe that even for the smearing of
+$\sigma=2~\text{ns}$ the beam classification performance change is minimal. At
 $\sigma=5~\text{ns}$ more significant degradation starts to occur; however, there is no dramatic
 fall-off in performance. Interestingly, the \emph{High Score Pur} is seen to increase with greater
 hit-time smearing, indicating that CC $\nu_{e}$ signal events are proportionally more robust to
@@ -1101,8 +1099,8 @@ presented as the resulting output changes are negligible.
 
 The cases presented here represent a PMT noise rate more than two orders of magnitude greater than
 that expected within \chipsfive. Testing has shown that at room temperate the Nikhef \textsc{Pom}
-HZC PMTs produce a dark noise rate of $\sim$\unit{1}{\text{KHz}}. Therefore, only $\sim0.02\%$ of
-event map bins are expected to be affected by PMT noise throughout a typical \unit{100}{\text{ns}}
+HZC PMTs produce a dark noise rate of $\sim$\SI{1}{\text{KHz}}. Therefore, only $\sim0.02\%$ of
+event map bins are expected to be affected by PMT noise throughout a typical \SI{100}{\text{ns}}
 event. Given this, excellent beam classification robustness is observed, with the small reduction
 in performance seen for the $2.3\%$ chance of noise case indicating any realistic output changes
 would be negligible.
@@ -1164,9 +1162,9 @@ untangle distortions.
     \caption[Example CC resonant $\nu_{e}$ event shown for different input representations]
     {Example CC resonant $\nu_{e}$ event shown for each of the three input representations, with
         the hit-charge (top) and hit-time (bottom) event maps shown for each. The event is
-        initiated by a $\nu_{e}$ of energy \unit{3.3}{\GeV} with the final state particles above
-        the Cherenkov threshold including a $e^{-}$ of energy \unit{2.8}{\GeV} and a
-        \unit{0.3}{\GeV} $\pi^{0}$.}
+        initiated by a $\nu_{e}$ of energy \SI{3.3}{\GeV} with the final state particles above the
+        Cherenkov threshold including a $e^{-}$ of energy \SI{2.8}{\GeV} and a \SI{0.3}{\GeV}
+        $\pi^{0}$.}
     \label{fig:explore_repr_nuel_ccres_event}
 \end{figure}
 

@@ -5,6 +5,7 @@
 *.so
 *ipynb_checkpoints/
 build/thesis.pdf
+env/
 
 */__pycache__/
 
