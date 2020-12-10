@@ -10,7 +10,7 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: thesis.tex
-          args: -lualatex -interaction=nonstopmode -file-line-error -output-directory=build
+          args: -lualatex -interaction=nonstopmode -file-line-error -output-directory=build -f
           latexmk_use_lualatex: true
       - name: publish
         run: |
