@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: compile
         uses: xu-cheng/latex-action@v2
         with:
