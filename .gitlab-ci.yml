@@ -4,20 +4,19 @@ compile_pdf:
     script: 
       - apt-get update -y
       - apt-get install -y biber 
-      - lualatex --halt-on-error --output-directory=build main.tex
-      - biber --output-directory=build main 
-      - lualatex --halt-on-error --output-directory=build main.tex
-      - lualatex --halt-on-error --output-directory=build main.tex
+      - lualatex --halt-on-error --output-directory=build thesis.tex
+      - biber --output-directory=build thesis 
+      - lualatex --halt-on-error --output-directory=build thesis.tex
+      - lualatex --halt-on-error --output-directory=build thesis.tex
     artifacts:
       paths: 
-        - build/main.pdf  # instruct GitLab to keep the main.pdf file
+        - build/thesis.pdf  # instruct GitLab to keep the thesis.pdf file
   
 pages:
     stage: deploy
     script:
       - mkdir public  # create a folder called public
-      - mv build/main.pdf thesis.pdf
-      - cp thesis.pdf public  # copy the pdf file into the public folder
+      - cp build/thesis.pdf public  # copy the pdf file into the public folder
     artifacts:
       paths: 
         - public  # instruct GitLab to keep the public folder

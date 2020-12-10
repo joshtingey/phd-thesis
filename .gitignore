@@ -4,7 +4,7 @@
 *ACLiC*
 *.so
 *ipynb_checkpoints/
-build/main.pdf
+build/thesis.pdf
 
 */__pycache__/
 
