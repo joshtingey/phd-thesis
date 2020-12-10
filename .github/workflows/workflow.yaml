@@ -1,0 +1,22 @@
+name: build and publish
+on: push
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: compile
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          latexmk_use_lualatex: true
+      - name: publish
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git checkout gh-pages
+          mv build/main.pdf thesis.pdf
+          git add thesis.pdf
+          git commit -m "new thesis version"
+          git push origin gh-pages
