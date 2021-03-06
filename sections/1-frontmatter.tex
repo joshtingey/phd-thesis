@@ -26,10 +26,10 @@
     detectors. Via deployment in a body of water, use of commercially available components, and
     instrumentation coverage optimisation for the study of only accelerator beam neutrinos, \chips
     will enable megaton scale detectors to become a reality at the cost of \$200k-\$300k per kt of
-    sensitive mass. During the summer of 2019 a \SI{5}{\text{kt}} prototype \chips detector,
-    \chipsfive, was deployed into the Wentworth 2W disused mine pit in northern Minnesota,
-    \SI{7}{\text{mrad}} off the \numi beam axis. A novel data acquisition system was introduced
-    using cheap single-board computers and open-source software.
+    sensitive mass. During the summer of 2019 a prototype \chips detector, \chipsfive, was
+    deployed into the Wentworth 2W disused mine pit in northern Minnesota, \SI{7}{\text{mrad}} off
+    the \numi beam axis. A novel data acquisition system was introduced using cheap single-board
+    computers and open-source software.
 
     This work presents a novel approach to water Cherenkov neutrino detector event reconstruction
     and classification. Three forms of a Convolutional Neural Network, a type of deep learning
@@ -45,38 +45,72 @@
 \begin{abstract}[Impact Statement] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     The impact of this work inside the domain of academia is straightforward and explained in
     great detail throughout the thesis. A novel application of modern machine learning techniques
-    is made to the reconstruction and classification of neutrino events within a water Cherenkov
-    detector studying neutrino oscillations. Although other experiments within the field have
-    conducted similar preliminary work, this is the first known comprehensive application of such
-    methods. Hopefully, this work will promote the use of these techniques for water Cherenkov
-    neutrino detectors more broadly.
-
+    is made to reconstruct and classify neutrino events within a water Cherenkov detector studying
+    neutrino oscillations. Although other experiments within the field have conducted similar
+    preliminary work, this is the first known comprehensive application of such methods.
+    Hopefully, this work will promote the use of these techniques for water Cherenkov neutrino
+    detectors more broadly.
+    
     Outside of academia, the impact of this work is less clear. Still, it is probably most
     pronounced in the field of machine learning, which promises to bring substantial societal
     advancements. Sometimes the application of machine learning to real-world problems is seen as
     somewhat secondary to achieving marginally incremental improvements on standardised
-    challenges. This work hopefully works as part of a broader effort to not only make the
-    application of machine learning methods more important but also to broaden the scope of tasks
-    considered. Currently, the field is dominated by the commercial needs of a small number of
-    large technology companies, such as Google and Facebook, any work that applies machine
-    learning to a novel task can only help to broaden the scope of machine learning and make it
-    more applicable to a wider range of real-world tasks.
+    challenges. Hopefully, this work works as part of a broader effort to make the application of
+    machine learning methods more important and broaden the scope of tasks considered. Currently,
+    the field is dominated by the commercial needs of a small number of large technology
+    companies, such as Google and Facebook, any work that applies machine learning to a novel task
+    can only help to broaden the scope of machine learning and make it more applicable to a wider
+    range of real-world tasks.
 \end{abstract}
 
 \begin{acknowledgements} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    Firstly I would like to thank my supervisor Jenny for the independence she has given me
-    throughout my PhD and for leading the whole \chips collaboration through two intense summers
-    of construction activity.
-    
+    Firstly I would like to thank my supervisor Jenny for the independence she offered me
+    throughout by PhD to pursue the research path that interested me most, and furthermore, for
+    leading the whole \chips collaboration through two intense summers of construction activity in
+    Hoyt Lakes.
+
     I would also like to thank everyone within the broader \chips collaboration. Foremost Stefano
     for all of his incredible support and advice throughout all the stages of my PhD, as well as
-    the UCL gang of Tom, Sim, Petr, and John for always being around and making the gulag
+    the UCL group of Tom, Sim, Petr, and John for always being around and making the gulag
     bearable. 
-    
-    I would also like to thank everyone else within the UCL HEP group, particularly my office
-    mates within D14. 
-    
+
+    I would also like to thank everyone else within the UCL HEP group, particularly my D14 office
+    mates.
+
     Most importantly, I must thank Becca and my family for all of their endless support. 
 \end{acknowledgements}
+
+\begin{preface}
+    Provide a preface at the beginning outlining what work you undertook in each chapter, to make
+    it clear all the work you carried out as part of this thesis. Describe (list) all the things
+    you actually did for CHIPS and how they relate to the chapters of this work.
+
+    I carried out almost all stages of the research myself, due to the relatively small number of
+    people on the project.
+
+    CHIPS:
+
+        Although the author's primary focus was on work for the final two efforts above, a
+        contribution to non DAQ related \chipsfive construction efforts were also made. This work
+        included helping with both the instrumentation testing and calibration as well as
+        installation within \chipsfive. Furthermore, the author played a significant role in the
+        development of the event generation and detector simulation framework presented in
+        \SectionRef{sec:chips_monte_carlo}.
+
+    DAQ: 
+        - for which the author played a major role. 
+    
+        The author played a major role in both the development and construction of the DAQ system
+        for \chipsfive. Specifically, a significant contribution to the development of the
+        networking solution and high-level hardware implementation was made, alongside building
+        the control and monitoring software. Furthermore, the author played a role in the
+        development of the novel low-level Madison $\micro$DAQ and Beaglebone DAQ system.
+
+    MACHINE LEARNING STUFF:
+        - This work is solely that of the author's.
+        - This is the main bulk of the authors work.
+        - Full pipeline from event generation to simulation, training, everything, most of the
+        software etc...
+\end{preface}
 
 \tableofcontents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

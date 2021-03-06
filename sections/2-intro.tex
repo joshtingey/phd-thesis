@@ -1,21 +1,22 @@
 \chapter{Introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{chap:introduction} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{page}{15}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
+\setcounter{page}{17}  % Need to explicitly set page number due to hepthesis class!! CHECK THIS!!!
 
 It is abundantly evident that machine learning and the broader field of artificial intelligence
 will play an ever-increasing role in the world around us over the coming years. Virtually every
 industry and human on the planet are promised to be touched by their proliferation. Whether this
 change will have an entirely positive or somewhat detrimental effect on society as a whole is
-still up for debate, however, within the field of physics, especially experimental particle
-physics, machine learning applications can only be seen in a positive light.
+still up for debate. Similarly, within physics, especially experimental particle physics, the
+application of machine learning techniques should be predominantly advantageous; however,
+overlooking their known weaknesses should be avoided.
 
 Already, a widespread revolution is underway across the field. From the way particle interactions
 are simulated to the way recorded events are analysed, machine learning techniques, usually deep
-learning algorithms, are yielding dramatic performance improvements. This is particularly true of
-the study of the vastly abundant yet incredibly difficult to detect neutrino. Principally driven
-by the fact that the raw output from neutrino detectors is well suited to the algorithms at the
-forefront of computer vision research, many neutrino experiments now routinely use deep learning
-methods for event analysis.
+learning algorithms, are yielding dramatic performance improvements. This step-change is
+particularly true for the study of the vastly abundant yet incredibly difficult to detect
+neutrino. Principally driven by the fact that the raw output from neutrino detectors is well
+suited to the algorithms at the forefront of computer vision research, many neutrino experiments
+now routinely use deep learning methods for event analysis.
 
 However, to date, a thorough end-to-end implementation of such techniques is not yet in use for
 the reconstruction and classification of neutrino events within long-baseline water Cherenkov
@@ -27,10 +28,10 @@ unsolved problems of the field.
 This thesis presents a broad range of work conducted for one such experiment, the CHerenkov
 detectors In mine PitS (\chips) neutrino detector R\&D project. \chips aims to develop very large
 yet `cheap as chips' water Cherenkov detectors that can be deployed into deep bodies of water on
-the Earth's surface, allowing megaton scale detectors to become a reality. The author's principal
-contribution comes from the novel application of Convolutional Neural Networks, a type of deep
-learning algorithm, to the reconstruction, classification, and energy estimation of neutrino
-events within the \chipsfive prototype detector module.
+the Earth's surface, allowing megaton scale detectors to become a reality. The thesis's principal
+work involves the novel application of Convolutional Neural Networks, a type of deep learning
+algorithm, to the reconstruction, classification, and energy estimation of neutrino events within
+the \chipsfive prototype detector module.
 
 It is hoped that the work presented in this thesis will achieve three principal goals. Firstly,
 motivate the need for the \chips project and detail how it accomplishes its aims. Secondly, show
@@ -44,15 +45,13 @@ theoretical background and current status of the field as motivation for the \ch
 full description of the \chips detector concept follows in \ChapterRef{chap:chips}, with a
 principal focus on the \chipsfive prototype detector module deployed into the \numi neutrino beam
 during the autumn of 2019. A particularly detailed overview of the \chipsfive data acquisition and
-monitoring systems is then given in \ChapterRef{chap:daq}, for which the author played a major
-role.
+monitoring systems is then given in \ChapterRef{chap:daq}.
 
 \ChapterRef{chap:cnn} begins by introducing the standard reconstruction and classification methods
 to be replaced alongside a review of the relevant neural network theory and current deep learning
 applications within the field of neutrino physics. The chapter concludes by detailing the three
 Convolutional Neural Networks that have been developed for \chipsfive, including that for cosmic
-muon rejection, beam event classification, and neutrino energy estimation. This work is solely
-that of the author's.
+muon rejection, beam event classification, and neutrino energy estimation.
 
 The thesis closes in \ChapterRef{chap:results} with a comprehensive evaluation of the new
 Convolutional Neural Network approach. Firstly, the final combined performance is determined and

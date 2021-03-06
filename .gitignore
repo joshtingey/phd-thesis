@@ -6,6 +6,7 @@
 *ipynb_checkpoints/
 build/thesis.pdf
 env/
+corrections/
 
 */__pycache__/
 
