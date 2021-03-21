@@ -113,7 +113,7 @@ neutrino beam, including the future \numi replacement, LBNF.
 
 The \numi beam is an accelerator muon neutrino beam produced at Fermilab near Chicago in the USA.
 Beginning operation in 2005 for the MINOS experiment, \numi was upgraded in 2013 to provide a
-higher intensity and energy, principally to achieve a peak in neutrino energy near the
+higher intensity and energy beam, principally to achieve a peak in neutrino energy near the
 $\sim$\SI{1.5}{\GeV} $\nu_{\mu}\rightarrow\nu_{e}$ oscillation maximum for \nova. Currently, the
 \numi beam achieves an intensity of \SI{700}{\text{kW}} (\SI{740}{\text{kW}} at peak) making it
 the most powerful such beam in the world. A schematic of the \numi beamline configuration is shown
@@ -129,7 +129,7 @@ in \FigureRef{fig:numi_beam}.
 \end{figure}
 
 Every \SI{1.33}{\text{seconds}} a \SI{10}{\micro\text{s}} long spill of protons accelerated to
-\SI{120}{\GeV} by the Main Injector ring are directed towards a stationary graphite target. The
+\SI{120}{\GeV} by the Main Injector ring is directed towards a stationary graphite target. The
 resulting interactions create a shower of hadrons containing predominantly pions and kaons. The
 hadrons are passed through a focusing system of two magnetic horns tuned principally to focus
 positively charged pions along the beamline while rejecting other particles. After focusing, any
@@ -312,10 +312,10 @@ entirely, removing any ability to tell them apart. This topology is often the ca
 interactions producing a $\pi^{0}$ in the final state, forming the primary background for the
 signal CC $\nu_{e}$ appearance channel.
 
-$\pi^{0}$ particles decay to a pair of photons with a 98.82\% branching ratio, both which almost
-immediately initiate an electromagnetic shower, just like an electron~\cite{particle2020}. This
-process leads to the formation of two electron like rings separated by an angle $\theta_{ij}$,
-given by
+$\pi^{0}$ particles decay to a pair of photons with a 98.82\% branching ratio, both of which
+almost immediately initiate an electromagnetic shower, just like an electron~\cite{particle2020}.
+This process leads to the formation of two electron like rings separated by an angle
+$\theta_{ij}$, given by
 \begin{equation}
     (1-\cos\theta_{ij})=\frac{m_{\pi}^2}{2E_{i}E_{k}},
 \end{equation}
@@ -332,12 +332,12 @@ misidentification.
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chipsfive is the first large scale prototype detector module for the \chips project. At
-\SI{25}{\text{m}} wide and \SI{12}{\text{m}} high, \chipsfive has an inner surface area of
-\SI{1924}{\text{m}^2} and a total target mass of \SI{5.9}{\text{kt}}. Via the process of design,
-construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips concept
-for future full-scale ($\sim$\SI{15}{\text{kt}}) modules. Consequently, \chipsfive is designed
-such that the details outlined in this section are entirely characteristic of what a full-sized
-\chips module is envisioned to be.
+\SI{25}{\text{m}} in diameter and \SI{12}{\text{m}} in height, \chipsfive has an inner surface
+area of \SI{1924}{\text{m}^2} and a total target mass of \SI{5.9}{\text{kt}}. Via the process of
+design, construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips
+concept for future full-scale ($\sim$\SI{15}{\text{kt}}) modules. Consequently, \chipsfive is
+designed such that the details outlined in this section are entirely characteristic of what a
+full-sized \chips module is envisioned to be.
 
 First, the location, structure, instrumentation, and water filtration are detailed for the
 complete detector. A discussion of the construction and deployment procedure follows before the
@@ -405,8 +405,8 @@ above the \emph{bottom-cap} by \SI{1.5}{\text{m}} long steel struts as shown in
 
 The two endcaps are connected by 28 Dyneema cables attached around their perimeter, each
 \SI{12}{\text{m}} in length. Additionally, a total of 48 air-filled Polyvinyl Chloride (PVC)
-pipes, each \SI{16}{\text{inches}} in diameter, are attached to the frame of the top-cap to make
-it buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, pulling the
+pipes, each \SI{40}{\text{cm}} in diameter, are attached to the frame of the top-cap to make it
+buoyant. Once deployed into the pit, the bottom-cap sinks while the top-cap floats, pulling the
 Dyneema cable taut and forming the final expanded detector shape shown in
 \FigureRef{fig:chips_render}.
 
@@ -442,7 +442,7 @@ There are two types of \textsc{Pom} used within \chipsfive, differentiated by th
 electronics they use and named after the institution at which they were primarily developed.
 Firstly, \emph{Nikhef} \textsc{Pom}s use \SI{88}{\text{mm}} wide HZC PMTs~\cite{hzc}, with
 electronics developed for the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly,
-\emph{Madison} \textsc{Pom}s use \SI{3}{\text{inch}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
+\emph{Madison} \textsc{Pom}s use \SI{76}{\text{mm}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
 electronics developed by \chips in collaboration with the Wisconsin IceCube Particle Astrophysics
 Centre (WIPAC) in Madison, Wisconsin.
 
@@ -538,9 +538,9 @@ chosen boundaries.
 \begin{figure} % COVERAGE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/4-chips/coverage.pdf}
     \caption[Fraction of beam event Cherenkov photons that hit the detector walls as a function of
-        the hit angle] {Fraction of beam event Cherenkov photons that hit the detector walls as a
-        function of the hit angle $\phi$. The different photocathode coverage regions are
-        indicated.}
+        the hit PMT position angle] {Fraction of beam event Cherenkov photons that hit the
+        detector walls as a function of the hit PMT position angle $\phi$. The different
+        photocathode coverage regions are indicated.}
     \label{fig:coverage}
 \end{figure}
 
@@ -589,10 +589,10 @@ detector through a second such pipe.
 
 Within the hut, ten parallel sets of filters are installed in order to achieve a reasonable flow
 rate, allowing for the full detector volume to be filtered every ten days. Each filter set
-consists of a 20 inch \SI{10}{\micro\text{m}} carbon block filter followed by a 20 inch
-\SI{0.5}{\micro\text{m}} polypropylene filter, as shown in \FigureRef{fig:filtration}. This
-configuration is found to achieve a photon attenuation length of \SI{133\pm2}{\text{m}} after
-approximately two months of constant filtering~\cite{campbell2020}.
+consists of a \SI{51}{\text{cm}} long \SI{10}{\micro\text{m}} carbon block filter followed by a
+\SI{51}{\text{cm}} long \SI{0.5}{\micro\text{m}} polypropylene filter, as shown in
+\FigureRef{fig:filtration}. This configuration is found to achieve a photon attenuation length of
+\SI{133\pm2}{\text{m}} after approximately two months of constant filtering~\cite{campbell2020}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/filtration.pdf}
@@ -696,7 +696,7 @@ of \chipsfive, shown in \FigureRef{fig:complete}, was deployed into the Wentwort
 Analysis of preliminary data was successful in isolating individual cosmic muon events, one of
 which is shown in \FigureRef{fig:cosmic_event}. However, extensive data taking was paused due to a
 deployment induced tear in the liner preventing filtration of the internal water. Given the
-outbreak of the worldwide SARS-CoV-2 epidemic, all plans for work over the summer of 2020 were
+outbreak of the worldwide SARS-CoV-2 pandemic, all plans for work over the summer of 2020 were
 suspended, including essential repairs and instrumentation of the barrel walls. Plans for summer
 2021 are currently under review.
 
@@ -717,8 +717,8 @@ suspended, including essential repairs and instrumentation of the barrel walls. 
     \caption[A cosmic muon event recorded within \chipsfive]
     {A cosmic muon event recorded within \chipsfive, found by clustering hits in time. PMT hits
     from both the top-cap (left) and bottom-cap (right) are shown with the colour indicating the
-    measured ToT value. Due to the small attenuation length of unfiltered water, only a single
-    bottom-cap \textsc{Pom} has significant activity.}
+    measured ToT value (described in \SectionRef{sec:daq_hard}). Due to the small attenuation
+    length of unfiltered water, only a single bottom-cap \textsc{Pom} has significant activity.}
     \label{fig:cosmic_event}
 \end{figure}
 
@@ -758,10 +758,10 @@ as the \emph{unit cell}, as shown in \FigureRef{fig:sim_geom}.
 The unit cell defines a pattern of any number of PMTs, including their relative positions and in
 which direction they face. The final geometry is built by tiling the defined regions with their
 respective unit cell scaled to match the required regional photocathode coverage. Note that
-although exact PMT positions are not used in this procedure, a given configuration will always
-generate the same geometry (it is deterministic). In this work, the \chipsfive geometry is
-generated with 28 sides and regions matching the boundary angles and photocathode coverage
-detailed in \SectionRef{sec:chips_detector_instrumentation}.
+although exact detector PMT positions are not explicitly defined using this procedure, a given
+configuration will always generate the same geometry (it is deterministic). In this work, the
+\chipsfive geometry is generated with 28 sides and regions matching the boundary angles and
+photocathode coverage detailed in \SectionRef{sec:chips_detector_instrumentation}.
 
 \begin{figure} % SIMULATION GEOM DIAGRAM %
     \includegraphics[width=0.5\textwidth]{diagrams/4-chips/sim_geom.pdf}
@@ -822,7 +822,7 @@ standard reconstruction methods outlined in \SectionRef{sec:cnn_old_reco}.
     \caption[Detector simulation PMT digitisation function]
     {The probability of a digitised output charge given an incident number of photons used within
     the detector simulation is shown in (a). The reverse function, showing the likelihood of a
-    measured digitised charge being caused by a number of incident photons is shown in (b).}
+    number of incident photons given the digitised charge is shown in (b).}
     \label{fig:digitisation}
 \end{figure}
 
@@ -864,8 +864,8 @@ dominant cosmic component) are considered for simplicity.
 
 Assuming a \chipsfive overburden of \SI{50}{\text{m}} and a \SI{2.2}{\MeV/\text{cm}^{2}} muon
 energy loss in water as suggested by \ReferenceRef{klimushin2001}, the muon parameters are updated
-to estimate their values at \SI{1}{\text{m}} above the detector. All muons whose path does not
-cross the detector volume or do not have sufficient energy to reach the detector are
+to estimate their values at \SI{1}{\text{m}} above the detector. All muons whose path do not cross
+the detector volume or do not have sufficient energy to reach the detector are
 discarded~\cite{chipsgen2020}. All accepted muon tracks are stored as output in a NUANCE formatted
 file for use in the detector simulation.
 

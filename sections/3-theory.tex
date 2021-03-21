@@ -2,12 +2,12 @@
 \label{chap:theory} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Vast numbers of neutrinos pass through everything that surrounds us each second, each one
-incredibly unlikely to interact even once. Nearly a century since they were first proposed, these
-mysterious particles have now conclusively been proven to undergo oscillations between their
-flavour states. This profound discovery has opened the door to physics beyond that initially
-conceived within the Standard Model, which may reveal new, fundamental insights into the universe.
-This chapter aims to outline the historical context, theoretical background, and open questions
-surrounding the neutrino to motivate the \chips R\&D project.
+incredibly unlikely to interact even once. Nearly a century since they were first
+proposed~\cite{pauli1930}, these mysterious particles have now conclusively been proven to undergo
+oscillations between their flavour states. This profound discovery has opened the door to physics
+beyond that initially conceived within the Standard Model, which may reveal new, fundamental
+insights into the universe. This chapter aims to outline the historical context, theoretical
+background, and open questions surrounding the neutrino to motivate the \chips R\&D project.
 
 \section{A history} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_history} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,7 +48,8 @@ Savannah River Plant nuclear reactor were detected via the inverse beta decay pr
 `club-sandwich' detector was constructed containing three \SI{1500}{\text{litre}} liquid
 scintillator tanks interspersed with two \SI{200}{\text{litre}} cadmium doped water target tanks.
 A total of 330 photomultiplier tubes then measured the characteristic signal for the interaction,
-a positron annihilation followed shortly afterwards by a gamma-ray burst from the neutron capture.
+a positron annihilation followed shortly afterwards by a gamma-ray burst from the neutron capture
+of the neutrino.
 
 A second distinct neutrino, the muon neutrino, was discovered in 1962 at the Brookhaven based
 Alternating Gradient Synchrotron (AGS)~\cite{danby1962}. Protons from the AGS beam incident upon a
@@ -61,17 +62,18 @@ If only a single neutrino existed, both interactions
     \nu+p^{+}\rightarrow\mu^{+}+n, \\
     \nu+p^{+}\rightarrow e^{+}+n,
 \end{equation}
-were expected to occur at the same rate. However, only muons, identified by a single long track in
-the spark chambers were detected, confirming the existence of the muon neutrino. Not only was this
-experiment the first to construct and use an artificial neutrino beam, but it also won the 1988
-Nobel Prize in Physics.
+were expected to occur at the same rate. However, predominantly single muons (alongside
+backgrounds), identified by a single long track in the spark chambers were detected, confirming
+the existence of the muon neutrino. Not only was this experiment the first to construct and use an
+artificial neutrino beam, but it also won the 1988 Nobel Prize in Physics.
 
 The $Z^{0}$ and $W^{\pm}$ bosons were discovered at the CERN based Super Proton Synchrotron in
 1983~\cite{arnison1983_z, arnison1983_w}. Crucially, as $Z^{0}$ bosons were expected to decay to
 neutrinos, measurements made to the decay width could strongly constrain the number of neutrino
-flavours. The ALEPH, DELPHI, L3, and OPAL experiments at the LEP $e^{+}e^{-}$ collider in the
-1990s made such precise measurements (see \FigureRef{fig:z_resonance}), indicating that the number
-of light active neutrino flavours was $2.984\pm0.008$~\cite{electroweak2006}.
+flavours. The ALEPH, DELPHI, L3, and OPAL experiments at the LEP $e^{+}e^{-}$ collider (see
+\FigureRef{fig:z_resonance}), as well as the Mark II experiment at SLAC~\cite{abrams1989} made
+such precise measurements in the 1990s, indicating that the number of light active neutrino
+flavours was $2.984\pm0.008$~\cite{electroweak2006}.
 
 \begin{figure} % Z-RESONANCE DIAGRAM %
     \includegraphics[origin=c,width=0.5\textwidth]{diagrams/3-theory/z_resonance.pdf}
@@ -139,7 +141,7 @@ channel. By comparing the relative rates between the channels, SNO was able to p
 \section{The Standard Model and neutrinos} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_sm} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The Standard Model of particle physics describes the seventeen known fundamental subatomic
+The Standard Model of particle physics describes the thirty-six known fundamental subatomic
 particles and their interactions. Combining both quantum chromodynamics (describing the strong
 force) and electroweak theory (describing the electromagnetic and weak forces), the Standard Model
 is a gauge theory obeying the local gauge symmetries of $U(1) \times SU(2) \times SU(3)$. The
@@ -154,14 +156,15 @@ which is opposite.
     \label{fig:sm}
 \end{figure}
 
-The six quarks and six leptons, all spin $1/2$ particles, are named fermions. Further divided into
-three generations (or flavours), they make up all the matter content of the universe. The quarks
-never exist in a free state and bind together into mesons or baryons, such as pions and protons,
-respectively.  Three charged massive particles, the electron, the muon, and the tau and their
-three corresponding (initially assumed to be massless) neutrinos, make up the leptons.
+The eighteen quarks (all colours considered) and six leptons, all spin $1/2$ particles, are named
+fermions. Further divided into three generations (or flavours), they make up all the universe's
+matter content. The quarks never exist in a free state and bind together into mesons or baryons,
+such as pions and protons, respectively.  Three charged massive particles, the electron, the muon,
+and the tau and their three corresponding (initially assumed to be massless) neutrinos, make up
+the leptons.
 
 The spin 1 gauge bosons carry the electromagnetic, strong, and weak forces. The photon carries the
-electromagnetic force (affecting all charged particles), the gluons carry the strong force
+electromagnetic force (affecting all charged particles), the eight gluons carry the strong force
 (binding the quarks together), and the massive $Z^{0}$ and $W^{\pm}$ carry the weak force. The
 final particle, the Higgs, is a massive scalar boson. Via the process of spontaneous symmetry
 breaking, the Higgs provides the mechanism to give the particles their mass.
@@ -188,9 +191,10 @@ possible~\cite{particle2020}.
 
 Strongly model-dependent cosmological observations of the cosmic microwave background currently
 provide the best limit on the combined sum of the neutrino masses at $\sum m_{\nu} <
-0.12~\eV$~\cite{planck2018}. Furthermore, the KATRIN experiment has been able to make
-model-independent direct measurements of the upper mass limit by looking at the energy spectrum of
-electrons emitted from beta decay, giving a result of $m_{\nu} < 1.1~\eV$~\cite{aker2019}.
+0.12~\eV$~\cite{planck2018}. However, more impressively, the KATRIN experiment has been able to
+make model-independent direct measurements of the upper mass limit by looking at the energy
+spectrum of electrons emitted from beta decay, giving a result of $m_{\nu} <
+1.1~\eV$~\cite{aker2019}.
 
 \section{Neutrino oscillations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_oscillations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -288,7 +292,7 @@ are required, such that the mixing matrix needs to be multiplied by
 \subsection{Oscillations in a vacuum} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:theory_oscillations_vacuum} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As the neutrino mass states are eigenstates of the hamiltonian with energy eigenvalues $E_{k}$:
+As the neutrino mass states are eigenstates of the Hamiltonian with energy eigenvalues $E_{k}$:
 \begin{equation} % HAMILTONIAN EQUATION %
     H \ket{\nu_{k}} = E_{k} \ket{\nu_{k}},
     \label{eq:hamiltonian}
@@ -361,7 +365,7 @@ Crucially, as matter is full of electrons but empty of muons or taus, only elect
 interact via the CC channel as shown in \FigureRef{fig:coherent_scattering}. Consequently, only
 electron neutrinos are affected by the $V_{CC}$ potential, while all flavours are affected by the
 $V_{NC}$ potential. When quantitatively applied as an additional potential to the vacuum
-hamiltonian, a resonance oscillation term is introduced which significantly modifies the vacuum
+Hamiltonian, a resonance oscillation term is introduced which significantly modifies the vacuum
 oscillation probabilities. This phenomenon is known as the Mikheev, Smirnov, and Wolfenstein (MSW)
 effect~\cite{wolfenstein1978, mikheev1986}.
 
@@ -465,10 +469,11 @@ $\sim\SI{5}{\GeV}$.
     \includegraphics[width=\textwidth]{diagrams/3-theory/xsec_nu_e_O16.pdf}
     \caption[$\nu_{e}$ cross-sections on oxygen]
     {\textsc{Genie} cross-sections on oxygen divided by neutrino energy for CC $\nu_{e}$ (left)
-        and NC $\nu_{e}$ (right). Shown are the total and contributing process cross-sections.
-        Note how the total cross-section approaches a linear dependence on energy and the NC
-        cross-sections are smaller than their CC counterparts. See \ReferenceRef{andreopoulos2015}
-        for generation details.}
+        and NC $\nu_{e}$ (right). Shown are the total, as well as the Quasi-Elastic (QEL), Deep
+        Inelastic Scattering (DIS), Resonant (Res), Coherent (Coh), and Meson Exchange Current
+        (MEC) cross-sections. Note how the total cross-section approaches a linear dependence on
+        energy and the NC cross-sections are smaller than their CC counterparts. See
+        \ReferenceRef{andreopoulos2015} for generation details.}
     \label{fig:xsec_nu_e_O16}
 \end{figure}
 
@@ -507,16 +512,17 @@ The best-fit results from one such fit, NuFIT~\cite{esteban2019, esteban2020}, a
 \FigureRef{fig:best_fit}. A detailed overview of other global fits is given in The Particle Data
 Group's 2020 Review of Particle Physics (see \ReferenceRef{particle2020}). Below, the solar,
 atmospheric, and reactor best-fit parameters are presented alongside the latest experiments to
-contribute to these values.
+contribute to their values.
 
 \begin{figure} % BEST FIT DIAGRAM %
     \includegraphics[origin=c,width=0.8\textwidth]{diagrams/3-theory/best_fit.pdf}
     \caption[Three-flavour results from the NuFIT v5.0 global neutrino oscillation fit]
     {Three-flavour results from the NuFIT v5.0 global fit as of July 2020, showing both 1$\sigma$
         uncertainties and $\pm 3 \sigma$ ranges. The first column shows results for an assumed
-        normal hierarchy while the second for an inverted hierarchy. The lower section includes
-        atmospheric neutrino data from the Super-Kamiokande experiment, while the upper section
-        does not. Figure taken from \ReferenceRef{esteban2020}.}
+        normal hierarchy while the second for an inverted hierarchy, both of which are introduced
+        in \SectionRef{sec:theory_status_open}. The lower section includes atmospheric neutrino
+        data from the Super-Kamiokande experiment, while the upper section does not. Figure taken
+        from \ReferenceRef{esteban2020}.}
     \label{fig:best_fit}
 \end{figure}
 

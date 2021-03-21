@@ -105,7 +105,7 @@ within the detector but in an electronics hut onshore.
 
 As a general overview, the DAQ system within the detector follows a tree-like structure. Starting
 from the lowest level (the leaves), individual PMTs are arranged into \textsc{Pom}s. Groups of
-\textsc{Pom}s, spatial close within the detector, are then connected to a small number of
+\textsc{Pom}s, spatially close within the detector, are then connected to a small number of
 group-specific interface containers (either a \emph{Nikhef-container} or
 \emph{Madison-container}), holding networking and power supply devices for each group. All
 interface containers are attached to a central aggregation box (\emph{junction-box}) which feeds
@@ -475,12 +475,13 @@ recorded hit data is consistent with what is expected. Both of these functions a
 within \chipsfive using an implementation built around a central Elasticsearch
 database~\cite{elasticsearch2020}.
 
-Elasticsearch is an open-source JSON-based search engine and NoSQL database. One of its primary
-applications is for logging, infrastructure observation, and application performance monitoring,
-making it a perfect fit for use here. Elasticsearch sits within the broader range of open source
-tools called the Elastic Stack~\cite{elasticstack2020}, including those to both ingest data and
-produce visualisations. All Elasticsearch data is stored within collections of related JSON
-documents known as \emph{indices}, which share a common set of key to value pairs.
+Elasticsearch is an open-source JSON (JavaScript Object Notation) document based search engine and
+database. One of its primary applications is for logging, infrastructure observation, and
+application performance monitoring, making it a perfect fit for use here. Elasticsearch sits
+within the broader range of open source tools called the Elastic Stack~\cite{elasticstack2020},
+including those to both ingest data and produce visualisations. All Elasticsearch data is stored
+within collections of related JSON documents known as \emph{indices}, which share a common set of
+key to value pairs.
 
 Monitoring data is continually ingested into Elasticsearch from a wide range of sources across the
 \chipsfive DAQ system:
@@ -529,7 +530,7 @@ Furthermore, an alerting system using the ElastAlert framework~\cite{elastalert2
 automatic notification of events for human attention. The ElastAlert process continuously checks
 the Elasticsearch monitoring data for any breaches of predefined rules ($x$ events in $y$ time,
 for example). Upon the occurrence of a rule trigger, multiple forms of notification (email and
-Slack messages) are sent to appropriate recipients for further analysis and response.
+Slack messages) are sent to appropriate recipients for further analysis.
 
 Not only is the \chipsfive monitoring system extensible and easy to use it also has the advantage
 of leveraging the efforts of an active open source community. With no additional effort by the
