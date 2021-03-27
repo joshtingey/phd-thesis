@@ -331,18 +331,25 @@ misidentification.
 \section{CHIPS-5} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chipsfive is the first large scale prototype detector module for the \chips project. At
-\SI{25}{\text{m}} in diameter and \SI{12}{\text{m}} in height, \chipsfive has an inner surface
-area of \SI{1924}{\text{m}^2} and a total target mass of \SI{5.9}{\text{kt}}. Via the process of
-design, construction, deployment, and data taking, \chipsfive primarily aims to refine the \chips
-concept for future full-scale ($\sim$\SI{15}{\text{kt}}) modules. Consequently, \chipsfive is
-designed such that the details outlined in this section are entirely characteristic of what a
-full-sized \chips module is envisioned to be.
+\chipsfive is the first large scale prototype detector module for the \chips project. Cylindrical
+in shape and \SI{25}{\text{m}} in diameter and \SI{12}{\text{m}} in height, \chipsfive has an
+inner surface area of \SI{1924}{\text{m}^2} and a total target mass of \SI{5.9}{\text{kt}}. Via
+the process of design, construction, deployment, and data taking, \chipsfive primarily aims to
+refine the \chips concept for future full-scale ($\sim$\SI{15}{\text{kt}}) modules. Consequently,
+\chipsfive is designed such that the details outlined in this section are entirely characteristic
+of what a full-sized \chips module is envisioned to be.
 
 First, the location, structure, instrumentation, and water filtration are detailed for the
 complete detector. A discussion of the construction and deployment procedure follows before the
 current status is presented. The \chipsfive DAQ implementation is detailed separately in
 \ChapterRef{chap:daq}.
+
+For clarity, neutrinos from the \numi beam are assumed to enter the \chipsfive detector through
+the \emph{upstream} wall of the cylindrical barrel, parallel to the floor and travelling towards
+the opposite \emph{downstream} wall. Their direction of travel (the direction of the beam) is
+referred to as being along the x-axis for the rest of this work. The corresponding y-axis is the
+perpendicular horizontal axis, and the z-axis is vertical through the barrel, with the coordinate
+origin located at the centre of the detector.
 
 \subsection{Location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:chips_detector_location} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -440,11 +447,12 @@ PVC primer and cement.
 
 There are two types of \textsc{Pom} used within \chipsfive, differentiated by the PMTs and DAQ
 electronics they use and named after the institution at which they were primarily developed.
-Firstly, \emph{Nikhef} \textsc{Pom}s use \SI{88}{\text{mm}} wide HZC PMTs~\cite{hzc}, with
+Firstly, \emph{Nikhef} \textsc{Pom}s use \SI{88}{\text{mm}} in diameter HZC PMTs~\cite{hzc}, with
 electronics developed for the KM3NeT experiment~\cite{katz2009, adrian2016}. Secondly,
-\emph{Madison} \textsc{Pom}s use \SI{76}{\text{mm}} wide Hamamatsu PMTs~\cite{hamamatsu}, with
-electronics developed by \chips in collaboration with the Wisconsin IceCube Particle Astrophysics
-Centre (WIPAC) in Madison, Wisconsin.
+\emph{Madison} \textsc{Pom}s use \SI{76}{\text{mm}} in diameter Hamamatsu PMTs~\cite{hamamatsu},
+donated from the NEMO-3 experiment~\cite{arnold2005}, with electronics developed by \chips in
+collaboration with the Wisconsin IceCube Particle Astrophysics Centre (WIPAC) in Madison,
+Wisconsin.
 
 The HZC PMTs have a high ratio of output electrons to incident photons (quantum efficiency) of
 24.4\% at a wavelength of \SI{400}{\text{nm}}, compared to the low 12.0\% ratio achieved by the
@@ -550,9 +558,16 @@ $\phi=\pm75^{\circ}$ region of the detector with a $\sim3\%$ photocathode covera
 $\phi=\pm180^{\circ}$ region of the endcaps and the $\phi=\pm75^{\circ}$ to $\phi=\pm140^{\circ}$
 region of the barrel with a $\sim1.5\%$ photocathode coverage. Finally, a \emph{half-density}
 Madison \textsc{Pom} region covering the $\phi=\pm140^{\circ}$ to $\phi=\pm180^{\circ}$ upstream
-region of the barrel with a $\sim0.8\%$ photocathode coverage. Simulation studies have shown that
-this configuration results in a negligible change in performance, whilst vastly reducing the
-number of required PMTs~\cite{blake2016}.
+region of the barrel with a $\sim0.8\%$ photocathode coverage. 
+
+Simulation studies have shown that this configuration, requiring just $60\%$ of the PMTs compared
+to full high-density coverage, leads to only an $8\%$ reduction in the average amount of total
+collected photoelectrons per event. This reduction corresponds to a decrease in the signal CC
+$\nu_{e}$ selection efficiency of just $\sim2\%$ and a degradation in the CC $\nu_{e}$ energy
+reconstruction resolution of $\sim5\%$, acceptable given the vast reduction in cost. It is
+important to note that these studies were performed using the standard event reconstruction and
+classification presented in \SectionRef{sec:cnn_old} and should be revisited in the future with
+the new CNN implementation.
 
 The \chipsfive detector module is equipped with a veto region within the top-cap frame structure
 to aid cosmic muon rejection. Separated from the main detector volume by a geomembrane liner, the
@@ -640,7 +655,10 @@ of water being used for activities rather than solid ground. Below a simplified 
           height before the procedure repeats.
     \item After all the \textsc{Pom}s layers have been installed, the barrel and top-cap liner are
           welded together, the detector umbilical attached, and the whole detector lowered until
-          it finally rests at the bottom of the pit.
+          it rests at the bottom of the pit.
+    \item The water within the detector volume is filtered for approximately two months until a
+          stable photon attenuation length is reached. Once complete, filtering continues to
+          maintain the water clarity and data taking runs begin.
 \end{enumerate}
 
 \begin{figure} % CHIPS WITH LINER DIAGRAM %
@@ -775,11 +793,14 @@ photocathode coverage detailed in \SectionRef{sec:chips_detector_instrumentation
 The geometry shape, regions, and unit cells are defined in a configuration file. Additionally, a
 file for PMT definitions containing their shape, time resolution, and quantum efficiency is also
 used. Light-cones are described by a list of radial profile points in a further file. Although the
-underlying Geant4 material properties are mostly hardcoded, values within yet another
-configuration file are used to scale them. This scaling controls the water absorption, scattering
-(Rayleigh and Mie) lengths, and both the blacksheet and PMT glass reflectivity. In this work a
-photon attenuation length of \SI{50}{\text{m}} at \SI{405}{\text{nm}} is used with negligible
-scattering, the blacksheet reflectivity is set to 4\% and the PMT glass reflectivity 24\%.
+underlying Geant4 material properties are mostly hardcoded (taken from the original WCSim
+implementation using proven Super-Kamiokande values), another configuration file is used to scale
+them. This scaling controls the water absorption, scattering (Rayleigh and Mie) lengths, and both
+the blacksheet and PMT glass reflectivity. Throughout this work (including that presented in
+\ChapterRef{chap:cnn} and \ChapterRef{chap:results}) a conservative photon attenuation length of
+\SI{50}{\text{m}} at \SI{405}{\text{nm}} is used alongside negligible
+scattering~\cite{campbell2020}, with the PMT glass reflectivity set to
+24\%~\cite{hamamatsu_handbook}, and the blacksheet reflectivity kept at the default 4\%.
 
 A veto volume can also be defined. The veto is built as either a concentric shell around the whole
 inner volume with a given thickness or solely above the top-cap with a given height. Any PMTs
@@ -797,12 +818,12 @@ volume. WCSim then simulates the passage of all particles through the detector m
 interactions, decays, and Cherenkov emission all considered.
 
 Whenever a photon is calculated to have hit the photocathode of a PMT, an angular dependent
-acceptance efficiency is applied to see if it is recorded. If accepted, all hits within
-\SI{200}{\text{ns}} windows are grouped to form a single recorded hit, with a smeared first hit
-time used as the recorded time. The standard WCSim methodology is used to determine the total
-output charge of the hit, given the number of incident photons. This procedure involves a single
-photoelectron charge distribution being repeatedly probed for each photon, before the combined sum
-is returned~\cite{tutorial2020}.
+acceptance efficiency is applied to see if it is recorded~\cite{hamamatsu_handbook}. If accepted,
+all hits within \SI{200}{\text{ns}} windows are grouped to form a single recorded hit, with a
+smeared first hit time used as the recorded time. The standard WCSim methodology is used to
+determine the total output charge of the hit, given the number of incident photons. This procedure
+involves a single photoelectron charge distribution being repeatedly probed for each photon,
+before the combined sum is returned~\cite{tutorial2020}.
 
 By sampling this procedure multiple times, the output charge probability distribution given the
 number of incident photons can be generated, as shown in \FigureRef{fig:digitisation}. The reverse
@@ -884,9 +905,10 @@ shows just how powerful a short beam spill can be at reducing the significant co
 \begin{figure} % COSMIC RATE DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cosmic_rate.pdf}
     \caption[Expected \chipsfive cosmic muon rate as a function of water overburden depth]
-    {Expected cosmic muon rate as a function of water overburden depth for a \SI{24}{\text{m}}
-        high and \SI{24}{\text{m}} wide \chips detector module. Shown are fits made to the work
-        originally conducted in \ReferenceRef{bugaev1998}. Figure taken from
-        \ReferenceRef{son2013}.}
+    {The expected cosmic muon rate as a function of water overburden depth ($h_0$) for a
+    \SI{24}{\text{m}} in height and \SI{24}{\text{m}} in diameter \chips detector module. Shown
+    are single (blue) and double (red) exponential function fits to work originally conducted in
+    \ReferenceRef{bugaev1998}. Importantly, in the region of interest at $h_{0}\sim$
+    \SI{50}{\text{m}} both models are consistent. Figure taken from \ReferenceRef{son2013}.}
     \label{fig:cosmic_rate}
 \end{figure}

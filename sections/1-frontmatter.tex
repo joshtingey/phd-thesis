@@ -24,12 +24,12 @@
     The CHerenkov detectors In mine PitS (\chips) neutrino detector R\&D project aims to develop
     novel strategies and technologies for very large yet `cheap as chips' water Cherenkov neutrino
     detectors. Via deployment in a body of water, use of commercially available components, and
-    instrumentation coverage optimisation for the study of only accelerator beam neutrinos, \chips
-    will enable megaton scale detectors to become a reality at the cost of \$200k-\$300k per kt of
-    sensitive mass. During the summer of 2019 a prototype \chips detector, \chipsfive, was
-    deployed into the Wentworth 2W disused mine pit in northern Minnesota, \SI{7}{\text{mrad}} off
-    the \numi beam axis. A novel data acquisition system was introduced using cheap single-board
-    computers and open-source software.
+    instrumentation coverage optimisation for the study of exclusively accelerator beam neutrinos,
+    \chips will enable megaton scale detectors to become a reality at the cost of \$200k-\$300k
+    per kt of sensitive mass. During the summer of 2019 a prototype \chips detector, \chipsfive,
+    was deployed into the Wentworth 2W disused mine pit in northern Minnesota, \SI{7}{\text{mrad}}
+    off the \numi beam axis. A novel data acquisition system was introduced using cheap
+    single-board computers and open-source software.
 
     This work presents a novel approach to water Cherenkov neutrino detector event reconstruction
     and classification. Three forms of a Convolutional Neural Network, a type of deep learning
@@ -59,58 +59,51 @@
     machine learning methods more important and broaden the scope of tasks considered. Currently,
     the field is dominated by the commercial needs of a small number of large technology
     companies, such as Google and Facebook, any work that applies machine learning to a novel task
-    can only help to broaden the scope of machine learning and make it more applicable to a wider
-    range of real-world tasks.
+    can only help to broaden the scope of the field and make it more applicable to a wider range
+    of real-world tasks.
 \end{abstract}
 
 \begin{acknowledgements} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Firstly I would like to thank my supervisor Jenny for the independence she offered me
-    throughout by PhD to pursue the research path that interested me most, and furthermore, for
-    leading the whole \chips collaboration through two intense summers of construction activity in
-    Hoyt Lakes.
+    throughout by PhD to pursue the research path that interested me the most, and furthermore,
+    for leading the whole \chips collaboration through two intense summers of construction
+    activity in Hoyt Lakes.
 
     I would also like to thank everyone within the broader \chips collaboration. Foremost Stefano
-    for all of his incredible support and advice throughout all the stages of my PhD, as well as
-    the UCL group of Tom, Sim, Petr, and John for always being around and making the gulag
-    bearable. 
-
-    I would also like to thank everyone else within the UCL HEP group, particularly my D14 office
+    for his incredible support and advice throughout all the stages of my PhD, as well as the UCL
+    group of Tom, Sim, Petr, and John for always being around and making the gulag bearable. I
+    would also like to thank everyone else within the UCL HEP group, particularly my D14 office
     mates.
 
     Most importantly, I must thank Becca and my family for all of their endless support. 
 \end{acknowledgements}
 
 \begin{preface}
-    Provide a preface at the beginning outlining what work you undertook in each chapter, to make
-    it clear all the work you carried out as part of this thesis. Describe (list) all the things
-    you actually did for CHIPS and how they relate to the chapters of this work.
+    Here I outline my contributions to the work described in this thesis on a chapter by chapter
+    basis. Hopefully, this will make clear what is my own work and what is that of others. Due to
+    the relatively small number of core people involved with the \chips project,  I was somewhat
+    unusually involved with a much broader scope of work than usual, as were the majority of the
+    \chips team.
 
-    I carried out almost all stages of the research myself, due to the relatively small number of
-    people on the project.
-
-    CHIPS:
-
-        Although the author's primary focus was on work for the final two efforts above, a
-        contribution to non DAQ related \chipsfive construction efforts were also made. This work
-        included helping with both the instrumentation testing and calibration as well as
-        installation within \chipsfive. Furthermore, the author played a significant role in the
-        development of the event generation and detector simulation framework presented in
-        \SectionRef{sec:chips_monte_carlo}.
-
-    DAQ: 
-        - for which the author played a major role. 
+    In \ChapterRef{chap:chips} the \chips project and the \chipsfive detector are described. I was
+    personally heavily involved with developing the event generation, detector simulation, and
+    event reconstruction frameworks for \chips, alongside extensive detector optimisation studies
+    to inform the final configuration of the \chipsfive detector. I also made a contribution to
+    the \chipsfive construction efforts, primarily instrumentation testing, calibration,
+    installation, and many other raw tasks.
     
-        The author played a major role in both the development and construction of the DAQ system
-        for \chipsfive. Specifically, a significant contribution to the development of the
-        networking solution and high-level hardware implementation was made, alongside building
-        the control and monitoring software. Furthermore, the author played a role in the
-        development of the novel low-level Madison $\micro$DAQ and Beaglebone DAQ system.
-
-    MACHINE LEARNING STUFF:
-        - This work is solely that of the author's.
-        - This is the main bulk of the authors work.
-        - Full pipeline from event generation to simulation, training, everything, most of the
-        software etc...
+    \ChapterRef{chap:daq} described the data acquisition system developed and implemented for
+    \chipsfive. I played a major role in the development, construction, testing, and installation
+    of this system. Specifically, I made a significant contribution to the development of the
+    networking solution, the high-level hardware implementation, the control and monitoring
+    software, and the development of the novel low-level Madison $\micro$DAQ and Beaglebone
+    system.
+    
+    \ChapterRef{chap:cnn} and \ChapterRef{chap:results} describe the application of Convolutional
+    Neural Networks for the characterisation of neutrino events within \chipsfive. The work in
+    these chapters was solely conducted by me, representing the bulk of my efforts. I developed
+    the whole pipeline, from event generation, simulation, model development and training, to
+    comprehensive evaluation with associated studies.
 \end{preface}
 
 \tableofcontents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

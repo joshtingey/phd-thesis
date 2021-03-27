@@ -111,14 +111,16 @@ group-specific interface containers (either a \emph{Nikhef-container} or
 interface containers are attached to a central aggregation box (\emph{junction-box}) which feeds
 connections into a single umbilical (the tree trunk) to shore.
 
-Common to both low-level hardware implementations is the use of the Time over Threshold (ToT)
-method for PMT signal digitisation. Each analogue PMT pulse is fed to a ToT discriminator coupled
-with a Time to Digital Converter (TDC) to generate each digitised recorded hit, as shown in
-\FigureRef{fig:tot}. Compared to the more common Analogue to Digital Converter (ADC) readout, ToT
-values are less accurate and do not scale linearly with deposited charge. However, as the maximum
-expected deposited charge within \chips detectors is relatively low (only a few p.e), the impact
-of the non-linearity is small, and the ToT implementation is used. Furthermore, ToT electronics
-are simpler and notably cheaper.
+Common to both low-level hardware implementations is the Time over Threshold (ToT) method for PMT
+signal digitisation. Each analogue PMT pulse is fed to a ToT discriminator coupled with a Time to
+Digital Converter (TDC) to generate each digitised recorded hit, as shown in \FigureRef{fig:tot}.
+Compared to the more common Analogue to Digital Converter (ADC) readout, ToT values do not scale
+linearly with charge. Instead, they follow a logarithmic like function. Due to measurement
+uncertainties, this prevents the ToT method from distinguishing between high values of deposited
+charge, corresponding to approximately ten incident photons per event for the PMTs used by
+\chipsfive. However, as the maximum expected incident photons within \chipsfive are relatively low
+(only a few), the impact of the ToT non-linearity is small, and the values are very consistent
+with those recorded using an ADC. Furthermore, ToT electronics are simpler and notably cheaper.
 
 \begin{figure} % TOT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/5-daq/tot.pdf}
@@ -230,11 +232,11 @@ via the danout-board.
 Compared to the Nikhef hardware the \chips developed Madison implementation has a few key
 advantages, primarily driven by the core \chips concept of reducing cost:
 \begin{itemize}
-    \item Commercially available and cheap ($\sim\textsterling50$ each) Beaglebones are leveraged
-    for \textsc{Pom} level processing and logic instead of expensive, FPGA based CLBs. Not only
-    are they cheap but Beaglebones provide a fully configurable general-purpose Linux machine that
-    can easily be enhanced with new features once deployed. This is in comparison to CLBs which
-    can be only be reconfigured via remote reprogramming of the FPGA.
+    \item Commercially available and cheap ($\sim\text{\textsterling}50$ each) Beaglebones are
+    leveraged for \textsc{Pom} level processing and logic instead of expensive, FPGA based CLBs.
+    Not only are they cheap but Beaglebones provide a fully configurable general-purpose Linux
+    machine that can easily be enhanced with new features once deployed. This is in comparison to
+    CLBs which can be only be reconfigured via remote reprogramming of the FPGA.
 
     \item PMT hit processing and logic is pushed right to the lowest-level PMTs themselves via the
     use of $\micro$DAQs. Although not currently fully realised this can have significant
