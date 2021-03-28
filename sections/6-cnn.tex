@@ -7,16 +7,19 @@ estimation of energies. The same is true for \chips detectors, with the primary 
 selection of appeared CC $\nu_{e}$ signal events from a sizeable background, and the estimation of
 associated neutrino energies.
 
-For this purpose, the \chips project has so far relied on a human implemented reconstruction
+For this purpose, the \chips project has so far relied on a likelihood-based reconstruction
 algorithm and a simple classification neural network driven by hand-engineered features. Both are
-prone to human error and restricted in scope to what has been implemented in software.
+restricted in scope to what has been implemented in software, making them prone to ignoring the
+wide range of edge cases not contained within the bulk of neutrino events.
 
-The work outlined in this chapter presents a replacement event analysis methodology for \chips.
-Three \emph{Convolutional Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep
-learning}~\cite{goodfellow2016} neural network have been implemented to achieve the primary aims
-outlined above, amongst others. One for cosmic muon rejection, one for beam event classification,
-and one for neutrino energy estimation. For evaluation purposes, only the implementation as
-applied to the \chipsfive detector module is considered in this work.
+The work outlined in this chapter presents a replacement event analysis methodology for \chips. As
+with any implementation, this new methodology comes with its own limitations and difficulties;
+however, it is found to provide a significant performance improvement. Three \emph{Convolutional
+Neural Networks} (CNNs)~\cite{fukushima1982}, a type of \emph{deep learning}~\cite{goodfellow2016}
+neural network have been implemented to achieve the primary aims outlined above, amongst others.
+One for cosmic muon rejection, one for beam event classification, and one for neutrino energy
+estimation. For evaluation purposes, only the implementation as applied to the \chipsfive detector
+module is considered in this work.
 
 After mentioning previous implementations of deep learning for neutrino experiments, a description
 of the current (standard) techniques are given, before the theoretical background of CNNs is
@@ -102,14 +105,14 @@ Firstly, the PMT hits are sliced in both space and time. Gaps in the time orderi
 used to separate the event into time slices. Each of these slices then undergoes basic filtering
 and clustering to remove outlying hits and ensure only the dominant collections of hits are
 considered. Each cleaned slice is then run through simple geometric vertex finding algorithms to
-estimate the interaction position and time, in addition to the initial track direction.
+estimate the interaction position and time, in addition to the initial direction of the track.
 
 A circular \emph{Hough transform} algorithm, traditionally used for water Cherenkov ring finding
-is then applied. As output, the voting-based transformation produces a space within which rings of
-PMT hits exist as peaks. The track direction values are further refined using this space before a
-search for secondary peaks is carried out to indicate if multiple particles are likely to be
-involved. This process results in a list of seeds, each with a score related directly to the
-height of the associated peak in Hough transform space.
+is then applied~\cite{illingworth1988}. As output, the voting-based transformation produces a
+space within which rings of PMT hits exist as peaks. The track direction values are further
+refined using this space before a search for secondary peaks is carried out to indicate if
+multiple particles are likely to be involved. This process results in a list of seeds, each with a
+score related directly to the height of the associated peak in Hough transform space.
 
 \subsubsection*{Likelihood fit} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -119,7 +122,7 @@ following:
 \begin{itemize}
     \item the track interaction vertex position ($x_{0}$, $y_{0}$, $z_{0}$) and time ($t_{0}$);
     \item the initial track direction ($d_{\theta}$, $d_{\phi}$);
-    \item the initial kinetic energy of the particle ($E_{k}$); and
+    \item the initial kinetic energy of the particle ($E$); and
     \item the particle type (muon, electron or photon).
 \end{itemize}
 For a photon hypothesis the distance between the interaction vertex and the beginning of the
@@ -497,16 +500,6 @@ data. Here we outline just the specific deep learning technique used in this wor
 
 \subsubsection*{CNN operations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The broad category of deep learning covers multiple neural network techniques spanning a range of
-application fields such as computer vision, speech recognition, and natural language processing.
-By stacking many layers on top of each other to form a `deep' network, these methods offer
-increased problem-solving capacity by allowing higher-order non-linear functions to form
-throughout the network. As a direct consequence, instead of requiring hand-engineered features as
-input, deep networks can learn to extract the most powerful features for a given task from raw
-data. Here we outline just the specific deep learning technique used in this work; the CNN.
-
-\subsubsection*{CNN operations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 At their core, CNNs make use of a mathematical operation called \emph{convolution}, which either
 entirely or in part replaces the simple vector multiplication seen in the fully-connected networks
 of \SectionRef{sec:cnn_theory_basics}. This difference makes CNNs incredibly powerful for
@@ -518,9 +511,10 @@ Using standard CNN terminology, the discrete convolution between the \emph{input
     f_{i}=(x*w)_{i}=\sum^{\infty}_{j=-\infty}x_{j}w_{i-j},
     \label{eq:convolution}
 \end{equation}
-where $f$ is commonly referred to as the \emph{feature map}. In typical applications, the input is
-a two-dimensional array $X$. Therefore, both the kernel $W$, and the resulting feature map $F$,
-also become two-dimensional. In this case the convolution operation becomes
+where $i$ and $j$ denote the set of discrete values and $f$ is commonly referred to as the
+\emph{feature map}. In typical applications, the input is a two-dimensional array $X$. Therefore,
+both the kernel $W$, and the resulting feature map $F$, also become two-dimensional. In this case
+the convolution operation becomes
 \begin{equation}
     F_{i}=(X*W)_{i,j}=\sum_{m}\sum_{n}X_{i+m,j+n}W_{m,n},
     \label{eq:conv}
@@ -651,7 +645,7 @@ reasons.
 
 This modification to standard batch training gradient descent is called \emph{stochastic gradient
     descent} as it introduces stochasticity to the training process, providing two main
-    advantages. Firstly, the computational speed of each iteration is significantly reduced, and
+    advantages. Firstly, the computational time of each iteration is significantly reduced, and
     crucially the memory requirements lowered. Secondly, the addition of minibatch specific noise
     decreases the chance that the minimisation will get stuck in a local minimum suited to
     overfitting the training dataset.
@@ -732,11 +726,11 @@ grid as though it is viewed from its estimated interaction vertex position. The 
 behind this is to remove any detector shape effects and to focus on the underlying event topology
 and Cherenkov emission profiles.
 
-To estimate the interaction vertex position for each event, the top-scoring seed from the seeding
+To estimate each event's interaction vertex position, the top-scoring seed from the seeding
 procedure introduced in \SectionRef{sec:cnn_old_reco} is used. This process, unlike the full
 likelihood fit, requires no predefined track hypothesis and typically takes under
-\SI{0.1}{\text{seconds}} per event on a standard batch farm computing node. The seed estimated
-vertex position resolutions for a sample of expected beam events are shown in
+\SI{0.1}{\text{seconds}} per event on a standard batch farm computing node. The difference between
+the true and seed estimated vertex position for a sample of expected beam events are shown in
 \FigureRef{fig:explore_true_reco_vtx}. The $x$ component (along the direction of the beam) is
 commonly estimated closer to the downstream wall of the detector than reality, however, as the $y$
 and $z$ components perpendicular to the beam primarily drive event distortions, the impact on
@@ -744,10 +738,10 @@ event topology is small.
 
 \begin{figure} % HOUGH VTX RES DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/explore_true_reco_vtx.pdf}
-    \caption[Seeding estimated interaction vertex position resolutions]
-    {Seeding estimated interaction vertex position resolutions (true-seed), split by component.
-        The large negative tail for the $x$ component shows the tendency of the seeding procedure
-        to estimate the $x$ component closer to the downstream detector wall than reality.}
+    \caption[Difference between the true and seed estimated vertex position]
+    {Difference between the true and seed estimated vertex position, split by component. The large
+        negative tail for the $x$ component shows the tendency of the seeding procedure to
+        estimate the $x$ component closer to the downstream detector wall than reality.}
     \label{fig:explore_true_reco_vtx}
 \end{figure}
 
@@ -795,7 +789,8 @@ distribution of bin values for each event map across the encoded range.
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_8_bit_range.pdf}
     \caption[Event map encoded 8-bit distributions]
     {The distribution of encoded 8-bit values for the hit-charge, hit-time and hough-height event
-        maps. Note the maximum (capped) bin at an 8-bit value of 255.}
+        maps. Note that due to differing scaling, the values in the bin at an 8-bit value of 255
+        do not correspond to those shown in \TableRef{tab:encoding}.}
     \label{fig:explore_8_bit_range}
 \end{figure}
 
@@ -857,9 +852,9 @@ differences from the literature defined network:
         through a further three VGG blocks together. The flattened VGG blocks outputs are then
         concatenated with five seed parameters (seed pars) and passed through two fully-connected
         (FC) layers of 512 neurons each before the output layer. Both the number of convolutional
-        units and kernels is shown for each block. The detailed VGG block structure is shown
-        within the grey box. The circular yellow $R$ and $Bn$ indicate the use of the ReLU
-        activation function and batch normalisation, respectively.}
+        units (1st value) and kernels (2nd value) is shown for each block. The detailed VGG block
+        structure is shown within the grey box. The circular yellow $R$ and $Bn$ indicate the use
+        of the ReLU activation function and batch normalisation, respectively.}
     \label{fig:chipsnet}
 \end{figure}
 
@@ -1051,8 +1046,10 @@ stopping halting training after 11 epochs (taking 15 hours), as can be seen in
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_cosmic_history.pdf}
     \caption[Loss and accuracy throughout training for the cosmic rejection network]
     {Total loss and \emph{cosmic score} accuracy for both the training sample (solid) and
-        validation sample (dashed) throughout training for the cosmic rejection network. The final
-        network weights are taken at epoch 6 as shown by the vertical black line.}
+        validation sample (dashed) throughout training for the cosmic rejection network. A cut
+        value of 0.5 on the \emph{cosmic score} output is used to determine each event's
+        classification when determining the accuracy. The final network weights are taken at epoch
+        six, as shown by the vertical black line.}
     \label{fig:final_cosmic_history}
 \end{figure}
 
@@ -1157,7 +1154,9 @@ stopping halting training after 12 epochs (taking 15 hours), as can be seen in
     \caption[Loss and accuracy throughout training for the beam classification network]
     {Total loss and \emph{combined category} accuracy for both the training sample (solid) and
         validation sample (dashed) throughout training for the beam classification network. The
-        final network weights are taken at epoch 7 as shown by the vertical black line.}
+        highest scoring \emph{combined category} output neuron is used to determine each event's
+        classification when determining the accuracy. The final network weights are taken at epoch
+        seven, as shown by the vertical black line.}
     \label{fig:final_beam_history}
 \end{figure}
 
@@ -1223,6 +1222,6 @@ estimation networks training typically proceeds is given in \FigureRef{fig:final
     {Total loss and \emph{neutrino energy} mean absolute error for both the training dataset
         (solid) and validation dataset (dashed) throughout training for the energy estimation
         network trained on CC-QEL and CC-MEC $\nu_{e}$ events. The final network weights are taken
-        at epoch 16 as shown by the vertical black line.}
+        at epoch sixteen as shown by the vertical black line.}
     \label{fig:final_energy_history}
 \end{figure}
