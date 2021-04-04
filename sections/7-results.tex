@@ -249,8 +249,9 @@ To access the beam classification performance more rigorously, a selection score
 output categories, found by maximising a figure-of-merit (FOM), is instead calculated. All events
 with a score above this optimised value are then deemed signal. To minimise the expected
 measurement statistical error, the value of $\text{efficiency}\times\text{purity}$ (proportional
-to $s/\sqrt{s+b}$) is optimised as the FOM~\cite{list2002}. Below, the results for both appeared
-CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections using this methodology are presented.
+to the square of $s/\sqrt{s+b}$) is optimised as the FOM~\cite{list2002}. Below, the results for
+both appeared CC $\nu_{e}$ and survived CC $\nu_{\mu}$ selections using this methodology are
+presented.
 
 \subsubsection*{CC $\nu_{e}$ selection} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -311,7 +312,7 @@ considered signal, the selection purity becomes $71.0\pm0.6\%$.
         for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
         numbers (Cuts) in addition to the numbers after the       
         $\text{efficiency}\times\text{purity}$ (FOM) optimised selection for which the efficiency
-        is shown.}
+        relative to the total number is shown.}
     \label{tab:nuel_selection}
 \end{table}
 
@@ -355,9 +356,10 @@ CNN classification.
 Furthermore, the new signal efficiency of 71\% compares well to the 62\% and 64\% achieved by the
 \nova and T2K CC $\nu_{e}$ selections, respectively. However, purity is significantly lower at
 38\% compared to the 78\% and 80\% reached by \nova and T2K~\cite{acero2019, abe2015}. A large
-proportion of this difference can be explained by the lower neutrino energies at which these
-experiments operate. Not only does this increase the proportion of easy to identify CC-QEL events,
-but also lowers the indistinguishable intrinsic beam CC $\nu_{e}$ contamination.
+proportion of this difference can be explained by the lower neutrino energies and greater off-axis
+angles at which these experiments operate. Not only does this increase the proportion of easy to
+identify CC-QEL events, but it also lowers the indistinguishable intrinsic beam CC $\nu_{e}$
+contamination.
 
 \begin{figure} % FINAL OLD PID OUTPUTS DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_old_pid_outputs.pdf}
@@ -432,7 +434,7 @@ primary charged muon is truthfully contained, an 87\% selection efficiency is ac
         various event categories as well as the associated signal purity. Shown are the numbers
         for both the post preselection, \emph{cosmic score} cut, and \emph{escapes score} cut
         numbers (Cuts) in addition to the numbers after the $\text{efficiency}\times\text{purity}$
-        (FOM) optimised selection for which the efficiency is shown.}
+        (FOM) optimised selection for which the efficiency relative to the total number is shown.}
     \label{tab:numu_selection}
 \end{table}
 
@@ -686,7 +688,8 @@ considerable improvements in interaction vertex z-position and time prediction. 
 Super-Kamiokande fiTQun algorithm reaches an interaction vertex position resolution of
 \SI{20}{\text{cm}} for CC $\nu_{e}$ and \SI{15}{\text{cm}} for CC $\nu_{\mu}$
 events~\cite{jiang2019}, compared to the approximately \SI{50}{\text{cm}} and \SI{70}{\text{cm}}
-resolutions in this work. Again, a relatively small difference when comparing detectors.
+resolutions in this work. Although these are large absolute values, relative to the detector size,
+they still allow for sufficient localisation of interaction vertices.
 
 The charged lepton energy, interaction vertex position, and interaction vertex time resolutions
 also display a clear advantage of the CNN approach. Long tails and biased means are common in the
@@ -793,8 +796,9 @@ for its tasks.
     {Visualisations of the feature map outputs, using as input the event shown in
         \FigureRef{fig:explain_example_event}. Shown are the activated feature map outputs from
         the first (top), the second (middle), and the third (bottom) VGG blocks for each of the
-        trained network types. A chipsnet architecture with only a single branch and all three
-        input event maps stacked into a single three-channel input image is used for simplicity.}
+        trained network types, with each small box representing a feature map. A chipsnet
+        architecture with only a single branch and all three input event maps stacked into a
+        single three-channel input image is used for simplicity.}
     \label{fig:cnn_visualisations}
 \end{figure}
 
@@ -1221,8 +1225,10 @@ combination of both.
 \begin{figure} % UNIFORM TRAINING SAMPLE DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/explore_uniform_training_sample.pdf}
     \caption[Number of training events per category for the uniform beam classification network
-        training sample] {Number of training events per category for the uniform beam
-        classification network training sample. All beam event interaction types are shown.}
+        training sample] {The number of training events per category for the uniform beam
+        classification training sample, with equal numbers of CC $\nu_{e}$, CC $\nu_{\mu}$, and NC
+        training events. All beam event interaction types are shown. Note that the \emph{other}
+        categories are Resonant, hence the reported dip in \emph{Res} types.}
     \label{fig:explore_uniform_training_sample}
 \end{figure}
 

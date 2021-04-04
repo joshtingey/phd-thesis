@@ -175,10 +175,10 @@ computing node.
 
 \subsubsection*{Downsides} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The charge and hit time predictions and their associated likelihood contributions depend on many
-low-level inputs. Generally, these inputs describe how Cherenkov light is emitted from specific
-particles and how it propagates through the detector to be detected by the PMTs. Examples of these
-inputs include:
+The charge and hit time predictions and their associated likelihood contributions depend on a
+series low-level inputs. Generally, these inputs describe how Cherenkov light is emitted from
+specific particles and how it propagates through the detector to be detected by the PMTs. Examples
+of these inputs include:
 \begin{itemize}
     \item the number of Cherenkov photons emitted by a particle of a specific type and energy;
     \item the fraction of Cherenkov light emitted at each step along a specific particle's track
@@ -192,11 +192,12 @@ inputs include:
           \FigureRef{fig:digi_likelihood}).
 \end{itemize}
 
-The above list demonstrates a fundamental problem with the likelihood-based approach. Namely, it
-is heavily reliant on the accuracy of multiple low-level inputs and their associated use in human
-implemented software. If a physical process is not modelled appropriately or more crucially
-overlooked, then the prediction accuracy of PMT charges and hit times is affected, impacting the
-performance of the best-fit parameters.
+The above list demonstrated a fundamental problem with the likelihood-based approach. Namely, it
+is only dependent on a finite list of inputs that must be implemented in software. If a physical
+process is overlooked, then the algorithm has access to a reduced amount of information to predict
+the PMT hit charges and times, impacting the performance of the best-fit track parameters.
+Additionally, the large amount of effort required to implement and correctly model each input can
+make a likelihood-based approach time-consuming.
 
 Moreover, the likelihood-based approach requires a predefined track hypothesis per fit. This
 restriction is at odds with the broad array of neutrino events expected within \chips detector
@@ -960,10 +961,13 @@ rate for each epoch $\eta_{e}$, is set to decrease throughout training according
 where $\eta_{0}$ is the initial learning rate, $e$ is the epoch number (starting at one), and
 $c_{d}$ is the learning rate decay coefficient.
 
-Therefore, when training each network there is a list of tunable \emph{hyperparameters}. All are
-optimised specifically for each network using the SHERPA hyperparameter tuning
-framework~\cite{hertel2020}. To maximise performance, random configurations are tested within
-SHERPA across a specific range or selection of choices for each hyperparameter, with:
+Therefore, when training each network, there is a list of tunable \emph{hyperparameters}, all of
+which are optimised using the SHERPA hyperparameter tuning framework~\cite{hertel2020}. To
+maximise performance, SHERPA uses a \emph{random search} algorithm to select random configurations
+of hyperparameters which are then tested by training the network for five epochs on the available
+training data. Each configuration's performance is assessed by using a metric detailed for each
+network in \SectionRef{sec:cnn_specific}. The search space is confined across a specific range or
+selection of choices for each hyperparameter, with:
 \begin{itemize}
     \item the \textbf{initial learning rate $\eta_{0}$}, in a range from $0.00005$ to $0.001$;
     \item the \textbf{learning rate decay coefficient $c_{d}$}, in a range from $0.2$ to $0.8$;
@@ -1035,12 +1039,12 @@ There are two outputs to the cosmic rejection network:
           the loss) during training for this output.
 \end{enumerate}
 
-The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
-$\eta_{0}=0.00005$, $c_{d}=0.7$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple
-multi-task loss combination as given in \EquationRef{eq:multi_simple}. Typically, only 6 epochs
-are required to reach the maximum validation sample \emph{cosmic score} accuracy, with early
-stopping halting training after 11 epochs (taking 15 hours), as can be seen in
-\FigureRef{fig:final_cosmic_history}.
+The network is allowed to train for up to 30 epochs using the SHERPA optimised (with the
+\emph{cosmic score} accuracy metric) hyperparameters: $\eta_{0}=0.00005$, $c_{d}=0.7$,
+$p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple multi-task loss combination as
+given in \EquationRef{eq:multi_simple}. Typically, only 6 epochs are required to reach the maximum
+validation sample \emph{cosmic score} accuracy, with early stopping halting training after 11
+epochs (taking 15 hours), as can be seen in \FigureRef{fig:final_cosmic_history}.
 
 \begin{figure} % COSMIC HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_cosmic_history.pdf}
@@ -1142,12 +1146,12 @@ There are nine outputs to the beam classification network:
           weight of $1$.
 \end{enumerate}
 
-The network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
-$\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple
-multi-task loss combination as given in \EquationRef{eq:multi_simple}. Typically, only 7 epochs
-are required to reach the maximum validation sample \emph{combined category} accuracy, with early
-stopping halting training after 12 epochs (taking 15 hours), as can be seen in
-\FigureRef{fig:final_beam_history}.
+The network is allowed to train for up to 30 epochs using the SHERPA optimised (with the
+\emph{combined category} accuracy metric) hyperparameters: $\eta_{0}=0.0002$, $c_{d}=0.5$,
+$p_{d}=0.1$, $\sigma_{r}=0.02$, and $n_{b}=128$, with a simple multi-task loss combination as
+given in \EquationRef{eq:multi_simple}. Typically, only 7 epochs are required to reach the maximum
+validation sample \emph{combined category} accuracy, with early stopping halting training after 12
+epochs (taking 15 hours), as can be seen in \FigureRef{fig:final_beam_history}.
 
 \begin{figure} % BEAM HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_beam_history.pdf}
@@ -1210,11 +1214,12 @@ There are six outputs to each of the energy estimation networks:
           \EquationRef{eq:mse} is used for training.
 \end{enumerate}
 
-Each network is allowed to train for up to 30 epochs using the SHERPA optimised hyperparameters:
-$\eta_{0}=0.0002$, $c_{d}=0.5$, $p_{d}=0.1$, $\sigma_{r}=0.0$, and $n_{b}=128$, with a learnt
-multi-task loss combination as given in \EquationRef{eq:multi_learnt}. Early stopping typically
-halts training after approximately 20 epochs (taking 2 hours). An example of how an energy
-estimation networks training typically proceeds is given in \FigureRef{fig:final_energy_history}.
+Each network is allowed to train for up to 30 epochs using the SHERPA optimised (with the
+\emph{neutrino energy} mean squared error metric) hyperparameters: $\eta_{0}=0.0002$, $c_{d}=0.5$,
+$p_{d}=0.1$, $\sigma_{r}=0.0$, and $n_{b}=128$, with a learnt multi-task loss combination as given
+in \EquationRef{eq:multi_learnt}. Early stopping typically halts training after approximately 20
+epochs (taking 2 hours). An example of how an energy estimation networks training typically
+proceeds is given in \FigureRef{fig:final_energy_history}.
 
 \begin{figure} % ENERGY HISTORY DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_energy_history.pdf}
