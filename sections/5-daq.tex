@@ -117,10 +117,11 @@ Digital Converter (TDC) to generate each digitised recorded hit, as shown in \Fi
 Compared to the more common Analogue to Digital Converter (ADC) readout, ToT values do not scale
 linearly with charge. Instead, they follow a logarithmic like function. Due to measurement
 uncertainties, this prevents the ToT method from distinguishing between high values of deposited
-charge, corresponding to approximately ten incident photons per event for the PMTs used by
-\chipsfive. However, as the maximum expected incident photons within \chipsfive are relatively low
-(only a few), the impact of the ToT non-linearity is small, and the values are very consistent
-with those recorded using an ADC. Furthermore, ToT electronics are simpler and notably cheaper.
+charge, corresponding to approximately ten incident photons or greater per PMT per event for the
+PMTs used by \chipsfive. However, as the maximum expected incident photons within \chipsfive are
+relatively low (only a few), the impact of the ToT non-linearity is small, and the values are very
+consistent with those recorded using an ADC readout. Additionally, and perhaps most importantly,
+ToT electronics are simpler and notably cheaper.
 
 \begin{figure} % TOT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/5-daq/tot.pdf}

@@ -71,7 +71,7 @@ The $Z^{0}$ and $W^{\pm}$ bosons were discovered at the CERN based Super Proton 
 1983~\cite{arnison1983_z, arnison1983_w}. Crucially, as $Z^{0}$ bosons were expected to decay to
 neutrinos, measurements made to the decay width could strongly constrain the number of neutrino
 flavours. The ALEPH, DELPHI, L3, and OPAL experiments at the LEP $e^{+}e^{-}$ collider (see
-\FigureRef{fig:z_resonance}), as well as the Mark II experiment at SLAC~\cite{abrams1989} made
+\FigureRef{fig:z_resonance}), as well as the Mark II experiment at SLAC~\cite{abrams1989}, made
 such precise measurements in the 1990s, indicating that the number of light active neutrino
 flavours was $2.984\pm0.008$~\cite{electroweak2006}.
 
@@ -374,9 +374,10 @@ difference between neutrinos and anti-neutrinos. Secondly, the modified oscillat
 found to be non-symmetric with respect to the sign of the $\Delta m_{kj}^{2}$ parameters.
 
 \begin{figure} % NUEL COHERENT SCATTERING DIAGRAM %
-    \feynmandiagram[vertical'=a to b] {i1 [particle=\(\nu_{e}\)]-- [fermion] a-- [fermion] f1
-    [particle=\(e^{-}\)], a -- [boson,edge label=\(W^{+}\)] b, i2 [particle=\(e^{-}\)]-- [fermion]
-    b-- [fermion] f2 [particle=\(\nu_{e}\)],};
+    \feynmandiagram[vertical'=a to b] {
+        i1 [particle=\(e^{-}\)] --[anti fermion] a --[anti fermion] f1 [particle=\(\nu_{e}\)],  
+        a -- [boson,edge label=\(W^{+}\)] b, 
+        i2 [particle=\(e^{-}\)] -- [fermion] b -- [fermion] f2 [particle=\(\nu_{e}\)],};
     \caption[Feynman diagram of a charged-current coherent scattering interaction]
     {Feynman diagram of a charged-current coherent scattering interaction between an electron
         neutrino and an electron.}
@@ -395,8 +396,8 @@ is no charge or flavour exchange, and the neutrino continues into the final stat
 \FigureRef{fig:nc_interaction}.
 
 \begin{figure} % CC DIAGRAM %
-    \feynmandiagram[vertical'=a to b] {i1 [particle=\(\nu_{l}\)]-- [fermion] a-- [fermion] f1
-    [particle=\(l^{-}\)], a -- [boson,edge label=\(W^{+}\)] b, i2 [particle=\(n\)]-- [fermion] b--
+    \feynmandiagram[vertical'=a to b] {i1 [particle=\(l^{-}\)]-- [anti fermion] a-- [anti fermion] f1
+    [particle=\(\nu_{l}\)], a -- [boson,edge label=\(W^{+}\)] b, i2 [particle=\(n\)]-- [fermion] b--
     [fermion] f2 [particle=\(P^{+}\)],};
     \caption[Feynman diagram of a charged-current interaction]
     {Feynman diagram of a charged-current quasi-elastic interaction between a neutrino and a
@@ -406,7 +407,7 @@ is no charge or flavour exchange, and the neutrino continues into the final stat
 \end{figure}
 
 \begin{figure} % NC DIAGRAM %
-    \feynmandiagram[vertical'=a to b] {i1 [particle=\(\nu_{l}\)]-- [fermion] a-- [fermion] f1
+    \feynmandiagram[vertical'=a to b] {i1 [particle=\(\nu_{l}\)]-- [anti fermion] a-- [anti fermion] f1
     [particle=\(\nu_{l}\)], a -- [boson,edge label=\(Z^{0}\)] b, i2 [particle=\(N\)]-- [fermion]
     b-- [fermion] f2 [particle=\(N\)],};
     \caption[Feynman diagram of a neutral-current interaction]

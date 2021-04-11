@@ -170,9 +170,10 @@ discussed in greater detail within \SectionRef{sec:chips_detector_location}.
     \includegraphics[width=0.7\textwidth]{diagrams/4-chips/numi_map.pdf}
     \caption[Map of detector locations in the \numi beam]
     {Map of the MINOS, \nova and \chips locations in the \numi beam as it surfaces in northern
-        Minnesota. Shown is the expected neutrino event rate assuming no oscillations, with lines
-        of constant L/E indicated with contours. The western extent of Lake Superior can be seen
-        in the lower right of the map for reference. Image taken from \ReferenceRef{adamson2013}.}
+        Minnesota. Shown (the z-axis) is the expected neutrino event rate per kt per year assuming
+        no oscillations, with lines of constant L/E indicated with contours. The western extent of
+        Lake Superior can be seen in the lower right of the map for reference. Image taken from
+        \ReferenceRef{adamson2013}.}
     \label{fig:numi_map}
 \end{figure}
 
@@ -226,9 +227,9 @@ ultrarelativistic limit $\beta\sim 1$, the opening angle is found to be $\sim41^
 \begin{figure} % CHERENKOV EFFECT DIAGRAM DIAGRAM %
     \includegraphics[width=0.6\textwidth]{diagrams/4-chips/cherenkov.pdf}
     \caption[Diagram of Cherenkov radiation emission]
-    {Diagram of Cherenkov radiation emission and wavefront angles. The angles $\theta_{c}$ and
-        $\eta$ are not equal in a dispersive medium. Figure taken from
-        \ReferenceRef{particle2020}}
+    {Diagram of Cherenkov radiation emission and wavefront angles. In a dispersive medium photons
+        propagate at the group velocity $v_{g}$ and the Cherenkov emission opening angle $\eta$ is
+        not equal to $\theta_{c}$. Figure taken from \ReferenceRef{particle2020}}
     \label{fig:cherenkov}
 \end{figure}
 
@@ -438,12 +439,11 @@ does not take any of the structural strain.
 \label{sec:chips_detector_instrumentation} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chipsfive is instrumented with PMTs arranged within distinct plane like structures called Planar
-Optical Modules (\textsc{Pom}s), which take inspiration from the Digital Optical Modules
-(\textsc{Dom}s) used by IceCube and KM3NeT~\cite{hanson2006, eijk2015}. Each \textsc{Pom} is a
-roughly \SI{2}{\text{m}} by \SI{3}{\text{m}} array of watertight PVC tubing equipped with between
-$15$ to $30$ PMTs, as well as the lowest level of DAQ electronics. Commercially available PVC
-piping and connectors are used to form the structure of each plane, glued together with standard
-PVC primer and cement.
+Optical Modules (\textsc{Pom}s), which take inspiration from the Digital Optical Modules used by
+IceCube and KM3NeT~\cite{hanson2006, eijk2015}. Each \textsc{Pom} is a roughly \SI{2}{\text{m}} by
+\SI{3}{\text{m}} array of watertight PVC tubing equipped with between $15$ to $30$ PMTs, as well
+as the lowest level of DAQ electronics. Commercially available PVC piping and connectors are used
+to form the structure of each plane, glued together with standard PVC primer and cement.
 
 There are two types of \textsc{Pom} used within \chipsfive, differentiated by the PMTs and DAQ
 electronics they use and named after the institution at which they were primarily developed.
@@ -762,10 +762,10 @@ presented in \ChapterRef{chap:cnn} and \ChapterRef{chap:results}.
 The detector simulation uses the WCSim water Cherenkov simulation package~\cite{wcsim2020} built
 on top of the Geant4 simulation framework~\cite{agostinelli2003, allison2006, allison2016}.
 Developed initially to simulate possible water Cherenkov detectors in the LBNF beam, WCSim is now
-used more widely in the field. Heavily modified for the \chips project, WCSim allows for generic
-water Cherenkov detector geometries to be easily loaded at runtime via a series of simple XML
-configuration files. These changes allow for a broad range of detector geometries to be quickly
-considered without recompilation of the code.
+used more widely in the field. The \chips version of WCSim allows for generic water Cherenkov
+detector geometries to be easily loaded at runtime via a series of simple XML configuration files.
+These changes allow for a broad range of detector geometries to be quickly considered without
+recompilation of the code.
 
 The simulation builds an n-sided, regular polygonal prism consisting of two endcaps and a barrel,
 filled with water and lined with a low reflectivity \emph{blacksheet}. The geometry is separated
@@ -800,7 +800,7 @@ the blacksheet and PMT glass reflectivity. Throughout this work (including that 
 \ChapterRef{chap:cnn} and \ChapterRef{chap:results}) a conservative photon attenuation length of
 \SI{50}{\text{m}} at \SI{405}{\text{nm}} is used alongside negligible
 scattering~\cite{campbell2020}, with the PMT glass reflectivity set to
-24\%~\cite{hamamatsu_handbook}, and the blacksheet reflectivity kept at the default 4\%.
+24\%~\cite{hamamatsu_handbook}, and the blacksheet reflectivity kept at the WCSim default of 4\%.
 
 A veto volume can also be defined. The veto is built as either a concentric shell around the whole
 inner volume with a given thickness or solely above the top-cap with a given height. Any PMTs
@@ -897,7 +897,7 @@ equal to \SI{24}{\text{m}} are used to estimate a \chipsfive cosmic muon rate of
 \SI{11.8}{\text{KHz}} at \SI{50}{\text{m}} of overburden.
 
 Given the \SI{10}{\micro\text{s}} long \numi beam spill occurring every \SI{1.33}{\text{seconds}},
-an in spill cosmic rate of $\sim2.1$ million events per year is calculated with an in spill
+an in spill cosmic rate of $2.1\pm0.2$ million events per year is calculated with an in spill
 occupancy of 9\%. Considering a typical event takes $\sim$\SI{100}{\text{ns}} to unfold, there is
 approximately a 0.3\% chance that any beam event overlaps with a cosmic muon. This low coincidence
 shows just how powerful a short beam spill can be at reducing the significant cosmic background.

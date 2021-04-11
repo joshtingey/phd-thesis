@@ -180,16 +180,18 @@ contained. Furthermore, NC events are found to be primarily rejected by the pres
 cosmic events are heavily rejected by both the preselection and \emph{cosmic score} cuts.
 
 \begin{table}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrrr}
                        & App CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC & Cosmic               \\
         \midrule
-        Total events   & $44.17\pm0.02$ & $2045.9\pm33.3$ & $35.06\pm0.01$ & $354.7\pm5.8$ & $\sim2100000$ \\
-        + preselection & $41.21\pm0.02$ & $1889.5\pm30.9$ & $33.52\pm0.01$ & $243.2\pm4.0$ & 433000        \\
-        + cosmic cut   & $41.10\pm0.02$ & $1874.4\pm30.7$ & $33.35\pm0.01$ & $241.6\pm4.0$ & 0.13          \\
-        + escapes cut  & $40.80\pm0.02$ & $818.0\pm12.6$  & $33.01\pm0.01$ & $234.5\pm3.9$ & 0.02          \\
+        Total events   & $44.17\pm0.02$ & $2045.9\pm33.3$ & $35.06\pm0.01$ & $354.7\pm5.8$ & $<2100000$ \\
+        + preselection & $41.21\pm0.02$ & $1889.5\pm30.9$ & $33.52\pm0.01$ & $243.2\pm4.0$ & $<433000$  \\
+        + cosmic cut   & $41.10\pm0.02$ & $1874.4\pm30.7$ & $33.35\pm0.01$ & $241.6\pm4.0$ & $<0.13$    \\
+        + escapes cut  & $40.80\pm0.02$ & $818.0\pm12.6$  & $33.01\pm0.01$ & $234.5\pm3.9$ & $<0.02$    \\
         \midrule
-        Efficiency     & $92.4\pm0.1\%$ & $40.0\pm0.1\%$  & $94.2\pm0.1\%$ & $66.3\pm0.3\%$ & $\sim1.5\times10^{-8}$ \\
+        Efficiency     & $92.4\pm0.1\%$ & $40.0\pm0.1\%$  & $94.2\pm0.1\%$ & $66.3\pm0.3\%$ & $<1.5\times10^{-8}$ \\
     \end{tabular}
+    }
     \caption[Number of events passing successive selection cuts for each event category]
     {The total number of expected (weighted) events and the number that pass successive selection
         cuts for the different event categories. The preselection, \emph{cosmic score} cut, and
@@ -288,6 +290,7 @@ considered signal, the selection purity becomes $71.0\pm0.6\%$.
 \end{figure}
 
 \begin{table}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrrr}
                  & CC $\nu_{e}$ sig & CC $\nu_{\mu}$ bkg & Beam CC $\nu_{e}$ bkg & NC bkg & Sig purity  \\
         \midrule
@@ -297,6 +300,7 @@ considered signal, the selection purity becomes $71.0\pm0.6\%$.
         \midrule
         FOM Eff & $70.9\pm0.2\%$ & $0.30\pm0.02\%$ & $76.3\pm0.1\%$  & $5.0\pm0.2\%$  & -  \\
     \end{tabular}
+    }
     \caption[Table showing CC $\nu_{e}$ selected event numbers, efficiencies and signal purity]
     {Table showing CC $\nu_{e}$ selected event numbers and corresponding efficiencies for the
         various event categories as well as the associated signal purity. Shown are the numbers
@@ -408,6 +412,7 @@ primary charged muon is truthfully contained, an 87\% selection efficiency is ac
 \end{figure}
 
 \begin{table}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrrr}
                  & CC $\nu_{\mu}$ sig & App CC $\nu_{e}$ bkg & Beam CC $\nu_{e}$ bkg & NC bkg & Sig purity \\
         \midrule
@@ -417,6 +422,7 @@ primary charged muon is truthfully contained, an 87\% selection efficiency is ac
         \midrule
         FOM Eff & $38.0\pm0.2\%$ & $3.0\pm0.1\%$  & $3.9\pm0.1\%$   & $8.4\pm0.2\%$ & -              \\
     \end{tabular}
+    }
     \caption[Table showing CC $\nu_{\mu}$ selected event numbers, efficiencies and signal purity]
     {Table showing CC $\nu_{\mu}$ selected event numbers and corresponding efficiencies for the
         various event categories as well as the associated signal purity. Shown are the numbers
@@ -570,12 +576,14 @@ in \TableRef{tab:energy_resolutions}.
 \end{figure}
 
 \begin{table}
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrrr}
         Event type     & All    & Signal & Signal-QEL & Signal-Res & Signal-DIS \\
         \midrule
         CC $\nu_{e}$   & 12.9\% & 10.3\% & 7.1\%      & 10.3\%     & 13.6\%     \\
         CC $\nu_{\mu}$ & 12.9\% & 12.6\% & 6.2\%      & 11.7\%     & 14.9\%     \\
     \end{tabular}
+    }
     \caption[Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ neutrino energy resolutions]
     {Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ neutrino energy resolutions. Shown for each sample
         are the resolutions for \emph{all} selected events, the true \emph{signal} selected events
@@ -925,11 +933,11 @@ are not presented, as the resulting output changes are negligible.
     \begin{tabular}{lrrr}
         Metric         & $\sigma=0~\text{ns}$ & $\sigma=2~\text{ns}$ & $\sigma=5~\text{ns}$ \\
         \midrule
-        Max FOM        & \textbf{0.519}       & 0.513                & 0.484                \\
-        High Score Eff & \textbf{0.835}       & 0.826                & 0.798                \\
-        High Score Pur & 0.554                & 0.556                & \textbf{0.561}       \\
-        ROC Integral   & \textbf{0.828}       & 0.828                & 0.826                \\
-        PR Integral    & \textbf{0.756}       & 0.751                & 0.730                \\
+        Max FOM        & \textbf{$0.520\pm0.004$} & $0.513\pm0.004$  & $0.487\pm0.004$      \\
+        High Score Eff & \textbf{$0.835\pm0.001$} & $0.827\pm0.001$  & $0.798\pm0.001$      \\
+        High Score Pur & $0.552\pm0.004$          & $0.555\pm0.004$  & \textbf{$0.563\pm0.004$} \\
+        ROC Integral   & \textbf{$0.828\pm0.015$} & $0.828\pm0.015$  & $0.826\pm0.015$      \\
+        PR Integral    & \textbf{$0.756\pm0.014$} & $0.751\pm0.014$  & $0.730\pm0.013$      \\
     \end{tabular}
     \caption[Classification performance metrics for different levels of hit-time smearing]
     {Classification performance metrics for different levels of hit-time smearing. The ROC and PR
@@ -1000,21 +1008,17 @@ rejection performance is not presented as the resulting output changes are negli
 \end{figure}
 
 \begin{table} % CALIB CHARGE COMPARISON METRICS TABLE %
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrrr}
-        Scaling ($\mu,\sigma$) & ($1.0,0.0$)    & ($1.0,0.2$)    & ($1.0,0.4$) & ($1.2,0.2$) &
-        ($1.4,0.2$) \\
+        Scaling ($\mu,\sigma$) & ($1.0,0.0$)    & ($1.0,0.2$)    & ($1.0,0.4$) & ($1.2,0.2$) & ($1.4,0.2$) \\
         \midrule
-        Max FOM                & \textbf{0.519} & 0.513          & 0.458       & 0.519       &
-        0.501       \\
-        High Score Eff         & \textbf{0.835} & 0.820          & 0.771       & 0.829       &
-        0.821       \\
-        High Score Pur         & 0.554          & \textbf{0.565} & 0.560       & 0.551       &
-        0.532       \\
-        ROC Integral           & \textbf{0.828} & 0.828          & 0.825       & 0.827       &
-        0.825       \\
-        PR Integral            & \textbf{0.756} & 0.751          & 0.707       & 0.750       &
-        0.733       \\
+        Max FOM        & \textbf{$0.520\pm0.004$} & $0.512\pm0.004$ & $0.454\pm0.004$ & $0.518\pm0.004$ & $0.498\pm0.004$ \\
+        High Score Eff & \textbf{$0.835\pm0.001$} & $0.820\pm0.001$ & $0.772\pm0.001$ & $0.829\pm0.001$ & $0.820\pm0.001$ \\
+        High Score Pur & $0.552\pm0.004$ & \textbf{$0.565\pm0.004$} & $0.558\pm0.004$ & $0.549\pm0.004$ & $0.533\pm0.004$ \\
+        ROC Integral   & \textbf{$0.828\pm0.015$} & $0.827\pm0.015$ & $0.825\pm0.015$ & $0.827\pm0.015$ & $0.825\pm0.015$ \\
+        PR Integral    & \textbf{$0.756\pm0.014$} & $0.751\pm0.014$ & $0.707\pm0.013$ & $0.750\pm0.014$ & $0.756\pm0.013$ \\
     \end{tabular}
+    }
     \caption[Classification performance metrics for different levels of hit-charge smearing and
         shifting] {Classification performance metrics for different levels of hit-charge smearing
         and shifting.}
@@ -1078,11 +1082,11 @@ presented as the resulting output changes are negligible.
     \begin{tabular}{lrrr}
         Metric         & $0.0\%$        & $2.3\%$ & $6.7\%$ \\
         \midrule
-        Max FOM        & \textbf{0.519} & 0.503   & 0.316   \\
-        High Score Eff & \textbf{0.835} & 0.824   & 0.717   \\
-        High Score Pur & \textbf{0.554} & 0.545   & 0.414   \\
-        ROC Integral   & \textbf{0.828} & 0.827   & 0.810   \\
-        PR Integral    & \textbf{0.756} & 0.740   & 0.559   \\
+        Max FOM        & \textbf{$0.520\pm0.004$} & $0.503\pm0.004$ & $0.440\pm0.003$ \\
+        High Score Eff & \textbf{$0.835\pm0.001$} & $0.823\pm0.001$ & $0.802\pm0.001$ \\
+        High Score Pur & \textbf{$0.552\pm0.004$} & $0.544\pm0.004$ & $0.487\pm0.004$ \\
+        ROC Integral   & \textbf{$0.828\pm0.015$} & $0.827\pm0.015$ & $0.822\pm0.015$ \\
+        PR Integral    & \textbf{$0.756\pm0.014$} & $0.740\pm0.013$ & $0.681\pm0.012$ \\
     \end{tabular}
     \caption[Classification performance metrics for different levels of random noise]
     {Classification performance metrics for different levels of random noise.}
@@ -1288,6 +1292,7 @@ parameters (Number of pars) and the time taken in milliseconds to complete a sin
 iteration step (Iter time).
 
 \begin{table} % ARCHITECTURE COMPARISON METRICS TABLE %
+    \resizebox{\textwidth}{!}{%
     \begin{tabular}{lrrrr}
         Metric         & VGG            & Inception  & ResNet              & Inception-ResNet \\
         \midrule
@@ -1299,6 +1304,7 @@ iteration step (Iter time).
         ROC Integral   & \textbf{$0.826\pm0.015$} & $0.825\pm0.015$ & $0.824\pm0.015$          & $0.824\pm0.015$ \\
         PR Integral    & \textbf{$0.712\pm0.013$} & $0.706\pm0.013$ & $0.688\pm0.012$          & $0.699\pm0.012$ \\
     \end{tabular}
+    }
     \caption[Classification performance metrics for different network architectures]
     {Classification performance metrics for the different network architectures.}
     \label{tab:arch}
