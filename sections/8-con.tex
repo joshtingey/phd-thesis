@@ -50,6 +50,33 @@ energy estimation is relatively comparable to other experiments. A 10.3\% and 12
 energy resolution on signal CC $\nu_{e}$ and CC $\nu_{\mu}$ events respectively, is achieved,
 falling to 7.1\% and 6.2\% when just quasi-elastic events are considered. 
 
+Want a summary table showing
+- Cosmic rejection
+- Signal Nuel selection improvement
+- Numu selection
+- Energy resolution 
+
+\begin{table}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrr}
+        Selection      & App CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC & Cosmic               \\
+        \midrule
+        Total events   & $44.17\pm0.02$ & $2045.9\pm33.3$ & $35.06\pm0.01$ & $354.7\pm5.8$ & $\sim2100000$ \\
+        + Preselection & $41.21\pm0.02$ & $1889.5\pm30.9$ & $33.52\pm0.01$ & $243.2\pm4.0$ & $<433000$  \\
+        + Cosmic cut   & $41.10\pm0.02$ & $1874.4\pm30.7$ & $33.35\pm0.01$ & $241.6\pm4.0$ & $<0.13$    \\
+        + Escapes cut  & $40.68\pm0.02$ & $795.7\pm12.3$  & $32.86\pm0.01$ & $233.0\pm3.9$ & $<0.02$    \\
+        \midrule
+        Cuts Eff     & $92.1\pm0.1\%$ & $38.9\pm0.1\%$  & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & $<1.5\times10^{-8}$ \\
+    \end{tabular}
+    }
+    \caption[Number of events passing successive selection cuts for each event category]
+    {The total number of expected (weighted) events and the number that pass successive selection
+        cuts for the different event categories. The preselection, \emph{cosmic score} cut, and
+        \emph{escapes score} cut numbers are shown. The selection efficiency relative to the total
+        number of events after all cuts have been applied is also shown for each event category.}
+    \label{tab:selection}
+\end{table}
+
 Not only are the trained convolutional neural networks found to provide excellent performance, but
 their inner workings are found to be explainable and their outputs robust to distributional
 changes in the input. These findings rebut the common and justified concern that they are too
