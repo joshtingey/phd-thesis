@@ -129,7 +129,7 @@ sample, all are rejected by this cut alongside preselection.
         close to zero for the different event categories. The cosmic rejection cut value is shown
         at 0.0001 with the arrow indicating selected events. Only preselected events are shown to
         better highlight the events this output aims to classify. No cosmic events are within the
-        shown range due to the statistical limitations of the evaluation sample.}
+        shown range due to the limitations of the evaluation sample.}
     \label{fig:cosmic_zoomed_outputs}
 \end{figure}
 
@@ -153,7 +153,7 @@ charged lepton is deemed to be fully contained within the detector. This cut val
 maximise the fraction of CC $\nu_{\mu}$ events which are correctly classified as having their
 primary charged lepton contained or not within the detector, leading to $96.8\pm0.1\%$ of CC
 $\nu_{\mu}$ events being classified correctly. As expected, the vast majority ($97.2\pm0.1\%$) of
-CC $\nu_{e}$ and NC events are selected.
+CC $\nu_{e}$ and NC events are selected by this cut.
 
 For comparison with other experiments, the escapes cut effectively works as a quasi fiducial
 volume cut, for an energy-dependent region near the downstream wall of the detector. Fiducial
@@ -183,12 +183,14 @@ rejected by the preselection, while cosmic events are heavily rejected by both t
 and \emph{cosmic score} cuts.
 
 A future data-driven estimate, using actual \chipsfive data collected outside of the \numi beam
-spill window, could allow for a much-improved understanding of the cosmic muon background.
-Crucially, for now, of all the true cosmic muon events with a \emph{cosmic score} less than $0.9$,
-none would be classified as signal CC $\nu_{e}$ events by the beam classification detailed in
-\SectionRef{sec:results_eval_beam}. Therefore, the expected cosmic muon contamination of both beam
-selections (CC $\nu_{e}$ and  CC $\nu_{\mu}$) is expected to be negligible relative to the
-selected number of signal events in each and ignored for the rest of this performance evaluation.
+spill window, could allow for a much-improved understanding of the cosmic muon background rate.
+However, for now, an upper limit of $<6\pm0.6$ cosmic muon events per year passing all the cuts
+shows that the cosmic muon rejection works well. Crucially, of all the true cosmic muon events
+with a \emph{cosmic score} less than $0.9$, none would be classified as signal CC $\nu_{e}$ events
+by the beam classification detailed in \SectionRef{sec:results_eval_beam}. Therefore, the expected
+cosmic muon contamination of both beam selections (CC $\nu_{e}$ and  CC $\nu_{\mu}$) is expected
+to be negligible relative to the selected number of signal events for each and ignored for the
+rest of this performance evaluation.
 
 \begin{table}
     \resizebox{\textwidth}{!}{%
@@ -200,16 +202,16 @@ selected number of signal events in each and ignored for the rest of this perfor
         + Cosmic cut   & $41.10\pm0.02$ & $1874.4\pm30.7$ & $33.35\pm0.01$ & $241.6\pm4.0$ & $<6\pm0.6$ \\
         + Escapes cut  & $40.68\pm0.02$ & $795.7\pm12.3$  & $32.86\pm0.01$ & $233.0\pm3.9$ & $<6\pm0.6$ \\
         \midrule
-        Cuts Eff     & $92.1\pm0.1\%$ & $38.9\pm0.1\%$  & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & $ <2.9\pm0.3\times10^{-6}$ \\
+        Cuts Eff     & $92.1\pm0.1\%$ & $38.9\pm0.1\%$  & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & $<2.9\pm0.3\times10^{-6}$ \\
     \end{tabular}
     }
     \caption[Number of events passing successive selection cuts for each event category]
     {The total number of expected (weighted) events and the number that pass successive selection
         cuts for the different event categories. The preselection, \emph{cosmic score} cut, and
         \emph{escapes score} cut numbers are shown. The selection efficiency relative to the total
-        number of events after all cuts have been applied is also shown for each event category.
-        As zero out of the $350000$ cosmic events in the evaluation sample are selected after the
-        \emph{cosmic score} cut, an upper limit on the values is instead given.}
+        number of events after all the cuts have been applied is also shown for each event
+        category. As zero out of the $350000$ cosmic events in the evaluation sample are selected
+        after the \emph{cosmic score} cut, an upper limit on the values is instead given.}
     \label{tab:selection}
 \end{table}
 
@@ -270,7 +272,7 @@ indistinguishable nature.
 
 The total number of events, those selected by the previously mentioned cuts, and those furthermore
 selected by the FOM-$\nu_e$ optimised selection are shown in \TableRef{tab:nuel_selection} for
-each event category, alongside the corresponding selection efficiencies and appeared CC $\nu_{e}$
+each event category alongside the corresponding selection efficiencies and appeared CC $\nu_{e}$
 signal and combined CC $\nu_{e}$ purities. The purities are defined as the fraction of events
 within the selection that are true signal events. The final FOM-$\nu_e$ selected appeared CC
 $\nu_{e}$ signal purity of $38.3\pm0.3\%$ may appear low, but this is mainly due to the
@@ -296,15 +298,16 @@ components are considered signal, the selection purity becomes $70.9\pm0.6\%$.
         + Cuts          & $40.68\pm0.02$ & $795.7\pm12.3$  & $32.86\pm0.01$ & $233.0\pm3.9$ & $3.69\pm0.02\%$ & $6.67\pm0.03\%$ \\
         + FOM-$\nu_e$   & $31.27\pm0.02$ & $6.0\pm0.1$     & $26.69\pm0.01$ & $17.8\pm0.3$  & $38.3\pm0.3\%$  & $70.9\pm0.6\%$ \\
         \midrule
-        FOM-$\nu_e$ Eff & $70.8\pm0.2\%$ & $0.29\pm0.02\%$ & $76.1\pm0.1\%$  & $5.0\pm0.2\%$  & - & - \\
+        Cuts Eff        & $92.1\pm0.1\%$ & $38.9\pm0.1\%$  & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & - & - \\
+        FOM-$\nu_e$ Eff & $70.8\pm0.2\%$ & $0.29\pm0.02\%$ & $76.1\pm0.1\%$ & $5.0\pm0.2\%$  & - & - \\
     \end{tabular}
     }
     \caption[Table showing CC $\nu_{e}$ selected event numbers, efficiencies and purities]
     {Table showing CC $\nu_{e}$ selected event numbers and corresponding efficiencies for the
         various event categories as well as associated purities. Shown are the total event
         numbers, those after the preselection, \emph{cosmic score} cut, and \emph{escapes score}
-        cut (Cuts), in addition to the numbers after the FOM-$\nu_e$ optimised selection for which
-        the efficiencies relative to the total number of events are shown. Both the appeared
+        cut (Cuts), in addition to the numbers after the FOM-$\nu_e$ optimised selection with the
+        efficiencies relative to the total number of events shown for both. Both the appeared
         signal CC $\nu_{e}$ purity and the joint appeared and beam CC $\nu_{e}$ purity are shown
         for each selection.}
     \label{tab:nuel_selection}
@@ -337,7 +340,7 @@ selection efficiency remains low.
         categories are shown in terms of the true neutrino energy, while NC events are shown in
         terms of the true hadronic component energy. The survived CC $\nu_{\mu}$ efficiency is so
         low it is barely visible near zero. For reference, the true appeared CC $\nu_{e}$ neutrino
-        energy distribution is shown in the green.}
+        energy distribution is shown in green.}
     \label{fig:final_nuel_hists}
 \end{figure}
 
@@ -402,7 +405,7 @@ function of selecting events above a certain CC $\nu_{\mu}$ score are shown in
 $\nu_{\mu}$ score above $0.315$, achieving a value of $0.365\pm0.002$. The total number of events,
 those selected by the previously mentioned cuts, and those furthermore selected by the
 FOM-$\nu_{\mu}$ optimised selection are shown in \TableRef{tab:numu_selection} for each event
-category, alongside the corresponding selection efficiencies and CC $\nu_{\mu}$ signal purity.
+category alongside the corresponding selection efficiencies and CC $\nu_{\mu}$ signal purity.
 
 The signal efficiency of $37.0\pm0.1\%$ compares well to the 31\% and 36\% achieved by the \nova
 and T2K CC $\nu_{\mu}$ selections, respectively~\cite{acero2019, abe2015}. This is also the case
@@ -432,7 +435,8 @@ $87.5\pm0.1\%$ selection efficiency is achieved.
         + Cuts  & $795.7\pm12.3$  & $40.68\pm0.02$ & $32.86\pm0.01$ & $233.0\pm3.9$ & $72.2\pm0.2\%$ \\
         + FOM-$\nu_{\mu}$   & $756.4\pm11.6$  & $1.293\pm0.001$ & $1.315\pm0.001$ & $29.0\pm0.5$ & $96.0\pm0.1\%$ \\
         \midrule
-        FOM-$\nu_{\mu}$ Eff & $37.0\pm0.1\%$ & $2.9\pm0.1\%$  & $3.8\pm0.1\%$   & $8.2\pm0.2\%$ & -              \\
+        Cuts Eff        & $38.9\pm0.1\%$ & $92.1\pm0.1\%$ & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & - \\
+        FOM-$\nu_{\mu}$ Eff & $37.0\pm0.1\%$ & $2.9\pm0.1\%$  & $3.8\pm0.1\%$   & $8.2\pm0.2\%$ & - \\
     \end{tabular}
     }
     \caption[Table showing CC $\nu_{\mu}$ selected event numbers, efficiencies and signal purity]
@@ -440,7 +444,7 @@ $87.5\pm0.1\%$ selection efficiency is achieved.
         various event categories as well as the associated signal purity. Shown are the total
         event numbers, those after the preselection, \emph{cosmic score} cut, and \emph{escapes
         score} cut (Cuts), in addition to the numbers after the FOM-$\nu_{\mu}$ optimised
-        selection for which the efficiencies relative to the total number of events are shown. The
+        selection with the efficiencies relative to the total number of events shown for both. The
         CC $\nu_{\mu}$ signal purity is also shown for each selection.}
     \label{tab:numu_selection}
 \end{table}
@@ -462,10 +466,9 @@ due to misidentification of energetic protons and pions.
         different event categories as well as the survived CC $\nu_{\mu}$ purity as a function of
         energy. All CC categories are shown in terms of the true neutrino energy, while NC events
         are shown in terms of the true hadronic component energy. For reference, the true survived
-        CC $\nu_{\mu}$ neutrino energy distribution is shown in the blue.}
+        CC $\nu_{\mu}$ neutrino energy distribution is shown in blue.}
     \label{fig:final_numu_hists}
 \end{figure}
-
 
 \subsubsection*{Interaction type classification} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -564,27 +567,26 @@ expected \chipsfive beam energies, proving the desired response.
 
 To fully understand CNN energy estimation performance, histograms of ratios of differences between
 CNN estimated (reco) and true neutrino energy to true neutrino energy for both true CC $\nu_{e}$
-and true CC $\nu_{\mu}$ beam events that are also selected by their corresponding CC selection are
+and CC $\nu_{\mu}$ beam events that are also selected by their corresponding CC selection are
 shown in \FigureRef{fig:final_energy_frac}. Similar distributions splitting the signal components
-by interaction type are shown in \FigureRef{fig:final_energy_frac_split}. Furthermore, the
-neutrino energy resolutions derived from the Full Width Half Maximum (FWHM) of these plots for
-both CC $\nu_{e}$ and CC $\nu_{\mu}$ events is shown in \TableRef{tab:energy_resolutions}.
+by interaction type are shown in \FigureRef{fig:final_energy_frac_split}. Furthermore, the Full
+Width Half Maximum (FWHM) neutrino energy resolutions derived from these plots for both CC
+$\nu_{e}$ and CC $\nu_{\mu}$ events are shown in \TableRef{tab:energy_resolutions}.
 
 \begin{figure} % FINAL ENERGY FRAC DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_frac.pdf}
     \caption[Distributions of (reco-true)/true neutrino energies]
-    {Distributions of (reco-true)/true neutrino energies for both CC $\nu_{e}$ (left) and CC
-        $\nu_{\mu}$ (right) beam events. Distributions for both \emph{all} respectively selected
-        events and just the \emph{signal} component of each selection are shown.}
+    {Distributions of (reco-true)/true neutrino energies for both selected CC $\nu_{e}$ (left) and
+        CC $\nu_{\mu}$ (right) signal beam events.}
     \label{fig:final_energy_frac}
 \end{figure}
 
 \begin{figure} % FINAL ENERGY FRAC SPLIT DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_frac_split.pdf}
     \caption[Distributions of (reco-true)/true neutrino energies by interaction type]
-    {Distributions of (reco-true)/true neutrino energies for both CC $\nu_{e}$ (left) and CC
-        $\nu_{\mu}$ (right) signal beam events by interaction types. The relative number of events
-        between interaction types has been scaled for clearer comparison.}
+    {Distributions of (reco-true)/true neutrino energies for both selected CC $\nu_{e}$ (left) and
+        CC $\nu_{\mu}$ (right) signal beam events by interaction type. The relative number of
+        events between interaction types has been scaled for clearer comparison.}
     \label{fig:final_energy_frac_split}
 \end{figure}
 
@@ -597,30 +599,27 @@ both CC $\nu_{e}$ and CC $\nu_{\mu}$ events is shown in \TableRef{tab:energy_res
         CC $\nu_{\mu}$ & $29.4\pm0.4\%$ & $14.1\pm0.3\%$ & $27.2\pm0.3\%$ & $34.9\pm0.3\%$ \\
     \end{tabular}
     }
-    \caption[Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ neutrino energy resolutions]
-    {Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ neutrino energy resolutions. Shown for each sample
-        are the resolutions for \emph{all} selected events, the true \emph{signal} selected events
-        and the three dominant \emph{signal} interaction type components, QEL, Res, and DIS. The
-        resolutions are calculated from the standard deviations of gaussian fits made to the
+    \caption[Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ FWHM resolutions]
+    {Summary of CC $\nu_{e}$ and CC $\nu_{\mu}$ FWHM neutrino energy resolutions. Shown for each
+        sample are the FWHM values for all selected signal events and the three dominant
+        interaction type components, QEL, Res, and DIS. The FWHM values are calculated from the
         distributions shown in \FigureRef{fig:final_energy_frac} and
         \FigureRef{fig:final_energy_frac_split}.}
     \label{tab:energy_resolutions}
 \end{table}
 
-The tail of negative values for the \emph{all} selected CC $\nu_{e}$ distribution in
-\FigureRef{fig:final_energy_frac} indicates that wrongly classified CC $\nu_{e}$ events, mainly
-NC, are typically estimated with a neutrino energy lower than the actual value. This is expected
-given the missing energy of the final state neutrino. Additionally, the interaction type
-resolutions follow the expected pattern, with the simple to reconstruct single charged lepton QEL
-interactions achieving a stronger resolution than multi-particle DIS events. Furthermore, these
-results are similar to the selected signal energy resolutions obtained by \nova of 10.7\% for CC
-$\nu_{e}$ events and 9.1\% for CC $\nu_{\mu}$ events~\cite{acero2019}.
+The interaction type resolutions follow the expected pattern, with the simple to reconstruct
+single charged lepton QEL interactions achieving a stronger resolution than multi-particle DIS
+events. Furthermore, when the approximate standard deviation is derived from the FWHM values
+(divided by 2.355) the resolutions of $10.2\pm0.2\%$ and $12.5\pm0.2\%$ for CC $\nu_{e}$ and CC
+$\nu_{\mu}$ respectively are comparable to the resolutions obtained by \nova of 10.7\% and
+9.1\%~\cite{acero2019}.
 
 The energy dependence of the energy resolution is explored by finding the means and FWHM values of
 the (reco-true)/true signal neutrino energy distributions shown in
-\FigureRef{fig:final_energy_frac} in \SI{1}{GeV} wide true neutrino energy bins. These values are
-shown in \FigureRef{fig:final_energy_nuel} and \FigureRef{fig:final_energy_numu} for CC $\nu_{e}$
-and CC $\nu_{\mu}$ events respectively, split by interaction type.
+\FigureRef{fig:final_energy_frac_split} in \SI{1}{GeV} wide true neutrino energy bins. These
+values are shown in \FigureRef{fig:final_energy_nuel} and \FigureRef{fig:final_energy_numu} for CC
+$\nu_{e}$ and CC $\nu_{\mu}$ events respectively, split by interaction type.
 
 Reasonably significant bias in the means is observed with respect to the true neutrino energy for
 both CC $\nu_{e}$ and CC $\nu_{\mu}$ events. This is particularly true of DIS events, but still
@@ -628,29 +627,28 @@ significant for Res and QEL events. As the energy spectrum of events used for tr
 is expected. Any future energy estimation work should consider using a flat energy spectrum for
 training, as done in \ReferenceRef{baldi2019}.
 
-The standard deviation is seen to decrease with true neutrino energy for all interaction types,
-except for energies above the flux peak. Again, this is most likely due to the spectrum of events
-used in the training sample. A contributing factor, however, will be due to the inability of PMTs
-to distinguish between numbers of incident photons at higher counts, more likely at higher
-energies.
+The FWHM is seen to decrease with true neutrino energy for all interaction types, except for
+energies above the flux peak. Again, this is most likely due to the spectrum of events used in the
+training sample. A contributing factor, however, will be due to the inability of PMTs to
+distinguish between numbers of incident photons at higher counts, more likely at higher energies.
 
 \begin{figure} % FINAL NUEL ENERGY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_nuel.pdf}
-    \caption[Means and standard deviations of fits to $\nu_{e}$ energy distributions]
-    {Means (left) and standard deviations (right) of gaussian fits made to distributions of
-        (reco-true)/true neutrino energy for CC $\nu_{e}$ events across a range of \SI{1}{GeV}
-        wide true neutrino energy bins and split by interaction type. The true distribution of CC
-        $\nu_{e}$ events is shown in green.}
+    \caption[Means and FWHM values of $\nu_{e}$ energy distributions]
+    {Means (left) and FWHM (right) values from distributions of (reco-true)/true neutrino energy
+        for CC $\nu_{e}$ events across a range of \SI{1}{GeV} wide true neutrino energy bins and
+        split by interaction type. The true distribution of CC $\nu_{e}$ events is shown in
+        green.}
     \label{fig:final_energy_nuel}
 \end{figure}
 
 \begin{figure} % FINAL NUMU ENERGY DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_energy_numu.pdf}
-    \caption[Means and standard deviations of fits to $\nu_{\mu}$ energy distributions]
-    {Means (left) and standard deviations (right) of gaussian fits made to distributions of
-        (reco-true)/true neutrino energy for CC $\nu_{\mu}$ events across a range of \SI{1}{GeV}
-        wide true neutrino energy bins and split by interaction type. The true distribution of CC
-        $\nu_{\mu}$ events is shown in blue.}
+    \caption[Means and FWHM values of $\nu_{\mu}$ energy distributions]
+    {Means (left) and FWHM (right) values from distributions of (reco-true)/true neutrino energy
+        for CC $\nu_{\mu}$ events across a range of \SI{1}{GeV} wide true neutrino energy bins and
+        split by interaction type. The true distribution of CC $\nu_{\mu}$ events is shown in
+        blue.}
     \label{fig:final_energy_numu}
 \end{figure}
 
@@ -663,12 +661,13 @@ Histograms of ratios of differences between CNN estimated (reco) and true charge
 true charged lepton energy for both CC $\nu_{e}$ and CC $\nu_{\mu}$ beam QEL events are shown in
 \FigureRef{fig:final_frac_e_comparison}.
 
-A significant improvement is made using the new CNN approach. An energy resolution 32\% and 40\%
-the size of the standard reconstruction resolution for CC $\nu_{e}$ and $\nu_{\mu}$ QEL events
-respectively is achieved, at 4.5\% and 4.0\%. When compared to the approximately 2.5\% CC QEL
-charged lepton energy resolution reached by the Super-Kamiokande fiTQun
-algorithm~\cite{jiang2019}, the performance presented here is impressive, particularly given the
-significant differences in detector design.
+A significant improvement is made using the new CNN approach. An FWHM lepton energy resolution
+30\% and 39\% the size of the standard reconstruction resolution for CC $\nu_{e}$ and CC
+$\nu_{\mu}$ QEL events respectively is achieved, at $10.0\pm0.1\%$ and $9.0\pm0.1\%$. When the
+approximate standard deviation is derived from the CC $\nu_{e}$ FWHM value ($4.2\pm0.1\%$), it
+compares well to the $\sim2.5\%$ CC QEL charged lepton energy resolution reached by the
+Super-Kamiokande fiTQun algorithm~\cite{jiang2019}. Impressive, given the significant differences
+in detector design.
 
 \begin{figure} % FINAL FRAC E COMPARISON DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/7-results/final_frac_e_comparison.pdf}
@@ -676,8 +675,8 @@ significant differences in detector design.
         standard methods] {Distributions of (reco-true)/true primary charged lepton energies for
         both CC $\nu_{e}$ (left) and CC $\nu_{\mu}$ (right) beam events for both the new CNN
         approach and standard (old) methods. Only QEL events are shown for clearer comparison with
-        the standard reconstruction methods. The standard deviation of a gaussian fit made to each
-        distribution is shown in the corresponding brackets.}
+        the standard reconstruction methods. The FWHM values of each distribution are indicated in
+        the legends.}
     \label{fig:final_frac_e_comparison}
 \end{figure}
 
@@ -694,11 +693,11 @@ The \emph{interaction vertex x-position}, \emph{interaction vertex y-position}, 
 
 Comparable resolutions are achieved for CC $\nu_{e}$ events, while CC $\nu_{\mu}$ events display
 considerable improvements in interaction vertex z-position and time prediction. The
-Super-Kamiokande fiTQun algorithm reaches an interaction vertex position resolution of
-\SI{20}{\text{cm}} for CC $\nu_{e}$ and \SI{15}{\text{cm}} for CC $\nu_{\mu}$
-events~\cite{jiang2019}, compared to the approximately \SI{50}{\text{cm}} and \SI{70}{\text{cm}}
-resolutions in this work. Although these are large absolute values, relative to the detector size,
-they still allow for sufficient localisation of interaction vertices.
+Super-Kamiokande fiTQun algorithm reaches a standard deviation on their interaction vertex reco
+minus true distributions of \SI{20}{\text{cm}} for CC $\nu_{e}$ and \SI{15}{\text{cm}} for CC
+$\nu_{\mu}$ events~\cite{jiang2019}, compared to the approximately \SI{50}{\text{cm}} and
+\SI{70}{\text{cm}} from this work. Although these are large absolute differences, relative to the
+detector size, they still allow for sufficient localisation of interaction vertices.
 
 The charged lepton energy, interaction vertex position, and interaction vertex time resolutions
 also display a clear advantage of the CNN approach. Long tails and biased means are common in the
@@ -713,8 +712,8 @@ types.
     \caption[Reco-true distributions for the interaction vertex parameters for CC $\nu_{e}$ QEL
         events] {Reco-true distributions for the interaction vertex position components and time
         for CC $\nu_{e}$ QEL events. Both the distributions for the new CNN approach and standard
-        (old) reconstruction methods are shown. The standard deviation of a gaussian fit made to
-        each distribution is shown in the corresponding brackets.}
+        (old) reconstruction methods are shown. The FWHM values of each distribution are indicated
+        in the legends.}
     \label{fig:final_vertex_nuel_res_comparison}
 \end{figure}
 
@@ -723,8 +722,8 @@ types.
     \caption[Reco-true distributions for the interaction vertex parameters for CC $\nu_{\mu}$ QEL
         events] {Reco-true distributions for the interaction vertex position components and time
         for CC $\nu_{\mu}$ QEL events. Both the distributions for the new CNN approach and
-        standard (old) reconstruction methods are shown. The standard deviation of a gaussian fit
-        made to each distribution is shown in the corresponding brackets.}
+        standard (old) reconstruction methods are shown. The FWHM values of each distribution are
+        indicated in the legends.}
     \label{fig:final_vertex_numu_res_comparison}
 \end{figure}
 
@@ -875,29 +874,28 @@ the network outputs may not be reliable. An effective calibration procedure and 
 improvements can ensure any discrepancy is minimised; however, a small distributional difference
 is inevitable.
 
-Studies are presented here to prove the robustness of the trained CNNs to such changes within the
-input. Broadly, the CNN inputs can be characterised as being dependent on three sets of PMT
-information: the hit times, the hit charges, and the hit positions. An accurate PMT position is
-deemed unimportant to the trained networks as the $64 \times 64$ input grid roughly corresponds to
-bins of size \SI{2.5}{\text{m}} in $\theta$ by \SI{2.0}{\text{m}} in $\phi$ within the \chipsfive
-detector. As this binning is much larger than the actual distance between PMTs, resolving
-individual PMTs becomes impossible.
+A selection of studies are presented here to help prove the robustness of the trained CNNs to such
+changes within the input. Broadly, the CNN inputs can be characterised as being dependent on three
+sets of PMT information: the hit times, the hit charges, and the hit positions. An accurate PMT
+position is deemed unimportant to the trained networks as the $64 \times 64$ input grid roughly
+corresponds to bins of size \SI{2.5}{\text{m}} in $\theta$ by \SI{2.0}{\text{m}} in $\phi$ within
+the \chipsfive detector. As this binning is much larger than the actual distance between PMTs,
+resolving individual PMTs becomes impossible.
 
 Consequently, changes in only the PMT hit times and hit charges are considered in three discrete
 studies: the smearing of hit times, the smearing and shifting of hit charges, and the addition of
-random noise. In reality detector data would be influenced by a convolution of these effects,
-however, to develop a greater understanding of how each effects things, they are separated here,
-future work could look at how a combination of effects affects the performance.
-
-crucial for influencing the detector calibration 
+random noise. In reality, detector data would be influenced by a convolution of these effects;
+however, here, they remain separate to develop a detailed understanding of how each individually
+affects the CNNs. Future work should explore how a combination of such changes affects
+performance.
 
 Five classification performance metrics are used for comparison during this section and the next
 (\SectionRef{sec:results_alt}):
 \begin{enumerate}
     \item \textbf{Max FOM:} The optimised figure-of-merit ($\text{efficiency}\times\text{purity}$)
-          value for CC $\nu_{e}$ events. As the FOM is proportional to $s/\sqrt{s+b}$ which
-          increases linearly with detector exposure, an improvement in the FOM value linearly
-          decreases the exposure time required to reach the same physics sensitivity.
+          value for CC $\nu_{e}$ events. As the FOM is proportional to the square of
+          $s/\sqrt{s+b}$ which increases linearly with detector exposure, an improvement in the
+          FOM value decreases the exposure time required to reach the same physics sensitivity.
     \item \textbf{High Score Eff (Pur):} The CC $\nu_{e}$ selection efficiency (purity) using the
           simple highest-scoring output neuron classification methodology. The simple
           classification strategy is used here instead of the FOM selection as it is less
@@ -927,14 +925,18 @@ The smearing of input hit times is found to produce a minimal reduction in outpu
 every event, each hit-time bin for which there is an entry not equal to zero is smeared using an
 absolute time randomly generated using a normal distribution with a mean of zero and a standard
 deviation of $\sigma$ nanoseconds. The cases when $\sigma=0~\text{ns}$ (no smearing),
-$\sigma=2~\text{ns}$, and $\sigma=5~\text{ns}$ are considered. The actual smearing values used are
-scaled to the zero to one input range, and any post smearing out-of-range values are clipped to
-the range boundaries.
+$\sigma=2~\text{ns}$, and $\sigma=5~\text{ns}$ are considered. As the HZC PMTs used predominantly
+within \chipsfive have a photon hit time resolution of $\sim$\SI{2}{\text{ns}} (already modelled
+in the simulation) and other timing error effects (such as cable length calibration) are expected
+to remain $<2~\text{ns}$, these values represent a realistic range of time smearing values that
+could be seen within \chipsfive.
 
-For each case of $\sigma$, the resulting efficiency, purity, and their product (the FOM) for CC
-$\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
-in \FigureRef{fig:calib_time_nuel_eff_curves}. The classification performance metrics are
-presented in \TableRef{tab:calib_time} with the ROC and PR curves shown in
+The actual smearing values used are scaled to the zero to one input range, and any post smearing
+out-of-range values are clipped to the range boundaries. For each case of $\sigma$, the resulting
+efficiency, purity, and their product (the FOM) for CC $\nu_{e}$ events as a function of selecting
+events above a particular CC $\nu_{e}$ score is shown in
+\FigureRef{fig:calib_time_nuel_eff_curves}. The classification performance metrics are presented
+in \TableRef{tab:calib_time} with the ROC and PR curves shown in
 \FigureRef{fig:calib_time_nuel_comp_curves}. Cosmic rejection and energy estimation performance
 are not presented, as the resulting output changes are negligible.
 
@@ -975,8 +977,8 @@ are not presented, as the resulting output changes are negligible.
     \label{fig:calib_time_nuel_comp_curves}
 \end{figure}
 
-With an effective calibration, a realistic discrepancy in hit times of less than \SI{1}{\text{ns}}
-should be expected. Given this, it is promising to observe that even for the smearing of
+With an effective calibration, a realistic discrepancy in hit times of less than \SI{2}{\text{ns}}
+should be expected. Given this, it is promising to observe that for the smearing of
 $\sigma=2~\text{ns}$ the beam classification performance change is minimal. At
 $\sigma=5~\text{ns}$ more significant degradation starts to occur; however, there is no dramatic
 fall-off in performance. Interestingly, the \emph{High Score Pur} is seen to increase with greater
@@ -996,7 +998,12 @@ modification bin values outside the zero to one input range are clipped to the r
 Alongside the default case when $\mu=1.0$ and $\sigma=0.0$, two smearing and two shifting cases
 are considered: $\mu=1.0,\sigma=0.2$ and $\mu=1.0,\sigma=0.4$ for smearing; and
 $\mu=1.2,\sigma=0.2$ and $\mu=1.4,\sigma=0.2$ for shifting. Note that for the shifting cases a
-standard deviation of $\sigma=0.2$ is used to introduce some randomness.
+standard deviation of $\sigma=0.2$ is used to introduce some width to the distribution from which
+the shift value is sampled.
+
+With an effective calibration in the smearing case and reasonable modelling in the shifting case,
+it is realistic to assume differences on the order of a few per cent for the hit-charge and
+hough-height inputs
 
 For each smearing case, the resulting efficiency, purity, and their product (the FOM) for CC
 $\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
@@ -1048,18 +1055,16 @@ rejection performance is not presented as the resulting output changes are negli
     \caption[Distributions of (reco-true)/true $\nu_{e}$ energies for different levels of
         hit-charge smearing and shifting] {Distributions of (reco-true)/true CC QEL $\nu_{e}$
         energies for different levels of hit-charge smearing and shifting. Shown are the different
-        smearing levels (left) and the different shifting levels (right). Standard deviations
-        found from fits made to each distribution are shown in brackets.}
+        smearing levels (left) and the different shifting levels (right).}
     \label{fig:calib_charge_energy}
 \end{figure}
 
-With an effective calibration in the smearing case and reasonable modelling in the shifting case,
-it is realistic to assume differences on the order of a few per cent for the hit-charge and
-hough-height inputs. Given this, the extensive modifications made here (40\% shifts, for example)
-still produce only relatively small reductions in beam classification performance; therefore, a
-negligible effect can be assumed. Interestingly, smearing of $\sigma=0.4$ is seen to impact
-performance to a greater degree than shifting with $\mu=1.4$. This behaviour can be explained by
-the overall relative event topology remaining consistent under a shift compared to when smeared.
+The extensive input modifications made here (40\% shifts, for example) still produce only
+relatively small reductions in beam classification performance (up to a $\sim4\%$ reduction in
+maximum FOM value); therefore, a negligible effect can be assumed. Interestingly, smearing of
+$\sigma=0.4$ is seen to impact performance to a greater degree than shifting with $\mu=1.4$. This
+behaviour can be explained by the overall relative event topology remaining consistent under a
+shift compared to when smeared.
 
 For neutrino energy estimation, the impact of smearing is small, but shifting is seen to produce
 significant changes. This is understandable when assuming that the energy estimation (even for a
@@ -1077,14 +1082,23 @@ of $\mu$ photoelectrons is randomly sampled. If a value greater than that corres
 single photoelectron is returned, the bin charge is incremented by the returned value.
 Furthermore, for each modification made, the corresponding hit-time bin is updated by randomly
 sampling a uniform time distribution and choosing the earliest of the return value and the already
-set bin time. Alongside the default case with no noise ($0.0\%$), values of $\mu$ are chosen so
-that either $2.3\%$ or $6.7\%$ of bins are modified by random noise in each event.
+set bin time. Alongside the default case with no noise ($0.0\%$), values of $\mu$ are chosen here
+so that either $2.3\%$ or $6.7\%$ of bins are modified by random noise in each event.
+
+Testing has shown that at room temperature, the Nikhef \textsc{Pom} HZC PMTs produce a dark noise
+rate of $\sim$\SI{1}{\text{KHz}}. Therefore, only $\sim0.02\%$ of event map bins are expected to
+be affected by PMT noise throughout a typical \SI{100}{\text{ns}} event. Therefore, the cases
+presented here represent PMT noise rates more than two orders of magnitude greater than expected
+within \chipsfive. However, these values are used to demonstrate when random noise starts to
+impact performance.
 
 For each case, the resulting efficiency, purity, and their product (the FOM) for CC $\nu_{e}$
 events as a function of selecting events above a particular CC $\nu_{e}$ score is shown in
 \FigureRef{fig:calib_noise_nuel_eff_curves}. The classification performance metrics are presented
 in \TableRef{tab:calib_noise}. Cosmic rejection and energy estimation performance are not
-presented as the resulting output changes are negligible.
+presented as the resulting output changes are negligible. Excellent beam classification robustness
+is observed, with the small reduction in performance seen for the $2.3\%$ chance of noise case
+indicating any realistic output changes would be negligible.
 
 \begin{figure} % CALIB NOISE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_noise_nuel_eff_curves.pdf}
@@ -1111,14 +1125,6 @@ presented as the resulting output changes are negligible.
         values for each metric are indicated in bold.}
     \label{tab:calib_noise}
 \end{table}
-
-The cases presented here represent a PMT noise rate more than two orders of magnitude greater than
-that expected within \chipsfive. Testing has shown that at room temperate the Nikhef \textsc{Pom}
-HZC PMTs produce a dark noise rate of $\sim$\SI{1}{\text{KHz}}. Therefore, only $\sim0.02\%$ of
-event map bins are expected to be affected by PMT noise throughout a typical \SI{100}{\text{ns}}
-event. Given this, excellent beam classification robustness is observed, with the small reduction
-in performance seen for the $2.3\%$ chance of noise case indicating any realistic output changes
-would be negligible.
 
 \section{Alternative implementations} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{sec:results_alt} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

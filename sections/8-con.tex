@@ -35,70 +35,71 @@ ever-increasing use of modern deep learning techniques. This comes as a direct r
 dramatic improvement in \chipsfive reconstruction and classification performance brought about by
 the principal work presented in this thesis. Three forms of a Convolutional Neural Network have
 been trained to reject cosmic muon events, classify beam events, and estimate neutrino energies,
-all using only a slightly modified version of the raw detector event as input. This new approach
-replaces the standard likelihood-based reconstruction and simple neural network classification,
-greatly increasing generalisability and processing speed, whilst reducing human influence (bias).
+all using only the raw detector event as input. This new approach replaces the standard
+likelihood-based reconstruction and simple neural network classification, greatly increasing
+generalisability and processing speed.
 
-With the primary goal of selecting an efficient and pure appeared CC $\nu_{e}$ signal, the new
-approach is found to provide excellent performance. The vast cosmic muon background of \chipsfive
-is found to be rejected (without the help of a veto) by a factor of $\sim1.5\times10^{-8}$,
-leading to negligible contamination of the beam selection. Beam classification performance is
-found to be surprisingly comparable to the more complex \nova and T2K experiments, with a
-$70.9\pm0.4\%$ efficiency and $71.0\pm0.6\%$ purity of the selected CC $\nu_{e}$ sample when both
-the appeared and intrinsic CC $\nu_{e}$ beam components are considered signal. Similarly, neutrino
-energy estimation is relatively comparable to other experiments. A 10.3\% and 12.6\% neutrino
-energy resolution on signal CC $\nu_{e}$ and CC $\nu_{\mu}$ events respectively, is achieved,
-falling to 7.1\% and 6.2\% when just quasi-elastic events are considered. 
+With the primary goal of selecting an efficient and pure appeared CC $\nu_{e}$ sample for which
+the neutrino energy can be accurately determined, the new CNN-based approach is found to provide
+excellent performance. Firstly, the vast cosmic muon background of \chipsfive is found to be
+accepted by a factor of $<2.9\pm0.3\times10^{-6}$ (without the help of a veto), equivalent to
+$<6\pm0.6$ cosmic muon events contaminating the beam sample per year, of which none are expected
+to be classified as CC $\nu_{e}$ events.
 
-Want a summary table showing
-- Cosmic rejection
-- Signal Nuel selection improvement
-- Numu selection
-- Energy resolution 
+Furthermore, the CC $\nu_{e}$ beam selection is found to select CC $\nu_{e}$ events with an
+efficiency of $73.4\pm0.2\%$ and a purity of $70.9\pm0.6\%$, while the CC $\nu_{\mu}$ beam
+selection achieves a $37.0\pm0.1\%$ and $96.0\pm0.1\%$ signal efficiency and purity, respectively.
+The energy estimation networks achieve a (reco-true)/true FWHM neutrino energy resolution of
+$24.0\pm0.3\%$ and $29.4\pm0.4\%$ for CC $\nu_{e}$ and CC $\nu_{\mu}$ selected signal events,
+respectively. For ease of comparison, the performance metrics for which a value is available from
+the old likelihood-based approach are summarised in \TableRef{tab:final_comparison}.
 
 \begin{table}
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{lrrrrr}
-        Selection      & App CC $\nu_{e}$ & CC $\nu_{\mu}$ & Beam CC $\nu_{e}$ & NC & Cosmic               \\
+    \begin{tabular}{lrrr}
+        Metric           & Likelihood-based (old) & CNN-based (new) & Percentage Change \\
         \midrule
-        Total events   & $44.17\pm0.02$ & $2045.9\pm33.3$ & $35.06\pm0.01$ & $354.7\pm5.8$ & $\sim2100000$ \\
-        + Preselection & $41.21\pm0.02$ & $1889.5\pm30.9$ & $33.52\pm0.01$ & $243.2\pm4.0$ & $<433000$  \\
-        + Cosmic cut   & $41.10\pm0.02$ & $1874.4\pm30.7$ & $33.35\pm0.01$ & $241.6\pm4.0$ & $<0.13$    \\
-        + Escapes cut  & $40.68\pm0.02$ & $795.7\pm12.3$  & $32.86\pm0.01$ & $233.0\pm3.9$ & $<0.02$    \\
+        Max FOM-$\nu_{e}$            & $0.132\pm0.005$ & $0.519\pm0.004$ & $393\pm15\%$ \\
+        CC $\nu_{e}$ Efficiency      & $34.7\pm0.8\%$  & $73.4\pm0.2\%$  & $212\pm5\%$  \\
+        CC $\nu_{e}$ Purity          & $39.3\pm1.2\%$  & $70.9\pm0.6\%$  & $180\pm6\%$  \\
         \midrule
-        Cuts Eff     & $92.1\pm0.1\%$ & $38.9\pm0.1\%$  & $93.7\pm0.1\%$ & $65.7\pm0.3\%$ & $<1.5\times10^{-8}$ \\
+        QEL $\nu_{e}$ lepton E Res   & $33.3\pm4.1\%$  & $10.0\pm0.1\%$  & $30\pm4\%$ \\
+        QEL $\nu_{\mu}$ lepton E Res & $23.2\pm3.7\%$  & $9.0\pm0.1\%$   & $39\pm6\%$ \\
     \end{tabular}
     }
-    \caption[Number of events passing successive selection cuts for each event category]
-    {The total number of expected (weighted) events and the number that pass successive selection
-        cuts for the different event categories. The preselection, \emph{cosmic score} cut, and
-        \emph{escapes score} cut numbers are shown. The selection efficiency relative to the total
-        number of events after all cuts have been applied is also shown for each event category.}
-    \label{tab:selection}
+    \caption[Performance comparison between the old likelihood-based approach and the new
+        CNN-based approach]{Comparison of performance metrics between the old likelihood-based
+        approach and the new CNN-based approach with the change (as a percentage) given for
+        reference. The maximum FOM value metric alongside the signal efficiency and purity are
+        given for the CC $\nu_{e}$ beam selection, as well as the QEL event lepton energy
+        resolutions (defined as the FWHM of the (reco-true)/true energy distribution) for both CC
+        $\nu_{e}$ and CC $\nu_{\mu}$ selected signal events.}
+    \label{tab:final_comparison}
 \end{table}
 
-Not only are the trained convolutional neural networks found to provide excellent performance, but
-their inner workings are found to be explainable and their outputs robust to distributional
-changes in the input. These findings rebut the common and justified concern that they are too
-often just used as a black box (input in, outputs out). Cherenkov ring and Hough peak features are
-clearly extracted from the input images, resulting in a learnt representation of the inputs that
-are seen to have strong discriminating power between categories when visualised using the t-SNE
-technique. Additionally, realistic modifications to the input hit times and charges, as well as
-the addition of random noise, are all found to have a negligible effect on output performance.
+Not only are the trained CNNs found to provide excellent performance, but some insight into their
+inner workings was achieved, and their outputs are found to be robust to a sample of tested
+distributional changes in the input. These findings go some way to answering the common and
+justified concern that they are too often used as a black box (input in, outputs out). Cherenkov
+ring and Hough peak features are extracted from the input images, resulting in a learnt
+representation of the inputs seen to have strong discriminating power between categories when
+visualised using the t-SNE technique. Additionally, realistic modifications to the input hit times
+and charges and the addition of random noise are all found to have a negligible effect on output
+performance.
 
-It is sincerely hoped that other water Cherenkov neutrino experiments will take inspiration from,
+It is sincerely hoped that other water Cherenkov neutrino experiments will take inspiration from
 and then build upon the work presented in this thesis for their own Convolutional Neural Network
 implementations. Although the results presented in this work are incredibly compelling, there are
 still clear avenues for exploration and improvement. These are all principally related to the
 critical performance drivers outlined within this thesis. 
 
-Firstly, generating the input event maps to focus on the underlying Cherenkov profiles is found be
+Firstly, generating the input event maps to focus on the underlying Cherenkov profiles is
 incredibly important; therefore, any methodology to remove distortions further or more accurately
 determine the interaction vertex position will be beneficial. Secondly, the distribution of events
 (in energy or type) used within the training sample heavily impacts performance; thus, a
 comprehensive study of this behaviour could optimise the sample used. Finally, multi-task learning
 clearly shows promise, with further trial-and-error or a more generalised approach likely to
-uncover additional useful tasks.
+uncover additional valuable tasks. 
 
-It is highly likely that the true potential of these methods is just beginning to be realised. As
-is always the case, only time will tell.
+Likely, the true potential of these methods is just beginning to be realised. As is always the
+case, only time will tell.

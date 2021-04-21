@@ -196,10 +196,10 @@ of these inputs include:
 
 The above list demonstrated a fundamental problem with the likelihood-based approach. Namely, it
 is only dependent on a finite list of inputs that must be implemented in software. If a physical
-process is overlooked, then the algorithm has access to a reduced amount of information to predict
-the PMT hit charges and times, impacting the performance of the best-fit track parameters.
-Additionally, the large amount of effort required to implement and correctly model each input can
-make a likelihood-based approach time-consuming.
+process is overlooked, then the algorithm has access to a reduced amount of information with which
+to predict the PMT hit charges and times, impacting the performance of the best-fit track
+parameters. Additionally, the large amount of effort required to implement and correctly model
+each input can make a likelihood-based approach time-consuming.
 
 Moreover, the likelihood-based approach requires a predefined track hypothesis per fit. This
 restriction is at odds with the broad array of neutrino events expected within \chips detector
@@ -763,8 +763,8 @@ position to generate the transform space. Therefore, by re-binning the transform
 to provide a complementary but different representation of the event where Cherenkov rings are
 instead represented as peaks, allowing for additional discriminating features to be learnt.
 
-All three event maps: hit-charge, hit-time, and hough-height are down-sampled using 8-bit
-encoding, by converted each 32-bit float value to an integer between 0 and 255. Encoding not only
+All three event maps: hit-charge, hit-time, and hough-height are down-sampled using 8-bit encoding
+by converting each 32-bit float value to an integer between 0 and 255. Encoding not only
 significantly reduces storage requirements but also dramatically increases the speed with which
 data can be loaded during training (which turns out to be the primary bottleneck). For each map
 type, a range over which to encode from zero up to a \emph{cap-point} is chosen to minimise the
