@@ -153,7 +153,7 @@ charged lepton is deemed to be fully contained within the detector. This cut val
 maximise the fraction of CC $\nu_{\mu}$ events which are correctly classified as having their
 primary charged lepton contained or not within the detector, leading to $96.8\pm0.1\%$ of CC
 $\nu_{\mu}$ events being classified correctly. As expected, the vast majority ($97.2\pm0.1\%$) of
-CC $\nu_{e}$ and NC events are selected by this cut.
+the short track CC $\nu_{e}$ and NC events are selected by this cut.
 
 For comparison with other experiments, the escapes cut effectively works as a quasi fiducial
 volume cut, for an energy-dependent region near the downstream wall of the detector. Fiducial
@@ -177,20 +177,20 @@ implemented fiducial cut using the reconstructed interaction vertex position, im
 The total number of expected events per year that pass each successive cut (including
 preselection) for each event category is shown in \TableRef{tab:selection}. Both CC $\nu_{e}$
 categories are selected with an efficiency greater than 92\%, relative to the total number of
-expected events, while CC $\nu_{\mu}$ events are reduced to a 40\% selection efficiency, mainly by
-the \emph{escapes score} cut (as desired). Furthermore, NC events are found to be primarily
-rejected by the preselection, while cosmic events are heavily rejected by both the preselection
-and \emph{cosmic score} cuts.
+expected events, while CC $\nu_{\mu}$ events are reduced to a $38.9\pm0.1\%$ selection efficiency,
+mainly by the \emph{escapes score} cut (as desired). Furthermore, NC events are found to be
+primarily rejected by the preselection, while cosmic events are heavily rejected by both the
+preselection and \emph{cosmic score} cuts.
 
 A future data-driven estimate, using actual \chipsfive data collected outside of the \numi beam
 spill window, could allow for a much-improved understanding of the cosmic muon background rate.
-However, for now, an upper limit of $<6\pm0.6$ cosmic muon events per year passing all the cuts
-shows that the cosmic muon rejection works well. Crucially, of all the true cosmic muon events
-with a \emph{cosmic score} less than $0.9$, none would be classified as signal CC $\nu_{e}$ events
-by the beam classification detailed in \SectionRef{sec:results_eval_beam}. Therefore, the expected
-cosmic muon contamination of both beam selections (CC $\nu_{e}$ and  CC $\nu_{\mu}$) is expected
-to be negligible relative to the selected number of signal events for each and ignored for the
-rest of this performance evaluation.
+However, for now, an upper limit of $<6\pm0.6$ cosmic muon events per year passing all the cuts is
+determined, showing that the cosmic muon rejection works well. Crucially, of all the true cosmic
+muon events with a \emph{cosmic score} less than $0.9$, none would be classified as signal CC
+$\nu_{e}$ events by the beam classification detailed in \SectionRef{sec:results_eval_beam}.
+Therefore, the expected cosmic muon contamination of both beam selections (CC $\nu_{e}$ and  CC
+$\nu_{\mu}$) is expected to be negligible relative to the selected number of signal events for
+each and ignored for the rest of this performance evaluation.
 
 \begin{table}
     \resizebox{\textwidth}{!}{%
@@ -267,7 +267,7 @@ The efficiency, purity, and their product (the FOM-$\nu_e$) for CC $\nu_{e}$ eve
 and beam) as a function of selecting events above a certain CC $\nu_{e}$ score are shown in
 \FigureRef{fig:final_nuel_eff_curves}. The FOM-$\nu_e$ is optimised by selecting events with a CC
 $\nu_{e}$ score above $0.8$, achieving a value of $0.519\pm0.004$. Note that the FOM-$\nu_e$ is
-optimised considering both appeared and beam CC $\nu_{e}$ components as signal due to their
+optimised considering both the appeared and beam CC $\nu_{e}$ components as signal due to their
 indistinguishable nature.
 
 The total number of events, those selected by the previously mentioned cuts, and those furthermore
@@ -283,7 +283,7 @@ components are considered signal, the selection purity becomes $70.9\pm0.6\%$.
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/final_nuel_eff_curves.pdf}
     \caption[CC $\nu_{e}$ efficiency, purity, and $\text{efficiency}\times\text{purity}$ curves]
     {CC $\nu_{e}$ efficiency, purity, and $\text{efficiency}\times\text{purity}$ (FOM-$\nu_e$)
-        curves for different values of CC $\nu_{e}$ score selection. The Maximum FOM-$\nu_e$ value
+        curves for different values of CC $\nu_{e}$ score selection. The maximum FOM-$\nu_e$ value
         of $0.519\pm0.004$ is indicated at a CC $\nu_{e}$ score of $0.8$ by the star.}
     \label{fig:final_nuel_eff_curves}
 \end{figure}
@@ -420,7 +420,7 @@ $87.5\pm0.1\%$ selection efficiency is achieved.
     \caption[CC $\nu_{\mu}$ efficiency, purity, and $\text{efficiency}\times\text{purity}$ curves]
     {CC $\nu_{\mu}$ efficiency, purity, and $\text{efficiency}\times\text{purity}$
         (FOM-$\nu_{\mu}$) curves for different values of CC $\nu_{\mu}$ score selection. The
-        Maximum FOM-$\nu_{\mu}$ value of $0.365\pm0.002$ is indicated at a CC $\nu_{\mu}$ score of
+        maximum FOM-$\nu_{\mu}$ value of $0.365\pm0.002$ is indicated at a CC $\nu_{\mu}$ score of
         $0.315$ by the star.}
     \label{fig:final_numu_eff_curves}
 \end{figure}
@@ -886,7 +886,7 @@ Consequently, changes in only the PMT hit times and hit charges are considered i
 studies: the smearing of hit times, the smearing and shifting of hit charges, and the addition of
 random noise. In reality, detector data would be influenced by a convolution of these effects;
 however, here, they remain separate to develop a detailed understanding of how each individually
-affects the CNNs. Future work should explore how a combination of such changes affects
+affects the CNN output. Future work should explore how a combination of such changes affects
 performance.
 
 Five classification performance metrics are used for comparison during this section and the next
@@ -997,13 +997,13 @@ modification bin values outside the zero to one input range are clipped to the r
 
 Alongside the default case when $\mu=1.0$ and $\sigma=0.0$, two smearing and two shifting cases
 are considered: $\mu=1.0,\sigma=0.2$ and $\mu=1.0,\sigma=0.4$ for smearing; and
-$\mu=1.2,\sigma=0.2$ and $\mu=1.4,\sigma=0.2$ for shifting. Note that for the shifting cases a
-standard deviation of $\sigma=0.2$ is used to introduce some width to the distribution from which
-the shift value is sampled.
-
-With an effective calibration in the smearing case and reasonable modelling in the shifting case,
-it is realistic to assume differences on the order of a few per cent for the hit-charge and
-hough-height inputs
+$\mu=1.2,\sigma=0.2$ and $\mu=1.4,\sigma=0.2$ for shifting. Note that a standard deviation of
+$\sigma=0.2$ is used to introduce some width to the distribution from which the shift value is
+sampled for the shifting cases. With an effective PMT calibration, it is realistic to assume
+differences on the order of a few per cent for the hit-charge and hough-height
+inputs~\cite{abe2014}. Therefore, the cases outlined above represent smearing and shifting cases
+much larger than expected within \chipsfive. However, these values are presented here to
+demonstrate when charge smearing and shifting start to impact performance.
 
 For each smearing case, the resulting efficiency, purity, and their product (the FOM) for CC
 $\nu_{e}$ events as a function of selecting events above a particular CC $\nu_{e}$ score is shown
@@ -1088,17 +1088,17 @@ so that either $2.3\%$ or $6.7\%$ of bins are modified by random noise in each e
 Testing has shown that at room temperature, the Nikhef \textsc{Pom} HZC PMTs produce a dark noise
 rate of $\sim$\SI{1}{\text{KHz}}. Therefore, only $\sim0.02\%$ of event map bins are expected to
 be affected by PMT noise throughout a typical \SI{100}{\text{ns}} event. Therefore, the cases
-presented here represent PMT noise rates more than two orders of magnitude greater than expected
-within \chipsfive. However, these values are used to demonstrate when random noise starts to
-impact performance.
+outlined above represent PMT noise rates more than two orders of magnitude greater than expected
+within \chipsfive. However, these values are presented here in order to demonstrate when random
+noise starts to impact performance.
 
 For each case, the resulting efficiency, purity, and their product (the FOM) for CC $\nu_{e}$
 events as a function of selecting events above a particular CC $\nu_{e}$ score is shown in
 \FigureRef{fig:calib_noise_nuel_eff_curves}. The classification performance metrics are presented
 in \TableRef{tab:calib_noise}. Cosmic rejection and energy estimation performance are not
 presented as the resulting output changes are negligible. Excellent beam classification robustness
-is observed, with the small reduction in performance seen for the $2.3\%$ chance of noise case
-indicating any realistic output changes would be negligible.
+is observed, with the small reduction in performance seen for the $2.3\%$ case indicating any
+output changes with realistic PMT noise levels would be negligible.
 
 \begin{figure} % CALIB NOISE NUEL EFF CURVES DIAGRAM %
     \includegraphics[width=0.7\textwidth]{diagrams/7-results/calib_noise_nuel_eff_curves.pdf}
