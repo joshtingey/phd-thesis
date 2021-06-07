@@ -43,28 +43,32 @@ With the primary goal of selecting an efficient and pure appeared CC $\nu_{e}$ s
 the neutrino energy can be accurately determined, the new CNN-based approach is found to provide
 excellent performance. In some cases, the performance is comparable with similar experiments,
 impressive given the significant differences in detector design. The vast cosmic muon background
-of \chipsfive is found to be accepted by only a factor of $<2.9\pm0.3\times10^{-6}$ (without the
-help of a veto), equivalent to $<6\pm0.6$ cosmic muon events contaminating the beam sample per
-year, of which none are expected to be classified as CC $\nu_{e}$ events. Furthermore, the key
-performance metrics for both the CC $\nu_{e}$ and CC $\nu_{\mu}$ beam selections are summarised in
-\TableRef{tab:final_metrics}, with a comparison of the metrics available for the old
-likelihood-based approach given in \TableRef{tab:final_comparison}.
+of \chipsfive is found to be accepted by only a factor of $<9.5\times10^{-7}$ (without the help of
+a veto), equivalent to $<2$ cosmic muon events contaminating the beam sample per year, of which
+none are expected to be classified as CC $\nu_{e}$ events. 
+
+Furthermore, the key performance metrics for both the CC $\nu_{e}$ and CC $\nu_{\mu}$ beam
+selections are summarised in \TableRef{tab:final_metrics}, with a comparison of the metrics
+available for the old likelihood-based approach given in \TableRef{tab:final_comparison}. The new
+CNN approach is found to improve the primary CC $\nu_{e}$ selection signal efficiency by an
+impressive $212\pm5\%$, and the corresponding signal purity by $180\pm6\%$. Energy estimation is
+also significantly improved with the approximate energy resolution for CC $\nu_{e}$ QEL event
+electrons $30\pm4\%$ that provided by the old likelihood-based method.
 
 \begin{table}
     \begin{tabular}{lrrr}
-        Selection           & Signal Efficiency & Signal Purity & Signal $\nu$ Energy Resolution \\
+        Selection           & Signal Efficiency & Signal Purity & Approximate $\nu$ Energy Resolution \\
         \midrule
-        CC $\nu_{e}$     & $73.4\pm0.2\%$ & $70.9\pm0.6\%$ & $24.0\pm0.3\%$ \\
-        CC $\nu_{\mu}$   & $37.0\pm0.1\%$ & $96.0\pm0.1\%$ & $29.4\pm0.4\%$ \\
+        CC $\nu_{e}$     & $73.4\pm0.2\%$ & $70.9\pm0.6\%$ & $10.2\pm0.2\%$ \\
+        CC $\nu_{\mu}$   & $37.0\pm0.1\%$ & $96.0\pm0.1\%$ & $12.5\pm0.2\%$ \\
     \end{tabular}
     \caption[Key performance metrics of the new CNN approach]
     {The key performance metrics for both the CC $\nu_{e}$ and CC $\nu_{\mu}$ beam selections
         using the new CNN-based approach. The signal efficiency relative to the total number of
         expected events, the signal purity defined as the fraction of selected events which are
-        signal, and the signal neutrino energy resolution defined as the FWHM of the
-        (reco-true)/true energy distribution are shown for both selections. The values considering
-        both the appeared and beam CC $\nu_{e}$ components as signal are given for the CC
-        $\nu_{e}$ selection.}
+        signal, and the approximate signal neutrino energy resolution. The values considering both
+        the appeared and beam CC $\nu_{e}$ components as signal are given for the CC $\nu_{e}$
+        selection.}
     \label{tab:final_metrics}
 \end{table}
 
@@ -77,16 +81,15 @@ likelihood-based approach given in \TableRef{tab:final_comparison}.
         CC $\nu_{e}$ Efficiency      & $34.7\pm0.8\%$  & $73.4\pm0.2\%$  & $212\pm5\%$  \\
         CC $\nu_{e}$ Purity          & $39.3\pm1.2\%$  & $70.9\pm0.6\%$  & $180\pm6\%$  \\
         \midrule
-        QEL $\nu_{e}$ lepton energy res   & $33.3\pm4.1\%$  & $10.0\pm0.1\%$  & $30\pm4\%$ \\
-        QEL $\nu_{\mu}$ lepton energy res & $23.2\pm3.7\%$  & $9.0\pm0.1\%$   & $39\pm6\%$ \\
+        QEL $\nu_{e}$ lepton energy res   & $14.1\pm1.7\%$  & $4.2\pm0.1\%$  & $30\pm4\%$ \\
+        QEL $\nu_{\mu}$ lepton energy res & $9.9\pm1.6\%$  & $3.8\pm0.1\%$   & $39\pm6\%$ \\
     \end{tabular}
     } \caption[Performance comparison between the old likelihood-based approach and the new
     CNN-based approach] {Comparison of performance metrics between the old likelihood-based
     approach and the new CNN-based approach with the percentage change given for reference. The
     maximum FOM value metric alongside the signal efficiency and purity are given for the CC
-    $\nu_{e}$ beam selection, as well as the QEL event lepton energy resolutions (defined as the
-    FWHM of the (reco-true)/true energy distribution) for both CC $\nu_{e}$ and CC $\nu_{\mu}$
-    selected signal events.}
+    $\nu_{e}$ beam selection, as well as the QEL event approximate lepton energy resolutions for
+    both CC $\nu_{e}$ and CC $\nu_{\mu}$ selected signal events.}
     \label{tab:final_comparison}
 \end{table}
 
