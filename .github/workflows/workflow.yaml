@@ -9,11 +9,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: compile
-        uses: xu-cheng/latex-action@v2
+        uses: dante-ev/latex-action@latest
         with:
           root_file: thesis.tex
-          args: -lualatex -interaction=nonstopmode -file-line-error -output-directory=build -f
-          latexmk_use_lualatex: true
+          args: -lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode -latexoption=-output-directory=build
       - name: publish
         run: |
           git config user.name "GitHub Actions Bot"
