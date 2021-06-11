@@ -186,19 +186,19 @@ connection. A total of five Nikhef-containers are present within \chipsfive.
 \label{sec:daq_hard_madison} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Every Madison Hamamatsu PMT is directly attached to a high-voltage generating Cockcroft-Walton
-board followed by a signal processing \si{\micro}DAQ, as shown in
-\FigureRef{fig:madison_pmt_assembly}. The \si{\micro}DAQ is a small microcontroller developed for
+board followed by a signal processing \si{}{\micro}DAQ, as shown in
+\FigureRef{fig:madison_pmt_assembly}. The \si{}{\micro}DAQ is a small microcontroller developed for
 both IceCube and \chips at WIPAC in Madison. Capable of timestamping and digitising signals
-directly at the PMT level, the \si{\micro}DAQ also sets the PMT operating voltage by controlling the
+directly at the PMT level, the \si{}{\micro}DAQ also sets the PMT operating voltage by controlling the
 driving frequency of the Cockcroft-Walton board~\cite{eijk2018}.
 
-Up to 16 \si{\micro}DAQs receive power, networking, and WR synchronised IRIG-B and
+Up to 16 \si{}{\micro}DAQs receive power, networking, and WR synchronised IRIG-B and
 \SI{10}{\text{MHz}} timing signals from a \emph{badger-board}, as shown in
 \FigureRef{fig:madison_plane}. Standard cables with RJ45 connectors are used for these
 connections. The badger-board is located within the electronics box of each Madison \textsc{Pom}
 and acts as a simple fanout and power control board. For logic, each badger-board has an attached
 mezzanine Beaglebone~\cite{beagle2020}. This single-board Linux machine (very similar to a
-Raspberry Pi) controls the power supply to, and receives hits from, the attached \si{\micro}DAQs.
+Raspberry Pi) controls the power supply to, and receives hits from, the attached \si{}{\micro}DAQs.
 
 \begin{figure} % MADISON PLANE DIAGRAM %
     \includegraphics[width=0.8\textwidth]{diagrams/5-daq/madison_plane.pdf}
@@ -243,9 +243,9 @@ advantages, primarily driven by the core \chips concept of reducing cost:
     CLBs which can be only be reconfigured via remote reprogramming of the FPGA.
 
     \item PMT hit processing and logic is pushed right to the lowest-level PMTs themselves via the
-    use of \si{\micro}DAQs. Although not currently fully realised this can have significant
+    use of \si{}{\micro}DAQs. Although not currently fully realised this can have significant
     implications for the DAQ system as a whole. For example, future updates will allow for beam
-    spill hit triggering to be performed on the \si{\micro}DAQ, drastically reducing the capacity
+    spill hit triggering to be performed on the \si{}{\micro}DAQ, drastically reducing the capacity
     requirements of the rest of the DAQ system, further reducing costs.
 
     \item The number of expensive WR switches is reduced, with much cheaper WR-LENs taking their
@@ -333,9 +333,9 @@ detector instrumentation, the handling of recorded PMT hits, and the monitoring 
 data quality. Each of these functions are discussed within a specific subsection below alongside
 the corresponding software processes (applications) that perform them. Only the high-level
 software components (physically processed onshore) are detailed, with the low-level CLB,
-Beaglebone, and \si{\micro}DAQ software implementations omitted for brevity. An in-depth discussion
+Beaglebone, and \si{}{\micro}DAQ software implementations omitted for brevity. An in-depth discussion
 of the CLB software can be found in \ReferenceRef{aiello2019}, while the Beaglebone and
-\si{\micro}DAQ software implementation can be found at \ReferenceRef{microdaq2020}.
+\si{}{\micro}DAQ software implementation can be found at \ReferenceRef{microdaq2020}.
 
 \begin{figure} % SOFTWARE DIAGRAM %
     \includegraphics[width=\textwidth]{diagrams/5-daq/daq_software.pdf}
