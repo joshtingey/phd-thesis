@@ -15,9 +15,11 @@ jobs:
           args: -lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode -f
       - name: publish
         run: |
+          mv thesis.pdf thesis_new.pdf
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git checkout gh-pages
+          mv thesis_new.pdf thesis.pdf
           git add thesis.pdf
           git commit -m "new thesis version"
           git push origin gh-pages
