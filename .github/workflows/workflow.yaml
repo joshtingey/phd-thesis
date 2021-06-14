@@ -12,13 +12,12 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: thesis.tex
-          args: -lualatex -latexoption=-halt-on-error -latexoption=-output-directory=build
+          args: -lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode -f
       - name: publish
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git checkout gh-pages
-          mv build/thesis.pdf thesis.pdf
           git add thesis.pdf
           git commit -m "new thesis version"
           git push origin gh-pages
